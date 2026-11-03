@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q149 FLOPs 是什么：衡量"算一次要多少次运算"的计算量指标（注意大小写陷阱）</text>
+
+  <!-- ① 大小写 -->
+  <rect x="20" y="42" width="900" height="120" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e40af">① 大小写陷阱：FLOPs（模型） vs FLOPS（硬件）</text>
+  <rect x="40" y="78" width="430" height="72" rx="5" fill="#fff" stroke="#60a5fa"/>
+  <text x="255" y="98" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">FLOPs（小 s）= 浮点运算总次数</text>
+  <text x="255" y="118" text-anchor="middle" font-size="10" fill="#374151">衡量「模型复杂度」= 算一次前向做多少次运算</text>
+  <text x="255" y="138" text-anchor="middle" font-size="9" fill="#6b7280">这是我们前面算的 73,728 那类数字的总和</text>
+  <rect x="480" y="78" width="430" height="72" rx="5" fill="#fff" stroke="#60a5fa"/>
+  <text x="695" y="98" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">FLOPS（大 S）= 每秒浮点运算数</text>
+  <text x="695" y="118" text-anchor="middle" font-size="10" fill="#374151">衡量「硬件算力」Per Second</text>
+  <text x="695" y="138" text-anchor="middle" font-size="9" fill="#6b7280">RTX 3090 ≈ 35 TFLOPS；两者一除≈理论耗时</text>
+
+  <!-- ② MAC -->
+  <rect x="20" y="174" width="900" height="96" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="196" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#15803d">② 乘加 MAC 与 FLOPs 的换算（看数字要注意口径）</text>
+  <text x="40" y="220" font-size="10.5" fill="#374151">· 一次「乘加」MAC = 1 乘 + 1 加，严格 = <tspan font-weight="bold">2 FLOPs</tspan>；但很多论文直接用 <tspan font-weight="bold">MACs</tspan> 计数（1 MAC 当 1）→ 常差 2 倍</text>
+  <text x="40" y="242" font-size="10.5" fill="#374151">· 一层 FLOPs = 每像素乘加 × H×W（如标准卷积 k²·C_in·C_out × H·W）；<tspan font-weight="bold">全网各层相加 = 模型总 FLOPs</tspan></text>
+  <text x="40" y="262" font-size="10" fill="#15803d">· MobileNet 就是靠深度可分离把每层 FLOPs 砍 8~9 倍（k²·C_in·C_out → k²·C_in + C_in·C_out）</text>
+
+  <!-- ③ 例子表 -->
+  <rect x="20" y="282" width="900" height="120" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="470" y="304" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#b45309">③ 几个直观数字（MACs 口径）</text>
+  <g font-size="10.5" fill="#374151">
+    <text x="60" y="332" font-weight="bold" fill="#92400e">模型</text><text x="360" y="332" font-weight="bold" fill="#92400e">MACs（约）</text><text x="620" y="332" font-weight="bold" fill="#92400e">相对</text>
+    <line x1="40" y1="340" x2="900" y2="340" stroke="#fbbf24"/>
+    <text x="60" y="362">MobileNetV1</text><text x="360" y="362">569 M</text><text x="620" y="362">轻（手机可跑）</text>
+    <text x="60" y="384">VGG16</text><text x="360" y="384">15,500 M</text><text x="620" y="384">≈ 27 倍重</text>
+  </g>
+
+  <!-- ④ caveat -->
+  <rect x="20" y="414" width="900" height="118" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="436" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#b91c1c">④ 重要提醒：FLOPs 低 ≠ 一定快</text>
+  <text x="40" y="460" font-size="10.5" fill="#374151">· FLOPs 是「理论计算量」，实际速度还受 <tspan font-weight="bold">访存带宽、并行度、算子实现</tspan> 影响</text>
+  <text x="40" y="482" font-size="10.5" fill="#374151">· depthwise 卷积 FLOPs 很低但 <tspan font-weight="bold">访存密集</tspan>，在有些硬件上并不比标准卷积快多少</text>
+  <text x="40" y="504" font-size="10.5" fill="#b91c1c">· 所以 MobileNetV3 用 NAS 直接优化「实测延迟」而非 FLOPs（见 Q150）</text>
+  <text x="40" y="524" font-size="9" fill="#6b7280">本项目关心「实时 &lt;100ms」，报告 FLOPs 之外一定要测真实 FPS/延迟</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="544" width="900" height="60" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="568" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：FLOPs=模型算一次的浮点运算总次数（复杂度）；FLOPS=硬件每秒能算多少（算力）。</text>
+  <text x="470" y="590" text-anchor="middle" font-size="9.5" fill="#374151">全网每层乘加相加=总 FLOPs；1 MAC=2 FLOPs（注意 MACs 口径）；FLOPs 低不一定快，实际要测延迟。</text>
+</svg>

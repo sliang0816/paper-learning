@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="540" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q100 Swin：第 I+1 层如何"平移"窗口——挪半个窗口(M/2)让窗口跨越旧边界</text>
+  <text x="460" y="44" text-anchor="middle" font-size="11" fill="#6b7280">设 8×8 patch、窗口 M=4×4 → 第 I 层正好 2×2=4 个窗口</text>
+
+  <!-- Layer I -->
+  <text x="150" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">第 I 层 W-MSA：4 个规整窗口</text>
+  <g>
+    <!-- 8x8 grid, 4 windows colored -->
+    <rect x="60" y="80" width="80" height="80" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <rect x="140" y="80" width="80" height="80" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    <rect x="60" y="160" width="80" height="80" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <rect x="140" y="160" width="80" height="80" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <!-- thin patch lines -->
+    <g stroke="#cbd5e1" stroke-width="0.5">
+      <line x1="80" y1="80" x2="80" y2="240"/><line x1="100" y1="80" x2="100" y2="240"/><line x1="120" y1="80" x2="120" y2="240"/>
+      <line x1="160" y1="80" x2="160" y2="240"/><line x1="180" y1="80" x2="180" y2="240"/><line x1="200" y1="80" x2="200" y2="240"/>
+      <line x1="60" y1="100" x2="220" y2="100"/><line x1="60" y1="120" x2="220" y2="120"/><line x1="60" y1="140" x2="220" y2="140"/>
+      <line x1="60" y1="180" x2="220" y2="180"/><line x1="60" y1="200" x2="220" y2="200"/><line x1="60" y1="220" x2="220" y2="220"/>
+    </g>
+    <text x="150" y="256" text-anchor="middle" font-size="8.5" fill="#374151">每窗口内部各自自注意力，窗口间不通信</text>
+  </g>
+
+  <!-- arrow -->
+  <text x="270" y="165" text-anchor="middle" font-size="24" fill="#9ca3af">→</text>
+  <text x="270" y="185" text-anchor="middle" font-size="8" fill="#6b7280">挪 M/2=2</text>
+
+  <!-- Layer I+1 shifted (naive) -->
+  <text x="410" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">第 I+1 层 SW-MSA：窗口挪半个(向右下 2 格)</text>
+  <g>
+    <!-- underlying old grid faint -->
+    <rect x="320" y="80" width="160" height="160" fill="#f9fafb" stroke="#e5e7eb"/>
+    <line x1="400" y1="80" x2="400" y2="240" stroke="#d1d5db" stroke-dasharray="2 2"/>
+    <line x1="320" y1="160" x2="480" y2="160" stroke="#d1d5db" stroke-dasharray="2 2"/>
+    <!-- shifted window boundaries (solid red) at offset 2 patches=40px -->
+    <line x1="360" y1="80" x2="360" y2="240" stroke="#dc2626" stroke-width="2"/>
+    <line x1="440" y1="80" x2="440" y2="240" stroke="#dc2626" stroke-width="2"/>
+    <line x1="320" y1="120" x2="480" y2="120" stroke="#dc2626" stroke-width="2"/>
+    <line x1="320" y1="200" x2="480" y2="200" stroke="#dc2626" stroke-width="2"/>
+    <text x="400" y="256" text-anchor="middle" font-size="8.5" fill="#b45309">红线=新窗口边界，落在旧窗口中间</text>
+    <text x="400" y="270" text-anchor="middle" font-size="8" fill="#b91c1c">→ 新窗口横跨旧边界，跨窗口 token 进同一窗口</text>
+    <text x="400" y="286" text-anchor="middle" font-size="8" fill="#6b7280">（直接切会变成 9 个大小不一的窗口，不规整）</text>
+  </g>
+
+  <!-- arrow -->
+  <text x="530" y="165" text-anchor="middle" font-size="24" fill="#9ca3af">→</text>
+
+  <!-- efficient impl -->
+  <text x="710" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">高效实现：循环移位 + 掩码 + 移回</text>
+  <g>
+    <rect x="600" y="80" width="160" height="160" fill="#eff6ff" stroke="#3b82f6"/>
+    <!-- wrapped regions marked -->
+    <rect x="600" y="80" width="160" height="40" fill="#fca5a5" opacity="0.4"/>
+    <rect x="600" y="80" width="40" height="160" fill="#fca5a5" opacity="0.4"/>
+    <!-- regular 4 windows again -->
+    <line x1="680" y1="80" x2="680" y2="240" stroke="#3b82f6" stroke-width="2"/>
+    <line x1="600" y1="160" x2="760" y2="160" stroke="#3b82f6" stroke-width="2"/>
+    <text x="680" y="256" text-anchor="middle" font-size="8" fill="#374151">滚动后又切成 4 个规整 4×4 窗口</text>
+    <text x="680" y="270" text-anchor="middle" font-size="8" fill="#b91c1c">红=从对边绕回来的区域→给跨区注意力打 −∞ 掩码</text>
+    <text x="680" y="286" text-anchor="middle" font-size="8" fill="#6b7280">算完再逆移位(+2,+2)复位</text>
+  </g>
+
+  <!-- steps -->
+  <rect x="20" y="304" width="880" height="96" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="324" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">三步（都为"仍是 4 个规整窗口"、只算真正相邻的注意力）</text>
+  <text x="40" y="346" font-size="9.5" fill="#374151">① <tspan font-weight="bold">循环移位</tspan>：整图向左上滚 2 格，滚出的上 2 行/左 2 列绕回到下/右（卷成环）→ 又能规整切 4 窗口</text>
+  <text x="40" y="366" font-size="9.5" fill="#374151">② <tspan font-weight="bold">注意力掩码</tspan>：滚动后窗口里混进"从对边绕来、其实不相邻"的 patch → 给这些跨区注意力打 −∞（softmax→0）</text>
+  <text x="40" y="386" font-size="9.5" fill="#374151">③ <tspan font-weight="bold">逆移位</tspan>：算完注意力把特征图滚回去(+2,+2) 复位</text>
+
+  <!-- why -->
+  <rect x="20" y="414" width="880" height="106" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="436" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">为什么这么折腾</text>
+  <text x="40" y="458" font-size="9.5" fill="#374151">· 窗口注意力只在窗口内算 → 计算量<tspan font-weight="bold">随图像线性</tspan>（不像 ViT 全局 O(n²)）</text>
+  <text x="40" y="478" font-size="9.5" fill="#374151">· 但固定窗口"画地为牢"，信息出不了窗口 → <tspan font-weight="bold">隔层平移</tspan>让相邻层窗口边界错开、跨窗口信息一层层流通</text>
+  <text x="40" y="498" font-size="9.5" fill="#374151">· → <tspan font-weight="bold">感受野随深度增长</tspan>（像 CNN），兼得"局部高效 + 全局连通"</text>
+  <text x="460" y="516" text-anchor="middle" font-size="9" font-weight="bold" fill="#6d28d9">一句话：挪半个窗口(M/2)使新窗口跨越旧边界→跨窗口通信；循环移位+掩码+移回来高效实现，仍是 4 个规整窗口</text>
+</svg>

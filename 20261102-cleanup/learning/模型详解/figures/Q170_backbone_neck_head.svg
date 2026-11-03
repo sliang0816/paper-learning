@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="620" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q170 目标检测三段式：骨干 → 颈部 → 检测头</text>
+
+  <!-- 主流程 -->
+  <rect x="20" y="42" width="280" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="160" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 骨干 Backbone</text>
+  <text x="160" y="86" text-anchor="middle" font-size="9.5" fill="#374151">ResNet/CSPDarknet/MobileNet…</text>
+  <text x="160" y="104" text-anchor="middle" font-size="9.5" fill="#374151">(去掉分类层的分类网络)</text>
+  <text x="160" y="126" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">任务：看懂图像里有什么</text>
+  <text x="160" y="146" text-anchor="middle" font-size="9.3" fill="#374151">输出多尺度特征图(浅→深)</text>
+  <text x="160" y="164" text-anchor="middle" font-size="9.3" fill="#374151">分辨率递减/语义递增</text>
+  <text x="160" y="182" text-anchor="middle" font-size="9" fill="#6b7280">通常ImageNet预训练迁移</text>
+
+  <text x="315" y="122" text-anchor="middle" font-size="20">→</text>
+
+  <rect x="335" y="42" width="280" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="475" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 颈部 Neck</text>
+  <text x="475" y="86" text-anchor="middle" font-size="9.5" fill="#374151">FPN / PANet / YOLO的SPPF+PAN</text>
+  <text x="475" y="108" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">任务：把偏科的各层"打通"</text>
+  <text x="475" y="128" text-anchor="middle" font-size="9.3" fill="#374151">浅层分辨率高但语义弱</text>
+  <text x="475" y="146" text-anchor="middle" font-size="9.3" fill="#374151">深层语义强但丢细节</text>
+  <text x="475" y="164" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">融合后每层都兼具两者</text>
+  <text x="475" y="182" text-anchor="middle" font-size="9" fill="#6b7280">早期检测器(YOLOv1/v2)没有这层</text>
+
+  <text x="630" y="122" text-anchor="middle" font-size="20">→</text>
+
+  <rect x="650" y="42" width="310" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="805" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">③ 检测头 Head</text>
+  <text x="805" y="86" text-anchor="middle" font-size="9.5" fill="#374151">分类分支 + 回归分支(+objectness)</text>
+  <text x="805" y="108" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">任务：具体回答"是什么/在哪"</text>
+  <text x="805" y="130" text-anchor="middle" font-size="9.3" fill="#374151">耦合头：分类回归共享卷积</text>
+  <text x="805" y="148" text-anchor="middle" font-size="9.3" fill="#374151">解耦头：两分支独立(YOLOX起)</text>
+  <text x="805" y="168" text-anchor="middle" font-size="9" fill="#6b7280">因两任务关注的特征本质不同</text>
+  <text x="805" y="184" text-anchor="middle" font-size="9" fill="#6b7280">(语义vs空间边缘)，混一起互相干扰</text>
+
+  <!-- 类比 -->
+  <rect x="20" y="210" width="940" height="70" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="232" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">类比：人看东西并做出判断</text>
+  <text x="490" y="256" text-anchor="middle" font-size="10" fill="#374151">骨干=眼睛看懂画面(提取通用视觉特征) → 颈部=大脑综合远近景/细节与全局(信息整合) → 检测头=开口说出结论(具体分类+定位)</text>
+
+  <!-- YOLOv8示例 -->
+  <rect x="20" y="296" width="940" height="140" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="318" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">以本项目基线 YOLOv8 为例（640×640×3 输入）</text>
+  <text x="40" y="344" font-size="9.8" fill="#374151">骨干(CSPDarknet+C2f)：输出 P3(80×80×256,stride8) / P4(40×40×512,stride16) / P5(20×20×1024,stride32)</text>
+  <text x="40" y="366" font-size="9.8" fill="#374151">颈部(SPPF+PAN，含C2f)：自顶向下+自底向上双向融合，三个尺度都注入跨层语义/细节 → P3'/P4'/P5'</text>
+  <text x="40" y="388" font-size="9.8" fill="#374151">检测头(解耦头+DFL)：每个尺度各自出分类分支(每格每类概率)+回归分支(DFL精修框坐标)</text>
+  <text x="40" y="414" font-size="9.8" font-weight="bold" fill="#b45309">本项目P2+CBAM改进：P2是颈部新增的更高分辨率输出层(专攻小目标)；CBAM插在颈部/头部前增强特征</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="450" width="940" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="476" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：骨干负责"看懂"（提特征），颈部负责"融合"（多尺度打通，浅层细节+深层语义互补），</text>
+  <text x="490" y="498" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">检测头负责"回答"（具体分类+定位）——三段各司其职，是现代检测器的通用三段式框架。</text>
+</svg>

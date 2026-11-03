@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 205" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="205" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">12 EfficientNet 输入输出实例（复合缩放：深/宽/分辨率协同放大）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">可变分辨率图（B0 224² → B7 600²）→ MBConv 堆叠 → 1000 类，同算力下精度更高</text>
+
+  <rect x="22" y="68" width="138" height="76" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="91" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入：分辨率随档位变</text>
+  <text x="91" y="107" text-anchor="middle" font-size="8.7" fill="#374151">B0 224² / B4 380² / B7 600²</text>
+  <text x="91" y="125" text-anchor="middle" font-size="8" fill="#6b7280">×3 通道</text>
+
+  <line x1="160" y1="106" x2="190" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="192" y="64" width="232" height="84" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="308" y="84" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">复合缩放 + MBConv</text>
+  <text x="308" y="102" text-anchor="middle" font-size="8.5" fill="#374151">一个系数 φ 同时放大 深度·宽度·分辨率</text>
+  <text x="308" y="118" text-anchor="middle" font-size="8.5" fill="#374151">骨干用深度可分离的 MBConv（含 SE）</text>
+  <text x="308" y="134" text-anchor="middle" font-size="8" fill="#6b7280">不再单独瞎调某一维</text>
+
+  <line x1="424" y1="106" x2="454" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="456" y="74" width="162" height="64" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="537" y="94" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">1000 类概率</text>
+  <text x="537" y="112" text-anchor="middle" font-size="8.7" fill="#374151">top-1 0.84+（B7）</text>
+  <text x="537" y="128" text-anchor="middle" font-size="8" fill="#6b7280">同算力精度领先</text>
+
+  <line x1="618" y1="106" x2="650" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="652" y="82" width="140" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="722" y="104" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">类别输出</text>
+  <text x="722" y="120" text-anchor="middle" font-size="7.8" fill="#6b7280">高性价比骨干</text>
+
+  <text x="410" y="178" text-anchor="middle" font-size="9.6" fill="#374151">签名贡献：<tspan font-weight="bold" fill="#0369a1">三个维度协同放大</tspan>（而非只加深或只加宽），给出一条 B0–B7 的“精度/算力”最优曲线。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

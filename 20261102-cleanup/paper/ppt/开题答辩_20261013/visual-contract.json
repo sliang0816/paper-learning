@@ -1,0 +1,34 @@
+{
+  "schema": "slide-maker-codex-visual-contract/v1",
+  "zones": [
+    {
+      "id": "s16_factorial_vs_architecture",
+      "slide": 16,
+      "subject": {"text": "2 × 2 × 5"},
+      "clear_of": [{"rect": [0.80, 1.18, 7.50, 4.40]}],
+      "min_gap": 0.12
+    },
+    {
+      "id": "s22_p2_effect_vs_figure",
+      "slide": 22,
+      "subject": {"text": "+2.71 ± 1.65 pp"},
+      "clear_of": [{"rect": [0.82, 1.15, 7.50, 3.90]}],
+      "min_gap": 0.12
+    },
+    {
+      "id": "s23_open_vocab_metrics",
+      "slide": 23,
+      "subject": {"text": "0.80%"},
+      "clear_of": [{"text": "0%"}],
+      "min_gap": 0.12
+    },
+    {
+      "id": "s33_chart_vs_metrics",
+      "slide": 33,
+      "subject": {"text": "阶段平均延迟（ms)"},
+      "clear_of": [{"rect": [0.86, 1.43, 4.18, 4.87]}],
+      "min_gap": 0.12
+    }
+  ],
+  "icons": []
+}

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q104 每个框都送 CLIP 岂不很慢？——最终框很少 + 文本免费 + 批处理 + 只查可疑框</text>
+
+  <!-- ① 框其实很少 -->
+  <rect x="20" y="44" width="900" height="120" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 送进 CLIP 的是 NMS 后的"少数框"，不是上万个原始预测</text>
+  <rect x="40" y="78" width="150" height="60" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="115" y="102" text-anchor="middle" font-size="10" fill="#b91c1c">YOLO 原始预测</text>
+  <text x="115" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">上万个 anchor</text>
+  <text x="205" y="112" font-size="13" fill="#9ca3af">— 置信度阈值 + NMS →</text>
+  <rect x="360" y="78" width="150" height="60" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="435" y="102" text-anchor="middle" font-size="10" fill="#15803d">最终输出框</text>
+  <text x="435" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">几个~几十个</text>
+  <text x="525" y="112" font-size="13" fill="#9ca3af">→</text>
+  <rect x="550" y="78" width="170" height="60" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="635" y="102" text-anchor="middle" font-size="10" fill="#b45309">路面场景稀疏</text>
+  <text x="635" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">常是个位数 crop</text>
+  <text x="735" y="102" font-size="9" fill="#6b7280">→ 送 CLIP 的量</text>
+  <text x="735" y="118" font-size="9" fill="#6b7280">远没那么大</text>
+
+  <!-- ② 双塔成本 -->
+  <rect x="20" y="174" width="900" height="130" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="194" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② CLIP 双塔成本天差地别：文本侧一次性缓存（免费），只有图像侧每帧算</text>
+  <rect x="40" y="208" width="410" height="80" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="245" y="228" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">文本塔：每帧算 0 次</text>
+  <text x="245" y="248" text-anchor="middle" font-size="9" fill="#374151">8 类 × 几个模板 → 开机算一遍文本嵌入</text>
+  <text x="245" y="264" text-anchor="middle" font-size="9" fill="#374151">缓存住，推理期不再动（常量）</text>
+  <text x="245" y="280" text-anchor="middle" font-size="8.5" fill="#6b7280">每帧只剩"图向量 · 缓存文本向量"几次点积，可忽略</text>
+  <rect x="490" y="208" width="410" height="80" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="695" y="228" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">图像塔：每个 crop 一次前向</text>
+  <text x="695" y="248" text-anchor="middle" font-size="9" fill="#374151">唯一的每帧开销；用轻量 ViT-B/32</text>
+  <text x="695" y="264" text-anchor="middle" font-size="9" fill="#374151">大头往往还是 YOLO 主干，CLIP 是小尾巴</text>
+  <text x="695" y="280" text-anchor="middle" font-size="8.5" fill="#6b7280">误区：以为"图×文两两比"贵，其实文本是预计算常量</text>
+
+  <!-- ③ 批处理 -->
+  <rect x="20" y="314" width="900" height="96" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="334" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 批处理：N 个 crop 打包成一个 batch 一次前向，GPU 并行（不是 N 次串行）</text>
+  <g>
+    <rect x="60" y="348" width="26" height="26" fill="#c7d2fe" stroke="#6366f1"/>
+    <rect x="92" y="348" width="26" height="26" fill="#c7d2fe" stroke="#6366f1"/>
+    <rect x="124" y="348" width="26" height="26" fill="#c7d2fe" stroke="#6366f1"/>
+    <rect x="156" y="348" width="26" height="26" fill="#c7d2fe" stroke="#6366f1"/>
+    <text x="196" y="366" font-size="9" fill="#374151">十几个 crop</text>
+  </g>
+  <text x="300" y="366" font-size="13" fill="#9ca3af">— 拼成 batch →</text>
+  <rect x="440" y="346" width="150" height="30" rx="4" fill="#ddd6fe" stroke="#8b5cf6"/>
+  <text x="515" y="366" text-anchor="middle" font-size="9.5" fill="#6d28d9">CLIP 图像塔一次前向</text>
+  <text x="610" y="366" font-size="13" fill="#9ca3af">→</text>
+  <text x="700" y="360" font-size="10" font-weight="bold" fill="#15803d">3090 上几毫秒级</text>
+  <text x="700" y="376" font-size="8.5" fill="#6b7280">ViT-B/32 轻，batch 并行</text>
+
+  <!-- ④ 优化杠杆 -->
+  <rect x="20" y="420" width="900" height="110" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="440" text-anchor="middle" font-size="12" font-weight="bold" fill="#a16207">④ 还嫌慢的四个杠杆</text>
+  <text x="40" y="462" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#b91c1c">① 只 CLIP"可疑框"（最省）：</tspan>YOLO 高置信认出的已知类直接采信，只把未知/低置信/判成 OT 的框送 CLIP（CLIP 本就补开放类）</text>
+  <text x="40" y="482" font-size="9.5" fill="#374151"><tspan font-weight="bold">② 帧采样+跟踪：</tspan>同一物体连续几十帧，只在首次出现 CLIP 一次，后续靠跟踪(ByteTrack)沿用标签，不逐帧重算</text>
+  <text x="40" y="502" font-size="9.5" fill="#374151"><tspan font-weight="bold">③ 文本嵌入缓存</tspan>（②默认就该做）　<tspan font-weight="bold">④ 换更小/蒸馏 CLIP 或降分辨率：</tspan>精度换速度</text>
+  <text x="40" y="522" font-size="9" fill="#6b7280">设计上"CLIP 只管开放类/未知框"= 既省算力又是方法定位本身（YOLO 管闭集、CLIP 管开集），一举两得</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="540" width="900" height="50" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="560" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">一句话：送进 CLIP 的是 NMS 后的少数框；文本侧缓存免费 + 图像侧批处理，ViT-B/32 只是小尾巴；</text>
+  <text x="470" y="578" text-anchor="middle" font-size="9.5" fill="#374151">真要提速就"只 CLIP 可疑框 + 跟踪去重"。这正是本项目要做 FPS 测试、定 &lt;100ms 目标的原因。</text>
+</svg>

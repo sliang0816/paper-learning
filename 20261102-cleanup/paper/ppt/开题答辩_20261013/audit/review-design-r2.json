@@ -1,0 +1,146 @@
+{
+  "purpose": "江苏大学硕士学位论文开题答辩，11–14 分钟现场投影；面向学院评审专家，证明研究问题、技术路线、前期证据与后续计划成立，同时不把开题证据误写成完整论文结论。",
+  "rubric_overlay": "thesis / committee defense",
+  "coverage": {
+    "slides_opened": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
+    "passes": ["design lens (full deck)", "fresh whole-deck re-pass"],
+    "stats_block_seen": true,
+    "contract_card_seen": true
+  },
+  "plan_audit": {
+    "lens_b": {
+      "concept_landed": "partial: 检测蓝与语义紫的双轨清楚，且第5页用开放角目标窗把‘找不到’与‘认不对’连接起来；但第15页和证据峰值第22页仍未复用该结构动作，因此概念没有贯穿到路线交接与最终证据。",
+      "skeleton_rhythm": "degraded — 章节页提供有效换气，图、表、流程、对照和时间线也有变化；但73%的内页共享接近的低位收口，底部结论带重复较多，连续内容页仍有模板滚动感。",
+      "wow": [{"slide": 22, "landed": true, "why": "大幅分层柱图与两组红色效应量形成全稿最明确的证据峰值，5/5方向一致可快速读取。"}],
+      "signature_move": {
+        "verdict": "sanded",
+        "why": "第22页仍是常规左图右指标分栏，声明的开放角目标窗没有切入small证据图带，也没有承载5/5；第15页同样没有该几何。",
+        "carried": [
+          {"slide": 5, "structural": true, "note": "开放角目标窗直接框住两个候选目标并连接定位与命名问题。"},
+          {"slide": 15, "structural": false, "note": "路线由常规流程框和箭头构成，未见目标窗参与候选框交接。"},
+          {"slide": 22, "structural": false, "note": "图表与效应量清楚，但目标窗和承载5/5的签名动作均未出现。"}
+        ],
+        "proof": "matches — 当前发运页与指定render proof一致；但proof本身仍未实现设计契约中的开放角切入。"
+      },
+      "memorable_one_thing": "P2在五个种子上方向一致，而CBAM没有稳定独立收益；整套答辩对证据边界保持克制。",
+      "composition": {
+        "cover_archetype": "kept — 校园照片、弧形白场和低左标题保持用户锁定的campus-band封面",
+        "home_skeleton_plurality": "kept — 流程、比较、图表、表格、时间线和章节页均出现，未退化为单一卡片堆叠"
+      },
+      "register_interiors": "kept — 淡红标题圆、细红标题线、红色校级页脚和英文校名稳定贯穿普通内页；第3/6/9/14/19/21/25页是有意的章节模板，不是空白页。",
+      "money_slide": "landed — 第22页是明确的证据峰值，但签名装置仍未随之落地",
+      "semantic_colour": "kept — 蓝=检测/协议、紫=语义、绿=支持性证据、赭=边界/负结果、校红=身份与结论，未见明显语义漂移",
+      "type_tokens": "broken — lint仍显示body median 14.5pt，低于18pt设计基线；承载论证的图注和次级正文仍有一批13–15pt文字。",
+      "eye_path_misses": [7, 13, 15, 17, 23, 26],
+      "title_boundary_audit": [
+        {"slide": 12, "result": "pass", "observed_pixels": "标题‘内容二：三级输入逐层加入真实误差’首字完整，左边缘与粉色标题圆保持可见间隔，右端未越界。"},
+        {"slide": 16, "result": "pass", "observed_pixels": "标题‘检测方案：只改变 P2 与 CBAM，训练协议保持固定’完整位于红色标题线之上，左右均留有安全边界。"}
+      ],
+      "visual_contract_hotspots": [
+        {"id": "s16_factorial_vs_architecture", "observed_pixels": "pass — 左侧架构与右侧2×2×5轨之间有清楚白色沟槽，实测0.75in；节点、数值和控制变量不相碰。"},
+        {"id": "s22_p2_effect_vs_figure", "observed_pixels": "pass — 图框与+2.71±1.65 pp指标块之间保有0.34in可见白缝，误差棒和文字无碰撞。"},
+        {"id": "s23_open_vocab_metrics", "observed_pixels": "pass — 0%与0.80%各自居中，左右保有0.47in间隔；两个模型标签没有串栏。"},
+        {"id": "s33_chart_vs_metrics", "observed_pixels": "pass — 左侧三组KPI与右侧延迟图之间保有0.60in分栏，轴标签、图题和指标无碰撞。"}
+      ],
+      "lint_false_positive_audit": "第1/27页照片与母版形状层叠、第3/6/9/14/19/21/25页隐藏白色页码、第4页连接线与节点相交均未在渲染像素中造成可读性问题；这些不升级。第13页中文孤字和第26页来源行左边缘轻微不齐则为真实小问题。"
+    }
+  },
+  "probes": {
+    "per_slide": [
+      {"slide": 1, "first_read": "校园照片与两行论文题目", "takeaway_guess": "这是江苏大学的路面抛洒物视觉语言研究开题答辩。"},
+      {"slide": 2, "first_read": "左右两列七章目录", "takeaway_guess": "汇报按依据、现状、目标、方案、创新、计划和文献展开。"},
+      {"slide": 3, "first_read": "巨大红色01与选题依据", "takeaway_guess": "进入研究动机与问题价值。"},
+      {"slide": 4, "first_read": "固定摄像机到远处目标的示意链", "takeaway_guess": "固定视角仍有小目标定位和语义命名两道瓶颈。"},
+      {"slide": 5, "first_read": "83.5%与找不到→认不对", "takeaway_guess": "小目标占绝大多数，定位漏失会继续放大语义错误。"},
+      {"slide": 6, "first_read": "巨大红色02与国内外研究现状", "takeaway_guess": "进入相关路线及其证据缺口。"},
+      {"slide": 7, "first_read": "蓝绿紫三列研究路线", "takeaway_guess": "三类路线各自解决链路的一部分，但缺少统一可归因证据链。"},
+      {"slide": 8, "first_read": "结构收益与语义能力左右对照", "takeaway_guess": "研究缺口是受控归因和端到端误差分解。"},
+      {"slide": 9, "first_read": "巨大红色03与研究目标与内容", "takeaway_guess": "进入两个目标、三项内容和结论边界。"},
+      {"slide": 10, "first_read": "两个编号目标与当前边界", "takeaway_guess": "只主张改善定位和诊断命名，外部闭环尚未完成。"},
+      {"slide": 11, "first_read": "2×2实验矩阵与×5种子", "takeaway_guess": "固定头宽后用四配置五种子隔离P2和CBAM。"},
+      {"slide": 12, "first_read": "完整标题与三级阶梯框", "takeaway_guess": "从GT框到检测框再到冻结规则，逐层加入真实误差。"},
+      {"slide": 13, "first_read": "上方审计链与下方三列约束", "takeaway_guess": "结论需要可追溯、可拆错并受边界验证。"},
+      {"slide": 14, "first_read": "巨大红色04与技术路线与研究方案", "takeaway_guess": "进入检测、语义和审计方案。"},
+      {"slide": 15, "first_read": "检测—裁剪—CLIP—命名流程", "takeaway_guess": "候选检测交给语义命名，并用审计信息约束结论。"},
+      {"slide": 16, "first_read": "完整标题、四层架构与2×2×5", "takeaway_guess": "只改变P2和CBAM，头宽和训练协议保持固定。"},
+      {"slide": 17, "first_read": "三路输入汇入CLIP模块", "takeaway_guess": "三级输入用来判断错误来自框、语义还是冻结规则。"},
+      {"slide": 18, "first_read": "三项依赖汇向完整闭环", "takeaway_guess": "独立数据、可靠元数据和目标硬件是闭环条件。"},
+      {"slide": 19, "first_read": "巨大红色05与创新点与难点", "takeaway_guess": "进入可归因创新和证据边界。"},
+      {"slide": 20, "first_read": "01受控归因与02分层诊断", "takeaway_guess": "贡献在实验可归因和错误可拆解，而非堆叠模块。"},
+      {"slide": 21, "first_read": "巨大红色06与前期基础与计划", "takeaway_guess": "进入已有证据与后续依赖。"},
+      {"slide": 22, "first_read": "分层柱图与两组红色效应量", "takeaway_guess": "P2跨五种子为正，CBAM没有稳定独立收益。"},
+      {"slide": 23, "first_read": "六格道路案例与50.91%/0%/0.80%", "takeaway_guess": "语义链可用于诊断，但开放词汇基线仍未闭环。"},
+      {"slide": 24, "first_read": "0–2、2–5、5–8月三阶段路线", "takeaway_guess": "后续计划按证据依赖和验收出口推进。"},
+      {"slide": 25, "first_read": "巨大红色07与参考文献", "takeaway_guess": "进入核心依据与研究位置。"},
+      {"slide": 26, "first_read": "两栏12条核心参考文献", "takeaway_guess": "列出检测、CLIP、开放词汇和道路基准的核心依据。"},
+      {"slide": 27, "first_read": "谢谢与校园照片", "takeaway_guess": "正式汇报结束，请专家提问。"},
+      {"slide": 28, "first_read": "当前已有≠仍需补齐", "takeaway_guess": "内部重复不能替代严格独立确认。"},
+      {"slide": 29, "first_read": "四配置表与26/21/5审计数字", "takeaway_guess": "受控结果完整，但五次训练缺少优化器直接日志。"},
+      {"slide": 30, "first_read": "Precision上升与AP50-95下降", "takeaway_guess": "RAOD只支持局部精度改善，不支持普遍提升。"},
+      {"slide": 31, "first_read": "三张图与59→28→17", "takeaway_guess": "历史测试错误链同时受定位漏检和语义混淆限制。"},
+      {"slide": 32, "first_read": "0%对0.80%的巨大双数值", "takeaway_guess": "当前两种冻结开放词汇基线都很弱。"},
+      {"slide": 33, "first_read": "77.41ms/图、12.91FPS与延迟条形图", "takeaway_guess": "RTX3090速度只说明原型量级，不代表边缘部署。"}
+    ]
+  },
+  "verdict": "revise",
+  "summary": "第二轮已确认第12、16页标题边界修复，第26页也从不可读密集页改善为可扫描的12条两栏核心文献，四个visual-contract热点继续通过。尚不能consent：正文中位数仍为14.5pt，第23页核心案例图标签在后排无法核验，且第22页设计契约中的开放角签名动作仍未实现。",
+  "strengths": [
+    "第12、16页标题现已完整落在安全边界内，没有裁切或越界。",
+    "第26页明显减载为两栏12条核心来源，层级、行距和作用标签比上一轮更可扫描。",
+    "模板保真稳定：校园照片书挡、章节大数字、标题圆、细红线、红色页脚和官方标识贯穿一致。",
+    "第22页仍是强证据峰值；两组P2效应量和CBAM边界可从后排快速读取。",
+    "四个视觉合同热点全部在当前裁剪像素中通过，间隔为0.34–0.75in，无碰撞。"
+  ],
+  "findings": [
+    {
+      "id": "deck-legibility-r2",
+      "slide": "deck",
+      "severity": "major",
+      "dimension": "back-of-room legibility / typography",
+      "issue": "lint仍显示正文中位数14.5pt，低于契约声明的18pt；第7、15–17、22–24及多张备查页的次级说明和图内标签仍依赖13–15pt文字。",
+      "why": "委员会后排需要快速核验协议、限定条件和图示含义；这些信息在电脑屏幕上可读，但在现场投影距离下会衰减为细灰纹。",
+      "fix": "优先处理正式汇报页7、15–17、22–24：删去可讲述的副句，把承载论证的正文和原生图注提升到至少18pt；来源行可保留10.5pt。重跑lint，目标body median≥18pt，并将每页字号控制在不超过4档。",
+      "fix_risk": "high"
+    },
+    {
+      "id": "deck-signature-r2",
+      "slide": 22,
+      "severity": "major",
+      "dimension": "distinctiveness / plan conformance",
+      "issue": "设计契约承诺第22页用开放角目标窗切入small证据图带并承载5/5，且由第5/15/22页复用；当前目标窗只在第5页发挥结构作用。",
+      "why": "峰值页没有把‘同一微小目标先被框住再被命名’变成可记忆的视觉动作，成品仍是清楚但通用的左图右指标布局。",
+      "fix": "保留第22页现有清晰骨架，在P2相关组外复用第5页同形开放角框，并把‘5/5’放在角框视觉交点；第15页只需在候选框交接处复用一次同形几何。",
+      "fix_risk": "medium"
+    },
+    {
+      "id": "s23-figure-labels-r2",
+      "slide": 23,
+      "severity": "major",
+      "dimension": "figure legibility",
+      "issue": "六格道路案例图的面板标题、框线含义和目标细节仍过小；后排只能辨认道路缩略图，无法核验定位漏检、语义混淆和背景误报三类案例。",
+      "why": "该图是‘可诊断性’的核心视觉证据；若案例差异不可见，右侧数值只能被读取而不能被现场验证。",
+      "fix": "正式页保留三张最大诊断案例并放大约1.5–1.8倍，用至少18pt中文短标签和同色框标出观察点；其余三例移到备查页。",
+      "fix_risk": "medium"
+    },
+    {
+      "id": "s26-alignment-r2",
+      "slide": 26,
+      "severity": "minor",
+      "dimension": "references layout / alignment",
+      "issue": "12条核心文献现已可扫描，但底部红色说明居中、灰色来源行从0.72in起，和两栏正文0.80in的左边缘形成轻微跳变；左右两栏都从01重新编号也会产生短暂歧义。",
+      "why": "参考页已不再构成主阻塞，但边缘和编号逻辑的小不一致削弱最后一页正式内容的精修感。",
+      "fix": "将灰色来源行左边缘对齐0.80in；右栏编号改为07–12，或移除编号改用统一短横线。",
+      "fix_risk": "low"
+    },
+    {
+      "id": "s13-widow-r2",
+      "slide": 13,
+      "severity": "minor",
+      "dimension": "typography / CJK line break",
+      "issue": "中间列‘分别统计语义误分与过滤’仍把‘滤’单独落到下一行，形成中文孤字。",
+      "why": "孤字打断三列条目的平衡，并在投影中看起来像独立的新条目。",
+      "fix": "改成‘语义误分与过滤分别统计’，或将中间列正文框加宽约0.15in，确保末行至少保留两个汉字。",
+      "fix_risk": "low"
+    }
+  ]
+}

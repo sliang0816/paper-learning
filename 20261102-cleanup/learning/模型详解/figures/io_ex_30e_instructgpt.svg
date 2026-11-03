@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 190" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="190" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">30d InstructGPT/RLHF 输入/输出实例</text>
+
+  <rect x="20" y="46" width="210" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="125" y="72" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">输入：预训练GPT-3</text>
+  <text x="125" y="92" text-anchor="middle" font-size="9.5" fill="#374151">+人类示范/偏好排序数据</text>
+  <text x="125" y="106" text-anchor="middle" font-size="9.5" fill="#374151">(40名标注员)</text>
+
+  <text x="245" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="265" y="46" width="220" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="375" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">三步：SFT→RM→PPO</text>
+  <text x="375" y="88" text-anchor="middle" font-size="9.5" fill="#374151">监督微调→训奖励模型</text>
+  <text x="375" y="102" text-anchor="middle" font-size="9.5" fill="#374151">→强化学习最大化奖励</text>
+
+  <text x="500" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="520" y="46" width="200" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="620" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">输出：InstructGPT</text>
+  <text x="620" y="88" text-anchor="middle" font-size="9.5" fill="#374151">更听话、更诚实</text>
+  <text x="620" y="102" text-anchor="middle" font-size="9.5" fill="#374151">更少有害输出</text>
+
+  <text x="735" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="755" y="46" width="185" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="847" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">效果：1.3B胜175B</text>
+  <text x="847" y="88" text-anchor="middle" font-size="9.5" fill="#374151">参数少100倍</text>
+  <text x="847" y="102" text-anchor="middle" font-size="9.5" fill="#374151">人类评估仍更受偏好</text>
+
+  <rect x="20" y="132" width="920" height="45" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="159" text-anchor="middle" font-size="10.5" fill="#374151">这就是"ChatGPT为什么听得懂人话、愿意配合指令"的关键——不是模型变大自动学会的，是SFT+RM+PPO这套对齐训练专门教出来的</text>
+</svg>

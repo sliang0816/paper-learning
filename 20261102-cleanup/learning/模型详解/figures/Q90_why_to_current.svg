@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="540" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q90 为什么一定要“汇总给当前位置”——因为下一个词是从那一个向量算出来的</text>
+
+  <!-- output head eats one vector -->
+  <rect x="20" y="46" width="880" height="150" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="460" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">输出头只吃“一个向量” → 那个向量必须“什么都知道”</text>
+
+  <!-- the current vector -->
+  <rect x="40" y="80" width="300" height="100" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="190" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">当前(最后)位置的向量</text>
+  <text x="190" y="122" text-anchor="middle" font-size="9" fill="#374151">必须含：自己的词</text>
+  <text x="190" y="139" text-anchor="middle" font-size="9" fill="#b45309">＋ 前缀（自注意力搬来）</text>
+  <text x="190" y="156" text-anchor="middle" font-size="9" fill="#0284c7">＋ 原文（交叉注意力搬来）</text>
+  <text x="190" y="173" text-anchor="middle" font-size="8.5" fill="#6b7280">= 浓缩了“做决定要用的一切”</text>
+
+  <line x1="340" y1="130" x2="400" y2="130" stroke="#9ca3af" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="402" y="104" width="220" height="52" rx="6" fill="#f3e8ff" stroke="#9333ea"/>
+  <text x="512" y="124" text-anchor="middle" font-size="9.5" fill="#7e22ce">输出头：512→词表 + softmax</text>
+  <text x="512" y="142" text-anchor="middle" font-size="8.5" fill="#6b7280">输入就是这一个 d 维向量</text>
+
+  <line x1="622" y1="130" x2="682" y2="130" stroke="#9ca3af" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="684" y="104" width="200" height="52" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="784" y="130" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">下一个词分布</text>
+  <text x="784" y="147" text-anchor="middle" font-size="8.5" fill="#6b7280">信息不在这向量里 → 看不到</text>
+
+  <!-- analogy -->
+  <rect x="20" y="208" width="440" height="120" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="240" y="228" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">类比：把材料递到“做决定的人”手上</text>
+  <text x="36" y="252" font-size="9.5" fill="#374151">· 要当前位置“做决定（预测下一个词）”</text>
+  <text x="36" y="272" font-size="9.5" fill="#374151">· 就得把相关材料（前缀、原文）递到它手上</text>
+  <text x="36" y="292" font-size="9.5" fill="#b91c1c">· 材料散在别处、它手上空空 → 决定不了</text>
+  <text x="36" y="312" font-size="9" fill="#6b7280">自注意力 = 把前面词的材料递到当前位置手上</text>
+
+  <!-- not only current -->
+  <rect x="480" y="208" width="420" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="690" y="228" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">其实每个位置都在“汇总给自己”</text>
+  <text x="496" y="252" font-size="9.5" fill="#374151">· 自注意力：每个位置并行把它需要的</text>
+  <text x="510" y="268" font-size="9.5" fill="#374151">上下文汇总进自己</text>
+  <text x="496" y="288" font-size="9.5" fill="#374151">· 做预测时读“最后那个”，所以强调它</text>
+  <text x="496" y="308" font-size="9.5" fill="#374151">· 训练时每位置都有标签 → 每个都是</text>
+  <text x="510" y="324" font-size="9.5" fill="#374151">“它自己的当前位置”，都在给自己汇总</text>
+
+  <!-- why not global summary -->
+  <rect x="20" y="340" width="880" height="96" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="460" y="360" text-anchor="middle" font-size="11" font-weight="bold" fill="#075985">为什么不汇总到一个“全局摘要”就好？</text>
+  <text x="40" y="382" font-size="9.5" fill="#374151">· <tspan font-weight="bold">每个位置需要不同的上下文视角</tspan>：位置3要“已写我爱、该出宾语”，位置1要的不一样；</text>
+  <text x="54" y="400" font-size="9.5" fill="#374151">一个全局摘要对所有位置都一样，给不了每个位置<tspan font-weight="bold">量身定制</tspan>的上下文</text>
+  <text x="40" y="420" font-size="9.5" fill="#374151">· <tspan font-weight="bold">输出是逐位置的</tspan>：每个位置各自预测下一个词，各需各的浓缩向量</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="448" width="880" height="76" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="470" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">一句话</text>
+  <text x="460" y="492" text-anchor="middle" font-size="9.5" fill="#374151">网络的答案是从某个向量经输出头算出来的；那个向量必须“什么都知道”。“当前位置”就是承载这次预测的向量——</text>
+  <text x="460" y="512" text-anchor="middle" font-size="9.5" fill="#6d28d9">把上下文汇总给它 = 让“做决定的那个向量”掌握全部相关信息；不汇总给它，它手上没材料就预测不出下一个词</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

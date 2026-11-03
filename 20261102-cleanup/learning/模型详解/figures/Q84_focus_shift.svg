@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 580" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="580" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q84 交叉注意力的焦点为什么会“自动”从 I→love→road 转移</text>
+  <text x="470" y="44" text-anchor="middle" font-size="11" fill="#6b7280">不是被指挥：query 每步变 → 和 query 最对齐的源词 key 变 → softmax 自然把权重移过去</text>
+
+  <!-- core formula -->
+  <rect x="20" y="60" width="900" height="42" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">焦点 = softmax( query · 各源词 key ) —— 哪个 key 和 query 点积最大，焦点就落哪</text>
+  <text x="470" y="95" text-anchor="middle" font-size="9" fill="#374151">源词 key（K_I, K_love, K_road）固定不变；变的是 query（每步不同）→ 所以“谁最对齐”在变</text>
+
+  <!-- keys fixed -->
+  <rect x="20" y="116" width="160" height="380" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="100" y="136" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">源词 key（固定）</text>
+  <rect x="36" y="150" width="128" height="34" rx="5" fill="#fff" stroke="#93c5fd"/><text x="100" y="171" text-anchor="middle" font-size="10" fill="#374151">K_I（“主语”角色）</text>
+  <rect x="36" y="192" width="128" height="34" rx="5" fill="#fff" stroke="#93c5fd"/><text x="100" y="213" text-anchor="middle" font-size="10" fill="#374151">K_love（“动词”角色）</text>
+  <rect x="36" y="234" width="128" height="34" rx="5" fill="#fff" stroke="#93c5fd"/><text x="100" y="255" text-anchor="middle" font-size="10" fill="#374151">K_road（“宾语”角色）</text>
+  <text x="100" y="300" text-anchor="middle" font-size="8.5" fill="#6b7280">编码器只算一次</text>
+  <text x="100" y="316" text-anchor="middle" font-size="8.5" fill="#6b7280">每步都用这同一组 key</text>
+
+  <!-- three steps: query changes -->
+  <!-- step1 -->
+  <rect x="200" y="116" width="230" height="250" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="315" y="136" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">步1：前缀 [&lt;BOS&gt;]（句首）</text>
+  <rect x="214" y="146" width="202" height="40" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="315" y="162" text-anchor="middle" font-size="8.5" fill="#b45309">query 诉求：“在句首、要主语”</text>
+  <text x="315" y="177" text-anchor="middle" font-size="7.5" fill="#6b7280">（自注意力+位置0 塑造）</text>
+  <text x="315" y="202" text-anchor="middle" font-size="8.5" fill="#374151">query · key 点积：</text>
+  <text x="315" y="218" text-anchor="middle" font-size="9" fill="#1e40af">I <tspan font-weight="bold">大</tspan> · love 中 · road 小</text>
+  <rect x="240" y="228" width="150" height="22" rx="4" fill="#bfdbfe" stroke="#3b82f6"/>
+  <text x="315" y="243" text-anchor="middle" font-size="9" font-weight="bold" fill="#1e40af">焦点 → I</text>
+  <rect x="240" y="258" width="150" height="24" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="315" y="275" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出 我</text>
+  <text x="315" y="302" text-anchor="middle" font-size="8" fill="#b91c1c">↓ “我”喂回，前缀变长</text>
+
+  <!-- step2 -->
+  <rect x="200" y="372" width="230" height="124" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="315" y="392" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">步2：前缀 [&lt;BOS&gt; 我]</text>
+  <rect x="214" y="402" width="202" height="36" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="315" y="417" text-anchor="middle" font-size="8.5" fill="#b45309">query 诉求：“已写主语，要动词”</text>
+  <text x="315" y="430" text-anchor="middle" font-size="8" fill="#1e40af">→ love 点积变最大</text>
+  <rect x="240" y="444" width="150" height="20" rx="4" fill="#bfdbfe" stroke="#3b82f6"/>
+  <text x="315" y="458" text-anchor="middle" font-size="9" font-weight="bold" fill="#1e40af">焦点 → love</text>
+  <rect x="240" y="468" width="150" height="22" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="315" y="484" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出 爱</text>
+
+  <!-- step3 -->
+  <rect x="450" y="372" width="230" height="124" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="565" y="392" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">步3：前缀 [&lt;BOS&gt; 我 爱]</text>
+  <rect x="464" y="402" width="202" height="36" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="565" y="417" text-anchor="middle" font-size="8.5" fill="#b45309">query 诉求：“已写我爱，要宾语”</text>
+  <text x="565" y="430" text-anchor="middle" font-size="8" fill="#1e40af">→ road 点积变最大</text>
+  <rect x="490" y="444" width="150" height="20" rx="4" fill="#bfdbfe" stroke="#3b82f6"/>
+  <text x="565" y="458" text-anchor="middle" font-size="9" font-weight="bold" fill="#1e40af">焦点 → road</text>
+  <rect x="490" y="468" width="150" height="22" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="565" y="484" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出 路</text>
+
+  <!-- why aligned: training -->
+  <rect x="450" y="116" width="470" height="120" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="685" y="136" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">为什么“要动词的 query”正好和 love 对齐？训练学出来的</text>
+  <text x="466" y="158" font-size="9.5" fill="#374151">W_Q（造 query）/ W_K（造 key）在海量句对上被调成：</text>
+  <text x="480" y="176" font-size="9.5" fill="#374151">· “要主语”的 query ↔ I 的 key 点积大</text>
+  <text x="480" y="192" font-size="9.5" fill="#374151">· “要动词”的 query ↔ love 的 key 点积大</text>
+  <text x="480" y="208" font-size="9.5" fill="#374151">· “要宾语”的 query ↔ road 的 key 点积大</text>
+  <text x="466" y="228" font-size="9" fill="#b45309">→ query 诉求一变，最匹配的 key 就换 → 焦点自动滑</text>
+
+  <!-- automatic -->
+  <rect x="450" y="246" width="470" height="110" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="685" y="266" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">“自动”在哪</text>
+  <text x="466" y="288" font-size="9.5" fill="#374151">喂进新前缀后，全是<tspan font-weight="bold">固定权重的点积 + softmax</tspan>，无任何额外指令：</text>
+  <text x="466" y="308" font-size="9.5" fill="#374151">前缀长一词(自注意力)+位置变 → <tspan font-weight="bold">query 变</tspan></text>
+  <text x="466" y="326" font-size="9.5" fill="#374151">→ <tspan font-weight="bold">和 query 最匹配的 key 变</tspan> → softmax 把焦点移过去</text>
+  <text x="466" y="346" font-size="9" fill="#6b7280">= 你说的“源句+前缀→下一个词”在交叉注意力里的具体动作</text>
+
+  <!-- honest caveat -->
+  <rect x="20" y="506" width="900" height="62" rx="8" fill="#fef2f2" stroke="#f87171"/>
+  <text x="470" y="526" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">诚实补充：“要主语/要动词”是直观说法</text>
+  <text x="470" y="544" text-anchor="middle" font-size="9" fill="#374151">真实里 query 是学出来的向量，“统计上”与正确源词位置对齐，没有干净的句法标签——是涌现的对齐、非预设规则（同 Q35④/头分工）</text>
+  <text x="470" y="560" text-anchor="middle" font-size="9" fill="#6b7280">但“query 变 → 对齐的 key 变 → 焦点移”这个机制是确切的</text>
+</svg>

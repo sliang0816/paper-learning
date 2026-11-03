@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="720" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q179 1×1卷积怎么把 H×W×1024 特征变成 H×W×[5×(5+C)] 检测输出（VOC:13×13×125）</text>
+
+  <!-- 核心：1×1卷积=逐像素跨通道线性变换 -->
+  <rect x="20" y="42" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">核心：1×1卷积 = "逐像素、跨通道"的线性变换——在每个格子上，把1024维特征向量映射成125维预测向量</text>
+
+  <!-- 左：一个像素的映射 -->
+  <rect x="20" y="78" width="300" height="250" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="170" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">在单个格子(h,w)上发生什么</text>
+  <!-- 输入向量 -->
+  <rect x="45" y="118" width="40" height="150" fill="#93c5fd" stroke="#3b82f6"/>
+  <text x="65" y="285" text-anchor="middle" font-size="9" fill="#374151">1024维</text>
+  <text x="65" y="300" text-anchor="middle" font-size="8.5" fill="#6b7280">该格特征</text>
+  <!-- 权重矩阵 -->
+  <text x="120" y="180" font-size="16" fill="#374151">×</text>
+  <rect x="135" y="150" width="70" height="90" fill="#fde68a" stroke="#f59e0b"/>
+  <text x="170" y="198" text-anchor="middle" font-size="8.5" fill="#374151">W</text>
+  <text x="170" y="255" text-anchor="middle" font-size="8" fill="#6b7280">125×1024</text>
+  <!-- 输出向量 -->
+  <text x="220" y="180" font-size="14" fill="#374151">=</text>
+  <rect x="240" y="130" width="30" height="125" fill="#86efac" stroke="#16a34a"/>
+  <text x="255" y="272" text-anchor="middle" font-size="9" fill="#374151">125维</text>
+  <text x="255" y="286" text-anchor="middle" font-size="8.5" fill="#6b7280">该格预测</text>
+  <text x="40" y="318" font-size="8.6" fill="#374151" font-family="monospace">out[k]=Σ W[k,c]·in[c]+b[k]</text>
+
+  <!-- 中：权重共享 滑过所有格子 -->
+  <rect x="340" y="78" width="300" height="250" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">同一套W滑过全部13×13个格子(权重共享)</text>
+  <g stroke="#16a34a" stroke-width="1" fill="#dcfce7">
+    <rect x="380" y="120" width="130" height="130"/>
+    <line x1="380" y1="163" x2="510" y2="163"/><line x1="380" y1="206" x2="510" y2="206"/>
+    <line x1="423" y1="120" x2="423" y2="250"/><line x1="466" y1="120" x2="466" y2="250"/>
+  </g>
+  <rect x="423" y="163" width="43" height="43" fill="#4ade80" fill-opacity="0.6" stroke="#15803d"/>
+  <text x="490" y="278" text-anchor="middle" font-size="9" fill="#374151">每格独立套用同一个125×1024权重</text>
+  <text x="490" y="296" text-anchor="middle" font-size="9" fill="#374151">→ 输出 13×13×125，逐格一个125维预测</text>
+  <text x="490" y="316" text-anchor="middle" font-size="8.6" fill="#6b7280">参数只有125×1024+125,与H×W无关(呼应Q176尺寸自由)</text>
+
+  <!-- 右：125怎么切 -->
+  <rect x="660" y="78" width="300" height="250" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="810" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">125维怎么切 = 5×(5+20)</text>
+  <text x="675" y="122" font-size="9.2" fill="#374151">切成5组(5个anchor)，每组25个数：</text>
+  <g font-family="monospace" font-size="8.4">
+    <rect x="675" y="132" width="270" height="30" fill="#fed7aa" stroke="#f59e0b"/>
+    <text x="682" y="151" fill="#374151">anchor1: tx ty tw th | to | c1...c20  (25)</text>
+    <rect x="675" y="166" width="270" height="24" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="682" y="182" fill="#374151">anchor2: tx ty tw th | to | c1...c20</text>
+    <rect x="675" y="194" width="270" height="24" fill="#fed7aa" stroke="#f59e0b"/>
+    <text x="682" y="210" fill="#374151">anchor3: ...</text>
+    <rect x="675" y="222" width="270" height="24" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="682" y="238" fill="#374151">anchor4: ...</text>
+    <rect x="675" y="250" width="270" height="24" fill="#fed7aa" stroke="#f59e0b"/>
+    <text x="682" y="266" fill="#374151">anchor5: tx ty tw th | to | c1...c20</text>
+  </g>
+  <text x="675" y="290" font-size="8.6" fill="#374151">每anchor: 4坐标 + 1置信度 + 20类 = 25</text>
+  <text x="675" y="308" font-size="8.6" fill="#374151">5×25 = 125（YOLOv2 B=5，VOC C=20）</text>
+
+  <!-- 为什么能替代FC -->
+  <rect x="20" y="340" width="940" height="26" rx="6" fill="#6d28d9"/>
+  <text x="490" y="358" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">为什么1×1卷积能替代FC？——关键在"空间上局部、只在通道上全连接"</text>
+
+  <rect x="20" y="376" width="460" height="130" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="250" y="398" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">YOLOv1的FC：全局混合→焊死尺寸</text>
+  <text x="40" y="420" font-size="9.3" fill="#374151">把整张7×7×1024拉平成50176维，一次性混在一起</text>
+  <text x="40" y="440" font-size="9.3" fill="#374151">每个输出都依赖"所有格子"的特征</text>
+  <text x="40" y="460" font-size="9.3" fill="#374151">权重矩阵50176×输出维=巨大且焊死</text>
+  <text x="40" y="482" font-size="9.3" font-weight="bold" fill="#b91c1c">→ 换尺寸拉平维度就变、对不上(Q176)</text>
+  <text x="40" y="500" font-size="9" fill="#6b7280">FC做了"空间混合"，但检测其实不需要它</text>
+
+  <rect x="500" y="376" width="460" height="130" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="730" y="398" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f766e">1×1卷积：每格只看自己→尺寸自由</text>
+  <text x="520" y="420" font-size="9.3" fill="#374151">每个输出位置只依赖"同一格"的1024维特征</text>
+  <text x="520" y="440" font-size="9.3" fill="#374151">空间上局部(逐格)，只在通道维度做全连接</text>
+  <text x="520" y="460" font-size="9.3" fill="#374151">空间信息早被前面卷积的感受野编码进这1024维</text>
+  <text x="520" y="482" font-size="9.3" font-weight="bold" fill="#0f766e">→ 检测某格只需该格特征向量,不需看遍全图的FC</text>
+  <text x="520" y="500" font-size="9" fill="#6b7280">1×1卷积=一个"共享检测头"，对每格一视同仁套用</text>
+
+  <!-- 通道含义哪来的 -->
+  <rect x="20" y="518" width="940" height="90" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="540" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">"第0通道=tx、第4通道=objectness"这些含义哪来的？——不是天生的，是损失函数的解码约定 + 训练逼出来的</text>
+  <text x="45" y="564" font-size="9.4" fill="#374151">1×1卷积本身不知道哪个通道该是tx。是损失函数按约定：把第0通道当tx、第4当to、后20个当类别，去和标签比、反向传播。</text>
+  <text x="45" y="584" font-size="9.4" fill="#374151">若某通道产出的数不对，损失就惩罚它 → 1×1卷积的权重被逼着"在对应通道产出对的数"。含义是训练强加的约定，权重去适配它。</text>
+  <text x="45" y="602" font-size="9" fill="#6b7280">这和YOLOv1输出张量的通道布局同理：布局是人定的约定，训练让权重把每个槽位填对。</text>
+
+  <!-- 接解码 -->
+  <rect x="20" y="620" width="940" height="46" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="641" text-anchor="middle" font-size="9.8" fill="#374151">1×1卷积吐的是"原始偏移量"(tx,ty,tw,th,to,类别)，之后还要接解码：中心σ(tx)+cx、宽高pw·e^tw(配anchor先验)、×步长换回像素 → NMS(同Q174)。</text>
+  <text x="490" y="659" text-anchor="middle" font-size="9" fill="#6b7280">所以"1×1卷积出H×W×125"只是产出原始预测数，形成真实框还需后面的解码+NMS一步。</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="678" width="940" height="34" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="700" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话：1×1卷积=一套125×1024的共享权重，在每个格子上把1024维特征线性映射成125维预测(5anchor×25)；每格只看自己那列特征(空间信息已被前面卷积编码)，所以不需FC看全图、尺寸也自由；通道含义由损失约定+训练填对。</text>
+</svg>

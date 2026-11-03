@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 500" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="850" height="500" fill="#fff"/>
+  <text x="425" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">RPN 的“3×3 滑窗 + 两个 1×1 头”——其实全是卷积</text>
+  <text x="425" y="44" text-anchor="middle" font-size="11" fill="#6b7280">Conv3×3 → ReLU → 并列两个 Conv1×1（cls / reg）；全程权重共享 = 同一个小网络滑过每个位置</text>
+
+  <!-- data flow -->
+  <!-- shared feature map -->
+  <rect x="30" y="78" width="120" height="80" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="90" y="112" text-anchor="middle" font-size="11" font-weight="bold" fill="#075985">共享特征图</text>
+  <text x="90" y="130" text-anchor="middle" font-size="9.5" fill="#6b7280">H×W×C</text>
+  <text x="90" y="145" text-anchor="middle" font-size="8.5" fill="#6b7280">（骨干输出，如 512）</text>
+
+  <line x1="150" y1="118" x2="186" y2="118" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- 3x3 conv -->
+  <rect x="188" y="78" width="150" height="80" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="263" y="104" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">Conv 3×3</text>
+  <text x="263" y="121" text-anchor="middle" font-size="9" fill="#374151">pad=1, stride=1 → 尺寸不变</text>
+  <text x="263" y="136" text-anchor="middle" font-size="9" fill="#374151">聚合 3×3 局部上下文</text>
+  <text x="263" y="150" text-anchor="middle" font-size="8.5" fill="#6b7280">+ ReLU</text>
+
+  <line x1="338" y1="118" x2="374" y2="118" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- intermediate -->
+  <rect x="376" y="86" width="110" height="64" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="431" y="112" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">中间特征图</text>
+  <text x="431" y="129" text-anchor="middle" font-size="9" fill="#6b7280">H×W×256</text>
+  <text x="431" y="143" text-anchor="middle" font-size="8" fill="#6b7280">（每位置一个 256 维向量）</text>
+
+  <line x1="486" y1="105" x2="528" y2="88" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="486" y1="131" x2="528" y2="150" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- cls head -->
+  <rect x="530" y="64" width="160" height="46" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="610" y="83" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">cls 头：Conv 1×1</text>
+  <text x="610" y="100" text-anchor="middle" font-size="9" fill="#374151">→ H×W×2k（前景/背景）</text>
+  <!-- reg head -->
+  <rect x="530" y="128" width="160" height="46" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="610" y="147" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">reg 头：Conv 1×1</text>
+  <text x="610" y="164" text-anchor="middle" font-size="9" fill="#374151">→ H×W×4k（4 个偏移）</text>
+
+  <text x="730" y="90" font-size="9" fill="#15803d">每位置 k 个</text>
+  <text x="730" y="103" font-size="9" fill="#15803d">anchor 各 2 分</text>
+  <text x="730" y="152" font-size="9" fill="#b45309">每位置 k 个</text>
+  <text x="730" y="165" font-size="9" fill="#b45309">anchor 各 4 偏移</text>
+
+  <!-- myth box -->
+  <rect x="30" y="196" width="390" height="128" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="46" y="218" font-size="12" font-weight="bold" fill="#b91c1c">破误解：“3×3 滑窗”不是写循环去滑</text>
+  <text x="46" y="240" font-size="10" fill="#374151">它<tspan font-weight="bold">就是一层 3×3 卷积</tspan>。卷积的本质</text>
+  <text x="46" y="256" font-size="10" fill="#374151">就是卷积核在特征图上“滑动”加权——</text>
+  <text x="46" y="272" font-size="10" fill="#374151">“滑窗”是论文对卷积的形象说法。</text>
+  <text x="46" y="294" font-size="10" fill="#374151">论文原话“slide a small network”，</text>
+  <text x="46" y="310" font-size="10" fill="#b91c1c">实现 = Conv3×3 → ReLU → 两个 Conv1×1。</text>
+
+  <!-- 1x1 box -->
+  <rect x="430" y="196" width="390" height="128" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="446" y="218" font-size="12" font-weight="bold" fill="#15803d">为什么头用 1×1 卷积</text>
+  <text x="446" y="240" font-size="10" fill="#374151">1×1 卷积 = 不看邻居，只在当前位置对</text>
+  <text x="446" y="256" font-size="10" fill="#374151">通道做线性组合（见 Q39）= 逐位置的小 FC。</text>
+  <text x="446" y="278" font-size="10" fill="#374151">上下文已被前面的 3×3 收集过，</text>
+  <text x="446" y="294" font-size="10" fill="#374151">预测阶段每个位置<tspan font-weight="bold">独立</tspan>吐自己 k 个</text>
+  <text x="446" y="310" font-size="10" fill="#374151">anchor 的结果即可，不必再看邻域 → 1×1 正合适。</text>
+
+  <!-- bottom: why conv not FC -->
+  <rect x="30" y="336" width="790" height="146" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="425" y="358" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">为什么整条 RPN 都用卷积、不用全连接（呼应 Q69 ②）</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="60" y="372" width="230" height="92" rx="6" fill="#fff" stroke="#cbd5e1"/>
+    <text x="175" y="394" font-weight="bold" fill="#1e40af">权重共享</text>
+    <text x="175" y="414" fill="#374151">一套 3×3 + 两套 1×1 权重，</text>
+    <text x="175" y="431" fill="#374151">在所有位置复用 = “同一个</text>
+    <text x="175" y="448" fill="#374151">小网络滑过每个位置”</text>
+
+    <rect x="310" y="372" width="230" height="92" rx="6" fill="#fff" stroke="#cbd5e1"/>
+    <text x="425" y="394" font-weight="bold" fill="#15803d">平移不变</text>
+    <text x="425" y="414" fill="#374151">物体出现在哪个位置，</text>
+    <text x="425" y="431" fill="#374151">都用同一套规则检测，</text>
+    <text x="425" y="448" fill="#374151">符合“目标可能在任何地方”</text>
+
+    <rect x="560" y="372" width="230" height="92" rx="6" fill="#fff" stroke="#cbd5e1"/>
+    <text x="675" y="394" font-weight="bold" fill="#b45309">任意尺寸 + 一次算完</text>
+    <text x="675" y="414" fill="#374151">全卷积不挑输入大小，</text>
+    <text x="675" y="431" fill="#374151">一次前向并行算出</text>
+    <text x="675" y="448" fill="#374151">所有位置的预测</text>
+  </g>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

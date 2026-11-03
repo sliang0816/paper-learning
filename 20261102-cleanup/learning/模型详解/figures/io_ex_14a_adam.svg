@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="200" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">14a Adam 输入/输出实例</text>
+
+  <rect x="20" y="46" width="210" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="125" y="72" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">输入：当前梯度 g_t</text>
+  <text x="125" y="92" text-anchor="middle" font-size="9.5" fill="#374151">损失对每个参数的偏导数</text>
+  <text x="125" y="106" text-anchor="middle" font-size="9.5" fill="#374151">(反向传播的直接产物)</text>
+
+  <text x="245" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="265" y="46" width="230" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="380" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">维护两个滑动平均</text>
+  <text x="380" y="88" text-anchor="middle" font-size="9.5" fill="#374151">m_t(一阶矩/动量方向)</text>
+  <text x="380" y="102" text-anchor="middle" font-size="9.5" fill="#374151">v_t(二阶矩/自适应步长尺度)</text>
+
+  <text x="510" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="530" y="46" width="200" height="70" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="630" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">偏差修正</text>
+  <text x="630" y="88" text-anchor="middle" font-size="9.5" fill="#374151">m̂_t, v̂_t</text>
+  <text x="630" y="102" text-anchor="middle" font-size="9.5" fill="#374151">抵消训练早期偏向0的低估</text>
+
+  <text x="745" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="760" y="46" width="180" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="850" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">输出：参数更新量</text>
+  <text x="850" y="88" text-anchor="middle" font-size="9.5" fill="#374151">Δθ = α·m̂_t/(√v̂_t+ε)</text>
+  <text x="850" y="102" text-anchor="middle" font-size="9.5" fill="#374151">每个参数各自的步长</text>
+
+  <rect x="20" y="140" width="920" height="45" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="167" text-anchor="middle" font-size="10.5" fill="#374151">本项目实际用法：YOLOv8/ConvNeXt等训练脚本里配置的 <tspan font-family="monospace" font-weight="bold">optimizer=AdamW</tspan> 就是这里讲的算法+权重衰减解耦改进，默认学习率/β1/β2很少需要手调</text>
+</svg>

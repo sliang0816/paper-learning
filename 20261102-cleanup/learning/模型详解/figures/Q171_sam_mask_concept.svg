@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="600" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q171 分割掩码是什么</text>
+
+  <!-- ① 掩码本质 -->
+  <rect x="20" y="42" width="940" height="140" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 本质：和原图对齐的一张"逐像素标注图"</text>
+  <text x="490" y="88" text-anchor="middle" font-size="10.5" fill="#374151">尺寸与原图相同(H×W)，每个像素存的不是颜色，而是"这个像素属不属于目标"的数值</text>
+  <rect x="120" y="100" width="180" height="70" fill="#111827"/>
+  <circle cx="210" cy="135" r="30" fill="#fff"/>
+  <text x="210" y="185" text-anchor="middle" font-size="9" fill="#374151">二值掩码：白=1(属于物体)，黑=0(背景)</text>
+  <text x="500" y="140" text-anchor="middle" font-size="20">≈</text>
+  <text x="650" y="130" text-anchor="middle" font-size="10" fill="#374151">"黑白剪影图"</text>
+  <text x="650" y="150" text-anchor="middle" font-size="10" fill="#374151">白色区域精确贴合物体轮廓</text>
+
+  <!-- ② vs 检测框 -->
+  <rect x="20" y="196" width="940" height="110" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="490" y="218" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">② 和检测框(bounding box)的本质区别</text>
+  <text x="250" y="244" text-anchor="middle" font-size="10" fill="#374151">检测框：4个数字(x,y,w,h)</text>
+  <text x="250" y="264" text-anchor="middle" font-size="10" fill="#374151">粗略矩形范围，框内常含大量背景像素</text>
+  <text x="250" y="284" text-anchor="middle" font-size="9.5" fill="#6b7280">(如伞/L形物体，矩形会框进很多空白)</text>
+  <text x="730" y="244" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">分割掩码：逐像素精确形状</text>
+  <text x="730" y="264" text-anchor="middle" font-size="10" fill="#374151">能表达任意不规则轮廓</text>
+  <text x="730" y="284" text-anchor="middle" font-size="9.5" fill="#6b7280">信息量更大、比检测更难</text>
+
+  <!-- ③ SAM实际输出 -->
+  <rect x="20" y="320" width="940" height="180" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ SAM 实际输出：不是直接0/1，是连续logit分数图</text>
+  <text x="490" y="366" text-anchor="middle" font-size="10" fill="#374151">Mask Decoder输出：每个像素一个连续实数(logit)，代表"属于目标"的置信度——正数越大越像目标，负数越小越像背景</text>
+  <text x="490" y="388" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">阈值化(通常>0) → 二值掩码</text>
+  <text x="490" y="416" text-anchor="middle" font-size="10" fill="#374151">同一提示一次性输出3个不同粒度候选(整体/部分/子部分)，各自独立的logit分数图+置信度</text>
+  <text x="490" y="438" text-anchor="middle" font-size="10" fill="#374151">最后按置信度挑一个用（呼应 Q160 Mask Decoder 的多粒度设计）</text>
+  <text x="490" y="466" text-anchor="middle" font-size="9.5" fill="#6b7280">低分辨率算出后再上采样到原图尺寸，和 PatchCore 的"低分辨率距离网格插值放大"是同一类后处理思路(Q169)</text>
+  <text x="490" y="488" text-anchor="middle" font-size="9.5" fill="#6b7280">Mask R-CNN也是逐像素输出二值掩码(28×28再贴回原图)，同一个"掩码"概念在不同模型里的实现</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="516" width="940" height="66" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="542" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：分割掩码=和原图对齐的逐像素标注图，直观形式是二值图(1=物体/0=背景)；</text>
+  <text x="490" y="564" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">SAM内部产出连续logit分数图，阈值化后才是最终二值掩码，且一次连带3个不同粒度候选一起给出。</text>
+</svg>

@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 380" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="380" fill="#fff"/>
+  <text x="420" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">VQVAE/VQGAN：离散潜空间 — 图像变 Token 序列</text>
+
+  <!-- ===== TOP: VQVAE ===== -->
+  <text x="420" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#7c3aed">VQVAE（2017，VQ-VAE）</text>
+
+  <!-- Input image -->
+  <rect x="20" y="62" width="80" height="60" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="60" y="88" text-anchor="middle" font-size="10.5">图像 x</text>
+  <text x="60" y="104" text-anchor="middle" font-size="9" fill="#6b7280">H×W×3</text>
+
+  <!-- Encoder -->
+  <rect x="130" y="66" width="100" height="52" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="180" y="88" text-anchor="middle" font-size="10.5">编码器</text>
+  <text x="180" y="104" text-anchor="middle" font-size="9.5" fill="#1d4ed8">CNN/ResNet</text>
+  <text x="180" y="116" text-anchor="middle" font-size="8.5" fill="#6b7280">↓4×下采样</text>
+
+  <!-- Continuous z -->
+  <rect x="258" y="66" width="90" height="52" rx="4" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="303" y="87" text-anchor="middle" font-size="10">连续特征 z</text>
+  <text x="303" y="103" text-anchor="middle" font-size="9" fill="#0369a1">(H/4)×(W/4)×D</text>
+  <text x="303" y="116" text-anchor="middle" font-size="8.5" fill="#6b7280">实数向量</text>
+
+  <!-- Codebook -->
+  <rect x="378" y="46" width="120" height="92" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="438" y="66" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">码本 Codebook</text>
+  <text x="438" y="82" text-anchor="middle" font-size="9.5" fill="#92400e">K 个可学习向量</text>
+  <text x="438" y="96" text-anchor="middle" font-size="9.5" fill="#92400e">e₁, e₂, …, eₖ</text>
+  <text x="438" y="110" text-anchor="middle" font-size="9.5" fill="#92400e">（如 K=8192, D=256）</text>
+  <text x="438" y="126" text-anchor="middle" font-size="8.5" fill="#6b7280">每个 z 找最近邻 e_k</text>
+
+  <!-- Quantized z_q -->
+  <rect x="528" y="66" width="90" height="52" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="573" y="85" text-anchor="middle" font-size="10">量化 z_q</text>
+  <text x="573" y="101" text-anchor="middle" font-size="9" fill="#15803d">离散索引 k</text>
+  <text x="573" y="115" text-anchor="middle" font-size="8.5" fill="#6b7280">e_{k(i,j)}</text>
+
+  <!-- Decoder -->
+  <rect x="648" y="66" width="100" height="52" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="698" y="88" text-anchor="middle" font-size="10.5">解码器</text>
+  <text x="698" y="104" text-anchor="middle" font-size="9.5" fill="#1d4ed8">CNN（对称）</text>
+
+  <!-- Reconstructed -->
+  <rect x="768" y="66" width="60" height="52" rx="4" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="798" y="88" text-anchor="middle" font-size="9.5">重建 x̂</text>
+  <text x="798" y="104" text-anchor="middle" font-size="8.5" fill="#15803d">≈ x</text>
+
+  <!-- Quantization arrow with label -->
+  <text x="436" y="160" text-anchor="middle" font-size="10" fill="#d97706">VQ 量化：z_q = eₖ, k = argmin‖z − eₖ‖</text>
+
+  <!-- Arrows VQVAE -->
+  <g stroke="#374151" stroke-width="1.4" marker-end="url(#a)">
+    <line x1="100" y1="92" x2="128" y2="92"/>
+    <line x1="230" y1="92" x2="256" y2="92"/>
+    <line x1="348" y1="92" x2="376" y2="92"/>
+    <line x1="498" y1="92" x2="526" y2="92"/>
+    <line x1="618" y1="92" x2="646" y2="92"/>
+    <line x1="748" y1="92" x2="766" y2="92"/>
+  </g>
+  <!-- straight-through gradient note -->
+  <path d="M303,118 C303,150 573,150 573,120" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-dasharray="4 2" marker-end="url(#av)"/>
+  <text x="438" y="147" text-anchor="middle" font-size="8.5" fill="#7c3aed">梯度直通（straight-through estimator）</text>
+
+  <!-- ===== DIVIDER ===== -->
+  <line x1="20" y1="185" x2="820" y2="185" stroke="#e5e7eb" stroke-width="1.5"/>
+
+  <!-- ===== BOTTOM: VQGAN ===== -->
+  <text x="420" y="205" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">VQGAN（2021）= VQVAE + 感知损失 + GAN 判别器</text>
+
+  <!-- Input -->
+  <rect x="20" y="218" width="70" height="50" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="55" y="247" text-anchor="middle" font-size="10">图像 x</text>
+
+  <!-- Encoder → Codebook → Decoder -->
+  <rect x="110" y="222" width="90" height="42" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="155" y="240" text-anchor="middle" font-size="10">编码器 E</text>
+  <text x="155" y="255" text-anchor="middle" font-size="8.5" fill="#6b7280">CNN + Attn</text>
+
+  <rect x="220" y="218" width="90" height="50" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="265" y="238" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">VQ</text>
+  <text x="265" y="252" text-anchor="middle" font-size="9" fill="#92400e">最近邻查表</text>
+  <text x="265" y="266" text-anchor="middle" font-size="8.5" fill="#6b7280">→ 离散 token 序列</text>
+
+  <rect x="330" y="222" width="90" height="42" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="375" y="240" text-anchor="middle" font-size="10">解码器 G</text>
+  <text x="375" y="255" text-anchor="middle" font-size="8.5" fill="#6b7280">CNN + Attn</text>
+
+  <rect x="440" y="218" width="80" height="50" rx="4" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="480" y="242" text-anchor="middle" font-size="10">重建 x̂</text>
+  <text x="480" y="256" text-anchor="middle" font-size="9" fill="#15803d">高保真</text>
+
+  <g stroke="#374151" stroke-width="1.4" marker-end="url(#a)">
+    <line x1="90" y1="243" x2="108" y2="243"/>
+    <line x1="200" y1="243" x2="218" y2="243"/>
+    <line x1="310" y1="243" x2="328" y2="243"/>
+    <line x1="420" y1="243" x2="438" y2="243"/>
+  </g>
+
+  <!-- Discriminator -->
+  <rect x="560" y="218" width="120" height="50" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="1.8"/>
+  <text x="620" y="238" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">GAN 判别器 D</text>
+  <text x="620" y="253" text-anchor="middle" font-size="9.5" fill="#991b1b">PatchGAN 风格</text>
+  <text x="620" y="268" text-anchor="middle" font-size="8.5" fill="#6b7280">区分真 / 重建</text>
+
+  <g stroke="#374151" stroke-width="1.3" stroke-dasharray="4 2" marker-end="url(#a)">
+    <line x1="520" y1="243" x2="558" y2="243"/>
+    <line x1="55" y1="268" x2="55" y2="280"/>
+    <line x1="55" y1="280" x2="618" y2="280"/>
+    <line x1="618" y1="280" x2="618" y2="270"/>
+  </g>
+
+  <!-- Perceptual Loss -->
+  <rect x="560" y="284" width="120" height="40" rx="4" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="620" y="300" text-anchor="middle" font-size="10" fill="#6d28d9">感知损失（VGG）</text>
+  <text x="620" y="316" text-anchor="middle" font-size="9" fill="#6b7280">特征层相似度</text>
+
+  <!-- Applications box -->
+  <rect x="20" y="320" width="520" height="52" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="280" y="338" text-anchor="middle" font-size="11" font-weight="bold" fill="#166534">VQGAN 为何重要：把图像变成 Token 序列 → 可用 Transformer 建模</text>
+  <text x="280" y="356" text-anchor="middle" font-size="10" fill="#166534">离散 token 索引 = "视觉词汇" → DALL·E / Chameleon / LlaVA 图像分词器的直接来源</text>
+  <text x="280" y="368" text-anchor="middle" font-size="9.5" fill="#15803d">VQGAN + GPT = Taming Transformers（2021），首个高质量 Transformer 文生图</text>
+
+  <defs>
+    <marker id="a"  markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+    <marker id="av" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#7c3aed"/></marker>
+  </defs>
+</svg>

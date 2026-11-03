@@ -1,0 +1,77 @@
+{
+  "schema": "slide-maker-codex-visual-contract/v1",
+  "zones": [
+    {
+      "id": "s6-rail-label-clearance",
+      "slide": 6,
+      "subject": {"text": "检测证据线"},
+      "clear_of": [{"text": "重复隔离"}],
+      "min_gap": 0.12
+    },
+    {
+      "id": "s17-material-rail-clearance",
+      "slide": 17,
+      "subject": {"text": "风险与回退"},
+      "clear_of": [{"text": "输入：从未查看的同域新数据"}],
+      "min_gap": 0.12
+    },
+    {
+      "id": "s21-effect-label-clearance",
+      "slide": 21,
+      "subject": {"text": "+1.17 pp"},
+      "clear_of": [{"text": "4/5 正向"}],
+      "min_gap": 0.12
+    },
+    {
+      "id": "s25-latency-label-clearance",
+      "slide": 25,
+      "subject": {"text": "CLIP\n预处理"},
+      "clear_of": [{"text": "CLIP 推理"}],
+      "min_gap": 0.12
+    }
+  ],
+  "icons": [
+    {
+      "id": "s2-search",
+      "slide": 2,
+      "build_token": "lucide:search",
+      "meaning": "表示选题依据阶段要先定位真实研究问题。"
+    },
+    {
+      "id": "s2-route",
+      "slide": 2,
+      "build_token": "lucide:route",
+      "meaning": "表示技术路线阶段说明如何完成验证。"
+    },
+    {
+      "id": "s2-chart",
+      "slide": 2,
+      "build_token": "lucide:chart-no-axes-column-increasing",
+      "meaning": "表示前期证据阶段呈现实验结果与边界。"
+    },
+    {
+      "id": "s2-calendar",
+      "slide": 2,
+      "build_token": "lucide:calendar-days",
+      "meaning": "表示创新与计划阶段安排后续工作。"
+    },
+    {
+      "id": "s17-database",
+      "slide": 17,
+      "build_token": "lucide:database",
+      "meaning": "表示独立确认工作包需要新采集并冻结的数据。"
+    },
+    {
+      "id": "s17-video",
+      "slide": 17,
+      "build_token": "lucide:video",
+      "meaning": "表示跨帧评估工作包需要连续视频帧和时间元数据。"
+    },
+    {
+      "id": "s17-cpu",
+      "slide": 17,
+      "build_token": "lucide:cpu",
+      "meaning": "表示目标设备工作包需要明确芯片、功率和部署框架。"
+    }
+  ]
+}

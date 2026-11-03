@@ -1,0 +1,120 @@
+{
+  "schema": "slide-maker-codex-visual-contract-result/v1",
+  "pptx": "paper/ppt/开题答辩_20261013/朱守亮-开题答辩v9-参考模板版.pptx",
+  "pptx_sha256": "36853f9d6de11414a833696a39fd5ed3300d8402cd04c8edd9080d121d4d75e8",
+  "manifest": "paper/ppt/开题答辩_20261013/visual-contract.json",
+  "manifest_sha256": "319650a53685867f4707674cc29918082f18caba515bd19c593bb8226a560b30",
+  "passed": true,
+  "zones": [
+    {
+      "id": "s16_factorial_vs_architecture",
+      "slide": 16,
+      "pass": true,
+      "checks": [
+        {
+          "pass": true,
+          "subject": [
+            9.05,
+            1.47,
+            3.42,
+            0.56
+          ],
+          "against": [
+            0.8,
+            1.18,
+            7.5,
+            4.4
+          ],
+          "horizontal_gap": 0.75,
+          "vertical_gap": 0.0,
+          "distance": 0.75,
+          "required_gap": 0.12
+        }
+      ],
+      "crop": "paper/ppt/开题答辩_20261013/audit/visual-crops/s16_factorial_vs_architecture.png"
+    },
+    {
+      "id": "s22_p2_effect_vs_figure",
+      "slide": 22,
+      "pass": true,
+      "checks": [
+        {
+          "pass": true,
+          "subject": [
+            8.66,
+            1.42,
+            3.7,
+            0.48
+          ],
+          "against": [
+            0.82,
+            1.15,
+            7.5,
+            3.9
+          ],
+          "horizontal_gap": 0.34,
+          "vertical_gap": 0.0,
+          "distance": 0.34,
+          "required_gap": 0.12
+        }
+      ],
+      "crop": "paper/ppt/开题答辩_20261013/audit/visual-crops/s22_p2_effect_vs_figure.png"
+    },
+    {
+      "id": "s23_open_vocab_metrics",
+      "slide": 23,
+      "pass": true,
+      "checks": [
+        {
+          "pass": true,
+          "subject": [
+            10.78,
+            4.42,
+            1.52,
+            0.42
+          ],
+          "against": [
+            9.02,
+            4.42,
+            1.3,
+            0.42
+          ],
+          "horizontal_gap": 0.46,
+          "vertical_gap": 0.0,
+          "distance": 0.46,
+          "required_gap": 0.12
+        }
+      ],
+      "crop": "paper/ppt/开题答辩_20261013/audit/visual-crops/s23_open_vocab_metrics.png"
+    },
+    {
+      "id": "s33_chart_vs_metrics",
+      "slide": 33,
+      "pass": true,
+      "checks": [
+        {
+          "pass": true,
+          "subject": [
+            5.64,
+            1.18,
+            6.65,
+            0.34
+          ],
+          "against": [
+            0.86,
+            1.43,
+            4.18,
+            4.87
+          ],
+          "horizontal_gap": 0.6,
+          "vertical_gap": 0.0,
+          "distance": 0.6,
+          "required_gap": 0.12
+        }
+      ],
+      "crop": "paper/ppt/开题答辩_20261013/audit/visual-crops/s33_chart_vs_metrics.png"
+    }
+  ],
+  "icons": [],
+  "errors": []
+}

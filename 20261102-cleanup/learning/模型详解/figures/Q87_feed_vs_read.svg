@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 580" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="580" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q87 直接“告诉内容”、去掉掩码自注意力，行吗？——“喂内容”和“读内容”是两件事</text>
+
+  <!-- two things distinction -->
+  <rect x="20" y="44" width="900" height="120" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">关键：把前缀放进序列（喂） ≠ 当前位置自动知道（读）</text>
+
+  <rect x="36" y="76" width="420" height="76" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="246" y="96" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">① 喂内容 = 把词放进序列</text>
+  <text x="246" y="116" text-anchor="middle" font-size="9.5" fill="#374151">训练本来就这么做（teacher forcing 喂 [&lt;BOS&gt; 我 爱 路]）</text>
+  <text x="246" y="136" text-anchor="middle" font-size="9" fill="#b91c1c">但每个位置只有“它自己 token 的 embed + 位置编码”</text>
+
+  <rect x="484" y="76" width="420" height="76" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="694" y="96" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">② 读内容 = 当前位置去读前面那些词</text>
+  <text x="694" y="116" text-anchor="middle" font-size="9.5" fill="#374151">让最后位置“看见”前缀写了啥，靠的就是自注意力</text>
+  <text x="694" y="136" text-anchor="middle" font-size="9" fill="#15803d">（Q86 杀手例：不读位置1就分不出“我/你”）</text>
+
+  <text x="470" y="184" text-anchor="middle" font-size="10.5" fill="#374151">→ 去掉自注意力又不换别的：喂进去的内容<tspan font-weight="bold" fill="#b91c1c">没有机制聚合进当前位置</tspan>，当前位置仍只见自己一个词 → <tspan font-weight="bold">不行</tspan></text>
+
+  <!-- replace with other mixers -->
+  <rect x="20" y="200" width="900" height="250" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="220" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">那“换一种机制把前缀内容融进来”行不行？——行，但都有代价（这步绕不开）</text>
+
+  <!-- table header -->
+  <line x1="320" y1="232" x2="320" y2="436" stroke="#c4b5fd"/>
+  <text x="170" y="248" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">机制</text>
+  <text x="430" y="248" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">能塞进前缀内容?</text>
+  <text x="700" y="248" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">代价</text>
+
+  <!-- self-attn row -->
+  <rect x="32" y="258" width="280" height="40" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="172" y="282" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">自注意力</text>
+  <text x="430" y="282" text-anchor="middle" font-size="9.5" fill="#15803d">✓</text>
+  <text x="610" y="276" font-size="9" fill="#374151">全局 + 并行 + 内容自适应</text>
+  <text x="610" y="290" font-size="8.5" fill="#6b7280">每位置动态决定该重点看哪个前词</text>
+
+  <!-- pool row -->
+  <rect x="32" y="304" width="280" height="40" rx="5" fill="#fff" stroke="#c4b5fd"/>
+  <text x="172" y="328" text-anchor="middle" font-size="10" fill="#374151">求和 / 平均池化</text>
+  <text x="430" y="328" text-anchor="middle" font-size="9.5" fill="#374151">✓（但弱）</text>
+  <text x="610" y="322" font-size="9" fill="#b91c1c">丢顺序（变词袋，“我爱”=“爱我”）</text>
+  <text x="610" y="336" font-size="8.5" fill="#b91c1c">非自适应（不能“该重点看哪个”）</text>
+
+  <!-- RNN row -->
+  <rect x="32" y="350" width="280" height="40" rx="5" fill="#fff" stroke="#c4b5fd"/>
+  <text x="172" y="374" text-anchor="middle" font-size="10" fill="#374151">RNN（滚动状态）</text>
+  <text x="430" y="374" text-anchor="middle" font-size="9.5" fill="#374151">✓</text>
+  <text x="610" y="368" font-size="9" fill="#b91c1c">串行慢 + 长程衰减</text>
+  <text x="610" y="382" font-size="8.5" fill="#6b7280">正是 Transformer 当初要取代的</text>
+
+  <!-- conv row -->
+  <rect x="32" y="396" width="280" height="40" rx="5" fill="#fff" stroke="#c4b5fd"/>
+  <text x="172" y="420" text-anchor="middle" font-size="10" fill="#374151">卷积</text>
+  <text x="430" y="420" text-anchor="middle" font-size="9.5" fill="#374151">✓（局部）</text>
+  <text x="610" y="414" font-size="9" fill="#b91c1c">一层只能看附近几个词</text>
+  <text x="610" y="428" font-size="8.5" fill="#6b7280">够不着很远的前词</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="464" width="900" height="100" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="486" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">结论</text>
+  <text x="40" y="508" font-size="9.5" fill="#374151">· 只“喂内容”、删自注意力、不加替代 → <tspan font-weight="bold" fill="#b91c1c">不行</tspan>（喂进去的内容没机制聚合进当前位置）</text>
+  <text x="40" y="528" font-size="9.5" fill="#374151">· 换别的混合机制替代 → <tspan font-weight="bold">可以，但更弱或更慢</tspan>；自注意力是“全局+并行+自适应”的最佳折中</text>
+  <text x="40" y="550" font-size="9.5" fill="#6d28d9">· 一句话：“把前缀内容融进当前位置”这步绕不开；自注意力不是多余中转，正是“按需融合前缀”的那个动作，删了得拿更差的顶</text>
+</svg>

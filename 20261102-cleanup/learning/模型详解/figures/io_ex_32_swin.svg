@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 210" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="210" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">32 Swin Transformer 输入输出实例（层级金字塔，通用视觉骨干）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">224² 图 → 窗口注意力 + 移位窗口 + 层级下采样 → 多尺度特征金字塔（像 CNN 骨干）/ 类别</text>
+
+  <rect x="22" y="66" width="112" height="78" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="78" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="78" y="105" text-anchor="middle" font-size="9" fill="#374151">224×224×3</text>
+  <text x="78" y="122" text-anchor="middle" font-size="8" fill="#6b7280">切 patch</text>
+
+  <line x1="134" y1="105" x2="164" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="166" y="62" width="226" height="86" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="279" y="81" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#1e40af">窗口注意力 + 移位窗口 + 下采样</text>
+  <text x="279" y="99" text-anchor="middle" font-size="8.3" fill="#374151">只在小窗口内算注意力 → 线性复杂度</text>
+  <text x="279" y="114" text-anchor="middle" font-size="8.3" fill="#374151">移位窗口让信息跨窗交流</text>
+  <text x="279" y="131" text-anchor="middle" font-size="8" fill="#15803d">4 个 stage 逐级缩小 → 像 CNN 那样出多尺度</text>
+  <text x="279" y="144" text-anchor="middle" font-size="7.6" fill="#6b7280">解决 ViT 单尺度、二次复杂度两硬伤</text>
+
+  <line x1="392" y1="105" x2="422" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="424" y="72" width="184" height="66" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="516" y="91" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">多尺度特征金字塔</text>
+  <text x="516" y="109" text-anchor="middle" font-size="8.3" fill="#374151">56²/28²/14²/7²（当检测/分割骨干）</text>
+  <text x="516" y="125" text-anchor="middle" font-size="8" fill="#6b7280">或末端 → 类别</text>
+
+  <line x1="608" y1="105" x2="638" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="640" y="82" width="152" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="716" y="103" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">通用视觉骨干</text>
+  <text x="716" y="119" text-anchor="middle" font-size="7.6" fill="#6b7280">→ FPN/检测头</text>
+
+  <text x="410" y="174" text-anchor="middle" font-size="9.6" fill="#374151">和 ViT 区别：Swin <tspan font-weight="bold" fill="#0369a1">输出多尺度金字塔</tspan>（而非单尺度），所以能像 ResNet 一样当检测/分割骨干。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

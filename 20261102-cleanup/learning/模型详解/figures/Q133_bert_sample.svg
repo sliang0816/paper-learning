@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q133 BERT 的样本长什么样：GPT=同一句错一位（预测右邻），BERT=同一句挖了洞（还原被挖的词）</text>
+
+  <!-- ① 对照 -->
+  <rect x="20" y="42" width="900" height="160" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 同一句"我爱你"，两家的样本对照</text>
+  <g font-size="10" font-family="Consolas,monospace">
+    <text x="50" y="94" fill="#374151">GPT :  输入 [&lt;BOS&gt;, 我, 爱, 你]        → 标签 [我, 爱, 你, &lt;EOS&gt;]</text>
+    <text x="50" y="130" fill="#374151">BERT:  输入 [[CLS], 我, [MASK], 你, [SEP]] → 标签 [ —,  —,  爱,  —,  — ]</text>
+  </g>
+  <text x="640" y="106" font-size="9" fill="#15803d">← 错一位，每个位置都有标签</text>
+  <text x="640" y="142" font-size="9" fill="#b45309">← 原位挖空，只有被遮位置有标签</text>
+  <text x="50" y="166" font-size="9.5" fill="#374151">GPT 标签 = 右边那个词（预测未来）；BERT 标签 = 被抠位置的<tspan font-weight="bold">原词本身</tspan>（完形填空，不是预测下一个）</text>
+  <text x="50" y="188" font-size="9" fill="#6b7280">两者都是自监督：标签都来自文本自身，不用人标——差别只在"标签怎么造"：错位 vs 挖空</text>
+
+  <!-- ② 三差别 -->
+  <rect x="20" y="214" width="900" height="170" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="236" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 三个本质差别</text>
+  <g font-size="9.5">
+    <text x="40" y="262" fill="#374151"><tspan font-weight="bold">1. 标签来源</tspan>：GPT 错位（右邻当标签）vs BERT 原位（挖掉的词当标签）</text>
+    <text x="40" y="290" fill="#374151"><tspan font-weight="bold">2. 监督密度</tspan>：GPT 每位置都算损失 = N+1 条/句（Q132）vs BERT 只 ~15% 被遮位置算损失（其余标签记 -100 忽略）</text>
+    <text x="56" y="310" fill="#6b7280">"我爱你"：GPT 挣 4 条监督，BERT 只挣 1 条——监督密度差约一个量级</text>
+    <text x="40" y="338" fill="#374151"><tspan font-weight="bold">3. 防作弊手段</tspan>（Q93）：GPT 用因果掩码遮"注意力视野"（答案在输入里不许看）vs BERT 把答案从输入里抠掉、注意力放心全开（双向）</text>
+    <text x="56" y="358" fill="#b91c1c">[MASK] 遮的是输入、因果掩码遮的是视野——两个"mask"不是一回事（Q124/Q131）</text>
+  </g>
+
+  <!-- ③ 细节 -->
+  <rect x="20" y="396" width="900" height="140" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="418" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 真实训练的两个细节</text>
+  <text x="40" y="444" font-size="9.5" fill="#374151"><tspan font-weight="bold">80/10/10 规则</tspan>：被选中的 15% 里 → 80% 换 [MASK]、10% 换随机词、10% 保持原词（照样要预测）</text>
+  <text x="56" y="464" font-size="9" fill="#6b7280">原因：下游任务输入里永远没有 [MASK]，只见 [MASK] 才干活会造成预训练-微调脱节；掺随机/原词逼模型对每个位置保持警觉</text>
+  <text x="40" y="492" font-size="9.5" fill="#374151"><tspan font-weight="bold">NSP 第二种样本</tspan>（原版 BERT）：([CLS] 句A [SEP] 句B [SEP] → IsNext/NotNext)，[CLS] 位置做二分类</text>
+  <text x="56" y="512" font-size="9" fill="#6b7280">RoBERTa 验证 NSP 用处不大已去掉——MLM 才是主菜</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="548" width="900" height="42" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="566" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：BERT 样本 = ([CLS]我[MASK]你[SEP] → 被遮位置=爱)——原位挖空还原，只有 ~15% 位置有标签；</text>
+  <text x="470" y="583" text-anchor="middle" font-size="9" fill="#374151">与 GPT 的错位全标签相对：错位 vs 挖空、密 vs 疏、遮视野 vs 抠答案。</text>
+</svg>

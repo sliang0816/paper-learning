@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q143 LN 也在 batch 上跑吗：都"按批次喂"，区别是统计方向——BN 沿列(跨样本)、LN 沿行(每样本内)</text>
+
+  <!-- ① 两个含义 -->
+  <rect x="20" y="42" width="900" height="76" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 别混两件事："数据按批次喂入" ≠ "沿批次方向做统计"</text>
+  <text x="40" y="90" font-size="9.5" fill="#374151">· 前者=一批 32 个样本一起进网络（纯 GPU 并行）——<tspan font-weight="bold">BN 和 LN 完全一样</tspan></text>
+  <text x="40" y="108" font-size="9.5" fill="#374151">· 后者=算均值方差时沿哪个方向——<tspan font-weight="bold">这才是 BN 与 LN 的真区别</tspan></text>
+
+  <!-- ② 表格 -->
+  <text x="240" y="140" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">② 一个 batch：3 样本 × 4 特征</text>
+  <!-- table -->
+  <g font-size="10" font-family="Consolas,monospace" text-anchor="middle">
+    <text x="70" y="168" fill="#6b7280"> </text>
+    <text x="130" y="168" fill="#6b7280">特征1</text><text x="185" y="168" fill="#6b7280">特征2</text><text x="240" y="168" fill="#6b7280">特征3</text><text x="295" y="168" fill="#6b7280">特征4</text>
+    <text x="70" y="196" fill="#374151">样本1</text>
+    <rect x="110" y="182" width="40" height="22" fill="#dcfce7" stroke="#16a34a"/><text x="130" y="198" fill="#15803d">1</text>
+    <rect x="165" y="182" width="40" height="22" fill="#dcfce7" stroke="#16a34a"/><text x="185" y="198" fill="#15803d">2</text>
+    <rect x="220" y="182" width="40" height="22" fill="#dcfce7" stroke="#16a34a"/><text x="240" y="198" fill="#15803d">3</text>
+    <rect x="275" y="182" width="40" height="22" fill="#dcfce7" stroke="#16a34a"/><text x="295" y="198" fill="#15803d">4</text>
+    <text x="70" y="224" fill="#374151">样本2</text>
+    <rect x="110" y="210" width="40" height="22" fill="#fff"/><text x="130" y="226" fill="#374151">10</text>
+    <rect x="165" y="210" width="40" height="22" fill="#fff"/><text x="185" y="226" fill="#374151">20</text>
+    <rect x="220" y="210" width="40" height="22" fill="#fff"/><text x="240" y="226" fill="#374151">30</text>
+    <rect x="275" y="210" width="40" height="22" fill="#fff"/><text x="295" y="226" fill="#374151">40</text>
+    <text x="70" y="252" fill="#374151">样本3</text>
+    <rect x="110" y="238" width="40" height="22" fill="#fff"/><text x="130" y="254" fill="#374151">5</text>
+    <rect x="165" y="238" width="40" height="22" fill="#fff"/><text x="185" y="254" fill="#374151">5</text>
+    <rect x="220" y="238" width="40" height="22" fill="#fff"/><text x="240" y="254" fill="#374151">5</text>
+    <rect x="275" y="238" width="40" height="22" fill="#fff"/><text x="295" y="254" fill="#374151">5</text>
+  </g>
+  <!-- LN row arrow -->
+  <rect x="105" y="180" width="215" height="26" rx="3" fill="none" stroke="#d97706" stroke-width="2"/>
+  <text x="335" y="198" font-size="9" fill="#b45309">← LN 沿行</text>
+  <!-- BN col arrow -->
+  <rect x="108" y="180" width="44" height="82" rx="3" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="130" y="278" font-size="9" text-anchor="middle" fill="#6d28d9">↑ BN 沿列</text>
+
+  <!-- BN -->
+  <rect x="400" y="130" width="250" height="145" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="525" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">BatchNorm 沿"竖列"（跨样本）</text>
+  <text x="416" y="176" font-size="9" fill="#374151">特征1列(1,10,5)→均值5.33，归一化</text>
+  <text x="416" y="194" font-size="9" fill="#374151">特征2列(2,20,5)→均值9 …每列同理</text>
+  <text x="416" y="216" font-size="9" fill="#b91c1c">每列用到 batch 所有样本</text>
+  <text x="416" y="234" font-size="9" fill="#b91c1c">→ 样本1的归一化依赖样本2/3</text>
+  <text x="416" y="258" font-size="9" fill="#6b7280">→ 换 batch/换大小结果就变=依赖 batch</text>
+
+  <!-- LN -->
+  <rect x="670" y="130" width="250" height="145" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="795" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">LayerNorm 沿"横行"（每样本内）</text>
+  <text x="686" y="176" font-size="9" fill="#374151">样本1行(1,2,3,4)→均值2.5，归一化</text>
+  <text x="686" y="194" font-size="9" fill="#374151">样本2行(10,20,30,40)→均值25</text>
+  <text x="686" y="212" font-size="9" fill="#374151">样本3行(5,5,5,5)→均值5→全归0</text>
+  <text x="686" y="234" font-size="9" fill="#15803d">每行独立算，样本1不看样本2</text>
+  <text x="686" y="258" font-size="9" fill="#6b7280">→ 换 batch/换大小结果不变=不依赖 batch</text>
+
+  <!-- ③ 关键推论 -->
+  <rect x="20" y="290" width="900" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="312" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 关键推论：LN 照样在 batch 上跑（32 进 32 出），只是把 batch 维度"晾在一边不碰"</text>
+  <text x="40" y="338" font-size="9.5" fill="#374151">· LN 对每个样本<tspan font-weight="bold">各算各的</tspan>，只用该样本自己的特征 → 结果<tspan font-weight="bold">与"batch 里有谁、batch 多大"完全无关</tspan></text>
+  <text x="40" y="360" font-size="9.5" fill="#15803d">· 喂 1 个样本还是 1000 个，每个样本得到的归一化一模一样 → 这就是 LN 不依赖 batch 的原因（Q139）</text>
+  <text x="40" y="384" font-size="9.5" fill="#b91c1c">· 反观 BN：小 batch 时几个样本估的"列均值"不准 → BN 失灵（检测/分割 batch 常 2~4，改用 LN/GN）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="424" width="900" height="150" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="448" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话：两者都"按批次喂"，区别是统计方向——BN 沿列(跨样本)、LN 沿行(每样本内)；</text>
+  <text x="470" y="470" text-anchor="middle" font-size="10" fill="#374151">LN 身在 batch 里却只用每个样本自己的数，所以 batch 大小对它没有任何影响。</text>
+  <text x="40" y="500" font-size="9" fill="#6b7280">补：Transformer 里"样本"其实细到每个 token——LN 对每个 token 在自己的 d 维embedding内归一化，各 token 各算各的。</text>
+  <text x="40" y="522" font-size="9" fill="#6b7280">补：这也是为什么 BN 训练/推理要用两套统计（推理用滑动平均的全局均值方差），而 LN 训练推理完全一致、无此麻烦。</text>
+  <text x="40" y="544" font-size="9" fill="#6b7280">口诀：BN 问"这批别的样本这个特征多大"；LN 问"我这个样本自己各特征之间谁大谁小"。</text>
+  <text x="40" y="564" font-size="9" fill="#6b7280">形状记忆：数据 [batch, 特征]；BN 压 batch 维、LN 压特征维。</text>
+</svg>

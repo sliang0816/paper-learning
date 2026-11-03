@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 380" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="380" fill="#fff"/>
+  <text x="420" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">FCOS：每像素直接回归（l,r,t,b）+ Centerness，无 Anchor</text>
+
+  <!-- Input -->
+  <rect x="20" y="52" width="90" height="40" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="65" y="77" text-anchor="middle" font-size="11">输入图像</text>
+
+  <!-- Backbone -->
+  <rect x="148" y="52" width="110" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="203" y="70" text-anchor="middle" font-size="10.5">Backbone</text>
+  <text x="203" y="85" text-anchor="middle" font-size="9.5" fill="#1d4ed8">ResNet-50/101</text>
+
+  <!-- FPN -->
+  <rect x="296" y="52" width="90" height="40" rx="4" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="341" y="70" text-anchor="middle" font-size="10.5">FPN</text>
+  <text x="341" y="85" text-anchor="middle" font-size="9.5" fill="#6d28d9">P3~P7</text>
+
+  <!-- Arrows backbone flow -->
+  <g stroke="#374151" stroke-width="1.5" marker-end="url(#a)">
+    <line x1="110" y1="72" x2="146" y2="72"/>
+    <line x1="258" y1="72" x2="294" y2="72"/>
+  </g>
+
+  <!-- FPN levels P3~P7 fan out downward -->
+  <g stroke="#7c3aed" stroke-width="1.3">
+    <line x1="341" y1="92" x2="341" y2="118"/>
+    <line x1="341" y1="118" x2="180" y2="118"/>
+    <line x1="341" y1="118" x2="280" y2="118"/>
+    <line x1="341" y1="118" x2="380" y2="118"/>
+    <line x1="341" y1="118" x2="480" y2="118"/>
+    <line x1="341" y1="118" x2="580" y2="118"/>
+  </g>
+
+  <!-- 5 FPN level boxes -->
+  <g font-size="9.5" text-anchor="middle">
+    <rect x="140" y="118" width="80" height="36" rx="4" fill="#faf5ff" stroke="#7c3aed"/>
+    <text x="180" y="135">P3</text><text x="180" y="149" fill="#6b7280">stride 8</text>
+
+    <rect x="240" y="118" width="80" height="36" rx="4" fill="#faf5ff" stroke="#7c3aed"/>
+    <text x="280" y="135">P4</text><text x="280" y="149" fill="#6b7280">stride 16</text>
+
+    <rect x="340" y="118" width="80" height="36" rx="4" fill="#faf5ff" stroke="#7c3aed"/>
+    <text x="380" y="135">P5</text><text x="380" y="149" fill="#6b7280">stride 32</text>
+
+    <rect x="440" y="118" width="80" height="36" rx="4" fill="#faf5ff" stroke="#7c3aed"/>
+    <text x="480" y="135">P6</text><text x="480" y="149" fill="#6b7280">stride 64</text>
+
+    <rect x="540" y="118" width="80" height="36" rx="4" fill="#faf5ff" stroke="#7c3aed"/>
+    <text x="580" y="135">P7</text><text x="580" y="149" fill="#6b7280">stride 128</text>
+  </g>
+
+  <!-- Arrow from each level to shared head -->
+  <g stroke="#7c3aed" stroke-width="1.2" marker-end="url(#av)">
+    <line x1="180" y1="154" x2="180" y2="178"/>
+    <line x1="280" y1="154" x2="280" y2="178"/>
+    <line x1="380" y1="154" x2="380" y2="178"/>
+    <line x1="480" y1="154" x2="480" y2="178"/>
+    <line x1="580" y1="154" x2="580" y2="178"/>
+  </g>
+
+  <!-- Shared head -->
+  <rect x="120" y="178" width="500" height="38" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8"/>
+  <text x="370" y="196" text-anchor="middle" font-size="11" font-weight="bold" fill="#0369a1">共享卷积头（4 层 3×3 conv，每层 256ch）</text>
+  <text x="370" y="210" text-anchor="middle" font-size="9.5" fill="#0369a1">所有 P3~P7 共享同一套权重（与 RetinaNet 相同做法）</text>
+
+  <!-- Three prediction branches -->
+  <g stroke="#374151" stroke-width="1.4" marker-end="url(#a)">
+    <line x1="220" y1="216" x2="180" y2="248"/>
+    <line x1="370" y1="216" x2="370" y2="248"/>
+    <line x1="520" y1="216" x2="560" y2="248"/>
+  </g>
+
+  <!-- Box regression branch -->
+  <rect x="80" y="248" width="190" height="56" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+  <text x="175" y="267" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">框回归（4维）</text>
+  <text x="175" y="283" text-anchor="middle" font-size="10.5" fill="#92400e">每点预测 (l, t, r, b)</text>
+  <text x="175" y="297" text-anchor="middle" font-size="9.5" fill="#6b7280">到左/上/右/下边的距离</text>
+
+  <!-- Centerness branch -->
+  <rect x="290" y="248" width="160" height="56" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="370" y="267" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">Centerness</text>
+  <text x="370" y="283" text-anchor="middle" font-size="10.5" fill="#15803d">√(min(l,r)/max(l,r)</text>
+  <text x="370" y="297" text-anchor="middle" font-size="9.5" fill="#15803d">× min(t,b)/max(t,b))</text>
+
+  <!-- Class branch -->
+  <rect x="470" y="248" width="190" height="56" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="1.8"/>
+  <text x="565" y="267" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">分类（C 维）</text>
+  <text x="565" y="283" text-anchor="middle" font-size="10.5" fill="#991b1b">每点独立分类</text>
+  <text x="565" y="297" text-anchor="middle" font-size="9.5" fill="#6b7280">Focal Loss 训练</text>
+
+  <!-- NMS note -->
+  <rect x="230" y="320" width="370" height="38" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="415" y="337" text-anchor="middle" font-size="10.5" fill="#374151">推理：cls_score × centerness → 排序 → NMS</text>
+  <text x="415" y="353" text-anchor="middle" font-size="9.5" fill="#6b7280">Centerness 权重压制框边缘的低质量预测，替代 anchor IoU 阈值过滤</text>
+
+  <g stroke="#374151" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="175" y1="304" x2="295" y2="318"/>
+    <line x1="370" y1="304" x2="370" y2="318"/>
+    <line x1="565" y1="304" x2="445" y2="318"/>
+  </g>
+
+  <defs>
+    <marker id="a"  markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+    <marker id="av" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#7c3aed"/></marker>
+  </defs>
+</svg>

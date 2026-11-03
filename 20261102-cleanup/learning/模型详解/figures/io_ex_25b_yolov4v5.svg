@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="200" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">25b YOLOv4/v5 输入输出实例（CSP 骨干 + PAN 颈 + Mosaic）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">640×640 图 → CSPDarknet + PAN 双向颈 → 三尺度 anchor 预测 → 框+类别（工程集大成）</text>
+
+  <rect x="24" y="68" width="110" height="74" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="79" y="90" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="79" y="109" text-anchor="middle" font-size="9" fill="#374151">640×640×3</text>
+  <text x="79" y="126" text-anchor="middle" font-size="7.6" fill="#6b7280">Mosaic 拼 4 图增强</text>
+
+  <line x1="134" y1="105" x2="164" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="166" y="62" width="230" height="86" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="281" y="81" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#1e40af">CSP 骨干 + PAN 颈</text>
+  <text x="281" y="99" text-anchor="middle" font-size="8.4" fill="#374151">CSP：梯度分流，省算力</text>
+  <text x="281" y="115" text-anchor="middle" font-size="8.4" fill="#374151">PAN：自顶向下 + 自底向上双向融合</text>
+  <text x="281" y="132" text-anchor="middle" font-size="8" fill="#15803d">把各种 trick 整合到极致；v5 全 PyTorch 化</text>
+
+  <line x1="396" y1="105" x2="426" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="428" y="72" width="190" height="66" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="523" y="92" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">三尺度 anchor-based</text>
+  <text x="523" y="110" text-anchor="middle" font-size="8.3" fill="#374151">框 + 类别 → NMS</text>
+  <text x="523" y="126" text-anchor="middle" font-size="8" fill="#6b7280">速度精度都拉满</text>
+
+  <line x1="618" y1="105" x2="648" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="650" y="82" width="142" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="721" y="103" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">落地门槛骤降</text>
+  <text x="721" y="119" text-anchor="middle" font-size="7.6" fill="#6b7280">v5 工业最常用</text>
+
+  <text x="410" y="174" text-anchor="middle" font-size="9.6" fill="#374151">I/O 同前（图→三尺度框），签名是<tspan font-weight="bold" fill="#0369a1">骨干/颈部/数据增强的工程整合</tspan>——v8 的 C2f、PAN 都源于此。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

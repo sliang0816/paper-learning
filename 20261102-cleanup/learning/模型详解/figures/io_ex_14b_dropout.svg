@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 190" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="190" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">14b Dropout 输入/输出实例</text>
+
+  <rect x="20" y="46" width="210" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="125" y="72" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">输入：某层激活值</text>
+  <text x="125" y="92" text-anchor="middle" font-size="9.5" fill="#374151">如4096维全连接层输出</text>
+  <text x="125" y="106" text-anchor="middle" font-size="9.5" fill="#374151">(训练阶段)</text>
+
+  <text x="245" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="265" y="46" width="220" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="375" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">训练：随机置零50%</text>
+  <text x="375" y="88" text-anchor="middle" font-size="9.5" fill="#374151">每个神经元独立以p=0.5</text>
+  <text x="375" y="102" text-anchor="middle" font-size="9.5" fill="#374151">概率被丢弃，每次前向不同</text>
+
+  <text x="500" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="520" y="46" width="220" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="630" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">推理：全保留+权重减半</text>
+  <text x="630" y="88" text-anchor="middle" font-size="9.5" fill="#374151">(或训练时用inverted dropout</text>
+  <text x="630" y="102" text-anchor="middle" font-size="9.5" fill="#374151">/(1-p)缩放，推理不用改)</text>
+
+  <text x="755" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="775" y="46" width="165" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="857" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">输出：降低过拟合</text>
+  <text x="857" y="88" text-anchor="middle" font-size="9.5" fill="#374151">测试集误差下降</text>
+  <text x="857" y="102" text-anchor="middle" font-size="9.5" fill="#374151">泛化能力提升</text>
+
+  <rect x="20" y="132" width="920" height="45" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="159" text-anchor="middle" font-size="10.5" fill="#374151">本项目实际用法：YOLOv8/CLIP等现代训练配方里，Dropout已部分被BatchNorm/数据增强/权重衰减取代，但分类头/全连接层仍常见，理解其"训练-推理不一致"机制有助于排查过拟合</text>
+</svg>

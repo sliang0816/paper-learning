@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 440" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="440" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">对比自监督学习：MoCo vs SimCLR（CLIP 的理论上游）</text>
+
+  <!-- ===== TOP HALF: MoCo ===== -->
+  <text x="410" y="50" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#7c3aed">MoCo v1/v2（动量对比）</text>
+
+  <!-- Input image -->
+  <rect x="20" y="62" width="70" height="38" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="55" y="85" text-anchor="middle" font-size="10.5">图像 x</text>
+
+  <!-- Two augmentations -->
+  <rect x="130" y="56" width="90" height="24" rx="3" fill="#fef3c7" stroke="#d97706"/>
+  <text x="175" y="73" text-anchor="middle" font-size="9.5">增强 q = aug(x)</text>
+  <rect x="130" y="86" width="90" height="24" rx="3" fill="#fef3c7" stroke="#d97706"/>
+  <text x="175" y="103" text-anchor="middle" font-size="9.5">增强 k = aug(x)</text>
+
+  <g stroke="#374151" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="90" y1="81" x2="128" y2="68"/>
+    <line x1="90" y1="81" x2="128" y2="98"/>
+  </g>
+
+  <!-- Query encoder -->
+  <rect x="258" y="52" width="110" height="32" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="313" y="68" text-anchor="middle" font-size="10">查询编码器 f_q</text>
+  <text x="313" y="80" text-anchor="middle" font-size="8.5" fill="#1d4ed8">BP 更新</text>
+
+  <!-- Key encoder -->
+  <rect x="258" y="92" width="110" height="32" rx="4" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="313" y="108" text-anchor="middle" font-size="10">键编码器 f_k</text>
+  <text x="313" y="120" text-anchor="middle" font-size="8.5" fill="#6d28d9">EMA 动量更新（不BP）</text>
+
+  <g stroke="#374151" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="220" y1="68" x2="256" y2="68"/>
+    <line x1="220" y1="98" x2="256" y2="108"/>
+  </g>
+
+  <!-- Momentum arrow -->
+  <path d="M313,84 C370,84 370,108 370,108" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-dasharray="4 2"/>
+  <text x="380" y="100" font-size="8.5" fill="#7c3aed">θ_k←m·θ_k+(1-m)·θ_q</text>
+
+  <!-- Queue -->
+  <rect x="530" y="52" width="90" height="110" rx="4" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="575" y="73" text-anchor="middle" font-size="10" fill="#b45309">负样本队列</text>
+  <text x="575" y="92" text-anchor="middle" font-size="9" fill="#6b7280">k_{-1}</text>
+  <text x="575" y="108" text-anchor="middle" font-size="9" fill="#6b7280">k_{-2}</text>
+  <text x="575" y="120" text-anchor="middle" font-size="9" fill="#6b7280">…</text>
+  <text x="575" y="134" text-anchor="middle" font-size="9" fill="#6b7280">k_{-N}</text>
+  <text x="575" y="152" text-anchor="middle" font-size="7.5" fill="#b45309">65536 个</text>
+
+  <!-- key → queue -->
+  <line x1="368" y1="108" x2="528" y2="108" stroke="#7c3aed" stroke-width="1.3" stroke-dasharray="4 2" marker-end="url(#av)"/>
+
+  <!-- q → InfoNCE -->
+  <rect x="530" y="186" width="180" height="44" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="620" y="205" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">InfoNCE Loss（对比）</text>
+  <text x="620" y="222" text-anchor="middle" font-size="9.5" fill="#15803d">q·k⁺ 相似，q·k⁻ 不相似</text>
+
+  <g stroke="#374151" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="368" y1="68" x2="528" y2="195"/>
+    <line x1="575" y1="162" x2="575" y2="184"/>
+  </g>
+
+  <!-- ===== DIVIDER ===== -->
+  <line x1="20" y1="248" x2="800" y2="248" stroke="#e5e7eb" stroke-width="1.5"/>
+
+  <!-- ===== BOTTOM HALF: SimCLR ===== -->
+  <text x="410" y="268" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#3b82f6">SimCLR（简单对比学习框架）</text>
+
+  <!-- One image, two augmentations -->
+  <rect x="20" y="278" width="70" height="38" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="55" y="301" text-anchor="middle" font-size="10.5">图像 x</text>
+
+  <rect x="130" y="272" width="90" height="24" rx="3" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="175" y="289" text-anchor="middle" font-size="9.5">增强 x̃₁ = aug₁(x)</text>
+  <rect x="130" y="302" width="90" height="24" rx="3" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="175" y="319" text-anchor="middle" font-size="9.5">增强 x̃₂ = aug₂(x)</text>
+
+  <g stroke="#374151" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="90" y1="297" x2="128" y2="284"/>
+    <line x1="90" y1="297" x2="128" y2="314"/>
+  </g>
+
+  <!-- Shared encoder -->
+  <rect x="258" y="268" width="110" height="24" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="313" y="284" text-anchor="middle" font-size="10">编码器 f（共享）</text>
+  <rect x="258" y="298" width="110" height="24" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="313" y="314" text-anchor="middle" font-size="10">编码器 f（共享）</text>
+
+  <g stroke="#374151" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="220" y1="284" x2="256" y2="280"/>
+    <line x1="220" y1="314" x2="256" y2="310"/>
+  </g>
+
+  <!-- Projection head -->
+  <rect x="396" y="268" width="110" height="24" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="451" y="284" text-anchor="middle" font-size="10">投影头 g（MLP）</text>
+  <rect x="396" y="298" width="110" height="24" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="451" y="314" text-anchor="middle" font-size="10">投影头 g（MLP）</text>
+
+  <g stroke="#374151" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="368" y1="280" x2="394" y2="280"/>
+    <line x1="368" y1="310" x2="394" y2="310"/>
+  </g>
+
+  <!-- NT-Xent loss -->
+  <rect x="534" y="278" width="200" height="60" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="634" y="298" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">NT-Xent Loss</text>
+  <text x="634" y="316" text-anchor="middle" font-size="9.5" fill="#15803d">正对 (z₁,z₂) 相似↑</text>
+  <text x="634" y="332" text-anchor="middle" font-size="9.5" fill="#15803d">其余 2(N-1) 对相似↓</text>
+
+  <g stroke="#374151" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="506" y1="280" x2="532" y2="295"/>
+    <line x1="506" y1="310" x2="532" y2="315"/>
+  </g>
+
+  <!-- Key difference note -->
+  <rect x="20" y="358" width="780" height="68" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="410" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">MoCo vs SimCLR 关键差异</text>
+  <text x="410" y="394" text-anchor="middle" font-size="10" fill="#6b7280">MoCo：动量编码器+队列维持大批负样本（内存友好，GPU 少也能训）</text>
+  <text x="410" y="410" text-anchor="middle" font-size="10" fill="#6b7280">SimCLR：超大 batch（4096+）+投影头+强数据增强（需多 GPU）</text>
+  <text x="410" y="424" text-anchor="middle" font-size="10" fill="#374151">→ 两者都是 CLIP 对比学习的直接前身；CLIP 把图-文替换图-图增强对</text>
+
+  <defs>
+    <marker id="a"  markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+    <marker id="av" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#7c3aed"/></marker>
+  </defs>
+</svg>

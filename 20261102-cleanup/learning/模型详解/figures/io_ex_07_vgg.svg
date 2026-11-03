@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="200" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">07 VGG-16 输入输出实例（3×3 小卷积堆叠把网络做深）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">224×224×3 图 → 13 个 3×3 卷积 + 3 FC → 1000 类概率</text>
+
+  <rect x="30" y="66" width="120" height="72" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="90" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="90" y="105" text-anchor="middle" font-size="9.3" fill="#374151">224×224×3</text>
+
+  <line x1="150" y1="102" x2="182" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="184" y="62" width="234" height="80" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="301" y="82" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">全用 3×3 卷积堆叠</text>
+  <text x="301" y="100" text-anchor="middle" font-size="8.5" fill="#374151">两个 3×3 = 一个 5×5 感受野（Q6）</text>
+  <text x="301" y="116" text-anchor="middle" font-size="8.5" fill="#374151">参数更少、非线性更多</text>
+  <text x="301" y="132" text-anchor="middle" font-size="8" fill="#6b7280">结构极简统一，但参数 ~138M（大）</text>
+
+  <line x1="418" y1="102" x2="450" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="452" y="70" width="166" height="64" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="535" y="90" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">1000 类概率</text>
+  <text x="535" y="108" text-anchor="middle" font-size="8.7" fill="#374151">top-1 “巴士” 0.86</text>
+  <text x="535" y="124" text-anchor="middle" font-size="8" fill="#6b7280">特征也常作感知损失</text>
+
+  <line x1="618" y1="102" x2="650" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="652" y="78" width="140" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="722" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">类别 “巴士”</text>
+  <text x="722" y="116" text-anchor="middle" font-size="7.8" fill="#6b7280">深度即价值</text>
+
+  <text x="410" y="172" text-anchor="middle" font-size="9.6" fill="#374151">签名贡献：<tspan font-weight="bold" fill="#0369a1">小卷积核堆叠</tspan> 成为此后所有 CNN 的默认做法（YOLOv8 骨干也是 3×3 为主）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

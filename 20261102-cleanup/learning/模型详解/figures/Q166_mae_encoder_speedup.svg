@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="640" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q166 MAE编码器只算25% token，究竟怎么变快的</text>
+
+  <!-- ① 两部分计算量 -->
+  <rect x="20" y="42" width="940" height="180" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① Transformer一层的计算量拆两部分，缩短序列长度影响不同</text>
+  <g font-size="10" fill="#374151">
+    <text x="40" y="90" font-weight="bold">部分</text><text x="280" y="90" font-weight="bold">随n怎么变</text><text x="520" y="90" font-weight="bold">内容</text><text x="760" y="90" font-weight="bold">n→0.25n后降到</text>
+    <line x1="30" y1="98" x2="950" y2="98" stroke="#93c5fd"/>
+    <text x="40" y="120">QKV投影+FFN(线性)</text><text x="280" y="120">O(n·d²)</text><text x="520" y="120">每token独立过线性层</text><text x="760" y="120" font-weight="bold" fill="#1e40af">25%</text>
+    <text x="40" y="144">注意力打分+加权(平方)</text><text x="280" y="144">O(n²·d)</text><text x="520" y="144">n×n注意力矩阵两两配对</text><text x="760" y="144" font-weight="bold" fill="#b91c1c">6.25%</text>
+    <line x1="30" y1="156" x2="950" y2="156" stroke="#93c5fd"/>
+    <text x="40" y="178" font-weight="bold">ViT-L实际尺寸(d=1024,n=196)代入</text><text x="520" y="178">FFN(线性)FLOPs远大于注意力打分(平方)</text><text x="760" y="178" font-weight="bold" fill="#15803d">整体≈1/4</text>
+  </g>
+
+  <!-- ② 省在最重的地方 -->
+  <rect x="20" y="236" width="460" height="200" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="250" y="258" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 关键：省的是编码器这个"重"的部分</text>
+  <text x="40" y="284" font-size="9.8" fill="#374151">编码器(ViT-L)：24层、1024维——重</text>
+  <text x="40" y="304" font-size="9.8" fill="#374151">解码器(默认)：8层、512维——本来就轻</text>
+  <text x="40" y="330" font-size="9.8" font-weight="bold" fill="#15803d">在最重的部分省4倍，比在本就轻的</text>
+  <text x="40" y="348" font-size="9.8" font-weight="bold" fill="#15803d">解码器上抠算力，收益大得多</text>
+  <text x="40" y="378" font-size="9.5" fill="#374151">模型越大，编码器占总计算量比重</text>
+  <text x="40" y="396" font-size="9.5" fill="#374151">越高——这一刀砍下去收益也越明显</text>
+  <text x="40" y="420" font-size="9" fill="#6b7280">(见右侧Table 2实测：ViT-H比ViT-L提速比例更大)</text>
+
+  <!-- ③ Table 2 实测 -->
+  <rect x="500" y="236" width="460" height="200" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="730" y="258" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ Table 2 实测：训练总时长</text>
+  <g font-size="9.6" fill="#374151">
+    <text x="516" y="284" font-weight="bold">配置</text><text x="760" y="284" font-weight="bold">ViT-L</text><text x="860" y="284" font-weight="bold">ViT-H</text>
+    <line x1="516" y1="292" x2="950" y2="292" stroke="#fbbf24"/>
+    <text x="516" y="314">编码器塞mask token(100%,对照)</text><text x="760" y="314">42.4h</text><text x="860" y="314">~119.6h</text>
+    <text x="516" y="338">编码器只吃可见25%(MAE实际)</text><text x="760" y="338" font-weight="bold" fill="#15803d">15.4h</text><text x="860" y="338" font-weight="bold" fill="#15803d">34.5h</text>
+    <text x="516" y="362">提速倍数</text><text x="760" y="362" font-weight="bold" fill="#b45309">2.8×</text><text x="860" y="362" font-weight="bold" fill="#b45309">3.5×</text>
+  </g>
+  <text x="516" y="396" font-size="9" fill="#6b7280">模型越大(H>L)提速比例越明显——</text>
+  <text x="516" y="414" font-size="9" fill="#6b7280">编码器占比越大，省下的绝对收益越大</text>
+
+  <!-- ④ 附带好处 -->
+  <rect x="20" y="454" width="940" height="70" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="478" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">④ 附带好处：省显存</text>
+  <text x="490" y="500" text-anchor="middle" font-size="9.8" fill="#374151">token数少→每步要存的激活值也少→同一块GPU能塞更大batch size/更大模型，这也是训练更快的一部分原因，不只是纯FLOPs账</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="540" width="940" height="86" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="566" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：省的不是"总token数量的25%"这么简单——线性部分(FFN)降到25%、平方部分(注意力)降到6.25%，</text>
+  <text x="490" y="588" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">ViT尺寸下FFN占主导所以整体≈1/4；更关键的是这一刀砍在编码器(模型最重的部分)上，</text>
+  <text x="490" y="610" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">模型越大收益越明显(Table 2的2.8×/3.5×)，外加省显存能塞更大batch/模型。</text>
+</svg>

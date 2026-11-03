@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 190" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="190" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">30c Chain-of-Thought 输入/输出实例</text>
+
+  <rect x="20" y="46" width="220" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="130" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">输入：几个示范+新问题</text>
+  <text x="130" y="88" text-anchor="middle" font-size="9.5" fill="#374151">示范=(问题,一步步的推理,答案)</text>
+  <text x="130" y="102" text-anchor="middle" font-size="9.5" fill="#374151">如8个GSM8K示例</text>
+
+  <text x="255" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="275" y="46" width="220" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="385" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">足够大的模型(≳100B)</text>
+  <text x="385" y="88" text-anchor="middle" font-size="9.5" fill="#374151">照示范格式，自己生成</text>
+  <text x="385" y="102" text-anchor="middle" font-size="9.5" fill="#374151">中间推理步骤</text>
+
+  <text x="510" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="530" y="46" width="200" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="630" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">输出：推理过程+答案</text>
+  <text x="630" y="88" text-anchor="middle" font-size="9.5" fill="#374151">而非直接蹦出答案</text>
+
+  <text x="745" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="765" y="46" width="175" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="852" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">效果：多步推理准确率</text>
+  <text x="852" y="88" text-anchor="middle" font-size="9.5" fill="#374151">大幅提升，GSM8K</text>
+  <text x="852" y="102" text-anchor="middle" font-size="9.5" fill="#374151">创当时SOTA</text>
+
+  <rect x="20" y="132" width="920" height="45" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="159" text-anchor="middle" font-size="10.5" fill="#374151">纯靠改提示格式，不需要微调、不需要额外训练数据——但只在足够大的模型上才有效，小模型用了可能反而更差</text>
+</svg>

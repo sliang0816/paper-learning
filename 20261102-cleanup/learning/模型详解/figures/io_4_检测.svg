@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 150" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="740" height="150" fill="#fff"/>
+  <text x="14" y="24" font-size="13" font-weight="bold" fill="#111827">④ 目标检测：图像 → 一组「框 + 类别」（稠密预测后经 NMS 去重）</text>
+  <g font-size="11">
+    <rect x="20" y="44" width="120" height="74" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="80" y="84" text-anchor="middle">图像</text>
+    <line x1="142" y1="81" x2="196" y2="81" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <rect x="198" y="44" width="170" height="74" rx="5" fill="#f3f4f6" stroke="#6b7280"/><text x="283" y="78" text-anchor="middle">检测器</text><text x="283" y="96" text-anchor="middle" font-size="10" fill="#6b7280">骨干+颈部+检测头</text>
+    <line x1="370" y1="81" x2="424" y2="81" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <!-- output: image with bboxes -->
+    <rect x="426" y="44" width="110" height="74" rx="3" fill="#f0fdf4" stroke="#16a34a"/>
+    <rect x="440" y="58" width="40" height="28" fill="none" stroke="#dc2626" stroke-width="2"/><text x="460" y="54" text-anchor="middle" font-size="8" fill="#dc2626">塑料 0.9</text>
+    <rect x="488" y="78" width="34" height="26" fill="none" stroke="#2563eb" stroke-width="2"/><text x="505" y="74" text-anchor="middle" font-size="8" fill="#2563eb">金属 0.8</text>
+    <text x="555" y="74" font-size="10.5" fill="#374151">每框：类别 + 位置</text>
+    <text x="555" y="92" font-size="10" fill="#6b7280">(x,y,w,h)+score</text>
+  </g>
+  <text x="14" y="138" font-size="10.5" fill="#6b7280">二阶段（R-CNN 系）先出候选框再分类；一阶段（YOLO/SSD/RetinaNet）网格直接稠密回归（Q16/Q21）。</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="540" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q92 GPT 为什么"只用解码器"——"编码"的两个意思别混</text>
+
+  <!-- two meanings of 编码 -->
+  <rect x="20" y="44" width="880" height="110" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">"编码"有两个意思，你把它俩混一起了</text>
+  <rect x="36" y="76" width="420" height="66" rx="6" fill="#fff" stroke="#fcd34d"/>
+  <text x="246" y="96" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#92400e">① 词嵌入（把 token 变向量）</text>
+  <text x="246" y="115" text-anchor="middle" font-size="9" fill="#374151">输入层——BERT/GPT/编码器-解码器 人人都有</text>
+  <text x="246" y="132" text-anchor="middle" font-size="9" fill="#b91c1c">这不叫"用了编码器"；你说的"输入用了编码"是这个</text>
+  <rect x="464" y="76" width="420" height="66" rx="6" fill="#fff" stroke="#fcd34d"/>
+  <text x="674" y="96" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#92400e">② Transformer 编码器（Encoder）</text>
+  <text x="674" y="115" text-anchor="middle" font-size="9" fill="#374151">一种模块堆叠：双向自注意力 + FFN</text>
+  <text x="674" y="132" text-anchor="middle" font-size="9" fill="#1e40af">"GPT 只用解码器"说的是这个层面（GPT 没有它）</text>
+
+  <!-- block comparison -->
+  <rect x="20" y="168" width="880" height="180" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="460" y="188" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">"只用解码器" = 它堆的是哪种块</text>
+
+  <rect x="40" y="200" width="410" height="134" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="245" y="220" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">编码器块（Encoder）→ BERT</text>
+  <text x="56" y="242" font-size="9.5" fill="#374151">· 自注意力：<tspan font-weight="bold">双向</tspan>（每个词看全文、左右都看）</text>
+  <text x="56" y="262" font-size="9.5" fill="#374151">· 无交叉注意力 · 有 FFN</text>
+  <text x="56" y="282" font-size="9.5" fill="#374151">· 适合<tspan font-weight="bold">理解</tspan>整段输入</text>
+  <text x="56" y="306" font-size="9" fill="#b91c1c">· 会"看到未来" → 不能用来逐词生成</text>
+
+  <rect x="470" y="200" width="410" height="134" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="675" y="220" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">GPT 用的解码器块 → GPT</text>
+  <text x="486" y="242" font-size="9.5" fill="#374151">· 自注意力：<tspan font-weight="bold">因果/掩码</tspan>（每个词只看左边）</text>
+  <text x="486" y="262" font-size="9.5" fill="#374151">· <tspan font-weight="bold">无</tspan>交叉注意力（没独立编码器可看）· 有 FFN</text>
+  <text x="486" y="282" font-size="9.5" fill="#374151">· 适合<tspan font-weight="bold">逐词生成</tspan></text>
+  <text x="486" y="306" font-size="9" fill="#15803d">· 因果 = 生成时不能偷看未来 → 解码器招牌</text>
+
+  <!-- prefill note -->
+  <rect x="20" y="362" width="880" height="80" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="382" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">那 GPT "读" prompt 算不算编码？</text>
+  <text x="40" y="404" font-size="9.5" fill="#374151">算——但那是广义"编码成向量"，而且<tspan font-weight="bold">它读 prompt 用的还是这套因果解码器块</tspan>（工程上叫 prefill），</text>
+  <text x="40" y="422" font-size="9.5" fill="#374151"><tspan font-weight="bold">不是另设一个双向编码器</tspan>。所以从"读输入"到"生成输出"，GPT 从头到尾只有一种块：因果解码器块。</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="452" width="880" height="72" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="460" y="474" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#075985">一句话</text>
+  <text x="460" y="495" text-anchor="middle" font-size="9.5" fill="#374151">"GPT 用了编码"里的"编码" = 词嵌入（输入层，人人都有）；"只用解码器" = 它堆的是因果自注意力的解码器块、没有编码器块也没有交叉注意力。</text>
+  <text x="460" y="514" text-anchor="middle" font-size="10" font-weight="bold" fill="#0284c7">嵌入 ≠ 编码器。</text>
+</svg>

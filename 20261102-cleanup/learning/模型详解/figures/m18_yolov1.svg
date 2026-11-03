@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 240" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="680" height="240" fill="#fff"/>
+  <text x="340" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">YOLO v1：整图一次前向 → 网格直接回归</text>
+  <!-- grid image -->
+  <g stroke="#9ca3af" stroke-width="1">
+    <rect x="40" y="60" width="140" height="140" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="80" y1="60" x2="80" y2="200"/><line x1="120" y1="60" x2="120" y2="200"/><line x1="160" y1="60" x2="160" y2="200"/>
+    <line x1="40" y1="100" x2="180" y2="100"/><line x1="40" y1="140" x2="180" y2="140"/><line x1="40" y1="180" x2="180" y2="180"/>
+  </g>
+  <text x="110" y="222" text-anchor="middle" font-size="11" fill="#6b7280">S×S 网格 (7×7)</text>
+  <!-- arrow -->
+  <line x1="190" y1="130" x2="250" y2="130" stroke="#374151" stroke-width="2" marker-end="url(#a12)"/>
+  <!-- CNN -->
+  <rect x="252" y="100" width="120" height="60" rx="8" fill="#dbeafe" stroke="#3b82f6"/><text x="312" y="126" text-anchor="middle" font-size="12">CNN</text><text x="312" y="144" text-anchor="middle" font-size="11" fill="#6b7280">单次前向</text>
+  <line x1="372" y1="130" x2="432" y2="130" stroke="#374151" stroke-width="2" marker-end="url(#a12)"/>
+  <!-- output tensor -->
+  <rect x="434" y="92" width="120" height="76" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="494" y="116" text-anchor="middle" font-size="12">7×7×30 张量</text>
+  <text x="494" y="136" text-anchor="middle" font-size="10.5" fill="#7c2d12">每格: 2框(x,y,w,h,c)</text>
+  <text x="494" y="152" text-anchor="middle" font-size="10.5" fill="#7c2d12">+ 类别概率</text>
+  <line x1="554" y1="130" x2="600" y2="130" stroke="#374151" stroke-width="2" marker-end="url(#a12)"/>
+  <text x="635" y="126" text-anchor="middle" font-size="11">NMS</text><text x="635" y="142" text-anchor="middle" font-size="11">去重</text>
+  <text x="340" y="215" text-anchor="middle" font-size="0" fill="#fff"></text>
+  <text x="400" y="222" text-anchor="middle" font-size="11.5" fill="#6b7280">45~155 fps；缺点：每格仅 2 框 → 小目标/密集目标差</text>
+  <defs><marker id="a12" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

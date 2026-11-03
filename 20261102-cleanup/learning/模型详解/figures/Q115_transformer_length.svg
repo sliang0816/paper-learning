@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="520" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q115 Transformer 为什么输出和输入同样长度</text>
+
+  <!-- ① 机制 -->
+  <rect x="20" y="44" width="520" height="190" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="280" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 核心：自注意力 + FFN 每层都是 N→N 的等长映射</text>
+  <text x="36" y="88" font-size="9.5" fill="#374151">· 自注意力：每位置对所有 V 加权平均 → 出一个向量（位置数不变）</text>
+  <text x="36" y="108" font-size="9.5" fill="#374151">· FFN：两层 MLP 逐位置各算各的（不跨 token）</text>
+  <text x="36" y="128" font-size="9.5" fill="#374151">· 一层是 N 进→N 出；L 层堆起来，始终 N 进 N 出</text>
+  <rect x="36" y="144" width="180" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="126" y="163" text-anchor="middle" font-size="9" fill="#15803d">核心：序列到序列的等长映射</text>
+  <text x="36" y="172" font-size="9" fill="#b91c1c">· Transformer 不是"长度变换器"</text>
+  <text x="36" y="192" font-size="9.5" fill="#374151">· 长度由上游决定：分词器切出 N 个、patch 数固定 N → 就是 N</text>
+  <!-- 三类场景 -->
+  <text x="36" y="218" font-size="9" fill="#6b7280">三类场景：①编码器(BERT/ViT) N→N；②解码器自回归每步 N→N(前缀长即N)</text>
+  <text x="36" y="232" font-size="9" fill="#6b7280">③编码器-解码器 编码 N→N+解码 M→M，各自等长</text>
+
+  <!-- ② 为什么不能变 -->
+  <rect x="556" y="44" width="364" height="190" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="738" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 为什么不能变少/变多</text>
+  <text x="572" y="88" font-size="9.5" fill="#374151">· 变少：自注意力每位置出一个向量，</text>
+  <text x="584" y="102" font-size="9.5" fill="#374151">不会把多个 token 合并成一个</text>
+  <text x="572" y="124" font-size="9.5" fill="#374151">→ 变 1 得外部聚合：BERT 取 [CLS]、</text>
+  <text x="584" y="138" font-size="9.5" fill="#374151">ViT 接 GAP → 这已不是纯 Transformer</text>
+  <text x="572" y="162" font-size="9.5" fill="#374151">· 变多：Transformer 不会"造新 token"</text>
+  <text x="572" y="182" font-size="9.5" fill="#374151">→ 要出力用解码器自回归逐步扩展，</text>
+  <text x="584" y="196" font-size="9.5" fill="#374151">编码器固定长度不变</text>
+  <text x="572" y="218" font-size="9" fill="#6b7280">Token 数量≠输出维度  </text>
+  <text x="572" y="230" font-size="9" fill="#6b7280">(维度可 d_model 映射到词表大小)</text>
+
+  <!-- ③ 和RNN对比 -->
+  <rect x="20" y="248" width="900" height="100" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="268" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 和 RNN 对比</text>
+  <line x1="330" y1="278" x2="330" y2="340" stroke="#c4b5fd"/><line x1="620" y1="278" x2="620" y2="340" stroke="#c4b5fd"/>
+  <text x="175" y="296" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#374151">　</text>
+  <text x="475" y="296" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1e40af">RNN</text>
+  <text x="770" y="296" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b45309">Transformer</text>
+  <text x="175" y="314" text-anchor="middle" font-size="9" fill="#374151">输入→输出</text>
+  <text x="475" y="314" text-anchor="middle" font-size="9" fill="#374151">并行、每位置出一向量（等长）</text>
+  <text x="770" y="314" text-anchor="middle" font-size="9" fill="#374151">可 N→1(取h_T) 或序列</text>
+  <text x="175" y="334" text-anchor="middle" font-size="9" fill="#374151">"收束"概念</text>
+  <text x="475" y="334" text-anchor="middle" font-size="9" fill="#b91c1c">没有天然的"结尾收束"</text>
+  <text x="770" y="334" text-anchor="middle" font-size="9" fill="#15803d">有(h_T 自动读完，"吞一堆吐一个")</text>
+
+  <!-- ④ 与自注意力的联系 + 一句话 -->
+  <rect x="20" y="360" width="900" height="146" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="382" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">④ 自注意力没"聚合"，所以都不改变长度——这句话是什么？</text>
+  <text x="40" y="404" font-size="9.5" fill="#374151">· 自注意力是对 V 加权平均：</text>
+  <text x="40" y="420" font-size="9.5" fill="#374151">每个 query 位置产生一个加权和向量——这就是"每个位置出一个"，绝不减少位置数</text>
+  <text x="40" y="440" font-size="9.5" fill="#374151">· 不设计跨位置的"合并"操作（比如平均/求和/取第一个），它不会自己做</text>
+  <text x="40" y="462" font-size="9.5" fill="#15803d">· 所以 L 层堆叠后仍是 N→N；欲 N→1，须在 Transformer 后加外部聚合([CLS]/GAP/...)</text>
+
+  <text x="40" y="488" font-size="10" font-weight="bold" fill="#a16207">一句话：自注意力 + FFN 每层都是"每位置出一个、不合并、不新增"——所以 N→N，始终同长度</text>
+</svg>

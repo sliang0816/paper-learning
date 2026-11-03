@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 880" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="880" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q147 MobileNet 计算过程：为什么标准卷积是"连乘"、拆开后变"相加"、参数少了效果却基本不变</text>
+
+  <!-- ① 标准卷积：三层嵌套循环→连乘 -->
+  <rect x="20" y="42" width="920" height="180" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="64" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#b91c1c">① 标准卷积 = 一个"厚核"同时干三件耦合的事 → 三层嵌套循环 → 因子连乘</text>
+  <text x="40" y="90" font-size="10" fill="#374151">产生「一个」输出数：抠出 k×k×C_in 一小块（空间k×k × 纵深C_in通道），逐元素相乘再全部相加 → 一个输出数 = k²·C_in 次乘加</text>
+  <g font-size="10.5" font-family="Consolas,monospace" fill="#374151">
+    <text x="56" y="116">for n in C_out 个输出通道:      ← 因子 C_out（每个输出通道来一遍）</text>
+    <text x="76" y="136">for c in C_in 个输入通道:     ← 因子 C_in（把所有通道混进来）</text>
+    <text x="96" y="156">for (p,q) in k×k 空间窗:    ← 因子 k²（在空间上滑）</text>
+    <text x="116" y="176">乘加一次</text>
+  </g>
+  <text x="40" y="200" font-size="11" font-weight="bold" fill="#b91c1c">嵌套循环 = 次数相乘 →  每像素乘加 = k²·C_in·C_out = 3×3×64×128 = 73,728</text>
+  <text x="640" y="200" font-size="9" fill="#6b7280">空间×通道×输出 三件事捆一个厚核里</text>
+
+  <!-- ② 拆成两步：顺序执行→相加 -->
+  <rect x="20" y="234" width="920" height="212" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="480" y="256" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#15803d">② 深度可分离 = 拆成两个各管一件事的操作，先后顺序执行 → 两项相加</text>
+  <!-- depthwise -->
+  <rect x="36" y="270" width="440" height="150" rx="6" fill="#fff" stroke="#b45309"/>
+  <text x="256" y="290" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">Depthwise：只滤空间，不混通道</text>
+  <g font-size="9.5" font-family="Consolas,monospace" fill="#374151">
+    <text x="52" y="312">for c in C_in:    ← 因子 C_in</text>
+    <text x="72" y="330">for (p,q) in k×k: ← 因子 k²</text>
+    <text x="92" y="348">乘加一次</text>
+  </g>
+  <text x="52" y="372" font-size="9.5" fill="#b45309">通道数不变，没有 C_out 这一项！</text>
+  <text x="52" y="396" font-size="11" font-weight="bold" fill="#b45309">= k²·C_in = 3×3×64 = 576</text>
+  <!-- pointwise -->
+  <rect x="484" y="270" width="440" height="150" rx="6" fill="#fff" stroke="#6d28d9"/>
+  <text x="704" y="290" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">Pointwise(1×1)：只混通道，不看空间</text>
+  <g font-size="9.5" font-family="Consolas,monospace" fill="#374151">
+    <text x="500" y="312">for n in C_out:   ← 因子 C_out</text>
+    <text x="520" y="330">for c in C_in:  ← 因子 C_in</text>
+    <text x="540" y="348">乘加一次</text>
+  </g>
+  <text x="500" y="372" font-size="9.5" fill="#6d28d9">1×1 没有空间尺寸，没有 k² 这一项！</text>
+  <text x="500" y="396" font-size="11" font-weight="bold" fill="#6d28d9">= C_in·C_out = 64×128 = 8,192</text>
+  <text x="480" y="438" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">谁都不同时背三个因子 → 两步相加：576 + 8,192 = 8,768　（vs 标准 73,728，省 8.4 倍）</text>
+
+  <!-- ③ 连乘vs相加 一句话 -->
+  <rect x="20" y="458" width="920" height="58" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="480" y="480" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e40af">③ 为什么连乘→相加：三件事「捆一起嵌套做」次数相乘；拆成两步「分开顺序做」次数相加</text>
+  <text x="480" y="502" text-anchor="middle" font-size="10" fill="#374151">k²·C_in·C_out（三因子连乘）　→　k²·C_in ＋ C_in·C_out（两项相加）　减少倍数 = 1/C_out + 1/k² ≈ 1/k²（C_out大时）</text>
+
+  <!-- ④ 为什么效果基本不变 -->
+  <rect x="20" y="528" width="920" height="270" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="480" y="550" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#6d28d9">④ 参数少 8 倍，为什么效果基本不变？——一次"低秩/可分离近似"（诚实说：不是不变，是只掉 ~1%）</text>
+  <text x="40" y="576" font-size="10.5" font-weight="bold" fill="#374151">本质：把满参数卷积核限制成"可分解"形式（子集 → 必然有损，这就是掉那 1% 的来源）</text>
+  <text x="480" y="600" text-anchor="middle" font-size="12" font-family="Consolas,monospace" fill="#6d28d9">W(k×k×C_in×C_out)  ≈  D(空间 k×k×C_in)  ⊗  P(通道 C_in×C_out)</text>
+  <text x="480" y="620" text-anchor="middle" font-size="9" fill="#6b7280">类比：秩1矩阵 M=u·vᵀ 用 m+n 个数就能精确表示，不必 m·n 个 —— 深度可分离赌"卷积核近似可分解"</text>
+  <line x1="40" y1="636" x2="920" y2="636" stroke="#c4b5fd" stroke-dasharray="4 3"/>
+  <text x="40" y="658" font-size="10.5" font-weight="bold" fill="#15803d">为什么损失小（1% 而非崩掉）：</text>
+  <text x="56" y="678" font-size="9.8" fill="#374151">· <tspan font-weight="bold">标准卷积本就冗余</tspan>：学到的核里"用什么空间花样"与"混哪些通道"高度相关，联合张量近似低秩 → 可分解子集已覆盖网络实际用到的大部分</text>
+  <text x="56" y="698" font-size="9.8" fill="#374151">· <tspan font-weight="bold">可分离先验贴合图像</tspan>：空间结构(边缘纹理)与通道语义(颜色/特征)本就相对独立，"先滤空间再混通道"是合理归纳偏置</text>
+  <text x="56" y="718" font-size="9.8" fill="#374151">· <tspan font-weight="bold">深度补偿</tspan>：堆很多"空间步+通道步"块，组合起来表达力回来；省下的算力还能再投进去加深/加宽（v1 的 α、EfficientNet 复合缩放）</text>
+  <text x="56" y="738" font-size="9.8" fill="#374151">· <tspan font-weight="bold">后续打补丁</tspan>：MobileNetV2 线性瓶颈(末端去ReLU)+倒残差，就是补这条便宜通路在低维处被 ReLU 砍掉的信息</text>
+  <text x="40" y="766" font-size="10.5" font-weight="bold" fill="#6d28d9">结论：用更少参数「近似」同一个函数 → 精度只掉一点点，换 8~9 倍提速。不是免费午餐，但对边缘部署极划算。</text>
+  <text x="40" y="786" font-size="9" fill="#6b7280">（本项目：实时 &lt;100ms / Jetson 边缘部署，正是这种"略损精度换大幅提速"划算的场景）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="810" width="920" height="58" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="832" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话：标准卷积把 空间×通道×输出 耦合成厚核（三因子连乘、贵且冗余）；深度可分离因子分解成 只滤空间 + 只混通道 两步（两因子相加、省 k² 倍）；</text>
+  <text x="480" y="852" text-anchor="middle" font-size="9.5" fill="#374151">省下来是因为原操作过参数化、且空间与通道近似可分 → 用更少参数近似同一函数，精度只掉约 1%。这是高性价比的低秩近似，不是免费午餐。</text>
+</svg>

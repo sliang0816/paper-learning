@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="900" height="250" fill="#fff"/>
+  <text x="450" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">31a MAE 输入/输出实例（自监督预训练，无标签）</text>
+
+  <!-- 预训练阶段 -->
+  <rect x="20" y="40" width="860" height="90" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="30" y="60" font-size="11" font-weight="bold" fill="#b45309">预训练（自监督，无需标注）</text>
+  <text x="30" y="82" font-size="9.5" fill="#374151">📥 输入：一张图（如路面帧），切成 patch 后随机盖住 75%，只把可见 25% patch 送编码器</text>
+  <text x="30" y="102" font-size="9.5" fill="#374151">📤 输出：重建被盖 patch 的原始像素；损失 = 被盖处的像素 MSE（不用任何人工标签）</text>
+  <text x="30" y="120" font-size="9" fill="#6b7280">产物：一个学到强视觉表示的 ViT 编码器（解码器用完丢弃）</text>
+
+  <!-- 下游阶段 -->
+  <rect x="20" y="142" width="860" height="90" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="30" y="162" font-size="11" font-weight="bold" fill="#15803d">下游微调（用少量标注）</text>
+  <text x="30" y="184" font-size="9.5" fill="#374151">📥 输入：完整图（不掩码）+ 少量标注（检测框 / 分类标签 / 分割掩码）</text>
+  <text x="30" y="204" font-size="9.5" fill="#374151">📤 输出：把预训练好的编码器当骨干，接检测/分割/分类头微调 → 任务结果（如检测框）</text>
+  <text x="30" y="222" font-size="9" fill="#6b7280">对本项目：先用 2TB 无标注路面视频 MAE 预训练骨干，再用现有 3679 张标注微调 YOLO/ViT 骨干</text>
+</svg>

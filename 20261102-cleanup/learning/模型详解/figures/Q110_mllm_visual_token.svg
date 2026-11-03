@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="560" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15.5" font-weight="bold" fill="#111827">Q110 LLaVA/InternVL 看图回答：图像变成"视觉 token(向量)"直接喂 LLM，从没变成文本</text>
+
+  <!-- 误解 -->
+  <rect x="20" y="42" width="440" height="120" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="240" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">✗ 你的设想（要纠正）</text>
+  <text x="40" y="86" font-size="9.5" fill="#374151">图 → CLIP 找到"对应文本"(一句 caption)</text>
+  <text x="40" y="106" font-size="9.5" fill="#374151">→ 既然都是文本了 → 喂给 LLM → 后面全是 LLM 的事</text>
+  <text x="40" y="132" font-size="9" fill="#b91c1c">问题：caption 有损！预先固定了提取哪些信息，</text>
+  <text x="40" y="148" font-size="9" fill="#b91c1c">再问"第三辆车颜色/井盖破没破"caption 没写就答不出</text>
+
+  <!-- 实际 -->
+  <rect x="480" y="42" width="440" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">✓ 实际做法</text>
+  <text x="500" y="86" font-size="9.5" fill="#374151">图 → CLIP 的 ViT 编码成一串<tspan font-weight="bold">特征向量</tspan>(不是文字)</text>
+  <text x="500" y="106" font-size="9.5" fill="#374151">→ 连接器映射成<tspan font-weight="bold">"视觉 token"</tspan>(软 token，向量)</text>
+  <text x="500" y="126" font-size="9.5" fill="#374151">→ 和问题文本 token 拼一起喂 LLM 生成答案</text>
+  <text x="500" y="150" font-size="9" fill="#15803d">全程图像都是向量，从没变成文本；LLM 按问题需要"看"图任意细节</text>
+
+  <!-- 三步流程 -->
+  <rect x="20" y="176" width="900" height="210" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">实际三步（图像始终是向量）</text>
+  <!-- step 1 -->
+  <rect x="40" y="212" width="270" height="150" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="175" y="232" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">① 视觉编码器</text>
+  <text x="55" y="254" font-size="9" fill="#374151">常用 CLIP 的 ViT（通常冻结）</text>
+  <text x="55" y="274" font-size="9" fill="#374151">图像 → 一组 patch 特征向量</text>
+  <text x="55" y="292" font-size="9" fill="#374151">（如 576 个，每个 1024 维）</text>
+  <rect x="55" y="304" width="240" height="20" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="175" y="318" text-anchor="middle" font-size="8.5" fill="#15803d">是向量，不是文字</text>
+  <text x="55" y="344" font-size="8.5" fill="#b91c1c">只借 CLIP 图像编码器，不做图文匹配/分类</text>
+  <text x="322" y="290" font-size="16" fill="#9ca3af">→</text>
+  <!-- step 2 -->
+  <rect x="340" y="212" width="270" height="150" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="475" y="232" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">② 连接器 / 投影层</text>
+  <text x="355" y="254" font-size="9" fill="#374151">LLaVA = 一个小 MLP</text>
+  <text x="355" y="272" font-size="9" fill="#374151">BLIP-2 / InternVL = Q-Former / MLP</text>
+  <text x="355" y="294" font-size="9" fill="#374151">把视觉向量"翻译"进</text>
+  <text x="355" y="310" font-size="9" fill="#374151">LLM 的词嵌入空间</text>
+  <rect x="355" y="320" width="240" height="20" rx="3" fill="#fef3c7" stroke="#d97706"/>
+  <text x="475" y="334" text-anchor="middle" font-size="8.5" fill="#b45309">→ 变成"视觉 token"（软 token）</text>
+  <text x="352" y="290" font-size="16" fill="#9ca3af"> </text>
+  <text x="614" y="290" font-size="16" fill="#9ca3af">→</text>
+  <!-- step 3 -->
+  <rect x="632" y="212" width="270" height="150" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="767" y="232" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">③ 拼接喂 LLM</text>
+  <rect x="647" y="246" width="240" height="22" rx="3" fill="#fef3c7" stroke="#d97706"/>
+  <text x="767" y="261" text-anchor="middle" font-size="8.5" fill="#b45309">[视觉token ×576]</text>
+  <text x="767" y="284" text-anchor="middle" font-size="9" fill="#374151">+</text>
+  <rect x="647" y="290" width="240" height="22" rx="3" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="767" y="305" text-anchor="middle" font-size="8.5" fill="#4338ca">[问题文本token："这是什么？"]</text>
+  <text x="655" y="332" font-size="9" fill="#374151">→ LLM 自回归生成答案</text>
+  <text x="655" y="348" font-size="8.5" fill="#6b7280">既 attend 视觉token 又 attend 文本token</text>
+
+  <!-- 关键点 -->
+  <rect x="20" y="398" width="900" height="70" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="418" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">关键：视觉 token 和词 token 活在同一个向量空间</text>
+  <text x="470" y="440" text-anchor="middle" font-size="9.5" fill="#374151">LLM 把图像当成"一段用它能懂的语言(连续向量)写的输入"来读——但这段"语言"不是解码出来的句子</text>
+  <text x="470" y="458" text-anchor="middle" font-size="9.5" fill="#6d28d9">你打开的 34 BLIP 里的 Q-Former，就是这个"连接器"的一种更复杂实现</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="480" width="900" height="66" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="502" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话</text>
+  <text x="470" y="524" text-anchor="middle" font-size="9.5" fill="#374151">图像 →(CLIP ViT) 特征向量 →(连接器) 视觉 token → 和问题文本 token 一起喂 LLM 生成答案。</text>
+  <text x="470" y="542" text-anchor="middle" font-size="9.5" fill="#15803d">全程图像都是向量、从没变成文本；CLIP 只出图像编码器，不做"找到对应文本"。</text>
+</svg>

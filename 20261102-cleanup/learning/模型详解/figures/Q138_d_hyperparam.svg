@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 480" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="480" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q138 d 是可学习的吗：一半对——可学习的是 E 里的 768×d 个数值；d 本身是超参数（人定的形状）</text>
+
+  <!-- ① 区分 -->
+  <rect x="20" y="42" width="900" height="170" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 学的是"里面的数"，定的是"外面的形状"</text>
+  <g font-size="9.5">
+    <text x="40" y="92" fill="#15803d" font-weight="bold">✓ E 的内容（768×d 个数值）= 可学习参数</text>
+    <text x="56" y="112" fill="#374151">随机初始化 → 随全网端到端被梯度下降更新（Q136/Q137 的"可学习投影"指这个）</text>
+    <text x="40" y="140" fill="#b91c1c" font-weight="bold">✗ d（矩阵的形状）= 超参数，设计时人定死</text>
+    <text x="56" y="160" fill="#374151">ViT-Base 定 768、ViT-Large 定 1024 —— 写进架构后训练全程不变</text>
+    <text x="56" y="182" fill="#6b7280">梯度只能改"矩阵里的数"，改不了"矩阵的形状"——形状不可微，没有"d 的梯度"；换 d = 换个新模型重训（或 NAS 架构搜索，非梯度）</text>
+  </g>
+
+  <!-- ② 通用口诀 -->
+  <rect x="20" y="224" width="900" height="150" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="246" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 这条区分适用于所有层</text>
+  <g font-size="9.5">
+    <text x="40" y="274" fill="#374151">· 卷积：核 3×3 是<tspan font-weight="bold">定的</tspan>，核里 9 个数是<tspan font-weight="bold">学的</tspan></text>
+    <text x="40" y="298" fill="#374151">· FFN：扩到 2048（4 倍）是<tspan font-weight="bold">定的</tspan>（Q120 经验默认），W₁/W₂ 里的数是<tspan font-weight="bold">学的</tspan></text>
+    <text x="40" y="322" fill="#374151">· GPT 各代：d = 768→1600→12288 全是人拍板的<tspan font-weight="bold">设计值</tspan>（Q135"代际设计值"），不是训练训出来的</text>
+    <text x="40" y="350" fill="#6d28d9" font-weight="bold">口诀：学的是"里面的数"（参数，有梯度），定的是"外面的形状"（超参数，不可微）</text>
+  </g>
+
+  <!-- 一句话 -->
+  <rect x="20" y="386" width="900" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="410" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">严格版表述：[196×768]×[768×d]=[196×d]，d 是嵌入维度（超参数，人定），</text>
+  <text x="470" y="432" text-anchor="middle" font-size="10" fill="#374151">E 中的参数（768×d 个数值）才是可学习的——形状焊死、内容训练。</text>
+</svg>

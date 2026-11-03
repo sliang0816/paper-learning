@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="250" fill="#fff"/>
+  <text x="420" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">25d YOLOv8 输入输出实例（本项目基线，anchor-free）</text>
+  <text x="420" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">640×640 图进 → C2f 骨干 + PAN 颈 + 解耦头 → 8400 个网格预测 → NMS → 框+类别</text>
+
+  <rect x="22" y="72" width="108" height="84" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="76" y="92" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="76" y="112" text-anchor="middle" font-size="9.3" fill="#374151">640×640×3</text>
+  <text x="76" y="131" text-anchor="middle" font-size="8.2" fill="#6b7280">一帧路面监控</text>
+
+  <line x1="130" y1="114" x2="158" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="160" y="68" width="166" height="92" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="243" y="86" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#1e40af">C2f 骨干 + PAN 颈</text>
+  <text x="243" y="104" text-anchor="middle" font-size="8.4" fill="#374151">三尺度解耦头：</text>
+  <text x="243" y="120" text-anchor="middle" font-size="8.4" fill="#374151">80² + 40² + 20² = 8400 格</text>
+  <text x="243" y="136" text-anchor="middle" font-size="8.4" fill="#374151">每格：cls 分支 + box 分支(DFL)</text>
+  <text x="243" y="151" text-anchor="middle" font-size="8" fill="#6b7280">anchor-free：无预设框</text>
+
+  <line x1="326" y1="114" x2="356" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="358" y="70" width="180" height="88" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="448" y="89" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#b45309">8400 个网格预测</text>
+  <text x="448" y="107" text-anchor="middle" font-size="8.5" fill="#374151">某格：类别[抛洒物 0.90]</text>
+  <text x="448" y="123" text-anchor="middle" font-size="8.5" fill="#374151">DFL 分布 → 框 (x,y,w,h)</text>
+  <text x="448" y="139" text-anchor="middle" font-size="8.2" fill="#b45309">大多数格是背景 → 低分</text>
+  <text x="448" y="152" text-anchor="middle" font-size="7.8" fill="#6b7280">按置信度排序 → 截断</text>
+
+  <line x1="538" y1="114" x2="568" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="553" y="106" text-anchor="middle" font-size="7.6" fill="#6b7280">NMS</text>
+
+  <rect x="570" y="80" width="156" height="68" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="648" y="100" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">输出：最终框</text>
+  <text x="648" y="118" text-anchor="middle" font-size="8.5" fill="#374151">抛洒物 @(x,y,w,h)</text>
+  <text x="648" y="133" text-anchor="middle" font-size="8.5" fill="#374151">置信度 0.90</text>
+
+  <line x1="726" y1="114" x2="754" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="756" y="90" width="72" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="792" y="110" text-anchor="middle" font-size="8.6" font-weight="bold" fill="#15803d">报警</text>
+  <text x="792" y="127" text-anchor="middle" font-size="7.6" fill="#6b7280">&lt;100ms</text>
+
+  <text x="420" y="190" text-anchor="middle" font-size="9.8" fill="#374151">和两阶段（Faster R-CNN）不同：YOLOv8 <tspan font-weight="bold" fill="#b91c1c">不先生成候选框</tspan>，直接在 8400 个网格点上一次出“类别+框”，只一次 NMS。</text>
+  <text x="420" y="212" text-anchor="middle" font-size="9.3" fill="#6b7280">本项目在此基线上做创新点 1（P2 浅层特征 + CBAM）补小目标精度；后接 CLIP 做开放类识别（创新点 2）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

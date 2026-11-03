@@ -1,0 +1,182 @@
+{
+  "purpose": "江苏大学硕士学位论文开题答辩，11–14 分钟，现场投影；面向学院开题评审专家，目标是认可研究问题、技术路线、前期证据和后续计划，同时不把开题证据误写成论文实验全部完成。",
+  "rubric_overlay": "thesis / committee defense",
+  "coverage": {
+    "slides_opened": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
+    "passes": [
+      "content lens (full deck)"
+    ],
+    "stats_block_seen": true,
+    "contract_card_seen": true
+  },
+  "plan_audit": {
+    "_comment": "Lens A contract audit against the rendered pixels, speaker notes, claim ledger, local primary sources, trace artifact and gate ledger.",
+    "lens_a": {
+      "memory_sentence": "固定监控里的微小抛洒物要先被稳定框住、再被正确命名；受控结果支持继续验证 P2，但开放词汇、严格独立确认和边缘部署都还没有闭环。",
+      "matches_deck_message": true,
+      "curve_visible": "kept — 场景压力经研究缺口、受控路线和前期证据推进到 slide 22 的峰值，随后主动收紧边界并落到依赖式计划。",
+      "takeaway_titles": "多数内容页与 takeaway 绑定；slide 5 的标题只突出 83.5% small，弱化了合同所定的‘找不到/认不对’双瓶颈，slide 23 的结论方向正确但不同协议数字未在标题或数值旁逐项标明队列。",
+      "motion_manifest": "kept — 用户明确选择全静态，33 页无 appear build、无转场，内容页未以转场冒充动画。",
+      "question_chain": "kept overall — 为什么固定监控仍困难→现有路线缺什么→如何受控归因和分层诊断→已有证据支持什么→哪些边界仍待验证；主要断点是 slide 7–8 的文献定位过于概括，尚未把最接近工作逐项排除。",
+      "claim_verification": [
+        {
+          "id": "C01",
+          "status": "verified",
+          "source": "results/dataset_audit.json + results/size_stratified_head128_controls_5seed.md",
+          "check": "六类检测 test 为 862 个 GT，small 720、medium 142、large 0；720/862=83.53%，与 83.5% 一致。"
+        },
+        {
+          "id": "C02",
+          "status": "verified",
+          "source": "results/head_width_control_summary_5seed.md",
+          "check": "四配置分类头隐藏宽度均为 128，seed 0–4，共 4×5=20 次主实验。"
+        },
+        {
+          "id": "C03",
+          "status": "verified",
+          "source": "results/head_width_control_summary_5seed.md",
+          "check": "P2 对 mAP@0.5 配对提升 +2.71±1.65 pp，5/5 seed 为正。"
+        },
+        {
+          "id": "C04",
+          "status": "verified",
+          "source": "results/size_stratified_head128_controls_5seed.md",
+          "check": "P2 对 small AP@0.5 配对提升 +4.01±1.58 pp，5/5 seed 为正。"
+        },
+        {
+          "id": "C05",
+          "status": "verified",
+          "source": "results/head_width_control_summary_5seed.md",
+          "check": "P2×CBAM 交互项为 −1.53±3.12 pp，且 CBAM 两个条件下均无稳定独立正收益。"
+        },
+        {
+          "id": "C06",
+          "status": "verified",
+          "source": "paper/drafts/ch4_clip.md:52-56",
+          "check": "验证集 surveillance_v2 的 GL/RU top-1 为 28/55=50.91%。"
+        },
+        {
+          "id": "C07",
+          "status": "verified",
+          "source": "paper/drafts/ch4_clip.md:233-244 + results/confirmation/rejection_confirmation_v1.json",
+          "check": "230 张回溯内部确认中 detector-conf-only F1=39.44%，joint F1=32.45%。"
+        },
+        {
+          "id": "C08",
+          "status": "verified",
+          "source": "results/open_vocab/yoloworld_v2s_gl_ru_internal_confirm_v1/summary.json + results/open_vocab/grounding_dino_tiny_gl_ru_internal_confirm_v1/summary.json",
+          "check": "冻结阈值确认结果为 YOLO-World 0/16、F1=0；Grounding DINO 2/236、F1=0.7952%≈0.80%。"
+        },
+        {
+          "id": "C09",
+          "status": "verified",
+          "source": "results/training_argument_audit.md",
+          "check": "26 次正式运行中 21 次有优化器日志直接证据、5 次缺失。"
+        },
+        {
+          "id": "C10",
+          "status": "verified",
+          "source": "results/external_validation/raod_test_v1/summary.md",
+          "check": "RAOD 同 seed 配对 Precision +1.34±0.70 pp，AP50-95 −1.70±2.22 pp。"
+        },
+        {
+          "id": "C11",
+          "status": "verified",
+          "source": "paper/drafts/ch4_clip.md:153-178 + paper/figures/fig_error_analysis.png",
+          "check": "历史 test 中 GL/RU 真值 59，检测匹配 28，最终正确命名 17。"
+        },
+        {
+          "id": "C12",
+          "status": "verified",
+          "source": "results/full_pipeline_benchmark.json",
+          "check": "RTX 3090、120 W、顺序 batch=1、700 图：77.4088 ms/图、12.9117 FPS、P95 121.9401 ms。"
+        }
+      ]
+    }
+  },
+  "probes": {
+    "_comment": "Memory probe was written after the blind full-deck pixel pass and before opening the contract card.",
+    "memory_sentence": "我记住的是：固定监控里的微小抛洒物要先被稳定框住、再被正确命名；受控结果支持继续验证 P2，但开放词汇、严格独立确认和边缘部署都还没有闭环。合同卡的 deck message 与此一致。"
+  },
+  "verdict": "revise",
+  "summary": "数值和边界总体可信，12 条承重主张均能回到本地一手结果，且‘已有证据不等于完成闭环’的主线很清楚。当前最需要修的是答辩可审查性：把创新与最接近工作直接对齐，把 slide 5/23 的数据队列和协议逐项写清，并把后续计划落到委员会可判断的时间与验收节点；此外若干正文页的文本负担和标题遮挡会削弱现场理解。",
+  "strengths": [
+    "最重要的科学边界被持续保住：内部多种子、回溯确认、历史 test、外部 RAOD 和边缘部署没有被混写成同一种证据。",
+    "slide 22 的最终五种子结论与本地结构化结果一致，并明确把左侧早期三种子图降格为趋势视图，避免用旧图替代最终统计。",
+    "备查页 28–33 针对独立确认、训练审计、跨域边界、错误链、开放词汇负结果和速度量级，能承接委员会的高概率追问。",
+    "演讲备注 33/33 齐全，语气克制、可口述，并多次主动说明哪些实验尚未完成。",
+    "问题—路线—证据—边界—计划的主线可记忆，且 slide 22 确实形成全套最强证据峰值。"
+  ],
+  "findings": [
+    {
+      "id": "deck-novelty-positioning-1",
+      "slide": 20,
+      "severity": "major",
+      "dimension": "positioning vs prior work / explicit contribution",
+      "issue": "slide 20 将‘固定头宽多种子受控归因’和‘GT框→检测框→冻结规则分层诊断’称为创新，但 slides 7–8 只按三大方向概述能力与不足，没有点名最接近的实验设计或诊断协议并逐项说明本研究新增了什么，因此创新性仍是自我宣称而非相对文献成立的结论。",
+      "why": "开题评审最可能追问‘与已有 P2/注意力消融、级联检测识别或冻结阈值工作相比，新的到底是什么’；没有直接比较，委员会无法判断是方法创新、实验规范改进，还是项目内工程整理。",
+      "fix": "把 slide 7–8 中一页改为最接近工作对照表：列出代表性文献/项目、是否固定头宽、是否同 seed 配对、是否报告交互项、是否拆分定位/条件分类/规则过滤、是否有独立确认；在 slide 20 将两条创新分别指向该表中此前为空的列，并把不属于原创的方法降为‘研究设计贡献’。",
+      "fix_risk": "high"
+    },
+    {
+      "id": "s23-protocol-splice-1",
+      "slide": 23,
+      "severity": "major",
+      "dimension": "factual fidelity / protocol labeling",
+      "issue": "slide 23 同页并列 50.91%、39.44%>32.45%、0%/0.80%，但数值旁没有分别标明它们来自验证集 GT 框、230 张回溯内部确认的规则比较、以及同一确认集上的直接开放词汇基线；当前版只在备注和底部笼统说‘230 图回溯确认’，像是同一队列、同一任务指标的横向比较。",
+      "why": "这些数字的任务、输入和评估协议不同；在委员会现场被读成同队列优劣比较，会构成 spliced-figures 式误导，并削弱全套最重要的‘证据边界’主张。",
+      "fix": "在三个数值块上方分别加原生协议标签：‘val｜GT框分类｜28/55 top-1’、‘internal-confirm-230｜检测框级规则｜F1’、‘internal-confirm-230｜直接开放词汇检测｜F1’；在底部再写一句‘不可横向比较绝对值，只用于定位三种边界’，并保留现有负面结论。",
+      "fix_risk": "medium"
+    },
+    {
+      "id": "s5-cohort-denominator-1",
+      "slide": 5,
+      "severity": "major",
+      "dimension": "factual fidelity / cohort definition",
+      "issue": "slide 5 和其演讲备注直接说‘test 集 862 个 GT 框’，但一手审计中完整八类 test 为 921 个框，862 是排除 GL/RU 预留类后的六类检测 test；页面没有写‘六类检测划分’或‘GL/RU holdout excluded’。",
+      "why": "83.5% small 是全套问题动机的承重数字；若分母范围未定义，后续 slide 31 又出现 59 个 GL/RU 历史 test 真值时，专家会合理质疑数据集口径是否前后变化或是否选择性统计。",
+      "fix": "把标题和大数字改为‘六类检测 test：720/862（83.5%）为 small’，并在脚注补‘完整八类 test=921；GL/RU 59 个作为语义/预留类诊断，未计入该检测尺度统计’，演讲备注同步使用同一口径。",
+      "fix_risk": "low"
+    },
+    {
+      "id": "s24-plan-feasibility-1",
+      "slide": 24,
+      "severity": "major",
+      "dimension": "narrative completeness / research plan",
+      "issue": "slide 24 明确采用‘相对阶段而非虚构日期’，给出了依赖和进入条件，却没有任何相对月份、学期、截止时间或每阶段的完成判据；因此正式开题部分无法判断剩余工作能否在学位周期内完成。",
+      "why": "开题委员会不仅判断研究逻辑，还要判断计划可执行、风险可控；仅有依赖链会说明先后关系，却不能回答何时止损、何时转向、何时形成论文材料。",
+      "fix": "在不编造绝对日期的前提下，把三阶段改成‘答辩后 0–2 月 / 2–5 月 / 5–8 月’或按学期排期，并为每阶段写可验收出口：独立同域复现与日志覆盖率、元数据可用性与开放集预注册协议、目标设备上的延迟/内存/精度报告；若真实毕业节点未知，先向用户确认后再填。",
+      "fix_risk": "medium"
+    },
+    {
+      "id": "deck-reading-load-1",
+      "slide": "deck",
+      "severity": "major",
+      "dimension": "cognitive load / presented delivery",
+      "issue": "lint 统计显示正式汇报页 7、10、11、12、13、18、20、22、23、24 的 reading load 约 76–122 words，body median 14 pt 低于约 18 pt 的投影下限；像素中这些页同时保留标题、正文、脚注和结论条，11–14 分钟内会迫使观众边听边读。",
+      "why": "专家需要把注意力留给因果设计、协议差异和证据边界；正文过密会让最严谨的限定语反而被略过，并增加 27 页正式内容在短时段内失速的风险。",
+      "fix": "优先压缩 slides 7、10、13、18、20、24：每页只保留一个结论句、2–3 个证据短语和一个边界句，其余移入 notes；将正文统一提升到至少 18 pt，并用现有图式承载关系。slides 22–23 保留数值，但删去重复解释，只留下协议标签和一句 so-what。",
+      "fix_risk": "high"
+    },
+    {
+      "id": "s12-title-occlusion-1",
+      "slide": 12,
+      "severity": "major",
+      "dimension": "layout / legibility",
+      "issue": "slide 12 的标题首字‘内’被左上淡红圆遮掉，实际读成‘容二…’；slide 16 同样丢失‘检’，读成‘测方案…’，破坏关键研究内容与方法页的句首。",
+      "why": "这是现场投影第一眼就能看到的文字缺损，且发生在界定语义研究和受控检测方案的关键页，会被评审视为未完成的排版错误。",
+      "fix": "统一调整标题圆与标题文本的 z-order/左边距：圆置底、标题起点右移到不相交位置，并重新渲染核对 slides 12、16 以及所有使用该标题母版的内容页。",
+      "fix_risk": "low"
+    },
+    {
+      "id": "s30-source-crop-1",
+      "slide": 30,
+      "severity": "minor",
+      "dimension": "provenance legibility",
+      "issue": "slide 30 左下来源路径被画布裁切，渲染中只剩‘…s/external_validation/raod_test_v1/summary.md’，无法完整读取 results 前缀。",
+      "why": "该页用于答辩追问跨域验证，来源行正是委员会复核数字的入口；被裁掉会削弱可追溯性观感。",
+      "fix": "将来源文本框整体右移并限制在安全边距内，完整显示‘results/external_validation/raod_test_v1/summary.md’，然后在像素中复核左边缘。",
+      "fix_risk": "low"
+    }
+  ]
+}

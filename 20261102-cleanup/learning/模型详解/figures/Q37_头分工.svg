@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="800" height="460" fill="#fff"/>
+  <text x="400" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">每个头为何能"提取不同语义"：是训练涌现的，不是设计/凭感觉</text>
+
+  <!-- 左：不是切块，是不同投影 -->
+  <text x="200" y="56" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1d4ed8">先纠正：不是切成块，是不同"透镜"</text>
+  <rect x="60" y="72" width="64" height="120" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="92" y="128" text-anchor="middle" font-size="11" fill="#0369a1">token</text>
+  <text x="92" y="144" text-anchor="middle" font-size="9" fill="#6b7280">512 维</text>
+  <text x="92" y="206" text-anchor="middle" font-size="8.5" fill="#374151">完整一个向量</text>
+
+  <g font-size="9" text-anchor="middle">
+    <rect x="180" y="78" width="60" height="24" rx="4" fill="#ede9fe" stroke="#7c3aed"/><text x="210" y="94">×W¹</text>
+    <rect x="180" y="120" width="60" height="24" rx="4" fill="#ede9fe" stroke="#7c3aed"/><text x="210" y="136">×W²</text>
+    <rect x="180" y="162" width="60" height="24" rx="4" fill="#ede9fe" stroke="#7c3aed"/><text x="210" y="178">×W³…</text>
+    <rect x="270" y="78" width="74" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="307" y="94">头1: 64维视角</text>
+    <rect x="270" y="120" width="74" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="307" y="136">头2: 64维视角</text>
+    <rect x="270" y="162" width="74" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="307" y="178">头3: 64维视角</text>
+  </g>
+  <g stroke="#0284c7" stroke-width="1.1">
+    <line x1="124" y1="110" x2="178" y2="90" marker-end="url(#c)"/>
+    <line x1="124" y1="132" x2="178" y2="132" marker-end="url(#c)"/>
+    <line x1="124" y1="154" x2="178" y2="174" marker-end="url(#c)"/>
+  </g>
+  <g stroke="#7c3aed" stroke-width="1.1">
+    <line x1="240" y1="90" x2="268" y2="90" marker-end="url(#p)"/>
+    <line x1="240" y1="132" x2="268" y2="132" marker-end="url(#p)"/>
+    <line x1="240" y1="174" x2="268" y2="174" marker-end="url(#p)"/>
+  </g>
+  <text x="200" y="214" text-anchor="middle" font-size="9" fill="#374151">每个头用自己的投影，把完整 512 维</text>
+  <text x="200" y="228" text-anchor="middle" font-size="9" fill="#374151">混成一个不同的 64 维子空间（看整体，非切片）</text>
+
+  <!-- 右：为什么能分工 -->
+  <text x="580" y="56" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#15803d">为什么能分工 = 涌现，不是凭感觉</text>
+  <rect x="420" y="68" width="360" height="74" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="436" y="88" font-size="10.5" font-weight="bold" fill="#1d4ed8">① 机制：分工自发涌现</text>
+  <text x="436" y="106" font-size="9.5" fill="#374151">各头参数独立 + 随机初始化打破对称 + 梯度下降</text>
+  <text x="436" y="121" font-size="9.5" fill="#374151">"反冗余"：两头学得一样 = 浪费、降不了损失 →</text>
+  <text x="436" y="136" font-size="9.5" fill="#16a34a">优化压力推它们各管一摊（同 Q5 卷积核分工）</text>
+
+  <rect x="420" y="150" width="360" height="76" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="436" y="170" font-size="10.5" font-weight="bold" fill="#15803d">② 实证：probing 真的发现可解释的头</text>
+  <text x="436" y="188" font-size="9.5" fill="#374151">分析 BERT 注意力发现：有的头盯"下一个词"、有的</text>
+  <text x="436" y="203" font-size="9.5" fill="#374151">盯句法依存、有的盯指代/分隔符…（Clark 2019、</text>
+  <text x="436" y="218" font-size="9.5" fill="#374151">Voita 2019）→ 不是凭感觉，是事后探测到的</text>
+
+  <rect x="420" y="234" width="360" height="74" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="436" y="254" font-size="10.5" font-weight="bold" fill="#b91c1c">③ 但要诚实：没有"保证某头=某语义"的定理</text>
+  <text x="436" y="272" font-size="9.5" fill="#374151">很多头冗余、可剪掉而几乎不掉点（Michel 2019、</text>
+  <text x="436" y="287" font-size="9.5" fill="#374151">Voita 2019）→ "每头一个干净语义"是理想化；</text>
+  <text x="436" y="302" font-size="9.5" fill="#b91c1c">真实是"多样但杂乱，部分可解释、不少冗余"</text>
+
+  <!-- 底注 -->
+  <rect x="60" y="322" width="720" height="124" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="76" y="344" font-size="11" font-weight="bold" fill="#374151">结论（精确版）：</text>
+  <text x="76" y="364" font-size="10.5" fill="#374151">• <tspan font-weight="bold">不是凭感觉</tspan>：有大量实证表明头会分化、部分头可解释（注意力探测类研究）。</text>
+  <text x="76" y="382" font-size="10.5" fill="#374151">• <tspan font-weight="bold">也没有闭式理论</tspan>保证"第 i 个头必学某种语义"——具体学什么是随机初始化 + 数据 + 梯度下降的<tspan font-weight="bold">涌现结果</tspan>，</text>
+  <text x="76" y="398" font-size="10.5" fill="#374151">　不可预先指派（和"卷积核学成边缘/纹理探测器"同理，见 Q5：没人设计，自己长出来的）。</text>
+  <text x="76" y="416" font-size="10.5" fill="#374151">• 能<tspan font-weight="bold">保证的只是"有能力分化"</tspan>：独立参数给了多样性的<tspan font-weight="bold">空间</tspan>，反冗余的优化压力提供<tspan font-weight="bold">动力</tspan>。</text>
+  <text x="76" y="434" font-size="10" fill="#6b7280">一句话：分工是"被允许且被鼓励"而自发形成的统计规律，不是定理保证、也不是拍脑袋臆想。</text>
+
+  <defs>
+    <marker id="c" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#0284c7"/></marker>
+    <marker id="p" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#7c3aed"/></marker>
+  </defs>
+</svg>

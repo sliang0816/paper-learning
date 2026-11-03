@@ -1,0 +1,37 @@
+{
+  "purpose": "江苏大学硕士学位论文开题答辩，10–15分钟现场投影；使学院评审认可研究问题、技术路线、前期证据和后续计划。",
+  "rubric_overlay": "thesis / committee defense",
+  "reviewer": {
+    "origin": "self-review",
+    "identity": "Codex primary agent inline content audit after failed round-2 dispatch",
+    "fresh_context": true
+  },
+  "coverage": {
+    "slides_opened": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+    "passes": ["content lens (full deck)"],
+    "stats_block_seen": true,
+    "contract_card_seen": true
+  },
+  "plan_audit": {
+    "lens_a": {
+      "memory_sentence": "本课题用固定头宽的5-seed受控实验确认P2在自建域的小目标收益，再用三级证据拆开CLIP级联失败，并以RAOD、开放词汇对照和部署计划限定外推边界。",
+      "matches_deck_message": true,
+      "curve_visible": "kept — 主讲形成场景压力、相关工作缺口、两条研究线、受控证据、失败边界、贡献峰值和六个月计划的完整论证。",
+      "takeaway_titles": "kept — 25页标题均为结论句；第7页先核清4,651到4,321的数据账，第14页显式拆分两套协议，第25页绑定旧测速配置。",
+      "motion_manifest": "kept — 25页全部为用户选择的静态演示，无转场或逐项动画。"
+    }
+  },
+  "probes": {
+    "memory_sentence": "评审应记住三件事：P2收益在控制隐藏变量后可重复，CLIP链路的失败能分层定位，当前跨域和部署结论被主动限制并有明确补证计划。"
+  },
+  "verdict": "consent",
+  "summary": "第一轮内容审阅提出的六项主要问题均已在最终候选稿中落地：补相关工作、核清数据差额、拆分协议、加入相对月份与验收、标注旧测速配置、删除封面占位符。逐页自检未发现新的事实冲突或未标注的已完成结论。",
+  "strengths": [
+    "相关工作页把P2/CBAM、开放词汇检测和CLIP区域匹配放在同一能力—缺口框架中，并明确本文不宣称模块首创。",
+    "第7页以4,651−330=4,321的可核算流程解释源数据、预留类图像和六类检测清单之间的关系。",
+    "第14页将历史test的59→28→17与230张回溯内部确认分区，避免把不同队列、阈值和用途拼成同一实验链。",
+    "第16页只保留受控归因、分层诊断和边界验证三条贡献，第17页为每个待办给出依赖、验收和回退。",
+    "第15与25页将12.91 FPS绑定到旧P2+CBAM seed0、conf=0.01、RTX3090 120W、batch=1，不再暗示最终配置或边缘部署。"
+  ],
+  "findings": []
+}

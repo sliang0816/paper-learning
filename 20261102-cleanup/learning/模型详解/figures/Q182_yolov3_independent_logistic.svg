@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 680" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="680" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q182 YOLOv3"分类改独立逻辑回归"是什么过程？——每类一个独立sigmoid，替代softmax</text>
+
+  <!-- softmax vs 独立sigmoid -->
+  <rect x="20" y="42" width="460" height="230" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="250" y="64" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b91c1c">旧做法：softmax（v1/v2）——类间竞争</text>
+  <text x="40" y="88" font-size="9.4" fill="#374151">对C个类别算一个softmax，输出归一化成"概率分布"</text>
+  <text x="40" y="108" font-size="9.4" fill="#374151" font-family="monospace">p_i = e^zi / Σ e^zj    → Σp_i = 1</text>
+  <text x="40" y="130" font-size="9.4" fill="#374151">含义：假设"每个框恰好属于1个类"(互斥)</text>
+  <text x="40" y="150" font-size="9.4" fill="#374151">一个类分数涨，别的类必然被压低(抢概率)</text>
+  <text x="40" y="176" font-size="9.4" font-weight="bold" fill="#b91c1c">问题：现实里一个目标可能同时属多个类</text>
+  <text x="40" y="196" font-size="9.3" fill="#374151">如"人"同时是"女人"，"车"同时是"卡车"</text>
+  <text x="40" y="214" font-size="9.3" fill="#374151">softmax逼它们抢一份概率、非此即彼→冲突</text>
+  <text x="40" y="238" font-size="9" fill="#6b7280">尤其数据集有重叠/上下位标签时(如OpenImages)</text>
+  <text x="40" y="258" font-size="9" fill="#6b7280">softmax的"单选"假设就不成立了</text>
+
+  <rect x="500" y="42" width="460" height="230" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="64" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">新做法：独立逻辑回归（v3）——每类各判各的</text>
+  <text x="520" y="88" font-size="9.4" fill="#374151">对每个类别单独算一个sigmoid，互不影响</text>
+  <text x="520" y="108" font-size="9.4" fill="#374151" font-family="monospace">p_i = σ(zi) = 1/(1+e^-zi)  各自∈(0,1)</text>
+  <text x="520" y="130" font-size="9.4" fill="#374151">含义：每个类是独立的"是/不是"二分类判断</text>
+  <text x="520" y="150" font-size="9.4" fill="#374151">各类分数彼此独立，不抢、不归一化(Σ不必=1)</text>
+  <text x="520" y="176" font-size="9.4" font-weight="bold" fill="#15803d">好处：支持多标签，一个框可同时属多个类</text>
+  <text x="520" y="196" font-size="9.3" fill="#374151">"人"=0.9且"女人"=0.85可以同时成立</text>
+  <text x="520" y="216" font-size="9.3" fill="#374151">每类独立门控(sigmoid)，互不挤占(呼应Q57)</text>
+  <text x="520" y="238" font-size="9" fill="#6b7280">损失=每类各算一个二元交叉熵(BCE)再相加</text>
+  <text x="520" y="258" font-size="9" fill="#6b7280">"逻辑回归"就是"sigmoid+二分类"的经典说法</text>
+
+  <!-- 具体过程 -->
+  <rect x="20" y="284" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">具体过程：一个框的C个类别分数，怎么算、怎么训、怎么用</text>
+
+  <rect x="20" y="320" width="940" height="150" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="40" y="344" font-size="9.6" fill="#374151" font-weight="bold">① 网络输出：该框C个类别的原始分数(logits) z1,z2,…,zC（1×1卷积检测头里那C个通道，见Q179）</text>
+  <text x="40" y="368" font-size="9.6" fill="#374151" font-weight="bold">② 激活：每个zi各过一个sigmoid → pi=σ(zi)，得到C个彼此独立的"该框是第i类的概率"，不做跨类归一化</text>
+  <text x="40" y="392" font-size="9.6" fill="#374151" font-weight="bold">③ 训练：标签是C维multi-hot(属于哪些类那几位=1，其余=0)，损失=Σ 每类的二元交叉熵BCE(pi, yi)</text>
+  <text x="60" y="412" font-size="9" fill="#6b7280" font-family="monospace">L_cls = Σ_i [ -yi·log(pi) - (1-yi)·log(1-pi) ]   每类独立算、再相加</text>
+  <text x="40" y="434" font-size="9.6" fill="#374151" font-weight="bold">④ 推理：每类各自过阈值(如0.5)，超过就判为该类——可0类(背景)、可1类、也可多类同时命中</text>
+  <text x="40" y="456" font-size="9" fill="#6b7280">最终该类的检测分数 = 类别概率pi × 框置信度(objectness)，再送NMS(同Q17/Q174)</text>
+
+  <!-- 与softmax本质区别 -->
+  <rect x="20" y="484" width="940" height="70" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="506" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">本质区别：把"C选1的单选题"改成了"C道独立的是非题"</text>
+  <text x="45" y="530" font-size="9.6" fill="#374151">softmax：C个类共享一份概率预算(和=1)，天生互斥、类间竞争 → 适合"每样本恰好一类"</text>
+  <text x="45" y="550" font-size="9.6" fill="#374151">独立sigmoid：C个类各判各的(和不必=1)，彼此独立、可共存 → 适合"多标签/类别有重叠"，这就是Q57"门控用sigmoid、单选用softmax"</text>
+
+  <!-- 一句话 + 本项目 -->
+  <rect x="20" y="568" width="940" height="56" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="590" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">一句话：YOLOv3把类别层的softmax(C选1、类间抢概率)换成"每个类别一个独立sigmoid"(各判是/不是、互不影响)，</text>
+  <text x="490" y="608" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">损失也从多分类交叉熵改成"每类一个BCE相加"，从而支持多标签(一个框可同时属多个类)、且对有重叠标签的数据集更稳。</text>
+
+  <rect x="20" y="634" width="940" height="34" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="490" y="655" text-anchor="middle" font-size="9.2" fill="#374151">本项目：YOLOv8分类分支同样用sigmoid+BCE(非softmax)，8类抛洒物各判各的；这也是为什么加P2/改类别数时分类损失天然按类独立、互不干扰。</text>
+</svg>

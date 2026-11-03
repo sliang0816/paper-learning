@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="380" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">SSD：一个输入 → 多尺度分支预测 → 汇合 → 一个最终结果</text>
+
+  <!-- 输入 -->
+  <rect x="24" y="150" width="58" height="58" rx="4" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="53" y="183" text-anchor="middle" font-size="11" fill="#0369a1">输入</text>
+  <text x="53" y="198" text-anchor="middle" font-size="9" fill="#6b7280">300×300</text>
+  <text x="53" y="226" text-anchor="middle" font-size="10" fill="#374151">① 单输入</text>
+
+  <!-- 骨干，逐级缩小 -->
+  <g font-size="9" text-anchor="middle">
+    <rect x="108" y="86"  width="56" height="56" fill="#f1f5f9" stroke="#64748b"/><text x="136" y="110">Conv4_3</text><text x="136" y="124">38×38</text><text x="136" y="78" fill="#16a34a">浅·小目标</text>
+    <rect x="108" y="150" width="46" height="46" fill="#f1f5f9" stroke="#64748b"/><text x="131" y="170">Conv7</text><text x="131" y="183">19×19</text>
+    <rect x="108" y="206" width="38" height="38" fill="#f1f5f9" stroke="#64748b"/><text x="127" y="222">Conv8</text><text x="127" y="234">10×10</text>
+    <rect x="108" y="252" width="30" height="30" fill="#f1f5f9" stroke="#64748b"/><text x="123" y="265">Conv9</text><text x="123" y="276">5×5</text>
+    <rect x="108" y="290" width="24" height="24" fill="#f1f5f9" stroke="#64748b"/><text x="120" y="300">Cv10</text><text x="120" y="310">3×3</text>
+    <rect x="108" y="322" width="18" height="18" fill="#f1f5f9" stroke="#64748b"/><text x="117" y="333">Cv11</text><text x="117" y="343">1×1</text>
+  </g>
+  <text x="180" y="356" text-anchor="middle" font-size="9" fill="#b45309">越深分辨率越低·语义越强·测大目标</text>
+  <line x1="84" y1="179" x2="106" y2="150" stroke="#374151" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- 6个检测头 -->
+  <g font-size="9.5" text-anchor="middle">
+    <rect x="240" y="86"  width="92" height="30" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="286" y="105">检测头·小</text>
+    <rect x="240" y="150" width="92" height="26" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="286" y="167">检测头</text>
+    <rect x="240" y="206" width="92" height="24" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="286" y="222">检测头</text>
+    <rect x="240" y="252" width="92" height="22" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="286" y="267">检测头</text>
+    <rect x="240" y="288" width="92" height="22" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="286" y="303">检测头</text>
+    <rect x="240" y="322" width="92" height="20" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="286" y="336">检测头·大</text>
+  </g>
+  <g stroke="#9ca3af" stroke-width="1.2">
+    <line x1="164" y1="114" x2="238" y2="101" marker-end="url(#a)"/>
+    <line x1="154" y1="173" x2="238" y2="163" marker-end="url(#a)"/>
+    <line x1="146" y1="225" x2="238" y2="218" marker-end="url(#a)"/>
+    <line x1="138" y1="267" x2="238" y2="263" marker-end="url(#a)"/>
+    <line x1="132" y1="302" x2="238" y2="299" marker-end="url(#a)"/>
+    <line x1="126" y1="331" x2="238" y2="332" marker-end="url(#a)"/>
+  </g>
+  <text x="286" y="74" text-anchor="middle" font-size="10" fill="#1d4ed8">② 6 个分支各自预测</text>
+  <text x="286" y="360" text-anchor="middle" font-size="8.5" fill="#6b7280">每格×k个default box×(4坐标+(C+1)类分)</text>
+
+  <!-- 汇合 -->
+  <rect x="392" y="150" width="96" height="92" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="440" y="186" text-anchor="middle" font-size="11" fill="#a16207">汇合 concat</text>
+  <text x="440" y="204" text-anchor="middle" font-size="9" fill="#6b7280">约 8732 个</text>
+  <text x="440" y="217" text-anchor="middle" font-size="9" fill="#6b7280">预测框拼成</text>
+  <text x="440" y="230" text-anchor="middle" font-size="9" fill="#6b7280">一个候选集</text>
+  <g stroke="#9ca3af" stroke-width="1.1">
+    <line x1="332" y1="101" x2="392" y2="170" marker-end="url(#a)"/>
+    <line x1="332" y1="163" x2="390" y2="185" marker-end="url(#a)"/>
+    <line x1="332" y1="218" x2="390" y2="198" marker-end="url(#a)"/>
+    <line x1="332" y1="263" x2="390" y2="208" marker-end="url(#a)"/>
+    <line x1="332" y1="299" x2="392" y2="220" marker-end="url(#a)"/>
+    <line x1="332" y1="332" x2="392" y2="234" marker-end="url(#a)"/>
+  </g>
+
+  <!-- NMS + 输出 -->
+  <rect x="528" y="160" width="72" height="40" rx="6" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="564" y="185" text-anchor="middle" font-size="11" fill="#4338ca">NMS 去重</text>
+  <rect x="636" y="160" width="96" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="684" y="178" text-anchor="middle" font-size="11" fill="#15803d">③ 一个结果</text>
+  <text x="684" y="193" text-anchor="middle" font-size="8.5" fill="#6b7280">框+类别+分数</text>
+  <line x1="488" y1="190" x2="526" y2="180" stroke="#374151" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="600" y1="180" x2="634" y2="180" stroke="#374151" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- 底注 -->
+  <rect x="392" y="262" width="340" height="100" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="408" y="284" font-size="11" fill="#374151">✅ 是"一输入、多输出"：但"多输出"指中间的</text>
+  <text x="408" y="301" font-size="11" fill="#374151">　 6 个尺度分支预测，不是 6 个最终结果。</text>
+  <text x="408" y="320" font-size="11" fill="#374151">　 它们 concat 成一个候选集 → 统一 NMS</text>
+  <text x="408" y="337" font-size="11" fill="#374151">　 → 最终仍是"一个"检测结果。</text>
+  <text x="408" y="355" font-size="10" fill="#b45309">对比 YOLOv1：只在单层(7×7)输出 → 小目标弱。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#6b7280"/></marker></defs>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 280" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="280" fill="#fff"/>
+  <text x="420" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">39 扩散模型 输入输出实例（训练学去噪 / 生成靠去噪）</text>
+  <text x="420" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">训练：带噪图+步数 t → 预测噪声 ε̂；生成：纯噪声(+文本/ControlNet) → 反复去噪 → 一张图</text>
+
+  <!-- training row -->
+  <text x="30" y="68" font-size="10.5" font-weight="bold" fill="#b45309">训练（学“看一步噪声”）</text>
+  <rect x="30" y="74" width="150" height="46" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="105" y="92" text-anchor="middle" font-size="8.6" fill="#374151">干净图 x₀ + 随机步 t</text>
+  <text x="105" y="108" text-anchor="middle" font-size="8.6" fill="#374151">+ 噪声 ε → 带噪图 x_t</text>
+  <line x1="180" y1="97" x2="212" y2="97" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="214" y="74" width="130" height="46" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="279" y="93" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#1e40af">U-Net</text>
+  <text x="279" y="110" text-anchor="middle" font-size="8.3" fill="#6b7280">预测噪声 ε̂</text>
+  <line x1="344" y1="97" x2="376" y2="97" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="378" y="74" width="170" height="46" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="463" y="93" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">输出 ε̂，比对真噪声 ε</text>
+  <text x="463" y="110" text-anchor="middle" font-size="8.3" fill="#6b7280">loss = ‖ε − ε̂‖²，学准为止</text>
+
+  <!-- generation row -->
+  <text x="30" y="158" font-size="10.5" font-weight="bold" fill="#15803d">生成（反复去噪，造新图）</text>
+  <rect x="30" y="164" width="150" height="56" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="105" y="183" text-anchor="middle" font-size="8.6" fill="#374151">输入：纯高斯噪声</text>
+  <text x="105" y="199" text-anchor="middle" font-size="8.2" fill="#374151">+ 条件：文本 “a tire</text>
+  <text x="105" y="212" text-anchor="middle" font-size="8.2" fill="#374151">on road” / ControlNet 边缘图</text>
+  <line x1="180" y1="192" x2="212" y2="192" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="214" y="168" width="200" height="48" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="314" y="187" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#1e40af">U-Net 去噪 × T 步</text>
+  <text x="314" y="205" text-anchor="middle" font-size="8.3" fill="#6b7280">每步减一点噪声，逐渐显形</text>
+  <line x1="414" y1="192" x2="446" y2="192" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="448" y="168" width="130" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="513" y="187" text-anchor="middle" font-size="9.2" font-weight="bold" fill="#15803d">输出：一张图</text>
+  <text x="513" y="204" text-anchor="middle" font-size="8" fill="#6b7280">路面上的轮胎合成图</text>
+
+  <!-- note box -->
+  <rect x="600" y="74" width="230" height="146" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="715" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">为什么“学去噪 = 会生成”</text>
+  <text x="612" y="114" font-size="8.5" fill="#374151">模型学会“任意带噪图该减多少噪声”，</text>
+  <text x="612" y="129" font-size="8.5" fill="#374151">就能从纯噪声出发一步步还原出</text>
+  <text x="612" y="144" font-size="8.5" fill="#374151">一张全新的、符合条件的清晰图。</text>
+  <text x="612" y="166" font-size="8.5" fill="#6b7280">条件（文本/ControlNet）控制“生成什么”</text>
+  <text x="612" y="181" font-size="8.5" fill="#6b7280">和“按什么结构生成”。</text>
+  <text x="612" y="203" font-size="8.5" fill="#b45309">本项目：合成稀缺类（玻璃 GL/金属 ME）</text>
+  <text x="612" y="216" font-size="8.5" fill="#b45309">样本补数据 → data/synthetic。</text>
+
+  <text x="420" y="252" text-anchor="middle" font-size="9.6" fill="#374151">两种 I/O 看场景：<tspan font-weight="bold" fill="#b45309">训练时</tspan> 带噪图+t 进、预测噪声出；<tspan font-weight="bold" fill="#15803d">生成时</tspan> 噪声+条件进、清晰图出。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

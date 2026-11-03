@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="800" height="470" fill="#fff"/>
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">CBAM 里三处“合并”各不相同：相加 / concat / 相乘</text>
+  <text x="400" y="44" text-anchor="middle" font-size="11" fill="#6b7280">“压缩向量再 concat”只对了一部分——concat 只发生在空间注意力内部</text>
+
+  <!-- Channel attention internal: ADD -->
+  <text x="20" y="74" font-size="12.5" font-weight="bold" fill="#1d4ed8">① 通道注意力内部：两路池化→共享 MLP→逐元素相加（不是 concat）</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="30" y="84" width="90" height="24" fill="#dbeafe" stroke="#3b82f6"/><text x="75" y="100">AvgPool→C维</text>
+    <rect x="30" y="114" width="90" height="24" fill="#dbeafe" stroke="#3b82f6"/><text x="75" y="130">MaxPool→C维</text>
+    <line x1="122" y1="96" x2="160" y2="104" stroke="#9ca3af" marker-end="url(#a)"/><line x1="122" y1="126" x2="160" y2="118" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="162" y="92" width="96" height="38" rx="4" fill="#f3f4f6" stroke="#6b7280"/><text x="210" y="108">共享 MLP</text><text x="210" y="122" font-size="9" fill="#6b7280">两层FC(降维r)</text>
+    <circle cx="290" cy="111" r="14" fill="#fee2e2" stroke="#dc2626"/><text x="290" y="115" font-size="13" fill="#dc2626">＋</text>
+    <text x="290" y="142" font-size="9" fill="#dc2626">逐元素相加</text>
+    <line x1="260" y1="104" x2="277" y2="108" stroke="#9ca3af" marker-end="url(#a)"/><line x1="260" y1="118" x2="277" y2="114" stroke="#9ca3af" marker-end="url(#a)"/>
+    <line x1="304" y1="111" x2="334" y2="111" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="336" y="99" width="60" height="24" fill="#fde68a" stroke="#d97706"/><text x="366" y="115">Sigmoid</text>
+    <rect x="410" y="99" width="80" height="24" fill="#fef3c7" stroke="#d97706"/><text x="450" y="115">Mc (1×1×C)</text>
+  </g>
+  <text x="510" y="115" font-size="9.5" fill="#6b7280">相加后仍是 C 维，</text>
+  <text x="510" y="129" font-size="9.5" fill="#6b7280">直接当通道权重；</text>
+  <text x="510" y="143" font-size="9.5" fill="#6b7280">concat 会变 2C，多余。</text>
+
+  <line x1="20" y1="158" x2="780" y2="158" stroke="#e5e7eb"/>
+
+  <!-- Spatial attention internal: CONCAT -->
+  <text x="20" y="184" font-size="12.5" font-weight="bold" fill="#15803d">② 空间注意力内部：两张图沿通道 concat→7×7 卷积（这里才有 concat，且拼的是“图”不是向量）</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="30" y="196" width="92" height="24" fill="#dcfce7" stroke="#16a34a"/><text x="76" y="212">Avg→H×W×1</text>
+    <rect x="30" y="226" width="92" height="24" fill="#dcfce7" stroke="#16a34a"/><text x="76" y="242">Max→H×W×1</text>
+    <line x1="124" y1="208" x2="158" y2="216" stroke="#9ca3af" marker-end="url(#a)"/><line x1="124" y1="238" x2="158" y2="230" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="160" y="206" width="94" height="34" rx="4" fill="#d1fae5" stroke="#059669"/><text x="207" y="222">concat</text><text x="207" y="235" font-size="9" fill="#047857">→ 2×H×W</text>
+    <line x1="256" y1="223" x2="288" y2="223" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="290" y="211" width="80" height="24" fill="#f3f4f6" stroke="#6b7280"/><text x="330" y="227">7×7 卷积</text>
+    <line x1="372" y1="223" x2="402" y2="223" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="404" y="211" width="60" height="24" fill="#fde68a" stroke="#d97706"/><text x="434" y="227">Sigmoid</text>
+    <rect x="478" y="211" width="86" height="24" fill="#fef3c7" stroke="#d97706"/><text x="521" y="227">Ms (H×W×1)</text>
+  </g>
+  <text x="585" y="219" font-size="9.5" fill="#6b7280">concat 让 7×7 卷积</text>
+  <text x="585" y="233" font-size="9.5" fill="#6b7280">同时看到 avg/max 两种统计</text>
+
+  <line x1="20" y1="258" x2="780" y2="258" stroke="#e5e7eb"/>
+
+  <!-- Channel <-> Spatial: sequential MULTIPLY -->
+  <text x="20" y="284" font-size="12.5" font-weight="bold" fill="#b45309">③ 通道与空间之间：串联“相乘”，不是把两个权重 concat</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="40" y="298" width="80" height="34" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="80" y="319">F</text>
+    <circle cx="160" cy="315" r="15" fill="#fff7ed" stroke="#d97706"/><text x="160" y="320" font-size="14" fill="#b45309">×</text>
+    <text x="160" y="345" font-size="9" fill="#b45309">⊗ Mc</text>
+    <line x1="122" y1="315" x2="143" y2="315" stroke="#9ca3af" marker-end="url(#a)"/>
+    <line x1="177" y1="315" x2="200" y2="315" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="202" y="298" width="80" height="34" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="242" y="319">F′</text>
+    <circle cx="322" cy="315" r="15" fill="#fff7ed" stroke="#d97706"/><text x="322" y="320" font-size="14" fill="#b45309">×</text>
+    <text x="322" y="345" font-size="9" fill="#b45309">⊗ Ms</text>
+    <line x1="284" y1="315" x2="305" y2="315" stroke="#9ca3af" marker-end="url(#a)"/>
+    <line x1="339" y1="315" x2="362" y2="315" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="364" y="298" width="90" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="409" y="319">F″ 增强特征</text>
+  </g>
+  <text x="490" y="312" font-size="10" fill="#374151">先通道加权得 F′，再空间加权得 F″；</text>
+  <text x="490" y="328" font-size="10" fill="#374151">两个注意力是<tspan font-weight="bold">先后相乘</tspan>，不是拼接。</text>
+
+  <!-- summary box -->
+  <rect x="40" y="360" width="720" height="92" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="56" y="382" font-size="11.5" font-weight="bold" fill="#111827">一句话纠正“压缩向量再 concat”</text>
+  <text x="56" y="404" font-size="10.5" fill="#1d4ed8">· 通道注意力：压成向量 ✓，但 avg/max 用<tspan font-weight="bold">相加</tspan>融合（不是 concat）</text>
+  <text x="56" y="423" font-size="10.5" fill="#15803d">· 空间注意力：压成两张<tspan font-weight="bold">图</tspan>（不是向量），用 <tspan font-weight="bold">concat</tspan> 融合后再卷积</text>
+  <text x="56" y="442" font-size="10.5" fill="#b45309">· 通道↔空间：<tspan font-weight="bold">串联相乘</tspan>作用在特征上，不是把两个权重 concat</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

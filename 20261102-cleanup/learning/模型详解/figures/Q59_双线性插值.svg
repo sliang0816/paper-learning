@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="800" height="470" fill="#fff"/>
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">双线性插值：用最近的 4 个像素，先横后纵两次线性插值，估出小数位置的值</text>
+  <text x="400" y="44" text-anchor="middle" font-size="11" fill="#6b7280">求 P=(0.25, 0.75) 处的值；四角已知，P 处没有像素，要“插”出来</text>
+
+  <!-- left: the unit square -->
+  <g font-size="11">
+    <!-- square corners at pixels: TL(60,90)=Q00, TR(300,90)=Q10, BL(60,330)=Q01, BR(300,330)=Q11 -->
+    <rect x="60" y="90" width="240" height="240" fill="#f8fafc" stroke="#cbd5e1"/>
+    <!-- query point P at a=0.25 (x), b=0.75 (y) => x=60+0.25*240=120 ; y=90+0.75*240=270 -->
+    <!-- sub-rectangle weights shading -->
+    <rect x="120" y="270" width="180" height="60" fill="#dbeafe" opacity="0.6"/>
+    <text x="210" y="304" text-anchor="middle" font-size="9" fill="#1d4ed8">面积=0.1875→Q00权</text>
+    <!-- guide lines -->
+    <line x1="120" y1="90" x2="120" y2="330" stroke="#94a3b8" stroke-dasharray="3 3"/>
+    <line x1="60" y1="270" x2="300" y2="270" stroke="#94a3b8" stroke-dasharray="3 3"/>
+    <!-- corners -->
+    <circle cx="60" cy="90" r="5" fill="#0284c7"/><text x="44" y="84" text-anchor="end" font-size="11" fill="#0284c7">Q00=10</text>
+    <circle cx="300" cy="90" r="5" fill="#0284c7"/><text x="316" y="84" font-size="11" fill="#0284c7">Q10=20</text>
+    <circle cx="60" cy="330" r="5" fill="#0284c7"/><text x="44" y="348" text-anchor="end" font-size="11" fill="#0284c7">Q01=30</text>
+    <circle cx="300" cy="330" r="5" fill="#0284c7"/><text x="316" y="348" font-size="11" fill="#0284c7">Q11=40</text>
+    <!-- P -->
+    <circle cx="120" cy="270" r="5" fill="#dc2626"/><text x="128" y="264" font-size="11" font-weight="bold" fill="#dc2626">P (0.25,0.75)</text>
+    <!-- intermediate top/bottom interp points -->
+    <circle cx="120" cy="90" r="4" fill="#16a34a"/><text x="128" y="108" font-size="9.5" fill="#15803d">R_top=12.5</text>
+    <circle cx="120" cy="330" r="4" fill="#16a34a"/><text x="128" y="324" font-size="9.5" fill="#15803d">R_bot=32.5</text>
+    <text x="90" y="270" text-anchor="end" font-size="9" fill="#64748b">a=0.25</text>
+    <text x="120" y="345" text-anchor="middle" font-size="9" fill="#64748b">b=0.75</text>
+  </g>
+
+  <!-- right: steps -->
+  <g font-size="11.5" fill="#374151">
+    <text x="360" y="92" font-size="12.5" font-weight="bold" fill="#1d4ed8">① 沿 x 各插一次（上、下两条边）</text>
+    <text x="360" y="114">上边 Q00→Q10：10 + 0.25·(20−10) = 12.5</text>
+    <text x="360" y="134">下边 Q01→Q11：30 + 0.25·(40−30) = 32.5</text>
+
+    <text x="360" y="168" font-size="12.5" font-weight="bold" fill="#15803d">② 再沿 y 插一次（把上下两个结果连起来）</text>
+    <text x="360" y="190">12.5 + 0.75·(32.5 − 12.5) = 12.5 + 15 = 27.5</text>
+
+    <text x="360" y="226" font-size="12.5" font-weight="bold" fill="#b45309">③ 等价：4 角按“对角面积”加权求和</text>
+    <text x="360" y="248" font-size="10.5">(1−a)(1−b)·Q00 = 0.75·0.25·10 = 1.875</text>
+    <text x="360" y="266" font-size="10.5">a(1−b)·Q10 = 0.25·0.25·20 = 1.25</text>
+    <text x="360" y="284" font-size="10.5">(1−a)b·Q01 = 0.75·0.75·30 = 16.875</text>
+    <text x="360" y="302" font-size="10.5">a·b·Q11 = 0.25·0.75·40 = 7.5</text>
+    <text x="360" y="322" font-weight="bold" fill="#b45309">合计 = 27.5（与①②一致）</text>
+    <text x="360" y="342" font-size="9.5" fill="#6b7280">权重 = 离得越近权越大；4 权之和 = 1</text>
+  </g>
+
+  <!-- bottom: nearest vs bilinear -->
+  <rect x="60" y="360" width="680" height="92" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="76" y="382" font-size="11.5" font-weight="bold" fill="#15803d">最近邻 vs 双线性</text>
+  <text x="76" y="403" font-size="10.5" fill="#374151">· <tspan font-weight="bold">最近邻</tspan>：直接抄最近那个像素（这里抄 Q01=30）→ 快但有块状锯齿。</text>
+  <text x="76" y="422" font-size="10.5" fill="#374151">· <tspan font-weight="bold">双线性</tspan>：按距离加权 4 邻居（27.5）→ 平滑、连续，无明显块感。</text>
+  <text x="76" y="441" font-size="10" fill="#6b7280">用处：图像放大/resize、FPN 与 YOLOv8 颈部上采样、FCN 转置卷积初始化(Q49)、RoI Align 精确采样(Q47)。</text>
+</svg>

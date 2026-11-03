@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 350" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="350" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">LLaMA 系列：开源 LLM 里程碑（Meta，2023—2024）</text>
+
+  <!-- ===== LEFT: Architecture innovations ===== -->
+  <text x="148" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">架构创新（vs 原版 Transformer）</text>
+  <rect x="20" y="56" width="256" height="270" rx="8" fill="#f9fafb" stroke="#e2e8f0"/>
+
+  <!-- RMSNorm -->
+  <rect x="32" y="68" width="232" height="50" rx="4" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="148" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">① Pre-Norm：RMSNorm（取代 LayerNorm）</text>
+  <text x="148" y="97" text-anchor="middle" font-size="9.5" fill="#374151">RMSNorm(x) = x / √(mean(x²)+ε) · γ</text>
+  <text x="148" y="111" text-anchor="middle" font-size="8.5" fill="#6b7280">无均值减法，比 LN 省 15% 计算；Pre-norm 训练更稳</text>
+
+  <!-- SwiGLU -->
+  <rect x="32" y="124" width="232" height="56" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="148" y="139" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">② SwiGLU FFN（取代 ReLU FFN）</text>
+  <text x="148" y="153" text-anchor="middle" font-size="9.5" fill="#374151">FFN(x) = (SiLU(xW₁) ⊙ xW₃) W₂</text>
+  <text x="148" y="166" text-anchor="middle" font-size="9" fill="#374151">SiLU(x) = x·σ(x)，门控选择性通过</text>
+  <text x="148" y="178" text-anchor="middle" font-size="8.5" fill="#6b7280">3 矩阵（W₁,W₂,W₃），中间维 8d/3，参数量相近</text>
+
+  <!-- RoPE -->
+  <rect x="32" y="186" width="232" height="38" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="148" y="201" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">③ RoPE 旋转位置编码（无绝对 PE）</text>
+  <text x="148" y="215" text-anchor="middle" font-size="8.5" fill="#374151">旋转矩阵注入 Q/K，相对位置；详见 30g RoPE</text>
+
+  <!-- GQA -->
+  <rect x="32" y="230" width="232" height="52" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="148" y="245" text-anchor="middle" font-size="10" font-weight="bold" fill="#1d4ed8">④ GQA：分组查询注意力（LLaMA 2+）</text>
+  <!-- GQA diagram -->
+  <!-- Q heads (small blue squares) -->
+  <g fill="#93c5fd" stroke="#3b82f6">
+    <rect x="50" y="252" width="10" height="10" rx="1"/><rect x="64" y="252" width="10" height="10" rx="1"/>
+    <rect x="78" y="252" width="10" height="10" rx="1"/><rect x="92" y="252" width="10" height="10" rx="1"/>
+    <rect x="106" y="252" width="10" height="10" rx="1"/><rect x="120" y="252" width="10" height="10" rx="1"/>
+    <rect x="134" y="252" width="10" height="10" rx="1"/><rect x="148" y="252" width="10" height="10" rx="1"/>
+  </g>
+  <text x="100" y="249" text-anchor="middle" font-size="7.5" fill="#1d4ed8">Q×8（或更多）</text>
+  <!-- KV heads (orange squares, 2 groups) -->
+  <g fill="#fde68a" stroke="#d97706">
+    <rect x="70" y="272" width="12" height="12" rx="1"/>
+    <rect x="130" y="272" width="12" height="12" rx="1"/>
+  </g>
+  <text x="77" y="271" text-anchor="middle" font-size="7" fill="#b45309">K₁V₁</text>
+  <text x="137" y="271" text-anchor="middle" font-size="7" fill="#b45309">K₂V₂</text>
+  <!-- Lines connecting Q to KV -->
+  <g stroke="#9ca3af" stroke-width="0.8">
+    <line x1="55" y1="262" x2="76" y2="272"/><line x1="69" y1="262" x2="76" y2="272"/>
+    <line x1="83" y1="262" x2="76" y2="272"/><line x1="97" y1="262" x2="76" y2="272"/>
+    <line x1="111" y1="262" x2="136" y2="272"/><line x1="125" y1="262" x2="136" y2="272"/>
+    <line x1="139" y1="262" x2="136" y2="272"/><line x1="153" y1="262" x2="136" y2="272"/>
+  </g>
+  <text x="215" y="258" text-anchor="middle" font-size="8.5" fill="#374151">多 Q 共享</text>
+  <text x="215" y="270" text-anchor="middle" font-size="8.5" fill="#374151">少数 K/V</text>
+  <text x="215" y="281" text-anchor="middle" font-size="8" fill="#6b7280">KV Cache↓8×</text>
+
+  <!-- ===== CENTER: Evolution timeline ===== -->
+  <text x="448" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">三代演进</text>
+  <rect x="284" y="56" width="328" height="270" rx="8" fill="#f9fafb" stroke="#e2e8f0"/>
+
+  <!-- LLaMA 1 -->
+  <rect x="296" y="68" width="304" height="68" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="448" y="84" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">LLaMA 1（2023-02）</text>
+  <text x="448" y="99" text-anchor="middle" font-size="9.5" fill="#374151">7B / 13B / 33B / 65B · 1.4T token · 研究许可</text>
+  <text x="448" y="114" text-anchor="middle" font-size="9.5" fill="#374151">7B 超越 GPT-3（175B）· RMSNorm+SwiGLU+RoPE</text>
+  <text x="448" y="128" text-anchor="middle" font-size="9" fill="#6b7280">上下文 2048 · 无对齐训练 · 无商用权</text>
+
+  <!-- arrow -->
+  <line x1="448" y1="136" x2="448" y2="150" stroke="#374151" stroke-width="1.5" marker-end="url(#la)"/>
+
+  <!-- LLaMA 2 -->
+  <rect x="296" y="150" width="304" height="68" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="448" y="166" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">LLaMA 2（2023-07）</text>
+  <text x="448" y="181" text-anchor="middle" font-size="9.5" fill="#374151">7B / 13B / 34B / 70B · 2T token · 可商用</text>
+  <text x="448" y="196" text-anchor="middle" font-size="9.5" fill="#374151">GQA（70B 版）· 上下文 4K · SFT+RLHF Chat</text>
+  <text x="448" y="210" text-anchor="middle" font-size="9" fill="#6b7280">Ghost Attention 保持多轮指令 · 安全过滤增强</text>
+
+  <!-- arrow -->
+  <line x1="448" y1="218" x2="448" y2="232" stroke="#374151" stroke-width="1.5" marker-end="url(#la)"/>
+
+  <!-- LLaMA 3 -->
+  <rect x="296" y="232" width="304" height="80" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="448" y="248" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">LLaMA 3 / 3.1（2024-04/07）</text>
+  <text x="448" y="263" text-anchor="middle" font-size="9.5" fill="#374151">8B / 70B / 405B · 15T token · 可商用</text>
+  <text x="448" y="278" text-anchor="middle" font-size="9.5" fill="#374151">128K 词汇表 · 128K 上下文 · GQA 全部 · SFT+DPO</text>
+  <text x="448" y="293" text-anchor="middle" font-size="9.5" fill="#374151">405B ≈ GPT-4o 水平 · LLaMA 3.2 加 Vision 多模态</text>
+  <text x="448" y="308" text-anchor="middle" font-size="9" fill="#6b7280">DPO 替代 PPO（无需独立奖励模型）</text>
+
+  <!-- ===== RIGHT: Key comparison table ===== -->
+  <text x="698" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">三代关键指标</text>
+  <rect x="622" y="56" width="178" height="270" rx="8" fill="#f9fafb" stroke="#e2e8f0"/>
+
+  <rect x="632" y="68" width="158" height="158" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <g font-size="9" fill="#374151">
+    <text x="640" y="84" font-weight="bold">指标</text>       <text x="726" y="84" font-weight="bold">变化</text>
+    <line x1="634" y1="87" x2="784" y2="87" stroke="#d1d5db"/>
+    <text x="640" y="101">最大参数量</text>  <text x="726" y="101" fill="#16a34a">65B→70B→405B</text>
+    <text x="640" y="116">上下文长度</text>  <text x="726" y="116" fill="#16a34a">2K→4K→128K</text>
+    <text x="640" y="131">词汇表</text>     <text x="726" y="131" fill="#16a34a">32K→32K→128K</text>
+    <text x="640" y="146">GQA</text>        <text x="726" y="146" fill="#16a34a">无→部分→全部</text>
+    <text x="640" y="161">对齐方式</text>   <text x="726" y="161">无→RLHF→DPO</text>
+    <text x="640" y="176">训练数据</text>   <text x="726" y="176" fill="#16a34a">1.4T→2T→15T</text>
+    <text x="640" y="191">开源</text>       <text x="726" y="191">研究→商用→商用</text>
+    <text x="640" y="206">多模态</text>     <text x="726" y="206">无→无→3.2有</text>
+    <text x="640" y="221">代表能力</text>   <text x="726" y="221">超GPT-3</text>
+  </g>
+  <text x="726" y="232" font-size="9" fill="#374151">Chat对齐</text>
+
+  <!-- VLM connection -->
+  <rect x="632" y="236" width="158" height="78" rx="5" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="711" y="252" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#065f46">VLM 骨干地位</text>
+  <text x="640" y="267" font-size="8.5" fill="#374151">LLaMA → Vicuna</text>
+  <text x="640" y="280" font-size="8.5" fill="#374151">→ LLaVA（VLM）</text>
+  <text x="640" y="293" font-size="8.5" fill="#374151">→ InternVL</text>
+  <text x="640" y="306" font-size="8.5" fill="#6b7280">LoRA 微调标配目标</text>
+
+  <!-- Bottom note -->
+  <rect x="20" y="334" width="780" height="12" rx="3" fill="#fafafa" stroke="#e2e8f0"/>
+  <text x="410" y="343" text-anchor="middle" font-size="8.5" fill="#374151">LLaMA 架构 = Pre-RMSNorm + SwiGLU FFN + RoPE + GQA；三代核心升级：数据规模、上下文长度、对齐方式、词汇表；现代 VLM 语言骨干的事实标准</text>
+
+  <defs>
+    <marker id="la" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+  </defs>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q134 [CLS]/[SEP] 是什么 ＋ 静态枚举遮法 vs 动态随机遮：等价（原版BERT就是静态），账差在效率</text>
+
+  <!-- ① CLS/SEP -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① [CLS] / [SEP]：人为添加的特殊 token（有自己的可学习嵌入，不对应真实词）</text>
+  <g font-size="9.5">
+    <text x="40" y="90" fill="#374151"><tspan font-weight="bold">[CLS]</tspan>（classification）：拼在最前的"整句摘要占位符"，靠满注意力聚合全句 → 最终向量做句子级任务（分类/NSP）（Q97）</text>
+    <text x="40" y="114" fill="#374151"><tspan font-weight="bold">[SEP]</tspan>（separator）：分隔符标记句子边界——单句放句尾；双句隔开 A/B：[CLS] 句A [SEP] 句B [SEP]（NSP/问答/NLI 靠它分界）</text>
+    <text x="40" y="140" fill="#15803d" font-weight="bold">共同点：不参与遮词游戏——不被选为 [MASK] 对象、不产生 MLM 标签；是"格式框架"不是"内容"</text>
+    <text x="40" y="164" font-size="9" fill="#6b7280">格式示例：[CLS] 我 [MASK] 你 [SEP] —— 参与注意力计算（提供边界/聚合信息），但损失只算被遮的"爱"那一个位置</text>
+  </g>
+
+  <!-- ② 静态vs动态 -->
+  <rect x="20" y="204" width="900" height="200" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="226" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 你的策略 = 静态遮（原版 BERT 正是这么做的）→ 与动态遮实测几乎等价</text>
+  <g font-size="9.5">
+    <text x="40" y="252" fill="#374151"><tspan font-weight="bold">静态遮（BERT 2018 = 你的提议）</tspan>：预处理时每句复制 10 份、每份固定一种随机遮法（dupe_factor=10），当普通样本轮着喂</text>
+    <text x="56" y="272" fill="#6b7280">= "样本对数量增加、训练次数多了"的字面实现</text>
+    <text x="40" y="298" fill="#374151"><tspan font-weight="bold">动态遮（RoBERTa 2019）</tspan>：每个 epoch 现场重新随机遮——不存副本、遮法花样无限</text>
+    <text x="40" y="324" fill="#15803d" font-weight="bold">消融结论：动态 ≈ 静态、略好一点 → "效果还是一样"实测成立（差距很小）</text>
+    <text x="40" y="350" fill="#6b7280">静态的小缺点：10 份跑 40 轮 → 每种遮法被重复见 ~4 次，略有记忆固定遮法的风险；动态纯工程优势（省存储+多样性）</text>
+    <text x="40" y="380" fill="#6d28d9">遮法怎么排（静态枚举 vs 动态现遮）不影响"学什么"，影响的是存储与多样性</text>
+  </g>
+
+  <!-- ③ 效率修正 -->
+  <rect x="20" y="416" width="900" height="140" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="438" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">③ 一个量的修正：若"一个个样本"=每条只遮 1 个词，算力账差很多</text>
+  <g font-size="9.5">
+    <text x="40" y="464" fill="#374151">BERT 实际：一次前向<tspan font-weight="bold">同时遮 ~15% 多个位置</tspan> → 一次前向挣多条监督（512 长序列 ≈ 77 条/次）</text>
+    <text x="40" y="488" fill="#374151">每样本只遮 1 词："我爱你"枚举成 3 条各遮 1 个 → 一次前向只挣 <tspan font-weight="bold">1 条</tspan>监督</text>
+    <text x="40" y="512" fill="#b91c1c" font-weight="bold">→ 同样总监督量要花 ~N×15% 倍的前向计算——学习效果（给足训练量）大体等价，算力账不划算</text>
+    <text x="40" y="536" font-size="9" fill="#6b7280">工程共识 = 一次遮 15% 多位置 + 动态重遮：兼顾"枚举等价性"与"每次前向的监督密度"</text>
+  </g>
+
+  <!-- 一句话 -->
+  <rect x="20" y="568" width="900" height="42" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="586" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：[CLS]=整句摘要槽、[SEP]=句界分隔符，都是不被遮的格式 token；静态枚举=原版 BERT 做法、与动态遮实测等价，</text>
+  <text x="470" y="603" text-anchor="middle" font-size="9" fill="#374151">但"每条只遮一个"会把每次前向的监督从 ~15% 降到 1 条——效果等价的前提下算力翻十几倍，故工程用"遮15%+动态"。</text>
+</svg>

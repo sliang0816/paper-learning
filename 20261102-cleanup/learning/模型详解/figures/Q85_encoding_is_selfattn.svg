@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="480" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q85·五 “已翻译的编码”不是现成的——算它的那个操作，就是自注意力</text>
+  <text x="460" y="44" text-anchor="middle" font-size="11" fill="#6b7280">你说“query = 已翻译的编码 + 位置”；但“编码”这一步本身需要一台机器，那台机器就是自注意力</text>
+
+  <!-- your idea -->
+  <rect x="20" y="60" width="880" height="44" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="87" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">你的设想：query = [已翻译的编码] + 位置，且不看未来 —— 都对，但“已翻译的编码”不是天上掉的</text>
+
+  <!-- zoom into encoding -->
+  <rect x="20" y="118" width="880" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="460" y="138" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">放大“已翻译的编码”这一步</text>
+
+  <rect x="40" y="150" width="230" height="100" rx="6" fill="#fff" stroke="#93c5fd"/>
+  <text x="155" y="170" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#374151">已翻译 = 一串词 [我, 爱]</text>
+  <text x="155" y="192" text-anchor="middle" font-size="9" fill="#374151">原始词嵌入 = 孤立词义</text>
+  <text x="155" y="208" text-anchor="middle" font-size="9" fill="#6b7280">“我”的意思、“爱”的意思</text>
+  <text x="155" y="230" text-anchor="middle" font-size="8.5" fill="#b91c1c">还不是“捕捉了‘我爱’上下文</text>
+  <text x="155" y="244" text-anchor="middle" font-size="8.5" fill="#b91c1c">的一个编码”</text>
+
+  <line x1="270" y1="200" x2="330" y2="200" stroke="#dc2626" stroke-width="2.2" marker-end="url(#a)"/>
+  <text x="300" y="184" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#b91c1c">必须混合</text>
+
+  <rect x="332" y="150" width="240" height="100" rx="6" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="452" y="172" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">把这串词混合/聚合成一个表示</text>
+  <text x="452" y="194" text-anchor="middle" font-size="9" fill="#374151">让当前位置带上“已写我爱、</text>
+  <text x="452" y="208" text-anchor="middle" font-size="9" fill="#374151">该出宾语”</text>
+  <text x="452" y="232" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">＝ 这一步就是自注意力</text>
+
+  <line x1="572" y1="200" x2="632" y2="200" stroke="#16a34a" stroke-width="2.2" marker-end="url(#b)"/>
+  <text x="602" y="184" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#15803d">＝ query</text>
+
+  <rect x="634" y="150" width="246" height="100" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="757" y="172" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">已翻译的编码（当前位置向量）</text>
+  <text x="757" y="194" text-anchor="middle" font-size="9" fill="#374151">拿去当交叉注意力的 query</text>
+  <text x="757" y="216" text-anchor="middle" font-size="8.5" fill="#6b7280">→ 看源 → 出下一个词</text>
+  <text x="757" y="238" text-anchor="middle" font-size="8.5" fill="#15803d">自注意力＝产生这个编码的方法</text>
+
+  <!-- mask vs mechanism -->
+  <rect x="20" y="282" width="435" height="96" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="237" y="302" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">“不看未来”和“自注意力”是两件事，不矛盾</text>
+  <text x="36" y="324" font-size="9.5" fill="#374151">· “不看未来” = <tspan font-weight="bold">属性</tspan>（因果约束）= 加在自注意力上的<tspan font-weight="bold">掩码</tspan></text>
+  <text x="36" y="344" font-size="9.5" fill="#374151">· “自注意力” = <tspan font-weight="bold">机制</tspan>（把一串词编码成表示）</text>
+  <text x="36" y="366" font-size="9.5" fill="#6d28d9">合起来 = 掩码自注意力 = 带因果约束地编码前缀</text>
+
+  <!-- why self-attn among encoders -->
+  <rect x="465" y="282" width="435" height="96" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="682" y="302" text-anchor="middle" font-size="11" font-weight="bold" fill="#075985">这台“编码机”为什么选自注意力</text>
+  <text x="481" y="322" font-size="9" fill="#374151">· RNN 串行慢+衰减 / 卷积只局部 / 池化丢序非自适应</text>
+  <text x="481" y="340" font-size="9" fill="#374151">· 自注意力 = 全局+并行+内容自适应</text>
+  <text x="481" y="358" font-size="9" fill="#0284c7">· 且与“看源”的交叉注意力同一套 → 解码器统一用注意力</text>
+  <text x="481" y="373" font-size="8.5" fill="#6b7280">不是“非它不可”，而是在候选里它最合适</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="392" width="880" height="72" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="414" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">一句话</text>
+  <text x="460" y="435" text-anchor="middle" font-size="9.5" fill="#374151">你说的“用已翻译内容的编码当 query”，那个“编码”不是现成的——把一串已译词编码成当前位置的表示，这动作本身就是自注意力</text>
+  <text x="460" y="454" text-anchor="middle" font-size="9.5" fill="#6d28d9">“不看未来”只是给它加因果掩码。所以自注意力不是额外要求，它就是“编码已译内容”这件事的做法</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+</svg>

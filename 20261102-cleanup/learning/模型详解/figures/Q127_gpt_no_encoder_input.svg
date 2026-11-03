@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="640" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q127 GPT 为什么不需要 encoder ＋ 它的输入到底是什么：同流续写无第二条序列，输入=文本前缀→token→向量</text>
+
+  <!-- ① 对比 -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 为什么不需要 encoder：判据（Q123）= 有没有第二条异构序列</text>
+  <text x="40" y="90" font-size="9.5" fill="#374151">· 翻译：源句/目标句<tspan font-weight="bold">两条异构序列</tspan>（不同语言）→ 双向读透(enc) + 因果生成(dec) + 交叉注意力桥</text>
+  <text x="40" y="112" font-size="9.5" fill="#374151">· GPT：语言建模 = <tspan font-weight="bold">续写同一条流</tspan>——prompt 和回答同词表、同空间、拼成同一条序列，"输入/输出"边界只是"谁给的/谁生成的"</text>
+  <text x="40" y="134" font-size="9.5" fill="#15803d">· prompt 谁来读懂？同一套因果块自己兼任（prefill）：token 互相注意（只往左看），理解在此完成（Q92）——不必另设双向编码器</text>
+  <text x="40" y="156" font-size="9.5" fill="#6b7280">· 代价：prompt 只能单向读（不如 BERT 双向透彻）；收益：一套架构一套权重、输入输出任意交错（多轮对话）、极好规模化 → LLM 主流</text>
+  <text x="40" y="178" font-size="9.5" fill="#6d28d9">· 反证：翻译也能 decoder-only 做（"把X翻成中文：→"续写，现代 LLM 都这么干）——enc-dec 非翻译必须，真正离不开的是跨模态异构输入(Whisper)</text>
+
+  <!-- ② 输入三层 -->
+  <rect x="20" y="204" width="900" height="200" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="226" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② GPT 的输入是什么：三层看</text>
+  <text x="40" y="252" font-size="9.5" fill="#374151"><tspan font-weight="bold">任务层</tspan>：一段文本前缀（半句话/问题/多轮对话，对模型无区别，全是"待续写前文"）；训练输入=海量原始文本本身，右移一位当标签（自监督免标注）</text>
+  <text x="40" y="280" font-size="9.5" fill="#374151"><tspan font-weight="bold">机制层</tspan>（同 Q118 序列接口）：</text>
+  <!-- pipeline -->
+  <g font-size="8.5" text-anchor="middle">
+    <rect x="60" y="294" width="110" height="34" rx="4" fill="#e5e7eb" stroke="#9ca3af"/><text x="115" y="309">"路面有抛洒物"</text><text x="115" y="322" fill="#6b7280">原始文本</text>
+    <text x="185" y="314" font-size="11" fill="#9ca3af">→</text>
+    <rect x="200" y="294" width="120" height="34" rx="4" fill="#bfdbfe" stroke="#3b82f6"/><text x="260" y="309" fill="#1e40af">分词器 BPE</text><text x="260" y="322" fill="#6b7280">→ token id 序列</text>
+    <text x="335" y="314" font-size="11" fill="#9ca3af">→</text>
+    <rect x="350" y="294" width="130" height="34" rx="4" fill="#fde68a" stroke="#d97706"/><text x="415" y="309" fill="#b45309">嵌入矩阵查表</text><text x="415" y="322" fill="#6b7280">+ 位置信息</text>
+    <text x="495" y="314" font-size="11" fill="#9ca3af">→</text>
+    <rect x="510" y="294" width="110" height="34" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="565" y="309" fill="#15803d">N×d 矩阵</text><text x="565" y="322" fill="#6b7280">token 向量序列</text>
+    <text x="635" y="314" font-size="11" fill="#9ca3af">→</text>
+    <rect x="650" y="294" width="240" height="34" rx="4" fill="#ede9fe" stroke="#8b5cf6"/><text x="770" y="309" fill="#6d28d9">L× [因果自注意力 + FFN]</text><text x="770" y="322" fill="#b91c1c">无交叉注意力（没有 memory 可查）</text>
+  </g>
+  <text x="40" y="356" font-size="9.5" fill="#374151"><tspan font-weight="bold">推理逐步看</tspan>：第 t 步输入 = prompt + 已生成全部 token（整条前缀）；KV 缓存后每步实际只送最新 1 个 token（Q80）</text>
+  <text x="40" y="380" font-size="9.5" fill="#6b7280">聊天场景：system/user/assistant 各轮用特殊 token 标记后拼成一条序列——本质仍是一条流</text>
+
+  <!-- ③ 块对比 -->
+  <rect x="20" y="416" width="900" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="438" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ GPT 块 vs 原始 Transformer 解码器块</text>
+  <g font-size="9.5">
+    <text x="120" y="464" font-weight="bold" fill="#374151">原始解码器块（×L）：</text>
+    <text x="140" y="484" fill="#374151">掩码自注意力 → <tspan fill="#b45309" font-weight="bold">交叉注意力(查encoder memory)</tspan> → FFN</text>
+    <text x="540" y="464" font-weight="bold" fill="#374151">GPT 块（×L）：</text>
+    <text x="560" y="484" fill="#374151">因果自注意力 → FFN　<tspan fill="#b91c1c" font-weight="bold">（交叉注意力整个删掉）</tspan></text>
+  </g>
+  <text x="40" y="514" font-size="9.5" fill="#374151">训推关系照搬 Q125/Q126：训练整段文本一次前向、各位置并行预测下一词（全预测）；推理自回归续写</text>
+  <text x="40" y="532" font-size="9" fill="#6b7280">对照 BERT（Q93）：只留编码器双向理解不生成——三种拆法各服务各的任务结构（Q123 判据）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="558" width="900" height="56" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="580" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：GPT 不需要 encoder 因为输入输出是同一条流的续写、没有第二条异构序列，prompt 由因果块 prefill 兼任阅读；</text>
+  <text x="470" y="600" text-anchor="middle" font-size="9" fill="#374151">输入 = 文本前缀：分词→token id→嵌入+位置→N×d 向量矩阵；训练喂原始文本右移当标签，推理喂 prompt+已生成前缀。</text>
+</svg>

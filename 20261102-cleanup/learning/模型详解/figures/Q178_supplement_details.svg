@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="720" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q178 补充：三个追问把"淹没"机制讲透（数值示意 + 正样本到底趋向哪）</text>
+
+  <!-- 追问A 0.15 -->
+  <rect x="20" y="42" width="940" height="26" rx="6" fill="#0f766e"/>
+  <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">追问A：正样本项 3×0.05≈0.15 里的 0.05 怎么来的？——假设正样本框 IoU≈0.73（示意值）</text>
+
+  <rect x="20" y="78" width="460" height="120" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="40" y="100" font-size="9.6" fill="#374151">正样本置信度目标 = IoU(动态算,非0非1,见Q24)</text>
+  <text x="40" y="120" font-size="9.6" fill="#374151" font-family="monospace">单框损失 = (预测−IoU)²=(0.5−0.73)²≈0.05</text>
+  <text x="40" y="140" font-size="9.6" fill="#374151" font-family="monospace">3框 = 3×0.05 = 0.15</text>
+  <text x="40" y="162" font-size="9.4" font-weight="bold" fill="#0f766e">0.05 的来历 = 我假设了 IoU≈0.73</text>
+  <text x="40" y="182" font-size="9" fill="#6b7280">换IoU这个数就变,但下面看结论不受影响</text>
+
+  <rect x="500" y="78" width="460" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="730" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">换任何IoU,背景照样碾压(结论稳)</text>
+  <text x="520" y="122" font-size="9" fill="#374151">IoU=0.5 → 3框=0     → 背景∞:1</text>
+  <text x="520" y="140" font-size="9" fill="#374151">IoU=0.73→ 3框=0.15  → 背景≈158:1</text>
+  <text x="520" y="158" font-size="9" fill="#374151">IoU=0.9 → 3框=0.48  → 背景≈49:1</text>
+  <text x="520" y="176" font-size="9" fill="#374151">IoU=1.0 → 3框=0.75  → 背景≈32:1</text>
+  <text x="520" y="192" font-size="8.8" font-weight="bold" fill="#6d28d9">最好情况也才32:1,背景仍占97% → 0.15是示意量</text>
+
+  <!-- 追问B 0.5 -->
+  <rect x="20" y="208" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="226" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">追问B：背景为什么会有 0.5 置信度？——0.5 是网络"预测输出"，不是背景的"目标"</text>
+
+  <rect x="20" y="244" width="460" height="130" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="266" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">分清"预测"vs"目标"</text>
+  <text x="40" y="288" font-size="9.4" fill="#374151">损失=(预测−目标)²</text>
+  <text x="40" y="308" font-size="9.4" fill="#374151">·目标(标签侧):背景=0、正样本=IoU 始终不变</text>
+  <text x="40" y="328" font-size="9.4" fill="#374151">·预测(网络侧):我假设的0.5是这个=网络当前吐的值</text>
+  <text x="40" y="350" font-size="9.4" font-weight="bold" fill="#1e40af">背景目标一直是0,0.5只是它此刻还没被压下去</text>
+  <text x="40" y="368" font-size="9" fill="#6b7280">(0.5−0)²中0.5是预测、0是目标,两者不是一回事</text>
+
+  <rect x="500" y="244" width="460" height="130" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="730" y="266" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">为何初期对背景吐≈0.5</text>
+  <text x="520" y="288" font-size="9.4" fill="#374151">分析的是训练刚开始、网络还没学会的那一刻</text>
+  <text x="520" y="308" font-size="9.4" fill="#374151">初始权重是小随机数,网络还不知道谁是背景谁有目标</text>
+  <text x="520" y="328" font-size="9.4" fill="#374151">→ 对98个框都吐模棱两可的中间值</text>
+  <text x="520" y="348" font-size="9.4" fill="#374151">带sigmoid的objectness随机初始化→sigmoid(0)=0.5</text>
+  <text x="520" y="366" font-size="9" fill="#6b7280">YOLOv1末层线性初始更近0,但"背景未被压到0仍带损失"一样</text>
+
+  <!-- 追问C 正样本趋向 -->
+  <rect x="20" y="384" width="940" height="26" rx="6" fill="#b45309"/>
+  <text x="490" y="402" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">追问C：背景趋向0，那少量正样本趋向更高值还是0？——自己想趋高(IoU)，却被共享骨干拖住升不上去</text>
+
+  <rect x="20" y="420" width="460" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="250" y="442" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">第一层：正样本自己的梯度永远往高走</text>
+  <text x="40" y="464" font-size="9.4" fill="#374151">正样本目标=IoU(高值),损失=(预测−IoU)²</text>
+  <text x="40" y="484" font-size="9.4" fill="#374151">它自己产生的梯度永远喊"往IoU涨、往高顶"</text>
+  <text x="40" y="504" font-size="9.4" font-weight="bold" fill="#15803d">正样本从不会被直接监督成0</text>
+  <text x="40" y="526" font-size="9.4" fill="#374151">→ 单看它自己：趋向更高(IoU)，不是0</text>
+  <text x="40" y="550" font-size="9" fill="#6b7280">若各框参数独立,正升背景降,皆大欢喜没有淹没</text>
+
+  <rect x="500" y="420" width="460" height="150" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="730" y="442" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">第二层：但它"想高却高不上去"(害处所在)</text>
+  <text x="520" y="464" font-size="9.4" fill="#374151">淹没发生在正/背景框共享同一个骨干网络</text>
+  <text x="520" y="484" font-size="9.4" fill="#374151">95背景梯度≫3正样本 → 灌进共享骨干</text>
+  <text x="520" y="504" font-size="9.4" fill="#374151">→ 共享特征被优化成"处处像背景"</text>
+  <text x="520" y="524" font-size="9.4" fill="#374151">→ 正样本站在被背景占领的表示上,升也升不动</text>
+  <text x="520" y="546" font-size="9.4" font-weight="bold" fill="#b91c1c">→ 停在过低值(近0)→低于阈值→漏检</text>
+  <text x="520" y="564" font-size="9" fill="#6b7280">不是被标成0,而是3票撑不起被95票占领的共享骨干</text>
+
+  <!-- 关键澄清 -->
+  <rect x="20" y="582" width="940" height="60" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="604" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">为什么这正说明"淹没"是bug：若正样本能到高值、背景到0,就皆大欢喜、根本没问题——检测器要的就是这个</text>
+  <text x="490" y="626" text-anchor="middle" font-size="10" fill="#374151">问题的本质恰恰是"正样本到不了它本该到的高值"：它的"想上顶"被多数派的"往下压"通过共享参数摁住了 → 这就是漏检的成因</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="654" width="940" height="56" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="676" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">一句话：正样本自身永远朝高值(IoU)使劲、绝不趋向0；但淹没下它"心有余而力不足"，被背景主导的共享骨干拖住、升不到该有的高度→置信度过低→漏检。</text>
+  <text x="490" y="696" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">缓解(λ_noobj=0.5/Focal Loss)的意义=把背景合力压下去，让这3个正样本的"上顶"重新有效。(0.15与0.5均为示意值,换数不影响"数量碾压"结论)</text>
+</svg>

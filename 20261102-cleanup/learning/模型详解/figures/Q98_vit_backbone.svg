@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="480" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q98 ViT 是"替代 CNN 做图片分类"吗——最初是，但已成通用视觉骨干</text>
+
+  <!-- vit pipeline -->
+  <rect x="20" y="44" width="880" height="120" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="460" y="64" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">ViT 做分类的流程（照搬 Transformer + [CLS]）</text>
+  <rect x="40" y="76" width="70" height="70" fill="#e0f2fe" stroke="#0284c7"/>
+  <line x1="63" y1="76" x2="63" y2="146" stroke="#93c5fd"/><line x1="86" y1="76" x2="86" y2="146" stroke="#93c5fd"/>
+  <line x1="40" y1="99" x2="110" y2="99" stroke="#93c5fd"/><line x1="40" y1="122" x2="110" y2="122" stroke="#93c5fd"/>
+  <text x="75" y="160" text-anchor="middle" font-size="8.5" fill="#374151">图切 patch(16×16)</text>
+  <line x1="112" y1="111" x2="146" y2="111" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="148" y="94" width="180" height="36" rx="5" fill="#fff" stroke="#cbd5e1"/>
+  <text x="238" y="110" text-anchor="middle" font-size="8.5" fill="#374151">每 patch 当 token + 位置编码</text>
+  <text x="238" y="124" text-anchor="middle" font-size="8.5" fill="#6d28d9">+ 拼一个 [CLS]</text>
+  <line x1="330" y1="111" x2="364" y2="111" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="366" y="94" width="150" height="36" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="441" y="116" text-anchor="middle" font-size="9" fill="#1e40af">Transformer 编码器 ×L</text>
+  <line x1="518" y1="111" x2="552" y2="111" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="554" y="94" width="150" height="36" rx="5" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="629" y="116" text-anchor="middle" font-size="9" fill="#6d28d9">取 [CLS] 向量</text>
+  <line x1="706" y1="111" x2="740" y2="111" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="742" y="94" width="140" height="36" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="812" y="116" text-anchor="middle" font-size="9" fill="#15803d">分类头 → 类别</text>
+
+  <!-- 最初是 -->
+  <rect x="20" y="178" width="430" height="86" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="235" y="198" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">最初确实是（第一印象对）</text>
+  <text x="36" y="220" font-size="9.5" fill="#374151">ViT(2020) 首秀：证明 Transformer 在图像分类上</text>
+  <text x="36" y="238" font-size="9.5" fill="#374151">能追平/超过 CNN（数据够多时）</text>
+  <text x="36" y="256" font-size="9" fill="#6b7280">→ "替代 CNN 做分类" 作为入门理解成立</text>
+
+  <!-- 但长成更大 -->
+  <rect x="470" y="178" width="430" height="86" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="685" y="198" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">但已长成通用视觉骨干</text>
+  <text x="486" y="220" font-size="9.5" fill="#374151">· 不只分类：检测、分割、尤其多模态都用它</text>
+  <text x="486" y="240" font-size="9.5" fill="#b91c1c">· 对本项目最关键：CLIP 的图像编码器就是 ViT！</text>
+  <text x="486" y="258" font-size="9" fill="#6b7280">→ ViT 在本项目的核心身份 = "CLIP 的图像塔"</text>
+
+  <!-- 替代分场景 -->
+  <rect x="20" y="278" width="880" height="86" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="298" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">"替代"仍是分场景（接 Q94/Q96）</text>
+  <text x="40" y="320" font-size="9.5" fill="#374151">· ViT 归纳偏置弱、<tspan font-weight="bold">吃数据</tspan>：小数据打不过 CNN，要大规模预训练才发力</text>
+  <text x="40" y="340" font-size="9.5" fill="#374151">· Swin Transformer 又把 CNN 式<tspan font-weight="bold">局部性</tspan>加回来 → 更好的通用骨干</text>
+  <text x="40" y="358" font-size="9" fill="#6b7280">· CNN 没被清盘，仍是效率/小数据主力；ViT 与 CNN 是"分场景/看数据量"的关系</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="378" width="880" height="86" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="400" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">一句话</text>
+  <text x="460" y="422" text-anchor="middle" font-size="9.5" fill="#374151">ViT 最初为图像分类而生、证明能替代 CNN；但已成通用视觉骨干——对本项目它最重要的角色是 CLIP 的图像编码器。</text>
+  <text x="460" y="444" text-anchor="middle" font-size="9.5" fill="#6d28d9">"替代 CNN"是分场景/需大数据，不是清盘（Swin 又把局部性加回来）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="380" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">检测器为何稠密预测：目标数量/位置未知 → 处处放预测器，宁多勿漏</text>
+
+  <!-- ① 难题 -->
+  <text x="135" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">① 难题：不知道有几个、在哪、多大</text>
+  <rect x="30" y="68" width="210" height="150" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="60" y="92" width="44" height="30" fill="none" stroke="#16a34a" stroke-width="2"/><text x="82" y="112" text-anchor="middle" font-size="11" fill="#16a34a">?</text>
+  <rect x="150" y="150" width="70" height="50" fill="none" stroke="#16a34a" stroke-width="2"/><text x="185" y="180" text-anchor="middle" font-size="13" fill="#16a34a">?</text>
+  <circle cx="120" cy="170" r="9" fill="none" stroke="#16a34a" stroke-width="2"/><text x="120" y="174" text-anchor="middle" font-size="9" fill="#16a34a">?</text>
+  <text x="135" y="236" text-anchor="middle" font-size="9.5" fill="#374151">无法预设"只检测 N 个目标"</text>
+
+  <!-- ② 解法 -->
+  <text x="385" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">② 解法：每个位置都放一个预测器</text>
+  <rect x="290" y="68" width="190" height="150" fill="#eff6ff" stroke="#3b82f6"/>
+  <g stroke="#bfdbfe">
+    <line x1="328" y1="68" x2="328" y2="218"/><line x1="366" y1="68" x2="366" y2="218"/><line x1="404" y1="68" x2="404" y2="218"/><line x1="442" y1="68" x2="442" y2="218"/>
+    <line x1="290" y1="98" x2="480" y2="98"/><line x1="290" y1="128" x2="480" y2="128"/><line x1="290" y1="158" x2="480" y2="158"/><line x1="290" y1="188" x2="480" y2="188"/>
+  </g>
+  <g fill="#3b82f6"><circle cx="309" cy="83" r="2"/><circle cx="347" cy="83" r="2"/><circle cx="385" cy="83" r="2"/><circle cx="423" cy="83" r="2"/><circle cx="461" cy="83" r="2"/>
+    <circle cx="309" cy="113" r="2"/><circle cx="347" cy="113" r="2"/><circle cx="385" cy="113" r="2"/><circle cx="423" cy="113" r="2"/><circle cx="461" cy="113" r="2"/>
+    <circle cx="309" cy="143" r="2"/><circle cx="347" cy="143" r="2"/><circle cx="385" cy="143" r="2"/><circle cx="423" cy="143" r="2"/><circle cx="461" cy="143" r="2"/>
+    <circle cx="309" cy="173" r="2"/><circle cx="347" cy="173" r="2"/><circle cx="385" cy="173" r="2"/><circle cx="423" cy="173" r="2"/><circle cx="461" cy="173" r="2"/>
+    <circle cx="309" cy="203" r="2"/><circle cx="347" cy="203" r="2"/><circle cx="385" cy="203" r="2"/><circle cx="423" cy="203" r="2"/><circle cx="461" cy="203" r="2"/></g>
+  <text x="385" y="236" text-anchor="middle" font-size="9.5" fill="#374151">每格(每 anchor)都问："我这有目标吗?"</text>
+
+  <!-- ③ 为什么天然如此 -->
+  <text x="630" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#7c3aed">③ 为何天然这样</text>
+  <rect x="500" y="68" width="240" height="150" rx="6" fill="#f5f3ff" stroke="#a78bfa"/>
+  <text x="514" y="90" font-size="10.5" fill="#374151">• 卷积在所有位置<tspan fill="#6d28d9">共享权重</tspan>滑过</text>
+  <text x="514" y="108" font-size="10.5" fill="#374151">　→ 特征图本就是密集网格</text>
+  <text x="514" y="130" font-size="10.5" fill="#374151">• 平移不变：目标可能在<tspan fill="#6d28d9">任意处</tspan></text>
+  <text x="514" y="148" font-size="10.5" fill="#374151">　→ 处处都得有预测器</text>
+  <text x="514" y="170" font-size="10.5" fill="#374151">• <tspan fill="#dc2626">召回优先</tspan>：宁可多报后去重</text>
+  <text x="514" y="188" font-size="10.5" fill="#374151">　→ 也不能漏检（漏了找不回）</text>
+  <text x="514" y="210" font-size="9.5" fill="#6b7280">多尺度(P3/P4/P5)+多 anchor → 更密</text>
+
+  <!-- 底：链条 + 代价 -->
+  <rect x="30" y="252" width="710" height="116" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="46" y="276" font-size="11.5" font-weight="bold" fill="#374151">一句话：检测要回答"哪里有什么"，而目标数量/位置/大小事先未知 → 只能在所有位置、所有尺度密集铺预测器，逐个判断。</text>
+  <text x="46" y="298" font-size="11" fill="#b45309">代价①：绝大多数位置是背景 → 极端正负不平衡（YOLOv1 用 λ 加权、RetinaNet 用 Focal Loss 解决，见 Q16/Q17）。</text>
+  <text x="46" y="318" font-size="11" fill="#b45309">代价②：一个目标被多个相邻位置同时命中 → 重复框 → 需要 NMS 去重（见 Q20）。</text>
+  <text x="46" y="340" font-size="11" fill="#374151">对照：二阶段也先稠密(RPN 在所有 anchor 上稠密打分)再筛成稀疏候选 → "稠密"是检测的<tspan font-weight="bold">起点</tspan>。</text>
+  <text x="46" y="359" font-size="10.5" fill="#6b7280">跳出稠密的另一条路：DETR 用固定数量 query 做"集合预测"+二分匹配，无需稠密铺设与 NMS（但训练收敛慢）。</text>
+</svg>

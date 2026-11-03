@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="860" height="560" fill="#fff"/>
+  <text x="430" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Grounding DINO：文本如何一步步引导出框</text>
+  <text x="430" y="44" text-anchor="middle" font-size="11" fill="#6b7280">文本三处介入：① 早融合让图像特征“懂文本” ② 按文本相关度选 query+初始框 ③ 解码器图文精修 → 框头出坐标、query·文本出标签</text>
+
+  <!-- Step 0: dual encoders -->
+  <rect x="24" y="62" width="180" height="74" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="114" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#075985">输入：图 + 文本提示</text>
+  <text x="114" y="100" text-anchor="middle" font-size="9" fill="#374151">图 → Swin → N_img 图像 token</text>
+  <text x="114" y="115" text-anchor="middle" font-size="9" fill="#374151">“tire. glass.” → BERT → 文本 token</text>
+  <text x="114" y="129" text-anchor="middle" font-size="8" fill="#6b7280">两路编码器</text>
+
+  <line x1="204" y1="99" x2="240" y2="99" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Step 1: feature enhancer -->
+  <rect x="242" y="62" width="200" height="74" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="342" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">① 特征增强器（早融合）</text>
+  <text x="342" y="100" text-anchor="middle" font-size="9" fill="#374151">图像↔文本互相交叉注意</text>
+  <text x="342" y="115" text-anchor="middle" font-size="9" fill="#374151">→ 图像 token 变“文本感知”</text>
+  <text x="342" y="129" text-anchor="middle" font-size="8" fill="#6b7280">每个图像 token 已知道“和文本多相关”</text>
+
+  <line x1="442" y1="99" x2="478" y2="99" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Step 2: language-guided query selection -->
+  <rect x="480" y="56" width="356" height="150" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="658" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">② 语言引导的 query 选择（关键）</text>
+  <text x="496" y="96" font-size="9" fill="#374151">a. 每个图像 token 和文本特征算相似度 → 取 max</text>
+  <text x="496" y="111" font-size="9" fill="#374151">　 → 得到“文本相关分”（这个位置像不像 tire/glass）</text>
+  <text x="496" y="130" font-size="9" fill="#374151">b. 按分数排序，<tspan font-weight="bold" fill="#6d28d9">取 top-N（如 900）个 token 当 query</tspan></text>
+  <text x="496" y="149" font-size="9" fill="#374151">c. 这些 token 的<tspan font-weight="bold">位置 → 初始参考框（anchor）</tspan></text>
+  <text x="496" y="168" font-size="8.5" fill="#6b7280">＝文本决定“图里哪些地方值得当候选”，并给出框的起点</text>
+  <rect x="496" y="176" width="324" height="22" rx="4" fill="#fff" stroke="#c4b5fd"/>
+  <text x="658" y="191" text-anchor="middle" font-size="8.6" fill="#374151">对比闭集 DETR：query 纯学习、与文本无关；这里 query 由文本选出</text>
+
+  <!-- arrow down to decoder -->
+  <line x1="658" y1="206" x2="658" y2="236" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Step 3: cross-modality decoder -->
+  <rect x="320" y="238" width="420" height="92" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="530" y="258" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">③ 跨模态解码器（逐层精修）</text>
+  <text x="336" y="278" font-size="9" fill="#374151">每个 query 同时：对<tspan font-weight="bold">图像特征</tspan>做可变形注意（看清物体）</text>
+  <text x="336" y="294" font-size="9" fill="#374151">　　　　　　　 + 对<tspan font-weight="bold">文本特征</tspan>做交叉注意（确认是哪个词）</text>
+  <text x="336" y="312" font-size="9" fill="#374151">逐层更新 query embedding + 参考框（delta 微调，像 DINO）</text>
+  <text x="336" y="325" font-size="8" fill="#6b7280">L 层后：query 既贴合目标几何、又对齐到某个文本短语</text>
+
+  <line x1="530" y1="330" x2="530" y2="358" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Step 4: two heads -->
+  <rect x="60" y="362" width="360" height="96" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="240" y="382" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">④a 框回归头 → 坐标</text>
+  <text x="76" y="402" font-size="9" fill="#374151">框 = 初始参考框 + 预测偏移 (Δx,Δy,Δw,Δh)</text>
+  <text x="76" y="419" font-size="9" fill="#374151">→ tire @(x,y,w,h)、glass @(..)</text>
+  <text x="76" y="437" font-size="8.5" fill="#6b7280">几何来自“参考框被一层层推到目标上”</text>
+  <text x="76" y="451" font-size="8.5" fill="#6b7280">（query 选择给了好起点，所以收敛快）</text>
+
+  <rect x="440" y="362" width="360" height="96" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="620" y="382" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">④b 对比对齐 → 标签 + 分数</text>
+  <text x="456" y="402" font-size="9" fill="#374151">query embedding · 各文本 token 特征</text>
+  <text x="456" y="419" font-size="9" fill="#374151">→ 每个词的相似度，取 max over 提示词</text>
+  <text x="456" y="437" font-size="8.5" fill="#374151">→ 这个框对应 “tire”、置信度 0.91</text>
+  <text x="456" y="451" font-size="8.5" fill="#b91c1c">没有固定分类器！标签 = 和文本比出来的</text>
+
+  <line x1="240" y1="458" x2="240" y2="486" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="620" y1="458" x2="620" y2="486" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="220" y="488" width="420" height="40" rx="8" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="430" y="513" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">输出：文本所指短语的框　tire @(..)、glass @(..)　（开放词汇，无需重训）</text>
+
+  <text x="430" y="548" text-anchor="middle" font-size="9.5" fill="#6b7280">链条：文本选 query+初始框 → 解码器用图文把框推准 → 框头出坐标、query·文本出“是哪个词”。换文本即换可检测的类。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

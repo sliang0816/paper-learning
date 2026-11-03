@@ -1,0 +1,13 @@
+# Reproducible runtime caches stay local.
+__pycache__/
+*.py[cod]
+20261102-cleanup/runtime-cache/
+.DS_Store
+Thumbs.db
+
+# Do not accidentally add local credentials later.
+.env
+.env.*
+!.env.example
+*.pem
+*.key

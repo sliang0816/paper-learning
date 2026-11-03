@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 190" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="190" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">02a Seq2Seq 输入/输出实例（机器翻译）</text>
+
+  <rect x="20" y="46" width="200" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="120" y="72" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">输入：源语言句子</text>
+  <text x="120" y="92" text-anchor="middle" font-size="9.5" fill="#374151">"I love Paris"（倒序喂入）</text>
+  <text x="120" y="106" text-anchor="middle" font-size="9.5" fill="#374151">长度可变，不固定</text>
+
+  <text x="235" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="255" y="46" width="200" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="355" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">编码器LSTM压缩</text>
+  <text x="355" y="88" text-anchor="middle" font-size="9.5" fill="#374151">逐词读完，输出一个</text>
+  <text x="355" y="102" text-anchor="middle" font-size="9.5" fill="#374151">固定维度向量v</text>
+
+  <text x="470" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="490" y="46" width="220" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="600" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">解码器LSTM自回归生成</text>
+  <text x="600" y="88" text-anchor="middle" font-size="9.5" fill="#374151">以v为初始状态，beam search</text>
+  <text x="600" y="102" text-anchor="middle" font-size="9.5" fill="#374151">逐词生成目标语言</text>
+
+  <text x="725" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="745" y="46" width="195" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="842" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">输出：目标语言句子</text>
+  <text x="842" y="88" text-anchor="middle" font-size="9.5" fill="#374151">"J'aime Paris"</text>
+  <text x="842" y="102" text-anchor="middle" font-size="9.5" fill="#374151">直到生成&lt;EOS&gt;停止</text>
+
+  <rect x="20" y="132" width="920" height="45" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="159" text-anchor="middle" font-size="10.5" fill="#374151">WMT'14英法翻译实测：BLEU 34.8（超过传统统计机器翻译基线33.3），首次证明纯神经网络端到端机器翻译可行</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 270" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="270" fill="#fff"/>
+  <text x="420" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">21 FPN 输入输出实例（颈部：多尺度特征进 → 富语义金字塔出）</text>
+  <text x="420" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">骨干各层特征进 → 自顶向下 + 横向连接 → P2–P5（每层都带高层语义）；本身不出框</text>
+
+  <!-- backbone features -->
+  <text x="120" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入：骨干多尺度特征</text>
+  <g font-size="8.6" text-anchor="middle">
+    <rect x="40" y="74" width="160" height="24" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="90" fill="#374151">C2  80×80×256（浅，分辨率高）</text>
+    <rect x="50" y="104" width="140" height="24" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="120" fill="#374151">C3  40×40×512</text>
+    <rect x="60" y="134" width="120" height="24" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="150" fill="#374151">C4  20×20×1024</text>
+    <rect x="70" y="164" width="100" height="24" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="180" fill="#374151">C5 10²×2048（深，语义强）</text>
+  </g>
+
+  <line x1="200" y1="130" x2="240" y2="130" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- FPN box -->
+  <rect x="242" y="74" width="200" height="120" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="342" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">FPN 颈部</text>
+  <text x="342" y="113" text-anchor="middle" font-size="8.6" fill="#374151">C5 上采样 2× → 加到 C4</text>
+  <text x="342" y="129" text-anchor="middle" font-size="8.6" fill="#374151">结果上采样 → 加到 C3 …</text>
+  <text x="342" y="145" text-anchor="middle" font-size="8.6" fill="#374151">（自顶向下注入语义</text>
+  <text x="342" y="160" text-anchor="middle" font-size="8.6" fill="#374151">+ 横向 1×1 对齐通道）</text>
+  <text x="342" y="180" text-anchor="middle" font-size="8" fill="#b45309">让高分辨率层也“懂语义”</text>
+
+  <line x1="442" y1="130" x2="482" y2="130" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- output pyramid -->
+  <text x="600" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出：特征金字塔 P2–P5</text>
+  <g font-size="8.6" text-anchor="middle">
+    <rect x="500" y="74" width="200" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="600" y="90" fill="#374151">P2 80×80×256 ← 测小目标 ⭐</text>
+    <rect x="510" y="104" width="180" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="600" y="120" fill="#374151">P3 40×40×256</text>
+    <rect x="520" y="134" width="160" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="600" y="150" fill="#374151">P4 20×20×256</text>
+    <rect x="530" y="164" width="140" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="600" y="180" fill="#374151">P5 10×10×256 ← 测大目标</text>
+  </g>
+
+  <line x1="700" y1="130" x2="732" y2="130" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="734" y="106" width="96" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="782" y="126" text-anchor="middle" font-size="8.8" font-weight="bold" fill="#15803d">→ 检测头</text>
+  <text x="782" y="143" text-anchor="middle" font-size="7.8" fill="#6b7280">各层各测一档大小</text>
+
+  <text x="420" y="222" text-anchor="middle" font-size="9.8" fill="#374151">关键：FPN <tspan font-weight="bold" fill="#b91c1c">不直接出框</tspan>，是“颈部”——把骨干的深层语义灌回浅层高分辨率特征，得到每层都好用的金字塔。</text>
+  <text x="420" y="244" text-anchor="middle" font-size="9.3" fill="#6b7280">小目标用高分辨率的 P2（80×80，每格只看 8×8 像素，细节多）——这正是本项目第三章“P2 浅层特征融合”的理论基础。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

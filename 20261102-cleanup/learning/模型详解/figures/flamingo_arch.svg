@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 500" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="500" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Flamingo：冻结视觉编码器 + 冻结 LLM，中间插"Perceiver 重采样 + 门控交叉注意力"，做少样本多模态</text>
+
+  <!-- 冻结视觉 -->
+  <rect x="30" y="60" width="150" height="50" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="105" y="80" text-anchor="middle" font-size="9" fill="#1e40af">冻结视觉编码器</text>
+  <text x="105" y="96" text-anchor="middle" font-size="8" fill="#6b7280">出可变数量视觉特征</text>
+  <text x="105" y="126" text-anchor="middle" font-size="8" fill="#b91c1c">❄ 冻结</text>
+
+  <text x="188" y="88" font-size="13" fill="#9ca3af">→</text>
+
+  <!-- Perceiver Resampler -->
+  <rect x="210" y="55" width="160" height="60" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="290" y="76" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b45309">Perceiver 重采样器</text>
+  <text x="290" y="92" text-anchor="middle" font-size="8" fill="#374151">可变数量视觉特征</text>
+  <text x="290" y="105" text-anchor="middle" font-size="8" fill="#374151">→ 固定少量视觉 token</text>
+  <text x="290" y="130" text-anchor="middle" font-size="8" fill="#15803d">🔥 训练</text>
+
+  <text x="378" y="88" font-size="13" fill="#9ca3af">→</text>
+
+  <!-- 门控交叉注意力 + 冻结LLM -->
+  <rect x="400" y="45" width="510" height="180" rx="6" fill="#f5f3ff" stroke="#8b5cf6"/>
+  <text x="655" y="64" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">冻结 LLM（❄）+ 插入门控交叉注意力层（🔥）</text>
+
+  <!-- LLM layers stack -->
+  <rect x="420" y="76" width="180" height="22" rx="3" fill="#e5e7eb" stroke="#9ca3af"/><text x="510" y="91" text-anchor="middle" font-size="8" fill="#374151">冻结 LLM 层 ❄</text>
+  <rect x="420" y="102" width="180" height="22" rx="3" fill="#ddd6fe" stroke="#8b5cf6"/><text x="510" y="117" text-anchor="middle" font-size="8" fill="#6d28d9">门控交叉注意力 🔥（新插入）</text>
+  <rect x="420" y="128" width="180" height="22" rx="3" fill="#e5e7eb" stroke="#9ca3af"/><text x="510" y="143" text-anchor="middle" font-size="8" fill="#374151">冻结 LLM 层 ❄</text>
+  <rect x="420" y="154" width="180" height="22" rx="3" fill="#ddd6fe" stroke="#8b5cf6"/><text x="510" y="169" text-anchor="middle" font-size="8" fill="#6d28d9">门控交叉注意力 🔥</text>
+  <rect x="420" y="180" width="180" height="22" rx="3" fill="#e5e7eb" stroke="#9ca3af"/><text x="510" y="195" text-anchor="middle" font-size="8" fill="#374151">冻结 LLM 层 ❄</text>
+  <!-- 视觉token feeds xattn -->
+  <line x1="370" y1="90" x2="418" y2="113" stroke="#8b5cf6" stroke-width="1.5"/>
+  <line x1="370" y1="90" x2="418" y2="165" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="395" y="105" font-size="7" fill="#6d28d9">视觉token</text>
+
+  <text x="620" y="100" font-size="8.5" fill="#374151">· LLM 权重全冻结，只训</text>
+  <text x="632" y="114" font-size="8.5" fill="#374151">插入的交叉注意力层</text>
+  <text x="620" y="134" font-size="8.5" fill="#b91c1c">· tanh 门控初始化为 0：</text>
+  <text x="632" y="148" font-size="8.5" fill="#374151">训练从"纯 LLM"平滑起步，</text>
+  <text x="632" y="162" font-size="8.5" fill="#374151">不破坏预训练语言能力</text>
+  <text x="620" y="182" font-size="8.5" fill="#15803d">· 让 LLM 能"看"视觉 token</text>
+  <text x="620" y="200" font-size="8" fill="#6b7280">→ 输出文本（描述/答案）</text>
+
+  <!-- 少样本 -->
+  <rect x="30" y="242" width="880" height="110" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="262" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">杀手锏：交错图文序列 → 上下文少样本学习（few-shot in-context）</text>
+  <rect x="50" y="276" width="820" height="30" rx="4" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="460" y="295" text-anchor="middle" font-size="8.5" fill="#15803d">[图1][这是猫] [图2][这是狗] [图3][这是?] → 模型答"兔子"</text>
+  <text x="50" y="326" font-size="9" fill="#374151">· 输入可以是"图、文交错"的长序列 → 给几个"图+答案"示例，再给新图，模型照着答（无需微调）</text>
+  <text x="50" y="344" font-size="9" fill="#6b7280">· 这正是把 GPT-3 的"少样本上下文学习"搬到多模态——现代多模态大模型对话能力的前身</text>
+
+  <!-- 一句话 -->
+  <rect x="30" y="364" width="880" height="94" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="386" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：Flamingo = 冻结视觉编码器 + 冻结 LLM，中间只训"Perceiver 重采样(变→定长视觉token)</text>
+  <text x="470" y="408" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">+ 门控交叉注意力(让LLM看图)"，靠交错图文序列做少样本学习。</text>
+  <text x="470" y="430" text-anchor="middle" font-size="9" fill="#374151">和 BLIP-2 同属"冻结两头大模型、只训中间桥"——BLIP-2 用 Q-Former，Flamingo 用 Resampler+门控交叉注意力。</text>
+  <text x="470" y="448" text-anchor="middle" font-size="8" fill="#6b7280">Alayrac J-B, et al. Flamingo: a Visual Language Model for Few-Shot Learning. NeurIPS 2022.</text>
+</svg>

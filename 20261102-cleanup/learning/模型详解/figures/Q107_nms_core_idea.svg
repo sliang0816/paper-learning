@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="560" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q107 NMS 核心思想校验：选代表→删重复→反复；但"不重叠"要改成"重叠不超过阈值"</text>
+
+  <!-- 你的理解 -->
+  <rect x="20" y="44" width="900" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">你的理解（基本正确 ✅）：选代表 → 删与它重叠的 → 在剩下里再选代表 → 反复 → 最后是互相独立的多个个体</text>
+  <text x="470" y="90" text-anchor="middle" font-size="9.5" fill="#374151">核心循环没错，最终每个框代表一个独立物体。但两处要收紧 ↓</text>
+  <text x="470" y="106" text-anchor="middle" font-size="9" fill="#6b7280">（塌缩：一个物体的多个重复框 → 一个物体一个框）</text>
+
+  <!-- ① 阈值非二值 -->
+  <rect x="20" y="126" width="620" height="220" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="330" y="146" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">① "重叠"不是二值 → "IoU 超过阈值"才算重复</text>
+  <!-- case A: same object duplicates -->
+  <text x="150" y="170" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">同一物体的重复框</text>
+  <rect x="80" y="180" width="120" height="80" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+  <rect x="90" y="188" width="118" height="78" fill="none" stroke="#f87171" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <text x="150" y="278" text-anchor="middle" font-size="9" fill="#b91c1c">IoU 高(&gt;0.5) → 判为重复 → 删</text>
+  <text x="150" y="294" text-anchor="middle" font-size="8.5" fill="#15803d">留绿（最高分代表）</text>
+  <!-- case B: two near objects -->
+  <text x="490" y="170" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">挨得近的两个不同物体</text>
+  <rect x="420" y="185" width="90" height="75" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+  <rect x="495" y="192" width="90" height="75" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+  <text x="490" y="284" text-anchor="middle" font-size="9" fill="#15803d">IoU 低(&lt;0.5) → 不算重复 → 两个都留 ✅</text>
+  <text x="490" y="300" text-anchor="middle" font-size="8.5" fill="#b91c1c">若按"只要重叠就删" → 会误删一个（漏检）</text>
+  <text x="40" y="326" font-size="9.5" fill="#374151">→ 所以最终保留的框之间<tspan font-weight="bold">可以有轻微重叠</tspan>，不是"绝对互不重叠"；阈值用来区分</text>
+  <text x="54" y="340" font-size="9.5" fill="#374151">"同物体重复框"还是"两个挨近的不同物体"。</text>
+
+  <!-- ② 按分数挑 -->
+  <rect x="660" y="126" width="260" height="220" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="790" y="146" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">② "挑一个" = 挑当前最高分</text>
+  <text x="676" y="172" font-size="9.5" fill="#374151">不是随便挑，每轮都拿</text>
+  <text x="676" y="188" font-size="9.5" fill="#374151"><tspan font-weight="bold">剩下框里分数最高</tspan>的当代表</text>
+  <rect x="690" y="204" width="150" height="24" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="765" y="220" text-anchor="middle" font-size="9" fill="#15803d">最高分 0.95 → 代表 ★</text>
+  <rect x="690" y="232" width="150" height="22" rx="3" fill="#fee2e2" stroke="#f87171"/>
+  <text x="765" y="247" text-anchor="middle" font-size="8.5" fill="#b91c1c">0.90 重叠 → 低分重复删</text>
+  <rect x="690" y="258" width="150" height="22" rx="3" fill="#fee2e2" stroke="#f87171"/>
+  <text x="765" y="273" text-anchor="middle" font-size="8.5" fill="#b91c1c">0.75 重叠 → 低分重复删</text>
+  <text x="676" y="300" font-size="9" fill="#6b7280">保证：留最可信的框、</text>
+  <text x="676" y="314" font-size="9" fill="#6b7280">删它周围的低分重复品；</text>
+  <text x="676" y="328" font-size="9" fill="#6b7280">随便挑可能留歪框删好框</text>
+
+  <!-- ③ 结果 -->
+  <rect x="20" y="358" width="900" height="60" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="380" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">③ 结果：理想情况下 最终框数 = 物体数，每个物体从"多个重复框"塌缩成"一个框"</text>
+  <text x="470" y="402" text-anchor="middle" font-size="9.5" fill="#374151">这正是 NMS 的目的——去掉稠密预测带来的重复框（呼应 Q20/Q21）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="430" width="900" height="110" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="452" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">一句话（两处收紧）</text>
+  <text x="470" y="478" text-anchor="middle" font-size="10" fill="#374151">"不重叠" → <tspan font-weight="bold" fill="#b91c1c">"重叠不超过阈值"</tspan>（所以最终框可轻微重叠、避免误删挨近的不同物体）</text>
+  <text x="470" y="504" text-anchor="middle" font-size="10" fill="#374151">"挑一个" → <tspan font-weight="bold" fill="#1e40af">"挑当前最高分那个"</tspan>（顺序由分数定，留最可信、删低分重复）</text>
+  <text x="470" y="528" text-anchor="middle" font-size="9.5" fill="#15803d">其余你的理解都对：选代表 → 删重复 → 反复到空 → 每个框一个独立个体</text>
+</svg>

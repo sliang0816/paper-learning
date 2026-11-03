@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q141 GAP 全局平均池化：把每个通道的整张特征图求平均"拍成一个数"——零参数、接任意尺寸</text>
+
+  <!-- ① 怎么算 -->
+  <rect x="20" y="42" width="900" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① ResNet-50 里怎么算（224×224 输入）</text>
+  <!-- feature map -->
+  <g>
+    <rect x="60" y="90" width="90" height="90" rx="3" fill="#bfdbfe" stroke="#3b82f6"/>
+    <line x1="90" y1="90" x2="90" y2="180" stroke="#93c5fd"/><line x1="120" y1="90" x2="120" y2="180" stroke="#93c5fd"/>
+    <line x1="60" y1="120" x2="150" y2="120" stroke="#93c5fd"/><line x1="60" y1="150" x2="150" y2="150" stroke="#93c5fd"/>
+    <text x="105" y="200" text-anchor="middle" font-size="9" fill="#374151">7×7×2048</text>
+    <text x="105" y="215" text-anchor="middle" font-size="8" fill="#6b7280">2048 个通道，每个是 7×7 小图</text>
+  </g>
+  <text x="180" y="138" font-size="12" fill="#9ca3af">──GAP──▶</text>
+  <text x="180" y="156" font-size="8.5" fill="#6b7280">每通道 49 个数求平均</text>
+  <!-- vector -->
+  <g>
+    <rect x="300" y="90" width="24" height="90" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="312" y="200" text-anchor="middle" font-size="9" fill="#15803d">1×1×2048</text>
+    <text x="312" y="215" text-anchor="middle" font-size="8" fill="#6b7280">2048 维向量</text>
+  </g>
+  <text x="345" y="138" font-size="12" fill="#9ca3af">──▶</text>
+  <rect x="390" y="105" width="90" height="60" rx="4" fill="#fde68a" stroke="#d97706"/>
+  <text x="435" y="132" text-anchor="middle" font-size="9.5" fill="#b45309">FC 2048→1000</text>
+  <text x="435" y="150" text-anchor="middle" font-size="8" fill="#6b7280">（这层才有参数）</text>
+  <text x="490" y="138" font-size="12" fill="#9ca3af">──▶</text>
+  <rect x="530" y="105" width="80" height="60" rx="4" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="570" y="132" text-anchor="middle" font-size="9.5" fill="#6d28d9">softmax</text>
+  <text x="570" y="150" text-anchor="middle" font-size="8" fill="#6b7280">1000 类概率</text>
+  <text x="650" y="120" font-size="9" fill="#374151">一个通道的 7×7：</text>
+  <text x="650" y="140" font-size="8.5" font-family="Consolas,monospace" fill="#374151">[0.2 0.8 ... 0.1]</text>
+  <text x="650" y="156" font-size="8.5" fill="#15803d">→ 平均 = 0.37（1 个数）</text>
+
+  <!-- ② 为什么用GAP -->
+  <rect x="20" y="254" width="900" height="180" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="276" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 为什么用 GAP（对比 AlexNet/VGG 的"拉平+大FC"）</text>
+  <text x="40" y="302" font-size="9.5" fill="#374151">· <tspan font-weight="bold">老办法</tspan>：7×7×512=25088 拉平 → FC4096，光这一层几千万参数，极易过拟合</text>
+  <text x="40" y="328" font-size="9.5" fill="#15803d">· <tspan font-weight="bold">GAP 零参数</tspan>：只是求平均、没有任何可学习权重 → 参数大减、过拟合大减</text>
+  <text x="40" y="354" font-size="9.5" fill="#374151">· <tspan font-weight="bold">接受任意输入尺寸</tspan>：7×7 或 10×10，平均完都是 1 个数 → 不像 FC 把输入尺寸焊死（呼应 Q44 定长约束）</text>
+  <text x="40" y="380" font-size="9.5" fill="#374151">· <tspan font-weight="bold">可解释</tspan>：每个通道 = 一个"概念探测器"，它的平均激活 = 这个概念在整图的证据强度</text>
+  <text x="40" y="406" font-size="9" fill="#6b7280">来源：Network in Network（Lin 2013）"用 GAP 替代 FC"，此后成 CNN 分类头标配</text>
+
+  <!-- ③ 关联+骨干注意 -->
+  <rect x="20" y="446" width="900" height="120" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="468" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">③ 当检测骨干时要跳过 GAP（本项目用法）＋ 同款操作出没处</text>
+  <text x="40" y="494" font-size="9.5" fill="#374151">· <tspan font-weight="bold">跳过 GAP</tspan>：GAP 把空间位置全平均掉，而检测要"目标在哪" → 骨干直接取 7×7×2048（或 C2~C5）喂 FPN，不经 GAP</text>
+  <text x="40" y="520" font-size="9.5" fill="#374151">· <tspan font-weight="bold">同款操作出没</tspan>：SE-Net/CBAM 的 Squeeze 第一步就是 GAP（Q54 每通道→C维描述符）；ViT 可用 GAP 替代 [CLS] 分类（Q99）</text>
+  <text x="40" y="546" font-size="9" fill="#6b7280">· GAP 输出维度 C=特征通道数、不是类别数（Q48）；类别数由后面的 FC 决定</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="578" width="900" height="34" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="600" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：GAP=每个通道整张图求平均→C 维向量；零参数、接任意尺寸、替代大 FC；分类才用它、当骨干要跳过（会平均掉空间位置）。</text>
+</svg>

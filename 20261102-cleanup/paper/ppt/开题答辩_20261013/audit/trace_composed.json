@@ -1,0 +1,4433 @@
+{
+  "deck": "paper/ppt/开题答辩_20261013/朱守亮-开题答辩v9-参考模板版.pptx",
+  "sources": [
+    "CLAUDE.md",
+    "paper/论文与实验思路梳理_20260822.md",
+    "paper/drafts/ch1_introduction.md",
+    "paper/drafts/ch2_related_work.md",
+    "paper/drafts/ch3_method.md",
+    "paper/drafts/ch4_clip.md",
+    "paper/drafts/ch5_experiments.md",
+    "paper/drafts/references.md",
+    "results/dataset_audit.json",
+    "results/head_width_control_summary_5seed.md",
+    "results/training_argument_audit.md",
+    "results/external_validation/raod_test_v1/summary.md",
+    "results/open_vocab/yoloworld_v2s_gl_ru_internal_confirm_v1/summary.json",
+    "results/open_vocab/grounding_dino_tiny_gl_ru_internal_confirm_v1/summary.json",
+    "results/full_pipeline_benchmark.json"
+  ],
+  "n": 3,
+  "quoted": [
+    {
+      "slide": 1,
+      "text": "江苏大学",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 1,
+      "text": "博 学  ·  求 是  ·  明 德",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 1,
+      "text": "JIANGSU UNIVERSITY",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "JIANGSU",
+        "UNIVERSITY"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "国内外研究现状",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "04",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "05",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "06",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "07",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "参考文献",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "固定监控",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "语义命名",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "83.5%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "720 / 862 个 test GT 框",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "small 720\nmedium 142  ·  large 0",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "找不到",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "认不对",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "数据：test GT 框共 862 个；small 720,medium 142,large 0.",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "国内外研究现状",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "06",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "小目标检测",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "P2 / 多尺度特征 / 注意力",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "仍不足",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "道路异常检测",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "异常分数 / 前景掩膜 / 开放集",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "仍不足",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "视觉语言模型",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "CLIP / 区域—文本匹配",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "仍不足",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "结构收益",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "09",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "—",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "—",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "—",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "—",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "P2 因子",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "CBAM\n因子",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "无 P2",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "有 P2",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "无 CBAM",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "有 CBAM",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "baseline",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "p2_head128",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "cbam_only",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "p2_cbam_head128",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "× 5",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "seed 0  ·  1  ·  2  ·  3  ·  4",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "GT 框",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "检测框",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "冻结规则",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "配置 / 权重",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "可追溯",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "04",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "14",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "监控图像 → 候选框 → 固定词表命名",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "置信度、语义 margin 与 OOD 代理分数",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "2 × 2 × 5",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "P2 ∈ {关，开}",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "CBAM ∈ {关，开}",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "固定分类头宽 128",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "目标边缘设备",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "独立确认",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "05",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "19",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "06",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "21",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "+2.71 ± 1.65 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "+4.01 ± 1.58 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "P2 对小目标 AP50 · 5/5 为正",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "CBAM:无稳定独立增益",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "交互项 −1.53 ± 3.12 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "50.91%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "GT 框 GL/RU top-1",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "39.44%  >  32.45%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "置信度规则 F1 > 置信度+margin",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "0%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "YOLO-World",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "0.80%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "GDINO",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "GDINO"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "阶段一",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "阶段二",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "07",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "参考文献",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "25",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "参考文献",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "XU Y, HU H, ZHU X, et al. RAOD: A Benchmark for Road Abandoned Object Detection From Video Surveillance. IEEE Access, 2024.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Surveillance."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "REDMON J, DIVVALA S, GIRSHICK R, et al. You Only Look Once: Unified, Real-Time Object Detection. CVPR, 2016.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Detection."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "RADFORD A, KIM J W, HALLACY C, et al. Learning Transferable Visual Models From Natural Language Supervision. ICML, 2021.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Supervision."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "04",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "LIN T Y, DOLLÁR P, GIRSHICK R, et al. Feature Pyramid Networks for Object Detection. CVPR, 2017.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Detection."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "05",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "WOO S, PARK J, LEE J Y, et al. CBAM: Convolutional Block Attention Module. ECCV, 2018.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Module."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "06",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "LIU S, ZENG Z, REN T, et al. Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection. ECCV, 2024.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Detection."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "01",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "WU X, WANG J, ZHANG S, et al. Small Target Spillage Detection Algorithm Based on Spatial Attention and Channel Attention Mechanism. Springer, 2025.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Mechanism."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "02",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "李旭, 宋焕生, 史勤, 等. CIEFRNet: 面向高速公路的抛洒物检测算法. 计算机工程与应用, 2024.",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "03",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "CHENG T, SONG L, GE Y, et al. YOLO-World: Real-Time Open-Vocabulary Object Detection. CVPR, 2024.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Detection."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "04",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "ZHU H, LIU Z, SUN Z, et al. Beyond Pixel Uncertainty: Bounding the OoD Objects in Road Scenes. ICCV, 2025.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Scenes."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "05",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "MA W, ZHANG X, YAO Q, et al. AA-CLIP: Enhancing Zero-Shot Anomaly Detection via Anomaly-Aware CLIP. CVPR, 2025.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "CLIP."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "06",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "LIN T Y, MAIRE M, BELONGIE S, et al. Microsoft COCO: Common Objects in Context. ECCV, 2014.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Context."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 27,
+      "text": "谢谢！",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 27,
+      "text": "27",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "固定头宽的 2×2×5-seed 控制实验",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "同 seed 配对与尺寸分层评估",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "≠",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "从项目开始未查看的同域确认数据",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "来源：paper/论文与实验思路梳理_20260822.md;paper/drafts/ch6_conclusion.md",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "paper/drafts/ch6_conclusion.md"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "训练实参审计",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "26",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "21 / 26",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "均解析为 AdamW",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "缺少优化器日志",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "5 / 26",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "保持未恢复，不猜测",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "来源：results/head_width_control_summary_5seed.md;results/size_stratified_head128_controls_5seed.md;results/training_argument_audit.md",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "官方 test 一次性评估｜3 个配对 seed｜baseline → p2_head128",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "Precision",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "84.76",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "86.1 %",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "AP50-95",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "52.66",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "▾ 50.95 %",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "+1.34 ± 0.70 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "3 / 3 正向",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "−1.70 ± 2.22 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "1 / 3 正向",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "来源：results/external_validation/raod_test_v1/summary.md",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 31,
+      "text": "28 个匹配候选",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 31,
+      "text": "17 个正确命名",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 31,
+      "text": "来源：paper/drafts/ch4_clip.md;paper/figures/fig_error_analysis.png",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "paper/drafts/ch4_clip.md",
+        "paper/figures/fig_error_analysis.png"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "YOLO-World v2s",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "0%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "F1",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "0 TP / 16 predictions",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "predictions"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "Grounding DINO tiny",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "0.80%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "F1",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "2 TP / 236 predictions",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "predictions"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "来源：results/open_vocab/yoloworld_v2s_gl_ru_internal_confirm_v1/summary.json;Grounding DINO 对应 summary.json",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/open_vocab/yoloworld_v2s_gl_ru_internal_confirm_v1/summary.json",
+        "summary.json"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "77.41 ms/图",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "12.91 FPS",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "P95 121.94 ms",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "来源：results/full_pipeline_benchmark.json",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/full_pipeline_benchmark.json"
+      ],
+      "absent_numbers": []
+    }
+  ],
+  "composed": [
+    {
+      "slide": 1,
+      "text": "融合视觉语言模型的路面抛洒物\n检测与异常识别方法研究",
+      "absent_ngrams": [
+        "合视觉",
+        "常识别",
+        "异常识",
+        "方法研",
+        "法研究",
+        "测与异",
+        "融合视"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 1,
+      "text": "硕士学位论文开题答辩",
+      "absent_ngrams": [
+        "位论文",
+        "士学位",
+        "学位论",
+        "文开题",
+        "硕士学",
+        "论文开"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 1,
+      "text": "汇报人：朱守亮",
+      "absent_ngrams": [
+        "汇报人"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "汇报内容",
+      "absent_ngrams": [
+        "报内容",
+        "汇报内"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "选题依据",
+      "absent_ngrams": [
+        "选题依",
+        "题依据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "研究目标与内容",
+      "absent_ngrams": [
+        "与内容",
+        "标与内",
+        "研究目",
+        "究目标"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "技术路线与研究方案",
+      "absent_ngrams": [
+        "究方案"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "创新点与难点",
+      "absent_ngrams": [
+        "与难点",
+        "新点与",
+        "点与难"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "前期基础与计划",
+      "absent_ngrams": [
+        "基础与",
+        "础与计"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "从问题出发\n以证据和边界收束",
+      "absent_ngrams": [
+        "从问题",
+        "以证据",
+        "据和边",
+        "界收束",
+        "边界收",
+        "问题出",
+        "题出发"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "选题依据",
+      "absent_ngrams": [
+        "选题依",
+        "题依据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "从固定监控的两道真实瓶颈出发",
+      "absent_ngrams": [
+        "两道真",
+        "从固定",
+        "实瓶颈",
+        "控的两",
+        "瓶颈出",
+        "的两道",
+        "监控的",
+        "真实瓶",
+        "道真实",
+        "颈出发"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "固定监控持续看路，却不会自动“看清”和“叫对”",
+      "absent_ngrams": [
+        "不会自",
+        "会自动",
+        "却不会",
+        "持续看",
+        "控持续",
+        "监控持",
+        "续看路"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "远处目标只占少量像素",
+      "absent_ngrams": [
+        "占少量",
+        "只占少",
+        "处目标",
+        "少量像",
+        "标只占",
+        "目标只",
+        "远处目",
+        "量像素"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "连续采集",
+      "absent_ngrams": [
+        "连续采"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "摄像机位置固定，视野长期稳定",
+      "absent_ngrams": [
+        "位置固",
+        "像机位",
+        "摄像机",
+        "期稳定",
+        "机位置",
+        "置固定",
+        "视野长",
+        "野长期",
+        "长期稳"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "尺度损失",
+      "absent_ngrams": [
+        "尺度损",
+        "度损失"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "远处抛洒物细节在下采样中丢失",
+      "absent_ngrams": [
+        "中丢失",
+        "在下采",
+        "处抛洒",
+        "样中丢",
+        "洒物细",
+        "物细节",
+        "细节在",
+        "节在下",
+        "远处抛",
+        "采样中"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "即使给出候选框，仍需判断它是什么",
+      "absent_ngrams": [
+        "仍需判",
+        "使给出",
+        "判断它",
+        "即使给",
+        "它是什",
+        "断它是",
+        "给出候",
+        "需判断"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "固定视角稳定了画面，却把尺度与语义问题串在了同一条链上",
+      "absent_ngrams": [
+        "一条链",
+        "串在了",
+        "义问题",
+        "了同一",
+        "了画面",
+        "却把尺",
+        "固定视",
+        "在了同",
+        "定了画",
+        "定视角",
+        "把尺度",
+        "条链上",
+        "稳定了",
+        "视角稳",
+        "角稳定",
+        "语义问",
+        "问题串",
+        "题串在"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "test 目标中 83.5% 为 small,“找不到”会继续放大“认不对”",
+      "absent_ngrams": [
+        "会继续",
+        "继续放",
+        "续放大"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "小目标细节丢失\n候选框未被提出",
+      "absent_ngrams": [
+        "未被提",
+        "标细节",
+        "框未被",
+        "目标细",
+        "细节丢",
+        "节丢失",
+        "被提出",
+        "选框未"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "候选框已存在\n但类别名称判断错误",
+      "absent_ngrams": [
+        "但类别",
+        "判断错",
+        "名称判",
+        "已存在",
+        "断错误",
+        "框已存",
+        "称判断",
+        "选框已"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "三条研究路线与尚未闭合的证据缺口",
+      "absent_ngrams": [
+        "三条研",
+        "与尚未",
+        "合的证",
+        "尚未闭",
+        "据缺口",
+        "未闭合",
+        "条研究",
+        "研究路",
+        "究路线",
+        "线与尚",
+        "证据缺",
+        "闭合的"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "三类研究路线各自提供能力，但都只解决了链路的一部分",
+      "absent_ngrams": [
+        "三类研",
+        "了链路",
+        "但都只",
+        "供能力",
+        "决了链",
+        "只解决",
+        "各自提",
+        "提供能",
+        "的一部",
+        "研究路",
+        "究路线",
+        "类研究",
+        "线各自",
+        "自提供",
+        "解决了",
+        "路的一",
+        "路线各",
+        "都只解"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "已提供",
+      "absent_ngrams": [
+        "已提供"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "改善空间细节和候选框质量",
+      "absent_ngrams": [
+        "善空间",
+        "改善空",
+        "细节和",
+        "节和候"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "但结构收益易与头宽、随机种子和交互效应混杂",
+      "absent_ngrams": [
+        "与头宽",
+        "但结构",
+        "和交互",
+        "子和交",
+        "应混杂",
+        "收益易",
+        "效应混",
+        "易与头",
+        "益易与"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "已提供",
+      "absent_ngrams": [
+        "已提供"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "发现与常见路面外观不一致区域",
+      "absent_ngrams": [
+        "一致区",
+        "不一致",
+        "与常见",
+        "发现与",
+        "外观不",
+        "常见路",
+        "现与常",
+        "致区域",
+        "见路面",
+        "观不一",
+        "路面外",
+        "面外观"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "但“异常”不自动给出抛洒物的具体语义名称",
+      "absent_ngrams": [
+        "动给出",
+        "自动给"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "已提供",
+      "absent_ngrams": [
+        "已提供"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "在给定词表内补充区域级语义",
+      "absent_ngrams": [
+        "充区域",
+        "内补充",
+        "在给定",
+        "域级语",
+        "级语义",
+        "给定词",
+        "补充区",
+        "表内补",
+        "词表内"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "但区域命名能力不等于端到端的可靠检测",
+      "absent_ngrams": [
+        "于端到",
+        "但区域",
+        "力不等",
+        "可靠检",
+        "端的可",
+        "等于端",
+        "靠检测"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "共同缺口：缺少一条可归因、可分解、可限定的证据链",
+      "absent_ngrams": [
+        "一条可",
+        "共同缺",
+        "可分解",
+        "可限定",
+        "同缺口",
+        "定的证",
+        "少一条",
+        "条可归",
+        "缺少一",
+        "限定的"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "文献范围：小目标检测、道路异常检测、视觉语言模型；完整条目见第26页。",
+      "absent_ngrams": [
+        "完整条",
+        "整条目",
+        "文献范",
+        "条目见",
+        "献范围",
+        "目见第"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "研究缺口不是缺一个模块，而是缺少对收益与失败的证据解释",
+      "absent_ngrams": [
+        "一个模",
+        "不是缺",
+        "口不是",
+        "失败的",
+        "对收益",
+        "少对收",
+        "据解释",
+        "是缺一",
+        "是缺少",
+        "益与失",
+        "研究缺",
+        "究缺口",
+        "缺一个",
+        "缺口不",
+        "而是缺",
+        "证据解",
+        "败的证"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "缺少受控归因",
+      "absent_ngrams": [
+        "受控归",
+        "少受控",
+        "控归因",
+        "缺少受"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "检测头宽度是否一致",
+      "absent_ngrams": [
+        "否一致",
+        "宽度是",
+        "度是否",
+        "是否一",
+        "测头宽"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "多个随机种子是否同向",
+      "absent_ngrams": [
+        "否同向",
+        "多个随",
+        "子是否",
+        "是否同",
+        "种子是"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "P2 与 CBAM 是否真有交互",
+      "absent_ngrams": [
+        "否真有",
+        "是否真",
+        "有交互",
+        "真有交"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "语义能力",
+      "absent_ngrams": [
+        "义能力",
+        "语义能"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "缺少端到端误差分解",
+      "absent_ngrams": [
+        "少端到",
+        "差分解",
+        "缺少端",
+        "误差分"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "候选目标是否已被漏掉",
+      "absent_ngrams": [
+        "否已被",
+        "已被漏",
+        "是否已",
+        "标是否",
+        "目标是",
+        "被漏掉"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "候选区域是否语义混淆",
+      "absent_ngrams": [
+        "区域是",
+        "否语义",
+        "域是否",
+        "是否语"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "阈值筛选是否造成额外损失",
+      "absent_ngrams": [
+        "值筛选",
+        "否造成",
+        "外损失",
+        "成额外",
+        "是否造",
+        "筛选是",
+        "选是否",
+        "造成额",
+        "阈值筛",
+        "额外损"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "控制变量",
+      "absent_ngrams": [
+        "制变量",
+        "控制变"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "分层协议",
+      "absent_ngrams": [
+        "分层协",
+        "层协议"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "审计与边界",
+      "absent_ngrams": [
+        "审计与",
+        "计与边"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "研究目标与内容",
+      "absent_ngrams": [
+        "与内容",
+        "标与内",
+        "研究目",
+        "究目标"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "两个目标、三项内容与明确的结论边界",
+      "absent_ngrams": [
+        "三项内",
+        "与明确",
+        "两个目",
+        "容与明",
+        "确的结",
+        "结论边",
+        "论边界",
+        "项内容"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "开题证据已足以支撑研究路线，但不代表论文实验已全部闭环",
+      "absent_ngrams": [
+        "代表论",
+        "全部闭",
+        "实验已",
+        "已全部",
+        "已足以",
+        "开题证",
+        "据已足",
+        "撑研究",
+        "支撑研",
+        "研究路",
+        "究路线",
+        "表论文",
+        "证据已",
+        "部闭环",
+        "题证据",
+        "验已全"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "两个研究目标",
+      "absent_ngrams": [
+        "研究目",
+        "究目标"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "改善小目标定位",
+      "absent_ngrams": [
+        "善小目",
+        "改善小"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "在固定头宽与同种子对照下，检验 P2 与 CBAM 的独立效应及交互。",
+      "absent_ngrams": [
+        "与同种",
+        "及交互",
+        "宽与同",
+        "对照下",
+        "应及交",
+        "效应及",
+        "立效应"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "诊断候选区域命名",
+      "absent_ngrams": [
+        "断候选",
+        "诊断候"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "按真值框、检测框和冻结规则三层协议，区分定位、语义与筛选失败。",
+      "absent_ngrams": [
+        "三层协",
+        "与筛选",
+        "义与筛",
+        "分定位",
+        "则三层",
+        "区分定",
+        "层协议",
+        "按真值",
+        "框和冻",
+        "测框和",
+        "筛选失",
+        "规则三",
+        "选失败"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "当前边界",
+      "absent_ngrams": [
+        "前边界",
+        "当前边"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "严格独立的同域确认尚未完成",
+      "absent_ngrams": [
+        "尚未完",
+        "确认尚",
+        "认尚未"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "视频、摄像头与时间元数据仍不可靠",
+      "absent_ngrams": [
+        "不可靠",
+        "与时间",
+        "仍不可",
+        "像头与",
+        "头与时",
+        "据仍不",
+        "数据仍",
+        "时间元",
+        "间元数"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "目标边缘设备尚未锁定",
+      "absent_ngrams": [
+        "备尚未",
+        "尚未锁",
+        "未锁定",
+        "设备尚"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "不宣称已实现广泛跨道路泛化与成熟部署",
+      "absent_ngrams": [
+        "不宣称",
+        "与成熟",
+        "化与成",
+        "实现广",
+        "宣称已",
+        "广泛跨",
+        "成熟部",
+        "泛化与",
+        "泛跨道",
+        "熟部署",
+        "现广泛",
+        "称已实",
+        "路泛化",
+        "道路泛"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "目标是改善定位、诊断命名；未完成的跨域与设备验证保留为后续计划",
+      "absent_ngrams": [
+        "与设备",
+        "善定位",
+        "域与设",
+        "备验证",
+        "成的跨",
+        "改善定",
+        "断命名",
+        "是改善",
+        "标是改",
+        "留为后",
+        "的跨域",
+        "目标是",
+        "设备验",
+        "证保留",
+        "诊断命",
+        "跨域与",
+        "验证保"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "内容一：固定头宽的 P2×CBAM 2×2×5-seed 受控实验",
+      "absent_ngrams": [
+        "内容一"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "共同条件：Detect 分类头隐藏宽度 = 128",
+      "absent_ngrams": [
+        "共同条"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "独立随机种子",
+      "absent_ngrams": [
+        "独立随",
+        "立随机"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "4 个配置\n× 5 seeds = 20 次训练",
+      "absent_ngrams": [
+        "个配置"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "同 seed 配对，减少训练波动影响",
+      "absent_ngrams": [
+        "减少训",
+        "动影响",
+        "少训练",
+        "波动影",
+        "练波动",
+        "训练波"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "只有先锁定隐藏头宽，才能把 P2,CBAM 与交互效应分开",
+      "absent_ngrams": [
+        "与交互",
+        "先锁定",
+        "只有先",
+        "定隐藏",
+        "应分开",
+        "才能把",
+        "效应分",
+        "有先锁",
+        "藏头宽",
+        "锁定隐",
+        "隐藏头"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "内容二：从 GT 框到检测框再到冻结规则，逐层加入真实误差",
+      "absent_ngrams": [
+        "入真实",
+        "内容二",
+        "加入真",
+        "实误差",
+        "层加入",
+        "框再到",
+        "框到检",
+        "测框再",
+        "真实误",
+        "逐层加"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "只测区域命名能力",
+      "absent_ngrams": [
+        "只测区",
+        "测区域"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "加入真实候选误差",
+      "absent_ngrams": [
+        "候选误",
+        "入真实",
+        "加入真",
+        "实候选",
+        "真实候",
+        "选误差"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "候选漏检 · 框偏移 · 冗余提议",
+      "absent_ngrams": [
+        "候选漏",
+        "冗余提",
+        "选漏检"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "在 val 选工作点并锁定",
+      "absent_ngrams": [
+        "作点并",
+        "并锁定",
+        "点并锁",
+        "选工作"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "评估置信度和 margin 筛选的额外代价",
+      "absent_ngrams": [
+        "估置信",
+        "信度和",
+        "外代价",
+        "筛选的",
+        "评估置",
+        "选的额",
+        "额外代"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "三级证据不是三个模型\n而是逐层放入检测和筛选环节",
+      "absent_ngrams": [
+        "和筛选",
+        "层放入",
+        "据不是",
+        "放入检",
+        "是逐层",
+        "测和筛",
+        "筛选环",
+        "而是逐",
+        "选环节",
+        "逐层放"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "第一层给出语义上限，第二层测级联误差，第三层检验冻结规则的净价值",
+      "absent_ngrams": [
+        "一层给",
+        "三层检",
+        "义上限",
+        "二层测",
+        "净价值",
+        "则的净",
+        "层测级",
+        "层给出",
+        "测级联",
+        "的净价",
+        "第一层",
+        "第二层",
+        "给出语",
+        "语义上"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "内容三：用审计追溯、误差分解和边界验证约束每一条结论",
+      "absent_ngrams": [
+        "一条结",
+        "内容三",
+        "分解和",
+        "审计追",
+        "差分解",
+        "束每一",
+        "条结论",
+        "每一条",
+        "用审计",
+        "界验证",
+        "约束每",
+        "解和边",
+        "计追溯",
+        "证约束",
+        "误差分",
+        "边界验",
+        "验证约"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "训练 / 推理日志",
+      "absent_ngrams": [
+        "推理日",
+        "理日志"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "结构化结果",
+      "absent_ngrams": [
+        "化结果",
+        "构化结"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "图表 / 结论边界",
+      "absent_ngrams": [
+        "结论边",
+        "论边界"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "审计追溯",
+      "absent_ngrams": [
+        "审计追",
+        "计追溯"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "结论回到配置、日志与结果文件",
+      "absent_ngrams": [
+        "与结果",
+        "到配置",
+        "回到配",
+        "志与结",
+        "日志与",
+        "果文件",
+        "结果文",
+        "结论回",
+        "论回到"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "直接证据与推定信息分开",
+      "absent_ngrams": [
+        "与推定",
+        "信息分",
+        "定信息",
+        "息分开",
+        "据与推",
+        "推定信"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "误差分解",
+      "absent_ngrams": [
+        "差分解",
+        "误差分"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "定位漏检：候选框没有进入语义阶段",
+      "absent_ngrams": [
+        "义阶段",
+        "位漏检",
+        "入语义",
+        "定位漏",
+        "有进入",
+        "框没有",
+        "没有进",
+        "语义阶",
+        "进入语",
+        "选框没"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "语义误分、阈值过滤分别计数",
+      "absent_ngrams": [
+        "分别计",
+        "别计数"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "边界验证",
+      "absent_ngrams": [
+        "界验证",
+        "边界验"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "同域独立确认、外部定位与开放词表对照",
+      "absent_ngrams": [
+        "位与开",
+        "外部定",
+        "放词表",
+        "表对照",
+        "词表对",
+        "部定位"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "设备未锁定时只报告 GPU 原型量级",
+      "absent_ngrams": [
+        "原型量",
+        "型量级",
+        "备未锁",
+        "定时只",
+        "时只报",
+        "未锁定",
+        "设备未",
+        "锁定时"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "结论必须能回到证据；尚未完成的验证则显式保留为后续边界",
+      "absent_ngrams": [
+        "则显式",
+        "到证据",
+        "后续边",
+        "回到证",
+        "尚未完",
+        "式保留",
+        "必须能",
+        "成的验",
+        "显式保",
+        "留为后",
+        "的验证",
+        "结论必",
+        "续边界",
+        "能回到",
+        "论必须",
+        "证则显",
+        "须能回",
+        "验证则"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "技术路线与研究方案",
+      "absent_ngrams": [
+        "究方案"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "从候选检测、语义命名到审计边界，逐层说明方案如何闭环。",
+      "absent_ngrams": [
+        "从候选",
+        "何闭环",
+        "到审计",
+        "名到审",
+        "命名到",
+        "如何闭",
+        "审计边",
+        "层说明",
+        "方案如",
+        "明方案",
+        "案如何",
+        "计边界",
+        "逐层说"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "总体路线以两级诊断串起检测、命名与边界审计",
+      "absent_ngrams": [
+        "两级诊",
+        "串起检",
+        "以两级",
+        "体路线",
+        "名与边",
+        "总体路",
+        "断串起",
+        "界审计",
+        "级诊断",
+        "线以两",
+        "诊断串",
+        "起检测",
+        "路线以",
+        "边界审"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "任务链",
+      "absent_ngrams": [
+        "任务链"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "审计链",
+      "absent_ngrams": [
+        "审计链"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "输出既服务于识别，也服务于定位失败来源与限定结论边界。",
+      "absent_ngrams": [
+        "与限定",
+        "也服务",
+        "于定位",
+        "于识别",
+        "位失败",
+        "出既服",
+        "务于定",
+        "务于识",
+        "定位失",
+        "定结论",
+        "既服务",
+        "服务于",
+        "来源与",
+        "源与限",
+        "结论边",
+        "论边界",
+        "输出既",
+        "限定结"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "来源：项目图 fig_framework_overview.png;本课题技术路线汇总",
+      "absent_ngrams": [
+        "线汇总",
+        "课题技",
+        "路线汇",
+        "项目图",
+        "题技术"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "检测方案只改变 P2 与 CBAM,头宽与训练协议保持固定",
+      "absent_ngrams": [
+        "保持固",
+        "协议保",
+        "宽与训",
+        "持固定",
+        "方案只",
+        "案只改",
+        "测方案",
+        "议保持"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "四种配置 · 每种五个种子",
+      "absent_ngrams": [
+        "五个种",
+        "四种配",
+        "每种五",
+        "种五个",
+        "种配置"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "控制变量",
+      "absent_ngrams": [
+        "制变量",
+        "控制变"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "固定训练协议与数据划分",
+      "absent_ngrams": [
+        "议与数"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "比较主效应与交互项",
+      "absent_ngrams": [
+        "与交互",
+        "主效应",
+        "应与交",
+        "效应与",
+        "比较主",
+        "较主效"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "目的：把结构改动与随机种子波动分开，而不是用单次最优结果下结论。",
+      "absent_ngrams": [
+        "下结论",
+        "不是用",
+        "与随机",
+        "优结果",
+        "动与随",
+        "动分开",
+        "单次最",
+        "把结构",
+        "是用单",
+        "最优结",
+        "果下结",
+        "次最优",
+        "波动分",
+        "用单次",
+        "结果下"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "来源：项目图 fig_p2cbam_architecture.png;P2×CBAM 固定头宽受控实验",
+      "absent_ngrams": [
+        "头宽受",
+        "宽受控",
+        "项目图"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "语义方案用三层输入逐步定位错误来自哪里",
+      "absent_ngrams": [
+        "三层输",
+        "义方案",
+        "位错误",
+        "入逐步",
+        "定位错",
+        "层输入",
+        "方案用",
+        "案用三",
+        "步定位",
+        "用三层",
+        "自哪里",
+        "语义方",
+        "误来自",
+        "输入逐",
+        "逐步定",
+        "错误来"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "GT 框测分类上限 · 检测框测端到端损失 · 冻结规则测历史迁移边界",
+      "absent_ngrams": [
+        "分类上",
+        "则测历",
+        "到端损",
+        "历史迁",
+        "史迁移",
+        "框测分",
+        "框测端",
+        "测分类",
+        "测历史",
+        "测框测",
+        "测端到",
+        "移边界",
+        "端损失",
+        "类上限",
+        "规则测",
+        "迁移边"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "来源：项目图 fig_clip_pipeline.png;语义诊断实验协议",
+      "absent_ngrams": [
+        "义诊断",
+        "实验协",
+        "断实验",
+        "诊断实",
+        "语义诊",
+        "项目图",
+        "验协议"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "完整闭环依赖独立数据、时间信息与目标硬件",
+      "absent_ngrams": [
+        "依赖独",
+        "信息与",
+        "完整闭",
+        "息与目",
+        "整闭环",
+        "时间信",
+        "标硬件",
+        "环依赖",
+        "目标硬",
+        "赖独立",
+        "闭环依"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "独立同域数据",
+      "absent_ngrams": [
+        "同域数",
+        "域数据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "确认受控增益与规则阈值能否复现",
+      "absent_ngrams": [
+        "与规则",
+        "值能否",
+        "则阈值",
+        "受控增",
+        "否复现",
+        "增益与",
+        "控增益",
+        "益与规",
+        "确认受",
+        "能否复",
+        "规则阈",
+        "认受控",
+        "阈值能"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "时间与相机元数据",
+      "absent_ngrams": [
+        "与相机",
+        "时间与",
+        "机元数",
+        "相机元",
+        "间与相"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "支撑视频连续性、跨时段与开放集分析",
+      "absent_ngrams": [
+        "撑视频",
+        "支撑视",
+        "放集分",
+        "时段与",
+        "段与开",
+        "视频连",
+        "跨时段",
+        "集分析",
+        "频连续"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "决定算力、内存与端侧延迟约束",
+      "absent_ngrams": [
+        "与端侧",
+        "侧延迟",
+        "内存与",
+        "决定算",
+        "存与端",
+        "定算力",
+        "延迟约",
+        "端侧延",
+        "迟约束"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "满足条件后",
+      "absent_ngrams": [
+        "条件后",
+        "满足条",
+        "足条件"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "开放集研究",
+      "absent_ngrams": [
+        "放集研",
+        "集研究"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "端侧验证",
+      "absent_ngrams": [
+        "侧验证",
+        "端侧验"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "才构成\n完整闭环",
+      "absent_ngrams": [
+        "完整闭",
+        "才构成",
+        "整闭环"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "当前可以答辩：方案与内部证据充分；当前不能承诺：外部泛化与部署已经完成。",
+      "absent_ngrams": [
+        "不能承",
+        "以答辩",
+        "内部证",
+        "前不能",
+        "前可以",
+        "化与部",
+        "可以答",
+        "外部泛",
+        "据充分",
+        "方案与",
+        "案与内",
+        "泛化与",
+        "署已经",
+        "能承诺",
+        "证据充",
+        "部泛化",
+        "部署已",
+        "部证据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "创新点与难点",
+      "absent_ngrams": [
+        "与难点",
+        "新点与",
+        "点与难"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "创新不在堆叠模块，而在可归因实验与分层诊断；难点是守住证据边界。",
+      "absent_ngrams": [
+        "不在堆",
+        "与分层",
+        "住证据",
+        "分层诊",
+        "创新不",
+        "叠模块",
+        "在可归",
+        "在堆叠",
+        "堆叠模",
+        "守住证",
+        "层诊断",
+        "新不在",
+        "是守住",
+        "点是守",
+        "而在可",
+        "证据边",
+        "难点是",
+        "验与分"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "创新在于可归因与可诊断，难点在于证据边界",
+      "absent_ngrams": [
+        "与可诊",
+        "于可归",
+        "于证据",
+        "创新在",
+        "可诊断",
+        "因与可",
+        "在于可",
+        "在于证",
+        "归因与",
+        "新在于",
+        "证据边",
+        "难点在"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "受控归因：结构收益不靠单次最优",
+      "absent_ngrams": [
+        "不靠单",
+        "单次最",
+        "受控归",
+        "控归因",
+        "次最优",
+        "益不靠",
+        "靠单次"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "固定头宽与训练协议",
+      "absent_ngrams": [
+        "宽与训"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "P2 × CBAM 二乘二设计",
+      "absent_ngrams": [
+        "乘二设",
+        "二乘二",
+        "二设计"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "五个种子报告主效应与交互项",
+      "absent_ngrams": [
+        "与交互",
+        "主效应",
+        "五个种",
+        "告主效",
+        "应与交",
+        "报告主",
+        "效应与"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "分层诊断：错误来源可被拆开",
+      "absent_ngrams": [
+        "分层诊",
+        "可被拆",
+        "层诊断",
+        "来源可",
+        "源可被",
+        "被拆开",
+        "误来源",
+        "错误来"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "GT 框测分类能力上限",
+      "absent_ngrams": [
+        "力上限",
+        "框测分",
+        "测分类",
+        "能力上"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "检测框测召回与条件分类",
+      "absent_ngrams": [
+        "与条件",
+        "召回与",
+        "回与条",
+        "框测召",
+        "测框测"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "冻结规则测历史迁移与开放集边界",
+      "absent_ngrams": [
+        "则测历",
+        "历史迁",
+        "史迁移",
+        "放集边",
+        "测历史",
+        "移与开",
+        "规则测",
+        "迁移与",
+        "集边界"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "可以主张",
+      "absent_ngrams": [
+        "以主张",
+        "可以主"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "研究设计与内部证据链已经形成",
+      "absent_ngrams": [
+        "内部证",
+        "已经形",
+        "据链已",
+        "研究设",
+        "究设计",
+        "经形成",
+        "计与内",
+        "设计与",
+        "部证据",
+        "链已经"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "不能主张",
+      "absent_ngrams": [
+        "不能主",
+        "能主张"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "独立确认、跨摄像头泛化、开放词汇闭环与端侧部署已经完成",
+      "absent_ngrams": [
+        "与端侧",
+        "侧部署",
+        "像头泛",
+        "头泛化",
+        "汇闭环",
+        "环与端",
+        "端侧部",
+        "署已经",
+        "词汇闭",
+        "部署已",
+        "闭环与"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "难点不是继续叠模块，而是取得足够独立、可追溯且与应用条件一致的证据。",
+      "absent_ngrams": [
+        "不是继",
+        "且与应",
+        "件一致",
+        "取得足",
+        "叠模块",
+        "够独立",
+        "应用条",
+        "得足够",
+        "是取得",
+        "是继续",
+        "条件一",
+        "溯且与",
+        "点不是",
+        "继续叠",
+        "续叠模",
+        "而是取",
+        "致的证",
+        "足够独",
+        "追溯且",
+        "难点不"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "前期基础与计划",
+      "absent_ngrams": [
+        "基础与",
+        "础与计"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "已有受控实验与语义诊断基础；后续按证据依赖补齐独立确认与部署验证。",
+      "absent_ngrams": [
+        "义诊断",
+        "依赖补",
+        "后续按",
+        "已有受",
+        "按证据",
+        "据依赖",
+        "断基础",
+        "有受控",
+        "续按证",
+        "补齐独",
+        "认与部",
+        "证据依",
+        "诊断基",
+        "语义诊",
+        "赖补齐",
+        "验与语",
+        "齐独立"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "P2 的增益跨 5 个种子一致，CBAM 未显示稳定独立收益",
+      "absent_ngrams": [
+        "增益跨",
+        "子一致",
+        "的增益",
+        "种子一"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "图为早期 3-seed 尺度分层视图；右侧为最终 5-seed 受控主实验。",
+      "absent_ngrams": [
+        "为早期",
+        "为最终",
+        "侧为最",
+        "分层视",
+        "受控主",
+        "右侧为",
+        "图为早",
+        "层视图",
+        "度分层",
+        "控主实"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "P2 对整体 mAP50 · 5/5 为正",
+      "absent_ngrams": [
+        "对整体"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "现有证据支持继续验证 P2,不支持把 CBAM 描述为稳定提升来源。",
+      "absent_ngrams": [
+        "为稳定",
+        "升来源",
+        "持继续",
+        "提升来",
+        "支持继",
+        "继续验",
+        "述为稳"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "来源：项目图 fig_ch3_size_stratified_map.png;固定头宽 P2×CBAM 五种子主实验",
+      "absent_ngrams": [
+        "五种子",
+        "子主实",
+        "种子主",
+        "项目图"
+      ],
+      "absent_tokens": [
+        "fig_ch3_size_stratified_map.png"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "GT 框分类仍有限，冻结开放词汇基线远未闭环",
+      "absent_ngrams": [
+        "仍有限",
+        "冻结开",
+        "分类仍",
+        "基线远",
+        "未闭环",
+        "类仍有",
+        "线远未",
+        "结开放",
+        "远未闭"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "案例图显示：定位、语义与背景误报都可能成为瓶颈。",
+      "absent_ngrams": [
+        "与背景",
+        "为瓶颈",
+        "义与背",
+        "例图显",
+        "可能成",
+        "图显示",
+        "成为瓶",
+        "报都可",
+        "景误报",
+        "案例图",
+        "背景误",
+        "能成为",
+        "误报都",
+        "都可能"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "冻结开放词汇基线",
+      "absent_ngrams": [
+        "冻结开",
+        "结开放"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "230 图回溯确认支持误差分析，但不等于新的独立测试；开放词汇仍是后续问题。",
+      "absent_ngrams": [
+        "于新的",
+        "仍是后",
+        "但不等",
+        "后续问",
+        "回溯确",
+        "图回溯",
+        "差分析",
+        "持误差",
+        "支持误",
+        "新的独",
+        "是后续",
+        "汇仍是",
+        "溯确认",
+        "独立测",
+        "确认支",
+        "立测试",
+        "等于新",
+        "续问题",
+        "认支持",
+        "词汇仍",
+        "误差分"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "来源：项目图 fig_qualitative_pipeline_cases.png;CLIP,回溯规则与冻结基线实验",
+      "absent_ngrams": [
+        "冻结基",
+        "则与冻",
+        "回溯规",
+        "基线实",
+        "溯规则",
+        "线实验",
+        "结基线",
+        "规则与",
+        "项目图"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "后续工作按证据依赖推进，不提前承诺开放词汇与部署",
+      "absent_ngrams": [
+        "不提前",
+        "作按证",
+        "依赖推",
+        "前承诺",
+        "后续工",
+        "工作按",
+        "承诺开",
+        "按证据",
+        "据依赖",
+        "提前承",
+        "汇与部",
+        "续工作",
+        "证据依",
+        "词汇与",
+        "诺开放",
+        "赖推进"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "独立确认与审计补齐",
+      "absent_ngrams": [
+        "审计补",
+        "计补齐",
+        "认与审"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "复现实验、补齐日志与同域确认",
+      "absent_ngrams": [
+        "与同域",
+        "志与同",
+        "日志与",
+        "补齐日",
+        "齐日志"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "时间与开放集研究",
+      "absent_ngrams": [
+        "放集研",
+        "时间与",
+        "间与开",
+        "集研究"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "仅在元数据可靠时开展",
+      "absent_ngrams": [
+        "仅在元",
+        "可靠时",
+        "在元数",
+        "据可靠",
+        "数据可",
+        "时开展",
+        "靠时开"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "阶段三",
+      "absent_ngrams": [
+        "阶段三"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "目标设备验证",
+      "absent_ngrams": [
+        "备验证",
+        "设备验"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "设备确定后评估速度、内存与精度",
+      "absent_ngrams": [
+        "与精度",
+        "估速度",
+        "内存与",
+        "后评估",
+        "备确定",
+        "存与精",
+        "定后评",
+        "确定后",
+        "设备确",
+        "评估速"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "进入条件",
+      "absent_ngrams": [
+        "进入条"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "主实验可复现，26 次训练的审计链闭合",
+      "absent_ngrams": [
+        "审计链",
+        "的审计",
+        "练的审",
+        "计链闭",
+        "链闭合",
+        "验可复"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "进入条件",
+      "absent_ngrams": [
+        "进入条"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "获得可靠的视频、相机与时间信息",
+      "absent_ngrams": [
+        "与时间",
+        "得可靠",
+        "时间信",
+        "机与时",
+        "的视频",
+        "相机与",
+        "获得可",
+        "靠的视"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "进入条件",
+      "absent_ngrams": [
+        "进入条"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "明确目标边缘设备及其算力约束",
+      "absent_ngrams": [
+        "其算力",
+        "力约束",
+        "及其算",
+        "备及其",
+        "明确目",
+        "确目标",
+        "算力约",
+        "设备及"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "采用相对阶段而非虚构日期：上一阶段的证据与条件满足后，再进入下一阶段。",
+      "absent_ngrams": [
+        "上一阶",
+        "下一阶",
+        "与条件",
+        "件满足",
+        "入下一",
+        "再进入",
+        "对阶段",
+        "据与条",
+        "条件满",
+        "构日期",
+        "段的证",
+        "段而非",
+        "满足后",
+        "用相对",
+        "相对阶",
+        "而非虚",
+        "虚构日",
+        "进入下",
+        "采用相",
+        "阶段的",
+        "阶段而",
+        "非虚构"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "计划边界：严格同域确认、开放集全闭环与目标设备验证尚未完成。",
+      "absent_ngrams": [
+        "严格同",
+        "全闭环",
+        "划边界",
+        "备验证",
+        "尚未完",
+        "放集全",
+        "格同域",
+        "环与目",
+        "计划边",
+        "设备验",
+        "证尚未",
+        "闭环与",
+        "集全闭",
+        "验证尚"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "核心依据与研究位置",
+      "absent_ngrams": [
+        "依据与",
+        "心依据",
+        "据与研",
+        "核心依"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "注：此处为答辩核心文献节选，完整 51 条文献及格式见论文参考文献表。",
+      "absent_ngrams": [
+        "为答辩",
+        "及格式",
+        "处为答",
+        "式见论",
+        "心文献",
+        "文参考",
+        "文献及",
+        "文献节",
+        "文献表",
+        "条文献",
+        "核心文",
+        "格式见",
+        "此处为",
+        "献及格",
+        "献节选",
+        "答辩核",
+        "见论文",
+        "论文参",
+        "辩核心"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "来源：paper/drafts/references.md（按正文编号核对）",
+      "absent_ngrams": [
+        "号核对",
+        "文编号",
+        "正文编",
+        "编号核"
+      ],
+      "absent_tokens": [
+        "paper/drafts/references.md"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 27,
+      "text": "恳请各位老师批评指正",
+      "absent_ngrams": [
+        "位老师",
+        "各位老",
+        "师批评",
+        "恳请各",
+        "批评指",
+        "老师批",
+        "评指正",
+        "请各位"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "内部重复种子不等于独立确认",
+      "absent_ngrams": [
+        "于独立",
+        "内部重",
+        "复种子",
+        "子不等",
+        "种子不",
+        "等于独",
+        "部重复",
+        "重复种"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "当前已有",
+      "absent_ngrams": [
+        "前已有",
+        "当前已"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "RAOD 冻结 test 的 3-seed 外部定位",
+      "absent_ngrams": [
+        "外部定",
+        "部定位"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "回溯内部确认与开放词汇冻结对照",
+      "absent_ngrams": [
+        "冻结对",
+        "汇冻结",
+        "结对照",
+        "认与开",
+        "词汇冻"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "仍需补齐",
+      "absent_ngrams": [
+        "仍需补",
+        "需补齐"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "可靠的视频、相机与时间元数据",
+      "absent_ngrams": [
+        "与时间",
+        "时间元",
+        "机与时",
+        "的视频",
+        "相机与",
+        "间元数",
+        "靠的视"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "目标边缘设备确定后的实机测量",
+      "absent_ngrams": [
+        "后的实",
+        "备确定",
+        "定后的",
+        "实机测",
+        "机测量",
+        "的实机",
+        "确定后",
+        "设备确"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "更广相机、道路与类别的外部验证",
+      "absent_ngrams": [
+        "别的外",
+        "广相机",
+        "更广相",
+        "路与类",
+        "道路与"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "内部复现提高可信度，但不能替代严格独立确认；这正是开题后的优先工作。",
+      "absent_ngrams": [
+        "代严格",
+        "优先工",
+        "先工作",
+        "内部复",
+        "后的优",
+        "开题后",
+        "提高可",
+        "是开题",
+        "替代严",
+        "正是开",
+        "现提高",
+        "的优先",
+        "这正是",
+        "部复现",
+        "题后的",
+        "高可信"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "固定头宽 2×2×5-seed 结果与训练审计",
+      "absent_ngrams": [
+        "果与训",
+        "练审计",
+        "训练审"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "主对照：分类头隐藏宽度统一为 128｜4 种配置 × 5 seeds = 20 次",
+      "absent_ngrams": [
+        "主对照",
+        "种配置"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "正式训练运行",
+      "absent_ngrams": [
+        "练运行",
+        "训练运"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "纳入统一审计",
+      "absent_ngrams": [
+        "一审计",
+        "入统一",
+        "纳入统",
+        "统一审"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 29,
+      "text": "直接日志证据",
+      "absent_ngrams": [
+        "志证据",
+        "接日志",
+        "日志证",
+        "直接日"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "RAOD 外部验证给出边界，而非普遍提升",
+      "absent_ngrams": [
+        "出边界",
+        "给出边",
+        "而非普",
+        "证给出",
+        "非普遍",
+        "验证给"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "Precision 配对效应",
+      "absent_ngrams": [
+        "对效应",
+        "配对效"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "AP50-95 配对效应",
+      "absent_ngrams": [
+        "对效应",
+        "配对效"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 30,
+      "text": "P2 在 RAOD 上提高了 Precision,但没有复现综合定位指标的提升。",
+      "absent_ngrams": [
+        "上提高",
+        "复现综",
+        "提高了",
+        "有复现",
+        "标的提",
+        "没有复",
+        "现综合"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 31,
+      "text": "历史 test 的错误瓶颈：59 → 28 → 17",
+      "absent_ngrams": [
+        "误瓶颈",
+        "错误瓶"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 31,
+      "text": "59 个预留类真值",
+      "absent_ngrams": [
+        "留类真"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 31,
+      "text": "定位遗漏与语义混淆共同限制端到端结果；该链仅用于历史 test 的条件性诊断。",
+      "absent_ngrams": [
+        "于历史",
+        "件性诊",
+        "位遗漏",
+        "制端到",
+        "定位遗",
+        "性诊断",
+        "条件性",
+        "漏与语",
+        "用于历",
+        "该链仅",
+        "遗漏与",
+        "链仅用",
+        "限制端"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "直接开放词汇基线在当前冻结配置下仍很弱",
+      "absent_ngrams": [
+        "下仍很",
+        "仍很弱",
+        "基线在",
+        "线在当",
+        "置下仍"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "统一协议：640 输入｜GL/RU 固定英文词表｜val 选阈值 → 回溯内部确认｜IoU = 0.5",
+      "absent_ngrams": [
+        "统一协"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "负结果只约束当前词表、阈值与道路监控域，不否定两类模型的一般能力。",
+      "absent_ngrams": [
+        "不否定",
+        "与道路",
+        "两类模",
+        "值与道",
+        "否定两",
+        "定两类",
+        "类模型"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "RTX 3090 原型速度只说明量级，不代表边缘部署",
+      "absent_ngrams": [
+        "代表边",
+        "原型速",
+        "型速度",
+        "度只说",
+        "明量级",
+        "缘部署",
+        "表边缘",
+        "说明量",
+        "边缘部"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "平均端到端延迟",
+      "absent_ngrams": [
+        "到端延",
+        "均端到",
+        "平均端",
+        "端延迟"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "顺序流式，batch = 1",
+      "absent_ngrams": [
+        "序流式",
+        "顺序流"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "整管线吞吐率",
+      "absent_ngrams": [
+        "管线吞",
+        "线吞吐"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "模型加载与预热不计入",
+      "absent_ngrams": [
+        "不计入",
+        "与预热",
+        "加载与",
+        "载与预"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "尾部延迟",
+      "absent_ngrams": [
+        "尾部延",
+        "部延迟"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "700 张历史 test 图像",
+      "absent_ngrams": [
+        "张历史"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "阶段平均延迟（ms)",
+      "absent_ngrams": [
+        "段平均",
+        "阶段平"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "RTX 3090｜120 W｜旧 P2+CBAM seed0 原型；目标边缘设备尚未确定",
+      "absent_ngrams": [
+        "备尚未",
+        "尚未确",
+        "未确定",
+        "设备尚"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    }
+  ],
+  "absent_hard": [
+    {
+      "slide": 1,
+      "text": "JIANGSU UNIVERSITY",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "JIANGSU",
+        "UNIVERSITY"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "来源：项目图 fig_ch3_size_stratified_map.png;固定头宽 P2×CBAM 五种子主实验",
+      "absent_ngrams": [
+        "五种子",
+        "子主实",
+        "种子主",
+        "项目图"
+      ],
+      "absent_tokens": [
+        "fig_ch3_size_stratified_map.png"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "GDINO",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "GDINO"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "XU Y, HU H, ZHU X, et al. RAOD: A Benchmark for Road Abandoned Object Detection From Video Surveillance. IEEE Access, 2024.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Surveillance."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "REDMON J, DIVVALA S, GIRSHICK R, et al. You Only Look Once: Unified, Real-Time Object Detection. CVPR, 2016.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Detection."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "RADFORD A, KIM J W, HALLACY C, et al. Learning Transferable Visual Models From Natural Language Supervision. ICML, 2021.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Supervision."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "LIN T Y, DOLLÁR P, GIRSHICK R, et al. Feature Pyramid Networks for Object Detection. CVPR, 2017.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Detection."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "WOO S, PARK J, LEE J Y, et al. CBAM: Convolutional Block Attention Module. ECCV, 2018.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Module."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "LIU S, ZENG Z, REN T, et al. Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection. ECCV, 2024.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Detection."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "WU X, WANG J, ZHANG S, et al. Small Target Spillage Detection Algorithm Based on Spatial Attention and Channel Attention Mechanism. Springer, 2025.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Mechanism."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "CHENG T, SONG L, GE Y, et al. YOLO-World: Real-Time Open-Vocabulary Object Detection. CVPR, 2024.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Detection."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "ZHU H, LIU Z, SUN Z, et al. Beyond Pixel Uncertainty: Bounding the OoD Objects in Road Scenes. ICCV, 2025.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Scenes."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "MA W, ZHANG X, YAO Q, et al. AA-CLIP: Enhancing Zero-Shot Anomaly Detection via Anomaly-Aware CLIP. CVPR, 2025.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "CLIP."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "LIN T Y, MAIRE M, BELONGIE S, et al. Microsoft COCO: Common Objects in Context. ECCV, 2014.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "Context."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 26,
+      "text": "来源：paper/drafts/references.md（按正文编号核对）",
+      "absent_ngrams": [
+        "号核对",
+        "文编号",
+        "正文编",
+        "编号核"
+      ],
+      "absent_tokens": [
+        "paper/drafts/references.md"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 28,
+      "text": "来源：paper/论文与实验思路梳理_20260822.md;paper/drafts/ch6_conclusion.md",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "paper/drafts/ch6_conclusion.md"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 31,
+      "text": "来源：paper/drafts/ch4_clip.md;paper/figures/fig_error_analysis.png",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "paper/drafts/ch4_clip.md",
+        "paper/figures/fig_error_analysis.png"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "0 TP / 16 predictions",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "predictions"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "2 TP / 236 predictions",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "predictions"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 32,
+      "text": "来源：results/open_vocab/yoloworld_v2s_gl_ru_internal_confirm_v1/summary.json;Grounding DINO 对应 summary.json",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/open_vocab/yoloworld_v2s_gl_ru_internal_confirm_v1/summary.json",
+        "summary.json"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 33,
+      "text": "来源：results/full_pipeline_benchmark.json",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/full_pipeline_benchmark.json"
+      ],
+      "absent_numbers": []
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 130" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="740" height="130" fill="#fff"/>
+  <text x="14" y="24" font-size="13" font-weight="bold" fill="#111827">③ 即插即用模块：特征图 → 同形状特征图（插在网络中间，不改 H×W×C）</text>
+  <g font-size="11">
+    <rect x="30" y="44" width="160" height="54" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="110" y="68" text-anchor="middle">特征图</text><text x="110" y="86" text-anchor="middle" font-size="10" fill="#6b7280">H×W×C</text>
+    <line x1="192" y1="71" x2="250" y2="71" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <rect x="252" y="44" width="220" height="54" rx="5" fill="#f3f4f6" stroke="#6b7280"/><text x="362" y="66" text-anchor="middle">BN/LN · SE · CBAM · DeformConv</text><text x="362" y="86" text-anchor="middle" font-size="10" fill="#6b7280">重标定 / 加权 / 调分布</text>
+    <line x1="474" y1="71" x2="532" y2="71" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <rect x="534" y="44" width="180" height="54" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="624" y="66" text-anchor="middle">同形状特征图</text><text x="624" y="86" text-anchor="middle" font-size="10" fill="#15803d">H×W×C（值变、形不变）</text>
+  </g>
+  <text x="14" y="118" font-size="10.5" fill="#6b7280">关键：输入输出同形状，所以能任意插入而不破坏后续层（CBAM 见 Q55、SE 见 Q54）。</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 660" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="660" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q130 "GPT只是预测下一个token"：机制描述✓（三处小修）；但"只是"低估了把预测做准所需要的东西</text>
+
+  <!-- ① 机制 -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">① 机制校准：循环骨架 ✓，三处小修</text>
+  <text x="40" y="90" font-size="9.5" fill="#374151">✓ 循环：输入 = prompt token + 已生成 token → 预测下一个 → 拼回去 → 直到 EOS 或长度上限</text>
+  <text x="40" y="112" font-size="9.5" fill="#b91c1c">修1：prompt 不是"和原始token组合"——prompt 本身就是原始 token，序列只是变长、token 不融合（prefill 读完后逐个追加，KV缓存）</text>
+  <text x="40" y="134" font-size="9.5" fill="#b91c1c">修2："取最大概率"只是策略之一（贪心）——实际对话模型用采样（温度/top-p，按概率抽非取最大）→ 同问两遍答案不同的原因</text>
+  <text x="40" y="156" font-size="9.5" fill="#b91c1c">修3：模型输出的是"分布"，取哪个词是解码策略的事（贪心/beam/采样，Q80）</text>
+  <text x="40" y="178" font-size="9" fill="#6b7280">训推关系：训练并行学"每个前缀→下一词"的条件分布（Q125/Q126），推理串行使用它</text>
+
+  <!-- ② 预测需要什么 -->
+  <rect x="20" y="204" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="226" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">② 反问："把下一个 token 预测准"需要什么？——目标函数 ≠ 能力上限</text>
+  <text x="40" y="252" font-size="9.5" fill="#374151">· 预测 "357×48=_" 的下一个 token → 得会算乘法；预测侦探小说"凶手是_" → 得读懂全书伏笔；预测下一行代码 → 得懂程序逻辑</text>
+  <text x="40" y="276" font-size="9.5" fill="#15803d">· 为了在海量文本上做好这一个目标，梯度下降被迫在权重里造出：语法结构、事实知识、某种推理电路（可解释性研究实测到内部结构）</text>
+  <text x="40" y="300" font-size="9.5" fill="#374151">· "数据大→好像有智能"更准的因果链：数据大+模型大 → "把预测做好"的压力足以逼出通用能力 → 规模涌现是实测现象（Q128 预测即理解）</text>
+  <text x="40" y="326" font-size="9" fill="#6b7280">· 类比：目标简单不等于产物简单——进化的目标也"只是"基因复制，产物包括人脑</text>
+
+  <!-- ③ 真实差异 -->
+  <rect x="20" y="366" width="900" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="388" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">③ 但"不像人类思考"有几点实实在在对</text>
+  <text x="40" y="414" font-size="9.5" fill="#374151">· 优化的是"像不像"非"对不对" → 一本正经编造（幻觉）；RLHF（Q129）部分矫正未根治</text>
+  <text x="40" y="436" font-size="9.5" fill="#374151">· 思考=生成、不能默想：人可想清楚再开口；GPT 的"思考"就是产出 token 本身——CoT/推理模型=把思考过程也变成要生成的 token</text>
+  <text x="40" y="458" font-size="9.5" fill="#374151">· 推理时权重冻结（Q80）：对话学到的不写进权重、无持续学习；上下文窗口=全部"工作记忆"</text>
+  <text x="40" y="480" font-size="9.5" fill="#374151">· 无身体经验、无内生目标</text>
+  <text x="40" y="502" font-size="9" fill="#6b7280">这些是机制上的真差异，不是修辞</text>
+
+  <!-- ④ 结论 -->
+  <rect x="20" y="528" width="900" height="70" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="550" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">④ 小心这一步推理："机制=概率预测 → 所以无智能"——机制层描述裁决不了能力层问题</text>
+  <text x="470" y="572" text-anchor="middle" font-size="9.5" fill="#374151">人脑机制层"只是神经元放电"，没人因此说人无智能；"大规模下一词预测器算不算智能"= 开放争论（随机鹦鹉派 vs 涌现派）</text>
+  <text x="470" y="590" text-anchor="middle" font-size="9.5" fill="#15803d">稳妥表述：机制上它确实是条件概率采样器（你说得对）；能力上，规模化后的表现已不能用"只是"打发</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="610" width="900" height="40" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="628" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：循环机制✓（修：序列变长非组合、采样非必取最大、输出是分布）；"只是预测下一词"低估了预测做准所需的能力，</text>
+  <text x="470" y="643" text-anchor="middle" font-size="9" fill="#374151">但幻觉/思考即生成/权重冻结是真差异——机制正确描述 ≠ 智能与否的裁决。</text>
+</svg>

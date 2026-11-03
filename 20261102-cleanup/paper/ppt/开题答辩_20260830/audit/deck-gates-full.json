@@ -1,0 +1,518 @@
+{
+  "delivery": "presented",
+  "content": {
+    "slides": [
+      {
+        "slide": 1,
+        "role": "cover",
+        "takeaway": "融合视觉语言模型的路面抛洒物检测与异常识别方法研究",
+        "evidence": [
+          "用户提供的 v7 江苏大学封面素材",
+          "paper/论文-江苏大学模板.docx"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 2,
+        "role": "agenda",
+        "takeaway": "汇报围绕问题、路线、证据和计划四个问题展开",
+        "evidence": [
+          "paper/plans/开题PPT内容规划_20260830.md#Narrative-arc"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 3,
+        "role": "hook",
+        "takeaway": "固定监控把目标拍进画面，却仍难保留小目标细节",
+        "evidence": [
+          "论文 PDF 第21页",
+          "paper/figures/fig_ch3_size_distribution.png"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 4,
+        "role": "related-work",
+        "takeaway": "三类相关路线各自提供能力，但没有自动形成可归因、可审计的完整证据链",
+        "evidence": [
+          "论文参考文献[7][9][12][17][39]",
+          "paper/plans/开题PPT内容规划_20260830.md"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 5,
+        "role": "framework",
+        "takeaway": "本课题只回答两个可验证问题，并主动限制外推",
+        "evidence": [
+          "论文 PDF 第10–12页",
+          "论文 PDF 第49–52页"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 6,
+        "role": "framework",
+        "takeaway": "两条技术主线共享先控制变量、再逐层加入真实误差的原则",
+        "evidence": [
+          "results/head_width_control_summary_5seed.md",
+          "论文 PDF 第31–44页"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 7,
+        "role": "protocol",
+        "takeaway": "4,651张源数据排除330张预留类图像后形成4,321张六类检测清单，近重复隔离仍不等于独立确认",
+        "evidence": [
+          "results/dataset_split_report.json",
+          "论文 PDF 第24页",
+          "终审报告 §3"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 8,
+        "role": "method",
+        "takeaway": "P2 增加 160×160 浅层分支以保留小目标空间信息",
+        "evidence": [
+          "论文 PDF 第22–23页",
+          "paper/figures/fig_ch3_architecture.png"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 9,
+        "role": "experiment-design",
+        "takeaway": "原 P2 结果混入头宽变化，必须用 2×2×5-seed 重新归因",
+        "evidence": [
+          "论文 PDF 第23–24页",
+          "results/training_argument_audit.md"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 10,
+        "role": "evidence",
+        "takeaway": "控制头宽后 P2 在自建域 5/5 正向，CBAM 没有稳定独立贡献",
+        "evidence": [
+          "results/head_width_control_summary_5seed.md",
+          "results/size_stratified_head128_controls_5seed.md"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 11,
+        "role": "boundary-evidence",
+        "takeaway": "RAOD 只复现 Precision 提高，没有复现综合定位提升",
+        "evidence": [
+          "results/external_validation/raod_test_v1/summary.md"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 12,
+        "role": "method",
+        "takeaway": "CLIP 只在固定八类词表内命名检测框，不负责发现任意未知类",
+        "evidence": [
+          "论文 PDF 第31–34页",
+          "paper/figures/fig_ch4_clip_pipeline.png"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 13,
+        "role": "framework",
+        "takeaway": "三级证据逐层加入检测误差和阈值选择，避免单一指标替代系统分析",
+        "evidence": [
+          "论文 PDF 第32页",
+          "论文图4.1"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 14,
+        "role": "diagnosis",
+        "takeaway": "历史test的59→28→17失败链与230张回溯内部确认必须按两套协议分开解释",
+        "evidence": [
+          "results/实验发现与结论总结_20260811.md",
+          "results/confirmation/rejection_confirmation_v1.json"
+        ],
+        "units": 5
+      },
+      {
+        "slide": 15,
+        "role": "comparison",
+        "takeaway": "开放词汇基线未形成有效检测，当前级联仍有成本与类别权衡",
+        "evidence": [
+          "results/open_vocab/*/summary.json",
+          "results/full_pipeline_benchmark.json"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 16,
+        "role": "synthesis",
+        "takeaway": "创新落在可归因实验、分层诊断和边界验证，而非模块命名",
+        "evidence": [
+          "results/head_width_control_summary_5seed.md",
+          "results/实验发现与结论总结_20260811.md",
+          "results/external_validation/raod_test_v1/summary.md"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 17,
+        "role": "roadmap",
+        "takeaway": "开题后六个月按依赖补齐独立确认、跨帧和目标设备三类证据",
+        "evidence": [
+          "论文 PDF 第49–52页",
+          "终审报告 §6",
+          "paper/plans/开题PPT内容规划_20260830.md"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 18,
+        "role": "closing",
+        "takeaway": "感谢各位老师指导并进入答疑",
+        "evidence": [
+          "用户提供的 v7 江苏大学校园素材"
+        ],
+        "units": 2
+      },
+      {
+        "slide": 19,
+        "role": "backup-definition",
+        "takeaway": "近重复隔离、内部确认和严格独立确认是不同概念",
+        "evidence": [
+          "论文 PDF 第49–52页",
+          "终审报告 §3"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 20,
+        "role": "backup-reproducibility",
+        "takeaway": "5-seed 完整表与训练实参支持复现，但直接日志覆盖为 21/26",
+        "evidence": [
+          "results/head_width_control_summary_5seed.md",
+          "results/training_argument_audit.md"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 21,
+        "role": "backup-effect-audit",
+        "takeaway": "同 seed 配对把 P2、CBAM 和交互项分开，避免只看最好模型",
+        "evidence": [
+          "results/head_width_control_summary_5seed.md"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 22,
+        "role": "backup-external-protocol",
+        "takeaway": "RAOD 按视频 ID 分组并冻结 test，但只验证单类外部定位",
+        "evidence": [
+          "results/external_validation/raod_test_v1/summary.md"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 23,
+        "role": "backup-calibration",
+        "takeaway": "Prompt、阈值和定向消融说明选择有效不等于无代价",
+        "evidence": [
+          "results/实验发现与结论总结_20260811.md",
+          "results/confirmation/rejection_confirmation_v1.json"
+        ],
+        "units": 4
+      },
+      {
+        "slide": 24,
+        "role": "backup-open-vocabulary",
+        "takeaway": "开放词汇比较统一输入、词表、阈值和 IoU，但未穷尽域适配",
+        "evidence": [
+          "results/open_vocab/*/summary.json"
+        ],
+        "units": 3
+      },
+      {
+        "slide": 25,
+        "role": "backup-efficiency",
+        "takeaway": "12.91 FPS只代表旧P2+CBAM seed0原型，不能代替最终配置或边缘设备结论",
+        "evidence": [
+          "results/full_pipeline_benchmark.json",
+          "论文 PDF 第49–52页"
+        ],
+        "units": 4
+      }
+    ],
+    "checkpoint": {
+      "mode": "approved",
+      "record": "用户在内容规划、25页规模、10–15分钟现场投影和图文均衡方案后回复“按你说的来 / 可以 / 好 / 继续”，据此锁定内容。"
+    },
+    "arc": {
+      "chosen": "双问题—证据收束",
+      "candidates": [
+        {
+          "name": "双问题—证据收束",
+          "shape": "problem-turn-evidence",
+          "roles": [
+            "problem",
+            "method",
+            "evidence",
+            "roadmap"
+          ],
+          "audience_question": "小目标漏检与预留类别命名是否值得继续研究",
+          "objection": "模块并非首创且端到端系统尚不可靠",
+          "closing_ask": "认可沿受控检测与分层语义协议补齐确认性验证",
+          "evidence": [
+            "P2-5seed",
+            "CLIP-59-28-17",
+            "RAOD-boundary"
+          ]
+        },
+        {
+          "name": "贡献先行—边界防守",
+          "shape": "recommendation-first",
+          "roles": [
+            "conclusion",
+            "evidence",
+            "boundary"
+          ],
+          "audience_question": "已有P2、CBAM和CLIP时论文创新在哪里",
+          "objection": "工作只是模块拼接而非研究贡献",
+          "closing_ask": "认可归因、诊断和边界审计本身的研究价值",
+          "evidence": [
+            "factorial-design",
+            "protocol-freeze",
+            "boundary-ledger"
+          ]
+        },
+        {
+          "name": "可行性证据阶梯",
+          "shape": "evidence-build",
+          "roles": [
+            "evidence",
+            "diagnosis",
+            "roadmap"
+          ],
+          "audience_question": "最终确认尚未完成时是否已有足够研究基础",
+          "objection": "端到端指标较低说明路线不值得继续",
+          "closing_ask": "以已验证P2收益为锚继续完成三项确认",
+          "evidence": [
+            "small-AP",
+            "failure-decomposition",
+            "six-month-plan"
+          ]
+        }
+      ],
+      "rejected": [
+        {
+          "name": "贡献先行—边界防守",
+          "why_lost": "过早进入防守，会削弱开题最先需要建立的研究问题。"
+        },
+        {
+          "name": "可行性证据阶梯",
+          "why_lost": "更像中期汇报，不能充分回答选题依据和相关工作缺口。"
+        }
+      ],
+      "divergence_justified": "三个候选的开场角色、核心问题、首要反对意见和最终答辩请求均不同。"
+    }
+  },
+  "design_plan": {
+    "concept": {
+      "chosen": "把论文画成两条可审计的证据轨道：受控检测归因与分层语义诊断，共同收束到能力边界和后续闭环。",
+      "rejected": [
+        {
+          "concept": "科技感 AI 仪表盘",
+          "why_lost": "会把研究误读为成熟产品，并破坏江苏大学正式模板。"
+        },
+        {
+          "concept": "论文目录式章节汇报",
+          "why_lost": "难以在 10–15 分钟内建立问题—证据—计划的论证。"
+        }
+      ]
+    },
+    "boldness": "balanced+",
+    "boldness_derivation": "现场开题投影要求正式可信，同时需要 83.5%、5-seed 与贡献页形成可记忆峰值。",
+    "signature_move": "在第 6 页用双证据轨道作为全稿唯一主导装置，并在第 14、16 页转译为瓶颈汇流和贡献审计账本。",
+    "carried_by": [
+      "slide 6",
+      "slide 14",
+      "slide 16"
+    ],
+    "form_ledger": "photo 2；timeline 1；statement 2；diagram 6；flow 2；source figure 3；matrix 1；chart 5；table/ledger 2；roadmap 1。最大 diagram 6/25=24%。",
+    "icon_family": "Lucide outline，统一深蓝/校红重着色；仅用于第 2 页议程和第 17 页工作包的结构识别。",
+    "palette": "TEXT-safe：#2C343B、#44546A、#2B4699、#17655F、#D7010E/#A8000B、#7A4400；FILL-only：#F9DDE0、#FCDE99、#D9DEE5、#7B838C。红/绿含义同时由标签、位置与正负符号编码。",
+    "type_scale": {
+      "display": 49,
+      "title": 24,
+      "body": 14.5
+    },
+    "style_pick": "bespoke locked-look for 江苏大学开题答辩 · 胜过科技感模板，因为校级身份、论文证据与现场投影优先 · 避免霓虹/HUD 的 AI 俗套。",
+    "motif_generates": {
+      "background": "白底、浅斜纹与三次浅粉证据事件形成节奏。",
+      "markers": "校红承担学校身份与导航，深蓝承担协议，青绿承担正向证据，琥珀承担边界。",
+      "page": "第 6 页的双轨几何生成主线组织，第 16 页以账本形式完成收束。"
+    },
+    "image_sources": [
+      "slide 1 | 江苏大学校园横幅与校标 | provided — user (own material)",
+      "slide 3 | test尺寸分布 | provided — user (own material)",
+      "slide 8 | P2/CBAM结构图 | provided — user (own material)",
+      "slide 12 | CLIP流程图 | provided — user (own material)",
+      "slide 18 | 校园横幅淡化复用 | provided — user (own material)",
+      "slide 23 | 置信度权衡图 | provided — user (own material)"
+    ],
+    "material_probe": {
+      "png": "render/slide06.png",
+      "safe_version": "普通两栏流程页会分裂共同控制原则；双证据轨道保留两条主线的并行、检查点与共同边界。"
+    },
+    "signature_proof": [
+      {
+        "role": "signature",
+        "slide": 6,
+        "png": "render/slide06.png"
+      },
+      {
+        "role": "complex",
+        "slide": 16,
+        "png": "render/slide16.png"
+      },
+      {
+        "role": "data",
+        "slide": 10,
+        "png": "render/slide10.png"
+      }
+    ],
+    "direction_gate": "n/a — provided v7 template / locked look",
+    "build_shape": "solo — 用户锁定旧稿风格且内容与模板强耦合；逐页由同一构建脚本生成，独立双审阅在交付前完成。",
+    "checkpoint": {
+      "mode": "approved",
+      "record": "用户确认沿用旧开题风格、25页、10–15分钟、现场投影、图文均衡，并连续回复“按你说的来 / 可以 / 好 / 继续”。"
+    },
+    "build_script": "build_开题答辩.py",
+    "form_reach": {
+      "waived": "本稿沿用v7校级模板并以双证据轨道、协议漏斗、带零点效应轴和配置绑定延迟瀑布承担论证；通用组件会丢失平行、负值或协议边界语义，表格页仍使用原生table。"
+    }
+  },
+  "critic": {
+    "waived": "最终候选稿在第一轮双审阅修订后尝试第二轮复审，但宿主审阅代理额度耗尽；最终构建由主代理完成逐页像素与来源自审，未声称独立同意。",
+    "waived_category": "no-dispatch-on-host",
+    "inline_ran": true
+  },
+  "provenance": {
+    "waived": "14项数值均来自用户本地论文、结构化结果与训练日志，没有可对应的公开主来源URL；本次保留本地路径溯源，不伪造网络链接。"
+  },
+  "render_selfcheck": {
+    "slides": [
+      {
+        "n": 1,
+        "verdict": "ok — 封面校级身份清晰，标题与汇报信息无裁切。"
+      },
+      {
+        "n": 2,
+        "verdict": "ok — 四段议程轴轻量，顺序和图标一致。"
+      },
+      {
+        "n": 3,
+        "verdict": "ok — 83.5% 主数与尺寸分布图形成单一焦点。"
+      },
+      {
+        "n": 4,
+        "verdict": "ok — 检测与命名裂口明确，边界句可读。"
+      },
+      {
+        "n": 5,
+        "verdict": "ok — 两个 RQ 与外围不宣称形成范围关系。"
+      },
+      {
+        "n": 6,
+        "verdict": "ok — 双证据轨道清晰；标签与首节点间距已修复。"
+      },
+      {
+        "n": 7,
+        "verdict": "ok — train/val/test 角色与确认边界可读。"
+      },
+      {
+        "n": 8,
+        "verdict": "ok — 源架构图完整，P2、头宽和 CBAM 注记清楚。"
+      },
+      {
+        "n": 9,
+        "verdict": "ok — 2×2×5 设计和日志审计层级清晰。"
+      },
+      {
+        "n": 10,
+        "verdict": "ok — 五组配对点线与三条结论可直接核验。"
+      },
+      {
+        "n": 11,
+        "verdict": "ok — Precision 与 AP50-95 一升一降同时呈现。"
+      },
+      {
+        "n": 12,
+        "verdict": "ok — CLIP 流程源图和固定词表边界可读。"
+      },
+      {
+        "n": 13,
+        "verdict": "ok — 三级证据阶梯按新增误差递进。"
+      },
+      {
+        "n": 14,
+        "verdict": "ok — 检测和语义两类瓶颈正确汇流到端到端结果。"
+      },
+      {
+        "n": 15,
+        "verdict": "ok — 开放词汇、Prompt 代价与效率按主次组织。"
+      },
+      {
+        "n": 16,
+        "verdict": "ok — 贡献、证据、不宣称逐行对齐，作为全稿峰值。"
+      },
+      {
+        "n": 17,
+        "verdict": "ok — 三工作包输入、行动、交付和材料栏均清楚。"
+      },
+      {
+        "n": 18,
+        "verdict": "ok — 致谢页与封面呼应，静态收尾完整。"
+      },
+      {
+        "n": 19,
+        "verdict": "ok — 三种确认概念的强弱与包含关系明确。"
+      },
+      {
+        "n": 20,
+        "verdict": "ok — 5-seed 表格和优化器审计栏无溢出。"
+      },
+      {
+        "n": 21,
+        "verdict": "ok — 四条同 seed 效应轴以零点统一，+1.17pp 已复核修正。"
+      },
+      {
+        "n": 22,
+        "verdict": "ok — RAOD 视频 ID 协议、规模和双指标边界同页呈现。"
+      },
+      {
+        "n": 23,
+        "verdict": "ok — 阈值曲线、冻结选点和类别代价可读。"
+      },
+      {
+        "n": 24,
+        "verdict": "ok — 统一比较协议和结果表清楚；来源行裁切已修复。"
+      },
+      {
+        "n": 25,
+        "verdict": "ok — 延迟阶段、端到端测速、环境与待验证输入均可读。"
+      }
+    ]
+  },
+  "builds": "static",
+  "density": {
+    "waived": "13个超预算页面主要是技术证据和7页备查审计信息；现场主讲只读标题与英雄数值，细节用于委员会追问并由讲稿引导，不要求观众逐字通读。"
+  }
+}

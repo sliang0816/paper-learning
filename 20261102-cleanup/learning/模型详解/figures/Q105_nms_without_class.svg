@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 610" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="610" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q105 没分类怎么还能 NMS？——NMS 只要"分数+IoU"，类别标签不是必需</text>
+
+  <!-- ① 纠偏 -->
+  <rect x="20" y="44" width="900" height="96" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">① 先纠偏："还没分类"说糙了——分两层</text>
+  <text x="40" y="88" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#15803d">YOLO 有自己的闭集分类：</tspan>检测头同一次前向对每个 anchor 同时吐"框 + objectness + 训练类分数"，分类和定位一起出</text>
+  <text x="40" y="110" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#6d28d9">"还没分类"实指：</tspan>还没拿到 CLIP 的开放词汇语义标签（尤其 YOLO 认不出、判 OT/低置信的未见类 GL/ME）</text>
+  <text x="40" y="130" font-size="9" fill="#6b7280">→ "YOLO 定位 / CLIP 分类"是就"开集命名"那层讲的，不代表 YOLO 内部没有任何分类</text>
+
+  <!-- ② NMS 只要两样 -->
+  <rect x="20" y="150" width="900" height="130" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">② NMS 机制很朴素：只需两样，类别标签不是必需</text>
+  <rect x="50" y="186" width="380" height="80" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="240" y="208" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">① 一个排序分数</text>
+  <text x="240" y="228" text-anchor="middle" font-size="9" fill="#374151">给框排先后，谁强谁留</text>
+  <text x="240" y="246" text-anchor="middle" font-size="9" fill="#b91c1c">可以只是 objectness（前景置信度）</text>
+  <text x="240" y="262" text-anchor="middle" font-size="8.5" fill="#6b7280">"这儿有东西"的强弱，与"是什么"无关</text>
+  <rect x="510" y="186" width="380" height="80" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="700" y="208" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">② 框之间的 IoU</text>
+  <text x="700" y="228" text-anchor="middle" font-size="9" fill="#374151">量重叠，压掉与高分框重叠太多的</text>
+  <text x="700" y="246" text-anchor="middle" font-size="9" fill="#15803d">→ 只凭 objectness 也能跑</text>
+  <text x="700" y="262" text-anchor="middle" font-size="8.5" fill="#6b7280">= 类无关 NMS（class-agnostic）</text>
+
+  <!-- ③ 两种口味 -->
+  <rect x="20" y="290" width="900" height="120" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ 两种 NMS 口味</text>
+  <line x1="360" y1="322" x2="360" y2="400" stroke="#fed7aa"/>
+  <line x1="640" y1="322" x2="640" y2="400" stroke="#fed7aa"/>
+  <text x="190" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">　</text>
+  <text x="500" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">排序分数用什么</text>
+  <text x="790" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">怎么压</text>
+  <text x="190" y="358" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">类无关 NMS</text>
+  <text x="190" y="372" text-anchor="middle" font-size="8.5" fill="#6b7280">class-agnostic</text>
+  <text x="500" y="360" text-anchor="middle" font-size="9.5" fill="#374151">objectness 或"最高类分"</text>
+  <text x="790" y="360" text-anchor="middle" font-size="9.5" fill="#374151">不管类别，全局按分数压重叠</text>
+  <text x="190" y="392" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">类内 NMS</text>
+  <text x="190" y="404" text-anchor="middle" font-size="8" fill="#6b7280">per-class</text>
+  <text x="500" y="390" text-anchor="middle" font-size="9.5" fill="#374151">每个类各自的分数</text>
+  <text x="790" y="390" text-anchor="middle" font-size="9.5" fill="#374151">逐类分别 NMS，异类框互不压制</text>
+
+  <!-- ④ pipeline -->
+  <rect x="20" y="420" width="900" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="440" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 重新对齐 pipeline：NMS 在 YOLO 内部、用 YOLO 自己的分数，不依赖 CLIP</text>
+  <text x="40" y="462" font-size="9" font-family="monospace" fill="#374151">YOLOv8 一次前向 → 每个 anchor 同时出：框 + objectness + 6个训练类分数</text>
+  <text x="70" y="480" font-size="9" font-family="monospace" fill="#b45309">     ↓  NMS（按分数排序压重叠）← 这里已有分数可用，不需等 CLIP</text>
+  <text x="70" y="498" font-size="9" font-family="monospace" fill="#15803d">少数 survivors（几个~几十个框，各带 YOLO 闭集类猜测）</text>
+  <text x="90" y="516" font-size="9" font-family="monospace" fill="#374151">├ 高置信已知类 → 直接采信</text>
+  <text x="90" y="532" font-size="9" font-family="monospace" fill="#6d28d9">└ 未知/低置信/OT → 裁剪送 CLIP → 开放词汇语义标签（NMS 之后才发生）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="560" width="900" height="42" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="580" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">一句话：NMS 只要"分数 + IoU"，类别标签不是必需（可用 objectness = 类无关 NMS）；</text>
+  <text x="470" y="596" text-anchor="middle" font-size="9.5" fill="#374151">YOLOv8 分类本就和框同一次前向同时出，NMS 时早有分数；"没分类"是指还没拿到 CLIP 的开集标签。</text>
+</svg>

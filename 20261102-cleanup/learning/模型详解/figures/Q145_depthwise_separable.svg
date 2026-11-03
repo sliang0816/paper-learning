@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 780" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="780" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q145 深度可分离卷积怎么算、怎么省算力（例：C_in=64 → C_out=128，核 3×3）</text>
+
+  <!-- ① 标准卷积 -->
+  <rect x="20" y="42" width="900" height="200" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">① 标准卷积：一个核=3×3×64 的"厚立方体"，一次干两件事（空间滤波 + 跨通道混合）</text>
+  <!-- input stack -->
+  <g>
+    <rect x="50" y="90" width="70" height="70" fill="#dbeafe" stroke="#3b82f6"/>
+    <rect x="58" y="82" width="70" height="70" fill="#bfdbfe" stroke="#3b82f6"/>
+    <rect x="66" y="74" width="70" height="70" fill="#93c5fd" stroke="#3b82f6"/>
+    <text x="101" y="176" text-anchor="middle" font-size="9" fill="#374151">输入 H×W×64</text>
+  </g>
+  <!-- one kernel -->
+  <g>
+    <rect x="180" y="100" width="34" height="34" fill="#fca5a5" stroke="#dc2626"/>
+    <text x="197" y="150" text-anchor="middle" font-size="8.5" fill="#b91c1c">3×3×64</text>
+    <text x="197" y="164" text-anchor="middle" font-size="8" fill="#6b7280">一个核</text>
+  </g>
+  <text x="230" y="120" font-size="11" fill="#9ca3af">×128 个核</text>
+  <text x="300" y="120" font-size="12" fill="#9ca3af">──▶</text>
+  <!-- output -->
+  <g>
+    <rect x="360" y="90" width="60" height="70" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="390" y="176" text-anchor="middle" font-size="9" fill="#15803d">输出 H×W×128</text>
+  </g>
+  <text x="470" y="106" font-size="9.5" fill="#374151">每个输出通道 = 一个 3×3×64 核在输入上滑，</text>
+  <text x="470" y="124" font-size="9.5" fill="#374151">把 64 个通道的 3×3 邻域全加权求和成 1 个数；</text>
+  <text x="470" y="142" font-size="9.5" fill="#374151">要 128 个输出通道 → 128 个这样的厚核。</text>
+  <text x="470" y="182" font-size="10.5" font-weight="bold" fill="#b91c1c">每像素乘加 = 3×3 × 64 × 128 = 73,728</text>
+  <text x="470" y="208" font-size="9" fill="#6b7280">「空间滤波」和「跨通道混合」捆在一个核里同时做 → 贵在这个乘积三项全乘</text>
+  <text x="470" y="228" font-size="9" fill="#6b7280">k²(空间) × C_in(输入通道) × C_out(输出通道)</text>
+
+  <!-- ② 拆成两步 -->
+  <rect x="20" y="254" width="900" height="290" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="276" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 深度可分离 = 拆成两步：先各管各的空间滤波，再单独做跨通道混合</text>
+  <!-- depthwise -->
+  <text x="40" y="300" font-size="11" font-weight="bold" fill="#b45309">第一步 逐通道 Depthwise：每个输入通道配 1 个自己的 3×3 核，不跨通道</text>
+  <g>
+    <rect x="60" y="312" width="50" height="50" fill="#93c5fd" stroke="#3b82f6"/><rect x="66" y="318" width="16" height="16" fill="#fde68a" stroke="#d97706"/>
+    <rect x="120" y="312" width="50" height="50" fill="#93c5fd" stroke="#3b82f6"/><rect x="126" y="318" width="16" height="16" fill="#fde68a" stroke="#d97706"/>
+    <text x="180" y="342" font-size="10" fill="#6b7280">… 共 64 个通道，各配 1 个 3×3 核（64 个核，各只看自己那张图）</text>
+  </g>
+  <text x="60" y="382" font-size="9.5" fill="#374151">通道数不变 64→64；只做空间滤波、<tspan font-weight="bold">不混通道</tspan></text>
+  <text x="500" y="382" font-size="10.5" font-weight="bold" fill="#15803d">乘加 = 3×3 × 64 = 576</text>
+  <text x="500" y="400" font-size="9" fill="#6b7280">（少了 ×C_out 那一项！）</text>
+  <!-- pointwise -->
+  <text x="40" y="428" font-size="11" font-weight="bold" fill="#6d28d9">第二步 逐点 Pointwise（1×1 卷积）：只跨通道混合，把 64 → 128</text>
+  <g>
+    <rect x="60" y="440" width="24" height="60" fill="#93c5fd" stroke="#3b82f6"/><text x="72" y="514" text-anchor="middle" font-size="8" fill="#374151">64</text>
+    <rect x="94" y="458" width="14" height="14" fill="#c4b5fd" stroke="#8b5cf6"/><text x="120" y="470" font-size="9" fill="#6d28d9">1×1 核 ×128</text>
+    <text x="185" y="470" font-size="12" fill="#9ca3af">──▶</text>
+    <rect x="230" y="440" width="24" height="60" fill="#86efac" stroke="#16a34a"/><text x="242" y="514" text-anchor="middle" font-size="8" fill="#15803d">128</text>
+  </g>
+  <text x="60" y="524" font-size="9.5" fill="#374151">每个位置上把 64 个通道值 1×1 加权 → 128 个新通道（只混通道、不看空间邻域）</text>
+  <text x="500" y="460" font-size="10.5" font-weight="bold" fill="#6d28d9">乘加 = 1×1 × 64 × 128 = 8,192</text>
+  <text x="500" y="486" font-size="10.5" font-weight="bold" fill="#15803d">两步合计 = 576 + 8,192 = 8,768</text>
+  <text x="500" y="512" font-size="9" fill="#6b7280">（原来一个核里的三项乘积，被拆成两个加法项）</text>
+
+  <!-- ③ 省了多少 -->
+  <rect x="20" y="556" width="900" height="140" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="578" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 省了多少：73,728 → 8,768 ≈ 省 8.4 倍</text>
+  <text x="40" y="606" font-size="10" font-family="Consolas,monospace" fill="#374151">省的倍数 = 标准 / 可分离 = k²·C_in·C_out / (k²·C_in + C_in·C_out)</text>
+  <text x="40" y="630" font-size="10" font-family="Consolas,monospace" fill="#15803d">        = 1/C_out + 1/k²  =  1/128 + 1/9  ≈  0.008 + 0.111  ≈  1/8.4</text>
+  <text x="40" y="656" font-size="9.5" fill="#374151">· 关键：C_out 越大，1/C_out 越可忽略 → <tspan font-weight="bold">省的倍数≈k²</tspan>；3×3 核就是省约 <tspan font-weight="bold">9 倍</tspan>（5×5 省约 25 倍）</text>
+  <text x="40" y="678" font-size="9" fill="#6b7280">· 直觉：标准卷积"空间×通道"耦合成一个厚核（三项连乘）；拆开后变成"空间"+"通道"两个便宜步骤（两项相加）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="708" width="900" height="58" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="730" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：标准卷积一个厚核同时做"空间滤波+跨通道混合"(k²·C_in·C_out)；深度可分离拆成 depthwise 只滤空间(k²·C_in)</text>
+  <text x="470" y="750" text-anchor="middle" font-size="9.5" fill="#374151">+ pointwise 只混通道(C_in·C_out)，三项连乘变两项相加 → 省约 k² 倍（3×3≈8~9 倍）；代价略损精度，边缘部署划算。</text>
+</svg>

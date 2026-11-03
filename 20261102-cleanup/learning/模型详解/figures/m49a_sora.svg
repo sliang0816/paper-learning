@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 350" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="350" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Sora：时空 Patch DiT 扩散，视频 = 时空 Token 序列（OpenAI，2024）</text>
+
+  <!-- ===== LEFT: Video Tokenization ===== -->
+  <text x="138" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">时空 Patch 化（核心洞察）</text>
+  <rect x="20" y="56" width="236" height="272" rx="8" fill="#f9fafb" stroke="#e2e8f0"/>
+
+  <!-- Image ViT analogy -->
+  <rect x="30" y="66" width="216" height="56" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="138" y="82" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1d4ed8">ViT（图像，对比）</text>
+  <!-- frame strip -->
+  <rect x="56" y="88" width="164" height="28" rx="3" fill="#bfdbfe" stroke="#3b82f6"/>
+  <text x="78" y="98" font-size="8.5" fill="#1d4ed8">图像 H×W</text>
+  <text x="138" y="108" text-anchor="middle" font-size="8.5" fill="#374151">→ 空间 patch (hp,wp) → token 序列</text>
+
+  <!-- Arrow down -->
+  <line x1="138" y1="122" x2="138" y2="136" stroke="#374151" stroke-width="1.5" marker-end="url(#soa)"/>
+  <text x="138" y="131" text-anchor="middle" font-size="9" fill="#374151">时序扩展 ↓</text>
+
+  <!-- Video tokenization -->
+  <rect x="30" y="136" width="216" height="86" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="138" y="153" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">Sora（视频，核心扩展）</text>
+
+  <!-- 5 frames strip -->
+  <g fill="#fde68a" stroke="#d97706">
+    <rect x="42" y="158" width="32" height="24" rx="2"/>
+    <rect x="78" y="158" width="32" height="24" rx="2"/>
+    <rect x="114" y="158" width="32" height="24" rx="2"/>
+    <rect x="150" y="158" width="32" height="24" rx="2"/>
+    <rect x="186" y="158" width="32" height="24" rx="2"/>
+  </g>
+  <text x="58" y="174" text-anchor="middle" font-size="7.5" fill="#7c2d12">t=1</text>
+  <text x="94" y="174" text-anchor="middle" font-size="7.5" fill="#7c2d12">t=2</text>
+  <text x="130" y="174" text-anchor="middle" font-size="7.5" fill="#7c2d12">t=3</text>
+  <text x="166" y="174" text-anchor="middle" font-size="7.5" fill="#7c2d12">...</text>
+  <text x="202" y="174" text-anchor="middle" font-size="7.5" fill="#7c2d12">t=T</text>
+  <text x="138" y="194" text-anchor="middle" font-size="9" fill="#374151">→ 时空 patch (tp, hp, wp)</text>
+  <text x="138" y="208" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b45309">L = (T/tp)×(H/hp)×(W/wp)</text>
+
+  <line x1="138" y1="222" x2="138" y2="236" stroke="#374151" stroke-width="1.5" marker-end="url(#soa)"/>
+
+  <!-- Token sequence -->
+  <rect x="30" y="236" width="216" height="36" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="138" y="250" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#065f46">Token 序列 x ∈ R^{L×d}</text>
+  <!-- Token dots -->
+  <g fill="#86efac" stroke="#16a34a">
+    <circle cx="56" cy="264" r="7"/>
+    <circle cx="76" cy="264" r="7"/>
+    <circle cx="96" cy="264" r="7"/>
+    <circle cx="116" cy="264" r="7"/>
+    <text x="134" y="268" font-size="10" fill="#374151">…</text>
+    <circle cx="164" cy="264" r="7"/>
+    <circle cx="184" cy="264" r="7"/>
+    <circle cx="204" cy="264" r="7"/>
+  </g>
+
+  <!-- Key insight box -->
+  <rect x="30" y="286" width="216" height="34" rx="4" fill="#faf5ff" stroke="#7c3aed"/>
+  <text x="138" y="301" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#7c3aed">全局自注意力覆盖所有时空 token</text>
+  <text x="138" y="314" text-anchor="middle" font-size="9" fill="#374151">任意两帧任意位置可直接 attend</text>
+
+  <!-- ===== CENTER: DiT Architecture ===== -->
+  <text x="430" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">DiT 扩散 Transformer</text>
+  <rect x="268" y="56" width="324" height="272" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+
+  <!-- Input -->
+  <rect x="310" y="68" width="240" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="430" y="85" text-anchor="middle" font-size="10">噪声视频 + 时空 patch token 序列</text>
+
+  <line x1="430" y1="94" x2="430" y2="108" stroke="#16a34a" stroke-width="1.5" marker-end="url(#sob)"/>
+
+  <!-- Condition injection -->
+  <rect x="310" y="108" width="240" height="34" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="430" y="123" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1d4ed8">条件嵌入（时间步 t + 文本嵌入 y）</text>
+  <text x="430" y="137" text-anchor="middle" font-size="8.5" fill="#374151">文本：CLIP / T5 编码器；注入方式：adaLN-Zero</text>
+
+  <line x1="430" y1="142" x2="430" y2="156" stroke="#16a34a" stroke-width="1.5" marker-end="url(#sob)"/>
+
+  <!-- Transformer block 1 -->
+  <rect x="294" y="156" width="272" height="44" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="430" y="172" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">DiT Block × N</text>
+  <text x="430" y="185" text-anchor="middle" font-size="9">Self-Attn（全时空）→ FFN；adaLN-Zero 注入 (γ,β)=MLP(c)</text>
+  <text x="430" y="197" text-anchor="middle" font-size="8.5" fill="#6b7280">c = Embed(t) + TextEmbed(y)；c 控制每层 LayerNorm 参数</text>
+
+  <!-- repeat arrow -->
+  <line x1="430" y1="200" x2="430" y2="214" stroke="#16a34a" stroke-width="1.5" marker-end="url(#sob)"/>
+
+  <!-- video VAE decode -->
+  <rect x="310" y="214" width="240" height="34" rx="4" fill="#fde68a" stroke="#d97706"/>
+  <text x="430" y="229" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">逆变换：tokens → patches → 潜空间</text>
+  <text x="430" y="242" text-anchor="middle" font-size="9" fill="#374151">→ Video VAE 解码 → 像素帧序列</text>
+
+  <line x1="430" y1="248" x2="430" y2="262" stroke="#16a34a" stroke-width="1.5" marker-end="url(#sob)"/>
+
+  <!-- Output -->
+  <rect x="310" y="262" width="240" height="26" rx="4" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+  <text x="430" y="279" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">生成视频帧序列</text>
+
+  <!-- Variable resolution annotation -->
+  <rect x="280" y="298" width="300" height="22" rx="3" fill="#f5f3ff" stroke="#7c3aed"/>
+  <text x="430" y="313" text-anchor="middle" font-size="9" fill="#7c3aed" font-weight="bold">可变时长/分辨率：训练混合 16:9 / 9:16 / 1:1 / 任意时长，推理时按需指定</text>
+
+  <!-- ===== RIGHT: Capabilities + Comparison ===== -->
+  <text x="696" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">核心能力与对比</text>
+  <rect x="604" y="56" width="196" height="272" rx="8" fill="#f9fafb" stroke="#e2e8f0"/>
+
+  <!-- World model capabilities -->
+  <rect x="614" y="66" width="176" height="110" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="702" y="82" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">世界模型能力</text>
+  <text x="622" y="98" font-size="9" fill="#374151">✓ 长达 60s 高清视频</text>
+  <text x="622" y="112" font-size="9" fill="#374151">✓ 长程时序一致性</text>
+  <text x="622" y="126" font-size="9" fill="#374151">✓ 摄像机运动控制</text>
+  <text x="622" y="140" font-size="9" fill="#374151">✓ 物理涌现（流体等）</text>
+  <text x="622" y="154" font-size="9" fill="#374151">✓ 多镜头剪辑一致性</text>
+  <text x="622" y="166" font-size="8.5" fill="#6b7280">✗ 仍有物理错误/漂移</text>
+
+  <!-- Video model comparison -->
+  <rect x="614" y="186" width="176" height="130" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="702" y="202" text-anchor="middle" font-size="10" font-weight="bold" fill="#1d4ed8">视频生成对比</text>
+  <g font-size="8.5">
+    <text x="622" y="216" font-weight="bold" fill="#374151">模型</text>    <text x="720" y="216" font-weight="bold" fill="#374151">时长/分辨率</text>
+    <line x1="616" y1="219" x2="784" y2="219" stroke="#d1d5db" stroke-width="0.8"/>
+    <text x="622" y="232" fill="#374151">Sora</text>           <text x="690" y="232" fill="#374151">60s/1080p</text>
+    <text x="622" y="232" fill="#ef4444" dx="270">不开源</text>
+    <text x="622" y="246" fill="#374151">HunyuanVideo</text>   <text x="690" y="246" fill="#374151">16s/720p</text>
+    <text x="622" y="260" fill="#374151">Wan2.1</text>          <text x="690" y="260" fill="#374151">25s/720p</text>
+    <text x="622" y="274" fill="#374151">CogVideoX</text>       <text x="690" y="274" fill="#374151">10s/720p</text>
+    <text x="622" y="292" fill="#7c3aed" font-weight="bold">后三者均开源</text>
+    <text x="622" y="305" fill="#374151">均采用时空 DiT</text>
+    <text x="622" y="316" fill="#374151">范式（受 Sora 启发）</text>
+  </g>
+
+  <!-- Bottom note -->
+  <rect x="20" y="336" width="780" height="12" rx="3" fill="#fafafa" stroke="#e2e8f0"/>
+  <text x="410" y="345" text-anchor="middle" font-size="8.5" fill="#374151">Sora 为技术博客（非同行评审论文），架构细节部分推断；"时空 Patch + DiT"范式已被 CogVideoX/Wan2.1/HunyuanVideo 等开源模型采纳为行业标准</text>
+
+  <defs>
+    <marker id="soa" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+    <marker id="sob" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#16a34a"/></marker>
+  </defs>
+</svg>

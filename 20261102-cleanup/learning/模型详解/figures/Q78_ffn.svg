@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="900" height="500" fill="#fff"/>
+  <text x="450" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q78 FFN 是什么 + 是不是“靠 FFN 优化 query”</text>
+  <text x="450" y="44" text-anchor="middle" font-size="11" fill="#6b7280">FFN=每层逐 token 的两层小 MLP（先扩维再压回）；query 逐层精修是“注意力搬信息 + FFN 加工”合作的结果</text>
+
+  <!-- left: what FFN is -->
+  <rect x="20" y="60" width="380" height="240" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="210" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">FFN 是什么（逐 token 独立）</text>
+  <text x="210" y="102" text-anchor="middle" font-size="10" fill="#374151">FFN(x) = W₂·ReLU(W₁x + b₁) + b₂</text>
+
+  <!-- dim flow -->
+  <rect x="46" y="124" width="70" height="40" rx="5" fill="#fff" stroke="#c4b5fd"/>
+  <text x="81" y="148" text-anchor="middle" font-size="10" fill="#374151">x 256</text>
+  <line x1="116" y1="144" x2="150" y2="144" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="150" y="116" width="80" height="56" rx="5" fill="#ddd6fe" stroke="#8b5cf6"/>
+  <text x="190" y="139" text-anchor="middle" font-size="10" fill="#6d28d9">2048</text>
+  <text x="190" y="156" text-anchor="middle" font-size="8" fill="#6b7280">ReLU 扩维</text>
+  <line x1="230" y1="144" x2="264" y2="144" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="264" y="124" width="70" height="40" rx="5" fill="#fff" stroke="#c4b5fd"/>
+  <text x="299" y="148" text-anchor="middle" font-size="10" fill="#374151">256</text>
+
+  <text x="36" y="196" font-size="9.5" fill="#374151">· 先扩维(×4)夹 ReLU/GELU，再压回 → 加非线性</text>
+  <text x="36" y="216" font-size="9.5" fill="#374151">· 逐 token 独立：<tspan font-weight="bold">同一个 FFN 分别作用每个 token</tspan></text>
+  <text x="36" y="234" font-size="9.5" fill="#b91c1c">· 不混不同 token（混 token 是注意力的事）</text>
+  <text x="36" y="254" font-size="9.5" fill="#374151">· 作用：给每个 token 自己的特征做加工变换</text>
+
+  <!-- per-token illustration -->
+  <rect x="60" y="266" width="24" height="20" rx="3" fill="#ddd6fe"/><text x="72" y="280" text-anchor="middle" font-size="8" fill="#6d28d9">q1</text>
+  <text x="92" y="280" font-size="9" fill="#6b7280">→FFN→</text>
+  <rect x="132" y="266" width="24" height="20" rx="3" fill="#ddd6fe"/><text x="144" y="280" text-anchor="middle" font-size="8" fill="#6d28d9">q2</text>
+  <text x="164" y="280" font-size="9" fill="#6b7280">→FFN→</text>
+  <rect x="204" y="266" width="24" height="20" rx="3" fill="#ddd6fe"/><text x="216" y="280" text-anchor="middle" font-size="8" fill="#6d28d9">qN</text>
+  <text x="248" y="280" font-size="8.5" fill="#6b7280">同一组权重、各算各的</text>
+
+  <!-- right: division of labor in a decoder layer -->
+  <rect x="420" y="60" width="460" height="240" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="650" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">一层解码器内的分工：注意力搬信息，FFN 加工</text>
+
+  <rect x="440" y="96" width="420" height="48" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="650" y="115" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">① 自注意力（跨 query↔query）</text>
+  <text x="650" y="133" text-anchor="middle" font-size="9" fill="#374151">query 间协商、分工避让</text>
+
+  <text x="650" y="160" text-anchor="middle" font-size="13" fill="#9ca3af">▼</text>
+
+  <rect x="440" y="166" width="420" height="48" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="650" y="185" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">② 交叉注意力（跨 query↔图像）</text>
+  <text x="650" y="203" text-anchor="middle" font-size="9" fill="#b91c1c">query 看图、取回目标区域证据 ← 看图主力</text>
+
+  <text x="650" y="230" text-anchor="middle" font-size="13" fill="#9ca3af">▼</text>
+
+  <rect x="440" y="236" width="420" height="52" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="650" y="256" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">③ FFN（不跨 token，逐 query 独立）</text>
+  <text x="650" y="274" text-anchor="middle" font-size="9" fill="#374151">把取回的证据在每个 query 内部加工/消化成更好的向量</text>
+
+  <!-- bottom conclusion -->
+  <rect x="20" y="316" width="860" height="170" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="450" y="338" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">“通过 FFN 不断优化 query”——对一半</text>
+  <text x="40" y="362" font-size="9.5" fill="#374151">· query 确实<tspan font-weight="bold">逐层被更新精修 ✓</tspan>，但这是<tspan font-weight="bold">整层（自注意+交叉注意+FFN）共同</tspan>完成的</text>
+  <text x="40" y="382" font-size="9.5" fill="#374151">· FFN 只是其中“逐 token 非线性加工”那一步；真正“看图找物体、取证据”的是<tspan font-weight="bold" fill="#1e40af">交叉注意力</tspan></text>
+  <line x1="40" y1="394" x2="860" y2="394" stroke="#86efac"/>
+  <text x="450" y="414" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">“优化”还分两义</text>
+  <text x="40" y="436" font-size="9.5" fill="#374151">· <tspan font-weight="bold">一次前向里</tspan>：query 被“变换/加工”——FFN 用<tspan font-weight="bold">已训好的固定权重</tspan>，不是梯度优化</text>
+  <text x="40" y="456" font-size="9.5" fill="#374151">· <tspan font-weight="bold">真正的“优化”</tspan>：训练时<tspan font-weight="bold">反向传播</tspan>调 FFN 等权重才叫 optimize（呼应 Q74 两种迭代）</text>
+  <text x="450" y="478" text-anchor="middle" font-size="9" fill="#6b7280">一句话：FFN=逐 token 两层小 MLP 做非线性加工；精修=注意力搬信息 + FFN 加工；前向是“加工”、训练才是“优化权重”</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

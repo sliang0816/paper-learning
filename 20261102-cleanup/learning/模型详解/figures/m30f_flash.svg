@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 360" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="360" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">FlashAttention：IO 感知注意力 — 不存完整注意力矩阵</text>
+
+  <!-- ===== Standard Attention (left) ===== -->
+  <text x="195" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#ef4444">标准注意力（慢，显存爆炸）</text>
+
+  <!-- HBM (large) -->
+  <rect x="20" y="62" width="350" height="220" rx="8" fill="#fff5f5" stroke="#ef4444" stroke-dasharray="5 3"/>
+  <text x="195" y="80" text-anchor="middle" font-size="10" fill="#ef4444">GPU HBM（显存，慢，但大）</text>
+
+  <rect x="40" y="90" width="120" height="36" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="100" y="112" text-anchor="middle" font-size="10">Q, K, V 矩阵</text>
+
+  <rect x="40" y="142" width="290" height="52" rx="4" fill="#fecaca" stroke="#dc2626"/>
+  <text x="185" y="163" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">注意力矩阵 S = QKᵀ</text>
+  <text x="185" y="180" text-anchor="middle" font-size="10" fill="#991b1b">N×N 矩阵全部写入 HBM（N=序列长度）</text>
+  <text x="185" y="196" text-anchor="middle" font-size="9" fill="#6b7280">N=4096 时 → 64GB（16bit），显存爆炸</text>
+
+  <rect x="40" y="210" width="290" height="44" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="185" y="230" text-anchor="middle" font-size="10" fill="#b91c1c">P = softmax(S)，再 PV → 输出</text>
+  <text x="185" y="246" text-anchor="middle" font-size="9" fill="#6b7280">两次大矩阵 IO：O(N²) HBM 读写</text>
+
+  <g stroke="#ef4444" stroke-width="1.3" marker-end="url(#ar)">
+    <line x1="185" y1="126" x2="185" y2="140"/>
+    <line x1="185" y1="194" x2="185" y2="208"/>
+  </g>
+
+  <text x="195" y="275" text-anchor="middle" font-size="10" fill="#ef4444">瓶颈：HBM 带宽，不是计算量</text>
+  <text x="195" y="292" text-anchor="middle" font-size="9.5" fill="#6b7280">A100 的计算峰值 312 TFLOPS，HBM 带宽仅 2 TB/s</text>
+
+  <!-- ===== FlashAttention (right) ===== -->
+  <text x="620" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#16a34a">FlashAttention（快，显存线性）</text>
+
+  <!-- SRAM (small, fast) -->
+  <rect x="455" y="62" width="340" height="220" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-dasharray="5 3"/>
+  <text x="625" y="80" text-anchor="middle" font-size="10" fill="#16a34a">算法在 GPU SRAM（片上缓存，快，但小）</text>
+
+  <!-- Tiling -->
+  <rect x="470" y="88" width="150" height="70" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="545" y="110" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">分块（Tiling）</text>
+  <text x="545" y="126" text-anchor="middle" font-size="9.5" fill="#15803d">Q/K/V 切成 Bc 大小块</text>
+  <text x="545" y="142" text-anchor="middle" font-size="9.5" fill="#15803d">块放进 SRAM 计算</text>
+  <text x="545" y="157" text-anchor="middle" font-size="8.5" fill="#6b7280">不存完整 N×N 矩阵</text>
+
+  <!-- Online Softmax -->
+  <rect x="637" y="88" width="148" height="70" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="711" y="110" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">在线 Softmax</text>
+  <text x="711" y="126" text-anchor="middle" font-size="9.5" fill="#15803d">逐块维护行最大值 m</text>
+  <text x="711" y="142" text-anchor="middle" font-size="9.5" fill="#15803d">和归一化因子 l</text>
+  <text x="711" y="157" text-anchor="middle" font-size="8.5" fill="#6b7280">数学等价，无精度损失</text>
+
+  <!-- Output row by row -->
+  <rect x="470" y="176" width="310" height="50" rx="4" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="625" y="196" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">逐块输出 O（累积到 HBM）</text>
+  <text x="625" y="213" text-anchor="middle" font-size="9.5" fill="#15803d">HBM IO：O(N) 而非 O(N²)；SRAM 无需完整矩阵</text>
+
+  <g stroke="#16a34a" stroke-width="1.3" marker-end="url(#ag)">
+    <line x1="545" y1="158" x2="545" y2="174"/>
+    <line x1="711" y1="158" x2="711" y2="174"/>
+  </g>
+
+  <text x="625" y="252" text-anchor="middle" font-size="10" fill="#16a34a">速度 2~4×，显存 O(N²)→O(N)</text>
+  <text x="625" y="270" text-anchor="middle" font-size="9.5" fill="#6b7280">FlashAttn v2 再提速；v3 适配 H100</text>
+  <text x="625" y="288" text-anchor="middle" font-size="9.5" fill="#15803d">数学输出与标准注意力完全等价（精确）</text>
+
+  <!-- Bottom comparison note -->
+  <rect x="20" y="298" width="780" height="52" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="410" y="316" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">FlashAttention 的意义</text>
+  <text x="410" y="334" text-anchor="middle" font-size="10" fill="#374151">LLaMA / GPT-4 / Swin v2 / CLIP 大 ViT 的实际训练全依赖 FlashAttention；是 LLM 长序列（128k context）的技术前提</text>
+  <text x="410" y="350" text-anchor="middle" font-size="9.5" fill="#6b7280">本项目 CLIP ViT-L/14 的预训练和精调都依赖 FlashAttention；YOLOv8 未使用（纯 CNN，无自注意力）</text>
+
+  <defs>
+    <marker id="ar" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#ef4444"/></marker>
+    <marker id="ag" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#16a34a"/></marker>
+  </defs>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 215" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="215" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">38 U-Net 输入输出实例（图进图出，同尺寸稠密预测）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">图像 H×W×C → 编码器下采样 + 解码器上采样 + 跳跃连接 → 同尺寸稠密图（掩码/噪声）</text>
+
+  <rect x="22" y="66" width="120" height="80" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="82" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="82" y="105" text-anchor="middle" font-size="9" fill="#374151">512×512×3</text>
+  <text x="82" y="122" text-anchor="middle" font-size="8" fill="#6b7280">或扩散里的带噪图</text>
+
+  <line x1="142" y1="106" x2="172" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="174" y="62" width="220" height="90" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="284" y="81" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#1e40af">U 形：编码↓ + 解码↑ + 跳连</text>
+  <text x="284" y="99" text-anchor="middle" font-size="8.3" fill="#374151">编码器逐级缩小抓语义</text>
+  <text x="284" y="114" text-anchor="middle" font-size="8.3" fill="#374151">解码器逐级放大恢复分辨率</text>
+  <text x="284" y="130" text-anchor="middle" font-size="8" fill="#15803d">跳跃连接把浅层细节直接接到解码端</text>
+  <text x="284" y="144" text-anchor="middle" font-size="7.6" fill="#6b7280">→ 边界精细，不丢细节</text>
+
+  <line x1="394" y1="106" x2="424" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="426" y="72" width="186" height="68" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="519" y="91" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">输出：同尺寸稠密图</text>
+  <text x="519" y="109" text-anchor="middle" font-size="8.3" fill="#374151">512×512：分割掩码 / 预测的噪声</text>
+  <text x="519" y="125" text-anchor="middle" font-size="8" fill="#b91c1c">输入输出空间尺寸相同</text>
+
+  <line x1="612" y1="106" x2="642" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="644" y="84" width="148" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="718" y="103" text-anchor="middle" font-size="8.8" font-weight="bold" fill="#15803d">分割 / 去噪</text>
+  <text x="718" y="120" text-anchor="middle" font-size="7.2" fill="#6b7280">扩散的去噪骨干</text>
+
+  <text x="410" y="180" text-anchor="middle" font-size="9.6" fill="#374151">关键：<tspan font-weight="bold" fill="#0369a1">图进、同尺寸图出</tspan>（每个像素都要预测）；本项目里它是 [39 扩散模型] 的去噪骨干，负责“预测噪声”。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

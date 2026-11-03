@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="560" fill="#fff"/>
+  <text x="460" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q102 交叉熵损失 = −log(正确类的预测概率)：分类任务的默认损失</text>
+
+  <!-- ① 定义 -->
+  <rect x="20" y="46" width="430" height="176" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="235" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 公式：one-hot 求和后只剩正确类那一项</text>
+  <text x="235" y="98" text-anchor="middle" font-size="13" fill="#111827">CE = − Σ yᵢ · log pᵢ = − log p(正确类)</text>
+  <text x="40" y="126" font-size="9.5" fill="#374151">· y = one-hot 真实标签（正确类=1，其余=0）</text>
+  <text x="40" y="144" font-size="9.5" fill="#374151">· p = softmax 输出的概率分布（各类相加=1）</text>
+  <text x="40" y="162" font-size="9.5" fill="#374151">· 求和被 y 过滤 → 只保留正确类的 −log p</text>
+  <text x="40" y="186" font-size="9.5" fill="#b91c1c">· p→1 则 −log→0（损失小）；p→0 则 −log→+∞（重罚）</text>
+  <text x="40" y="206" font-size="9.5" fill="#15803d">· 一句话：正确类预测得越准，损失越接近 0</text>
+
+  <!-- ② −log 曲线 -->
+  <rect x="470" y="46" width="430" height="176" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="685" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 损失曲线 L = −log p</text>
+  <!-- axes -->
+  <line x1="520" y1="200" x2="880" y2="200" stroke="#9ca3af"/>
+  <line x1="520" y1="200" x2="520" y2="82" stroke="#9ca3af"/>
+  <text x="880" y="214" text-anchor="end" font-size="9" fill="#6b7280">p(正确类) →1</text>
+  <text x="524" y="90" font-size="9" fill="#6b7280">损失</text>
+  <!-- curve: from (p small, high) to (p=1, 0). sample points -->
+  <polyline fill="none" stroke="#dc2626" stroke-width="2"
+    points="530,92 545,110 565,128 595,146 640,162 700,176 780,190 870,200"/>
+  <circle cx="640" cy="162" r="3" fill="#2563eb"/><text x="646" y="158" font-size="8.5" fill="#1e40af">p=0.7 → 0.36</text>
+  <circle cx="780" cy="190" r="3" fill="#16a34a"/><text x="700" y="186" font-size="8.5" fill="#15803d">p=0.9 → 0.11</text>
+  <circle cx="565" cy="128" r="3" fill="#b91c1c"/><text x="570" y="124" font-size="8.5" fill="#b91c1c">p=0.3 → 1.20</text>
+
+  <!-- ③ 数值例子 -->
+  <rect x="20" y="236" width="880" height="150" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="256" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 数值例子：3 类（猫/狗/鸟），真实=猫，y=[1,0,0]</text>
+  <line x1="300" y1="268" x2="300" y2="376" stroke="#c4b5fd"/>
+  <line x1="600" y1="268" x2="600" y2="376" stroke="#c4b5fd"/>
+  <text x="160" y="288" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">softmax 输出 p</text>
+  <text x="450" y="288" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">CE = −log p(猫)</text>
+  <text x="750" y="288" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">解读</text>
+
+  <text x="160" y="312" text-anchor="middle" font-size="10" fill="#374151">[0.7, 0.2, 0.1]</text>
+  <text x="450" y="312" text-anchor="middle" font-size="10" fill="#374151">−log 0.7 = 0.36</text>
+  <text x="750" y="312" text-anchor="middle" font-size="9.5" fill="#374151">对，但不够自信</text>
+
+  <text x="160" y="338" text-anchor="middle" font-size="10" fill="#15803d" font-weight="bold">[0.9, 0.05, 0.05]</text>
+  <text x="450" y="338" text-anchor="middle" font-size="10" fill="#15803d" font-weight="bold">−log 0.9 = 0.11</text>
+  <text x="750" y="338" text-anchor="middle" font-size="9.5" fill="#15803d">又对又自信 → 损失小</text>
+
+  <text x="160" y="364" text-anchor="middle" font-size="10" fill="#b91c1c" font-weight="bold">[0.1, 0.8, 0.1]</text>
+  <text x="450" y="364" text-anchor="middle" font-size="10" fill="#b91c1c" font-weight="bold">−log 0.1 = 2.30</text>
+  <text x="750" y="364" text-anchor="middle" font-size="9.5" fill="#b91c1c">预测错 → 重罚</text>
+
+  <!-- ④ 为什么用它 -->
+  <rect x="20" y="400" width="880" height="88" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="460" y="420" text-anchor="middle" font-size="12" font-weight="bold" fill="#a16207">④ 为什么用交叉熵，而不是均方误差 MSE</text>
+  <text x="40" y="442" font-size="9.5" fill="#374151">· 信息论起源：H(p,q)=−Σ p log q，衡量"用预测分布编码真实分布"的平均比特数，分布越接近比特越少</text>
+  <text x="40" y="460" font-size="9.5" fill="#374151">· 梯度漂亮：softmax + CE 求导后梯度正好 = p − y（预测减真实），简洁、不梯度消失 → 两者总是配对</text>
+  <text x="40" y="478" font-size="9.5" fill="#374151">· 惩罚合理：对"自信地错"给接近无穷的惩罚；二分类用 BCE，多分类用 Softmax+CE</text>
+
+  <!-- ⑤ 与本项目 -->
+  <rect x="20" y="502" width="880" height="46" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="522" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">与本项目：YOLOv8 分类分支用 (B)CE；CLIP 的 InfoNCE 本质是把"图文匹配"当分类的交叉熵</text>
+  <text x="460" y="540" text-anchor="middle" font-size="9.5" fill="#374151">→ 交叉熵是看懂 CLIP 对比损失、检测头分类损失的地基</text>
+</svg>

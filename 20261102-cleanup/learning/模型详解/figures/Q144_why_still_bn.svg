@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q144 既然 LN 不依赖 batch 为何还用 BN：大 batch CNN 上 BN 更强(非勉强能用)——各有主场</text>
+
+  <!-- ① 澄清 -->
+  <rect x="20" y="42" width="900" height="76" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 澄清：不是"LN 全面碾压、BN 该淘汰"</text>
+  <text x="40" y="90" font-size="9.5" fill="#374151">· LN 的"不依赖 batch" <tspan font-weight="bold">只在 batch 小时才是优势</tspan></text>
+  <text x="40" y="108" font-size="9.5" fill="#374151">· batch 够大时（分类）BN <tspan font-weight="bold">反而更好</tspan>——不是勉强能用，是更准 + 推理免费</text>
+
+  <!-- ② 三优势 -->
+  <rect x="20" y="130" width="900" height="230" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② BN 在大 batch CNN 上赢在三点</text>
+  <text x="40" y="180" font-size="10" font-weight="bold" fill="#374151">1. 精度更高——跨样本统计自带正则化</text>
+  <text x="56" y="200" font-size="9" fill="#6b7280">每批样本组成随机 → 同一样本归一化每批轻微抖动 = 注入噪声（类 dropout）→ 抗过拟合</text>
+  <text x="56" y="216" font-size="9" fill="#b91c1c">"依赖 batch"是双刃剑：小 batch 是缺点(估不准)、大 batch 是优点(适度噪声)；LN 无此免费正则</text>
+  <text x="40" y="244" font-size="10" font-weight="bold" fill="#374151">2. 逐通道统计更契合卷积语义</text>
+  <text x="56" y="264" font-size="9" fill="#6b7280">CNN 里同一通道=同一特征探测器(如边缘)，跨图像统计天然合理；BN 正是每通道跨 batch+空间</text>
+  <text x="56" y="280" font-size="9" fill="#b91c1c">LN 在 CNN 上要把一样本内不同通道(边缘/颜色/纹理，含义量纲都不同)混算=苹果橘子平均→打不过 BN，需 GN 补</text>
+  <text x="40" y="308" font-size="10" font-weight="bold" fill="#374151">3. 推理零成本</text>
+  <text x="56" y="328" font-size="9" fill="#6b7280">BN 的固定均值方差/γ/β 可折叠进前一层卷积(BN folding，待读清单那条)→ 推理等于不存在、零计算</text>
+  <text x="56" y="344" font-size="9" fill="#6b7280">LN 推理时每次前向都得现算均值方差，省不掉</text>
+
+  <!-- ③ 分工表 -->
+  <rect x="20" y="372" width="900" height="130" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="394" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 按场景分工</text>
+  <line x1="360" y1="408" x2="360" y2="492" stroke="#86efac"/>
+  <text x="40" y="424" font-size="9.5" font-weight="bold" fill="#15803d">CNN + 大 batch（分类）→ BN</text>
+  <text x="56" y="444" font-size="9" fill="#374151">精度高(正则) + 契合卷积 + 推理免费</text>
+  <text x="56" y="462" font-size="9" fill="#6b7280">ResNet/VGG/分类网络默认；YOLOv8 的 Conv-BN-SiLU</text>
+  <text x="380" y="424" font-size="9.5" font-weight="bold" fill="#b45309">小 batch / 变长序列 → LN / GN</text>
+  <text x="396" y="444" font-size="9" fill="#374151">BN 失灵（列均值估不准）</text>
+  <text x="396" y="462" font-size="9" fill="#6b7280">Transformer/NLP 用 LN；检测大图/分割用 GN</text>
+  <text x="40" y="486" font-size="9" fill="#6b7280">本项目：YOLOv8 用 BN（检测训练 batch 尚可）；若 batch 被逼到极小可换 GN（待读清单⭐⭐）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="514" width="900" height="66" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="538" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：BN 没被淘汰，因为在它的主场(大 batch CNN)它更准(跨样本正则)+契合卷积+推理免费；</text>
+  <text x="470" y="558" text-anchor="middle" font-size="9.5" fill="#374151">LN 的 batch 无关只在小 batch 才划算，它在 CNN 上精度往往不如 BN。</text>
+  <text x="470" y="574" text-anchor="middle" font-size="9" fill="#6b7280">BN"依赖 batch"是双刃剑——小 batch 害你、大 batch 帮你；没有一种归一化全场景最优。</text>
+</svg>

@@ -1,0 +1,29 @@
+[
+  {
+    "name": "开题标准型",
+    "shape": "problem-turn-evidence",
+    "roles": ["hook", "problem", "diagnosis", "objective", "method", "evidence", "roadmap", "conclusion"],
+    "audience_question": "为什么路面抛洒物的小目标检测与预留类别识别值得作为一个硕士课题继续研究",
+    "objection": "已有模块较成熟且现有实验并未证明系统已经完成",
+    "closing_ask": "认可研究问题、技术路线和后续验证计划具备开题可行性",
+    "evidence": ["C02", "C05", "C09", "C10", "C13", "C16", "C19", "C25"]
+  },
+  {
+    "name": "结果牵引型",
+    "shape": "evidence-build",
+    "roles": ["hook", "evidence", "diagnosis", "method", "comparison", "roadmap", "conclusion"],
+    "audience_question": "已经获得哪些稳定结果，是否足以证明课题可继续推进",
+    "objection": "端到端和跨域结果不够理想可能意味着路线无效",
+    "closing_ask": "以已重复的P2收益为锚，继续补齐独立确认、时序和设备验证",
+    "evidence": ["C05", "C09", "C10", "C13", "C18", "C19", "C22", "C25"]
+  },
+  {
+    "name": "贡献防守型",
+    "shape": "contribution-first",
+    "roles": ["framework", "method", "comparison", "evidence", "diagnosis", "roadmap", "conclusion"],
+    "audience_question": "P2、CBAM和CLIP均为已有方法，本课题的可辩护创新在哪里",
+    "objection": "课题可能只是已有模块的简单拼接",
+    "closing_ask": "认可创新定位在受控归因、分层诊断和能力边界验证",
+    "evidence": ["C04", "C05", "C09", "C12", "C16", "C19", "C20", "C25"]
+  }
+]

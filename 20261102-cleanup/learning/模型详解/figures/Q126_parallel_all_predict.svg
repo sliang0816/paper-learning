@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q126 "一次前向全预测"如何体现：输出是 N×d 矩阵、输出头逐行套用 → N 个词表分布同时出</text>
+
+  <!-- ① 表格 -->
+  <rect x="20" y="42" width="900" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 每个位置带着自己的"作业"：4 个位置 → 4 个预测 → 4 个标签（一次前向）</text>
+  <g font-size="9" font-family="Consolas,monospace">
+    <text x="50" y="90" font-family="'Microsoft YaHei'" font-weight="bold" fill="#374151">位置   输入     视野(因果掩码)        顶层向量→输出头→预测    标签</text>
+    <text x="50" y="116" fill="#111827">1     &lt;BOS&gt;    [&lt;BOS&gt;]              h₁ → 分布₁ → "我"      我</text>
+    <text x="50" y="142" fill="#111827">2     我       [&lt;BOS&gt;,我]           h₂ → 分布₂ → "爱"      爱</text>
+    <text x="50" y="168" fill="#111827">3     爱       [&lt;BOS&gt;,我,爱]        h₃ → 分布₃ → "路"      路</text>
+    <text x="50" y="194" fill="#111827">4     路       [&lt;BOS&gt;,我,爱,路]     h₄ → 分布₄ → "&lt;EOS&gt;"   &lt;EOS&gt;</text>
+  </g>
+  <text x="50" y="226" font-size="9" fill="#6b7280">同一个输出头（[词表×d]+softmax）逐行套用 [4,d]×[d,词表] 一次矩阵乘 → 4 个分布同时出，谁也不等谁</text>
+
+  <!-- ② 等价性 -->
+  <rect x="20" y="254" width="440" height="170" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="240" y="276" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 等价性是掩码给的</text>
+  <text x="36" y="302" font-size="9.5" fill="#374151">因果掩码 → 位置 t 的视野 = 推理第 t 步的视野</text>
+  <text x="36" y="322" font-size="9.5" fill="#374151">→ 一次前向<tspan font-weight="bold">严格等价</tspan>把推理跑 4 遍各取一个预测，</text>
+  <text x="36" y="340" font-size="9.5" fill="#374151">只是 4 遍计算压进一次矩阵运算</text>
+  <text x="36" y="366" font-size="9.5" fill="#6d28d9" font-weight="bold">= 一条句子被掩码拆成 4 条训练样本</text>
+  <text x="36" y="384" font-size="9" fill="#6b7280">（"给定长 t 前缀 → 预测第 t+1 词"×4，一次做完）</text>
+  <text x="36" y="408" font-size="9" fill="#6b7280">注意力 QK^⊤ 整块矩阵乘、FFN 逐 token 独立、输出头一次乘</text>
+
+  <!-- ③ 损失 -->
+  <rect x="480" y="254" width="440" height="170" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="276" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 损失端同样是"全"的</text>
+  <text x="496" y="302" font-size="9.5" fill="#374151">4 个分布 vs 4 个标签 → 4 份交叉熵 → 相加/平均</text>
+  <text x="496" y="322" font-size="9.5" fill="#374151">→ 一个标量、<tspan font-weight="bold">一次反传</tspan>用上全部位置的监督</text>
+  <text x="496" y="350" font-size="9.5" fill="#6b7280">对比 RNN：同一句要按时间步串行滚 4 步</text>
+  <text x="496" y="368" font-size="9.5" fill="#6b7280">才凑齐 4 份损失 —— Transformer 训练效率优势所在</text>
+
+  <!-- ④ 误解 -->
+  <rect x="20" y="436" width="900" height="110" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="458" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">④ 常见误解澄清："一次前向只出最后一个位置的预测" ✗</text>
+  <text x="40" y="484" font-size="9.5" fill="#374151">那是<tspan font-weight="bold">推理时的用法</tspan>：推理时每个位置照样都算出分布（"全预测"照样发生），只是前面的词早生成过了、<tspan font-weight="bold">只取最后一行</tspan>其余丢弃</text>
+  <text x="40" y="506" font-size="9.5" fill="#374151">（KV 缓存就是为了别白算这些，Q80）</text>
+  <text x="40" y="530" font-size="9.5" font-weight="bold" fill="#6d28d9">真实区别：训练 N 个预测全用来算损失，推理 N 个预测只用最后一个——"全预测"一直在，变的是用几个</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="558" width="900" height="48" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="578" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话："全预测"= 输出 N×d 矩阵逐行过输出头得 N 个词表分布，掩码保证位置 t 视野=推理第 t 步 →</text>
+  <text x="470" y="596" text-anchor="middle" font-size="9" fill="#374151">一条句子拆成 N 条"前缀→下一词"样本一次做完，N 份交叉熵一次反传；推理也全预测、只取最后一行。</text>
+</svg>

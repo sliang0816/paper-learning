@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 610" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="610" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15.5" font-weight="bold" fill="#111827">Q111 "一个 query 领一块"的理论根据：集合预测 + 二分图一对一匹配(匈牙利)损失</text>
+
+  <!-- ① 破误区 -->
+  <rect x="20" y="42" width="900" height="66" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">① 不是架构写死，是"学出来"的涌现分工</text>
+  <text x="470" y="84" text-anchor="middle" font-size="9.5" fill="#374151">初始化时 N 个 query 是随机可学习向量，架构没规定"query#3 永远管左上角"；</text>
+  <text x="470" y="100" text-anchor="middle" font-size="9.5" fill="#b91c1c">"一个 query 领一块"是训练收敛后涌现的行为 → 那是什么力量逼出来的？↓</text>
+
+  <!-- ② 匈牙利匹配 -->
+  <rect x="20" y="120" width="440" height="230" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="240" y="140" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">② 理论根据：匈牙利一对一匹配损失</text>
+  <text x="36" y="162" font-size="9.5" fill="#374151">· 集合预测：一次固定吐 N 个预测(N=100)</text>
+  <text x="36" y="180" font-size="9.5" fill="#374151">· 真值补 ∅(无物体) 到 N 个</text>
+  <text x="36" y="198" font-size="9.5" fill="#374151">· 匈牙利算法找唯一最优一对一匹配</text>
+  <text x="52" y="214" font-size="8.5" fill="#6b7280">（代价=类别+框差异）</text>
+  <!-- bipartite diagram -->
+  <g font-size="9">
+    <rect x="48" y="230" width="70" height="20" rx="3" fill="#e0e7ff" stroke="#6366f1"/><text x="83" y="244" text-anchor="middle" fill="#4338ca">预测₁</text>
+    <rect x="48" y="256" width="70" height="20" rx="3" fill="#e0e7ff" stroke="#6366f1"/><text x="83" y="270" text-anchor="middle" fill="#4338ca">预测₂</text>
+    <rect x="48" y="282" width="70" height="20" rx="3" fill="#e0e7ff" stroke="#6366f1"/><text x="83" y="296" text-anchor="middle" fill="#4338ca">预测₃</text>
+    <rect x="48" y="308" width="70" height="20" rx="3" fill="#e0e7ff" stroke="#6366f1"/><text x="83" y="322" text-anchor="middle" fill="#4338ca">预测₄…</text>
+    <rect x="330" y="230" width="90" height="20" rx="3" fill="#dcfce7" stroke="#16a34a"/><text x="375" y="244" text-anchor="middle" fill="#15803d">真值A(车)</text>
+    <rect x="330" y="256" width="90" height="20" rx="3" fill="#dcfce7" stroke="#16a34a"/><text x="375" y="270" text-anchor="middle" fill="#15803d">真值B(人)</text>
+    <rect x="330" y="282" width="90" height="20" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/><text x="375" y="296" text-anchor="middle" fill="#6b7280">∅ 无物体</text>
+    <rect x="330" y="308" width="90" height="20" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/><text x="375" y="322" text-anchor="middle" fill="#6b7280">∅ 无物体</text>
+    <line x1="118" y1="240" x2="330" y2="240" stroke="#16a34a" stroke-width="2"/>
+    <line x1="118" y1="266" x2="330" y2="266" stroke="#16a34a" stroke-width="2"/>
+    <line x1="118" y1="292" x2="330" y2="292" stroke="#cbd5e1" stroke-dasharray="3 2"/>
+    <line x1="118" y1="318" x2="330" y2="318" stroke="#cbd5e1" stroke-dasharray="3 2"/>
+  </g>
+  <text x="240" y="344" text-anchor="middle" font-size="8.5" fill="#374151">每个真值 ↔ 恰好一个预测；其余预测 ↔ ∅</text>
+
+  <!-- ③ 为什么一对一逼出分工 -->
+  <rect x="480" y="120" width="440" height="230" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="700" y="140" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ 为什么"一对一"就逼出分工</text>
+  <text x="496" y="164" font-size="9.5" fill="#374151">· 每个真值<tspan font-weight="bold">只有一个预测被记功</tspan>（匹配上=低损失）</text>
+  <text x="496" y="186" font-size="9.5" fill="#374151">· 两个 query 抢同一物体 → 只一个匹配上，</text>
+  <text x="512" y="202" font-size="9.5" fill="#b91c1c">另一个必落空 → 被迫预测 ∅ → 若还报物体=高损失</text>
+  <text x="496" y="224" font-size="9.5" fill="#374151">· 梯度<tspan font-weight="bold">把两个 query 推开</tspan>：别重复覆盖同一块</text>
+  <text x="496" y="248" font-size="9.5" fill="#374151">· 跨数据集反复训练 → 每个 query 漂向</text>
+  <text x="512" y="264" font-size="9.5" fill="#15803d">自己的专长领地（空间区域/尺寸/类型）</text>
+  <rect x="496" y="278" width="410" height="56" rx="5" fill="#fef9c3" stroke="#eab308"/>
+  <text x="701" y="298" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">DETR 原论文 Fig.7 实证</text>
+  <text x="701" y="316" text-anchor="middle" font-size="9" fill="#374151">训练后每个 query 学出空间专门化：</text>
+  <text x="701" y="330" text-anchor="middle" font-size="9" fill="#374151">不同 query 关注不同区域、不同框尺寸</text>
+
+  <!-- ④ 自注意力 vs 匈牙利 -->
+  <rect x="20" y="362" width="440" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="240" y="382" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 自注意力=通信手段，匈牙利=驱动力</text>
+  <text x="36" y="406" font-size="9.5" fill="#374151">· query 间<tspan font-weight="bold">自注意力</tspan>：让它们互相看到、"通气"</text>
+  <text x="52" y="422" font-size="9" fill="#6b7280">（你领这个我领那个）= 避免撞车的机制</text>
+  <text x="36" y="444" font-size="9.5" fill="#374151">· 真正<tspan font-weight="bold">逼</tspan>它们分工的是<tspan font-weight="bold" fill="#b91c1c">匈牙利一对一损失</tspan></text>
+  <text x="36" y="464" font-size="9.5" fill="#6d28d9">自注意力=使能(enabling)，匈牙利匹配=目标(objective)；根在损失</text>
+
+  <!-- ⑤ 去NMS的根 -->
+  <rect x="480" y="362" width="440" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="382" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">⑤ 同时就是 DETR "去 NMS" 的理论根</text>
+  <text x="496" y="406" font-size="9.5" fill="#374151">anchor：一真值被很多anchor匹配(<tspan font-weight="bold">一对多</tspan>)</text>
+  <text x="512" y="422" font-size="9" fill="#b91c1c">→ 一堆重复框 → 靠 NMS 去重</text>
+  <text x="496" y="444" font-size="9.5" fill="#374151">DETR：<tspan font-weight="bold">一对一</tspan>匹配 → 一物体只由一个预测负责</text>
+  <text x="512" y="460" font-size="9" fill="#15803d">→ 天然无重复框 → 不需要 NMS</text>
+  <text x="700" y="477" text-anchor="middle" font-size="8.5" fill="#6d28d9">"领一块"与"去NMS"是同一理论根(一对一)的两面</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="494" width="900" height="102" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="516" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话</text>
+  <text x="470" y="540" text-anchor="middle" font-size="9.5" fill="#374151">"一个 query 认领一块"的理论根据 = 集合预测下的二分图一对一匹配损失——数学上保证每个真值只由一个预测负责，</text>
+  <text x="470" y="560" text-anchor="middle" font-size="9.5" fill="#374151">梯度下降据此把随机 query 逼成各有专长的"领地"；query 自注意力只是提供避免撞车的通信手段。</text>
+  <text x="470" y="582" text-anchor="middle" font-size="9.5" fill="#15803d">这也正是 DETR 免 NMS 的根（一对多→NMS；一对一→端到端）。</text>
+</svg>

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q136 16×16 patch 怎么变 token：拉直(768个像素数) → 可学习矩阵 E 投影到 d 维——token 就是一个 d 维向量</text>
+
+  <!-- ① 流程 -->
+  <rect x="20" y="42" width="900" height="190" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 四步流程（ViT-Base：224×224 输入、patch 16、d=768）</text>
+  <g font-size="8.5" text-anchor="middle">
+    <rect x="40" y="80" width="120" height="70" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+    <text x="100" y="105">224×224×3 图像</text>
+    <text x="100" y="122" fill="#6b7280">切 16×16 无重叠</text>
+    <text x="100" y="139" fill="#1e40af">→ 14×14=196 块</text>
+    <text x="175" y="118" font-size="12" fill="#9ca3af">→</text>
+    <rect x="192" y="80" width="130" height="70" rx="4" fill="#fde68a" stroke="#d97706"/>
+    <text x="257" y="105" fill="#b45309">每块 16×16×3</text>
+    <text x="257" y="122" fill="#b45309">拉直 flatten</text>
+    <text x="257" y="139" fill="#6b7280">= 768 维像素向量</text>
+    <text x="337" y="118" font-size="12" fill="#9ca3af">→</text>
+    <rect x="354" y="80" width="170" height="70" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="439" y="102" fill="#15803d" font-weight="bold">线性投影 z=E·x</text>
+    <text x="439" y="119" fill="#374151">E [d×768] 可学习</text>
+    <text x="439" y="136" fill="#6b7280">196 块共享同一个 E</text>
+    <text x="539" y="118" font-size="12" fill="#9ca3af">→</text>
+    <rect x="556" y="80" width="160" height="70" rx="4" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="636" y="102" fill="#6d28d9">+ 位置嵌入（在哪块）</text>
+    <text x="636" y="119" fill="#6d28d9">+ 拼 [CLS]（Q99）</text>
+    <text x="636" y="136" fill="#374151">→ 197×768 矩阵</text>
+    <text x="731" y="118" font-size="12" fill="#9ca3af">→</text>
+    <rect x="748" y="80" width="150" height="70" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+    <text x="823" y="108" fill="#b91c1c">标准 Transformer</text>
+    <text x="823" y="126" fill="#6b7280">不知道也不关心</text>
+    <text x="823" y="140" fill="#6b7280">向量来自图像</text>
+  </g>
+  <text x="40" y="180" font-size="9.5" fill="#374151">"变 token"的关键 = 第③步投影：token 不是特殊对象，<tspan font-weight="bold">就是一个 d 维向量</tspan>（Q118 的序列接口）</text>
+  <text x="40" y="202" font-size="9.5" fill="#6b7280">E 端到端训练，学"从原始像素提取初步特征"；ViT-Base 768→768 是数值巧合，ViT-Large 是 768→1024</text>
+
+  <!-- ② 对比NLP -->
+  <rect x="20" y="244" width="440" height="160" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="240" y="266" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 和 NLP token 对比：差别只在第一步</text>
+  <g font-size="9.5">
+    <text x="36" y="292" fill="#374151">文字：<tspan font-weight="bold">离散</tspan>、词表可枚举 → <tspan font-weight="bold">查表</tspan>（lookup）</text>
+    <text x="52" y="310" fill="#6b7280">token id → 嵌入矩阵取第 i 行（Q127）</text>
+    <text x="36" y="336" fill="#374151">像素：<tspan font-weight="bold">连续</tspan>、16×16 图块无法建词表 → <tspan font-weight="bold">线性投影</tspan></text>
+    <text x="52" y="354" fill="#6b7280">768 维像素向量 × E → d 维</text>
+    <text x="36" y="382" fill="#15803d" font-weight="bold">殊途同归：最后都是 d 维向量进 Transformer</text>
+  </g>
+
+  <!-- ③ 卷积等价 -->
+  <rect x="480" y="244" width="440" height="160" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="266" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 工程实现 = 一层卷积</text>
+  <text x="496" y="292" font-size="9.5" font-family="Consolas,monospace" fill="#374151">Conv2d(3, 768, kernel=16, stride=16)</text>
+  <text x="496" y="316" font-size="9.5" fill="#374151">核大小 = 步长 = patch 尺寸 → 无重叠滑一遍</text>
+  <text x="496" y="338" font-size="9.5" fill="#374151">= "切块 + 拉直 + 投影"三步合一</text>
+  <text x="496" y="360" font-size="9" fill="#6b7280">（每个位置的卷积核点积 = E 的一行 × 拉直向量）</text>
+  <text x="496" y="384" font-size="9.5" fill="#6d28d9">所以常说"ViT 的第一层其实是个卷积层"</text>
+
+  <!-- ④ 数字账 -->
+  <rect x="20" y="416" width="900" height="110" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="438" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 数字账（ViT-Base/16）</text>
+  <text x="40" y="464" font-size="9.5" fill="#374151">· token 数 N = (224/16)² = 196，+1 个 [CLS] = 197；每个 token 768 维 → 输入矩阵 [197, 768]</text>
+  <text x="40" y="486" font-size="9.5" fill="#374151">· patch embedding 参数：768×768 + 768（偏置）≈ 59 万——只占全模型 (~8600万) 的零头</text>
+  <text x="40" y="508" font-size="9.5" fill="#6b7280">· 改分辨率/换 patch 大小 → 只改 token 数 N，Transformer 主体不变（Q115 等长映射对任意 N 成立）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="538" width="900" height="46" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="558" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：patch→token = 拉直 16×16×3=768 个数 → 乘可学习矩阵 E 到 d 维 → 加位置嵌入；工程上一层 stride=16 的卷积搞定；</text>
+  <text x="470" y="576" text-anchor="middle" font-size="9" fill="#374151">与 NLP 差别只在"查表 vs 投影"，进了 Transformer 一律是 N×d 矩阵。</text>
+</svg>

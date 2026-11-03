@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 430" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="800" height="430" fill="#fff"/>
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">anchor 是固定的预设模板；学的是「偏移」，anchor + 偏移 ≈ GT</text>
+  <text x="400" y="44" text-anchor="middle" font-size="11" fill="#6b7280">一个特征位置铺 k 个不同尺度/长宽比的 anchor，回归只需在最接近的那个上微调</text>
+
+  <!-- left: anchors at a location -->
+  <text x="200" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">① 预设 anchor（固定，人定）</text>
+  <!-- center point -->
+  <circle cx="200" cy="200" r="4" fill="#dc2626"/><text x="200" y="232" text-anchor="middle" font-size="9" fill="#6b7280">特征图某位置</text>
+  <!-- anchor boxes (dashed) -->
+  <rect x="160" y="170" width="80" height="60" fill="none" stroke="#3b82f6" stroke-dasharray="4 3"/>
+  <rect x="140" y="160" width="120" height="80" fill="none" stroke="#16a34a" stroke-dasharray="4 3"/>
+  <rect x="170" y="140" width="60" height="120" fill="none" stroke="#d97706" stroke-dasharray="4 3"/>
+  <text x="92" y="130" font-size="9.5" fill="#3b82f6">小·方</text>
+  <text x="92" y="146" font-size="9.5" fill="#16a34a">中·宽</text>
+  <text x="92" y="162" font-size="9.5" fill="#d97706">高·瘦</text>
+  <text x="200" y="270" text-anchor="middle" font-size="9.5" fill="#6b7280">k=9（3 尺度 × 3 长宽比）覆盖各种形状</text>
+
+  <!-- arrow -->
+  <line x1="300" y1="200" x2="370" y2="200" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="335" y="190" text-anchor="middle" font-size="10" fill="#374151">IoU 匹配 GT</text>
+  <text x="335" y="214" text-anchor="middle" font-size="9" fill="#6b7280">选形状最近的</text>
+
+  <!-- right: matched anchor + offset -> GT -->
+  <text x="580" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">② 学「偏移」把它挪向 GT</text>
+  <!-- GT solid -->
+  <rect x="500" y="150" width="130" height="90" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+  <text x="565" y="145" text-anchor="middle" font-size="10" fill="#dc2626">GT（真值框）</text>
+  <!-- matched anchor dashed (offset from GT) -->
+  <rect x="470" y="175" width="120" height="80" fill="none" stroke="#16a34a" stroke-dasharray="4 3"/>
+  <text x="470" y="270" font-size="9.5" fill="#16a34a">匹配到的 anchor（固定）</text>
+  <!-- offset arrow -->
+  <line x1="530" y1="215" x2="565" y2="195" stroke="#7c3aed" stroke-width="1.6" marker-end="url(#b)"/>
+  <text x="610" y="205" font-size="10" fill="#7c3aed">学到的偏移</text>
+  <text x="610" y="220" font-size="9" fill="#7c3aed">(t_x,t_y,t_w,t_h)</text>
+  <text x="580" y="290" text-anchor="middle" font-size="10" fill="#374151">anchor + 偏移 ≈ GT</text>
+
+  <!-- bottom notes -->
+  <rect x="40" y="305" width="720" height="110" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="56" y="327" font-size="11.5" font-weight="bold" fill="#111827">三点精确化</text>
+  <text x="56" y="349" font-size="10.5" fill="#374151">· 推理时 SS 和 RPN <tspan font-weight="bold">都不知道 GT</tspan>；区别是“怎么提框”：SS 像素级自底向上合并；RPN 滑窗+anchor 参照。</text>
+  <text x="56" y="369" font-size="10.5" fill="#b91c1c">· anchor <tspan font-weight="bold">固定、人预设，不是学出来的</tspan>；学的是「偏移」(回归) + 「前景/背景」(分类)。最终=anchor+偏移。</text>
+  <text x="56" y="389" font-size="10.5" fill="#374151">· “逐渐逼近 GT”是<tspan font-weight="bold">训练阶段</tspan>回归器在学；单次前向<tspan font-weight="bold">一步</tspan>算出 anchor+偏移（迭代细化是 Cascade R-CNN）。</text>
+  <text x="56" y="408" font-size="9.5" fill="#6b7280">为什么要 anchor：定长特征难“凭空”回归绝对框；anchor 把框形状离散成模板，回归只需预测小偏移，好学得多。</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker>
+    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+  </defs>
+</svg>

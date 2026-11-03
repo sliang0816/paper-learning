@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 440" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="780" height="440" fill="#fff"/>
+  <text x="390" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">每个头为什么缩到 dₖ=d/h：为了"和单头同等开销"拿到多个子空间</text>
+  <text x="390" y="46" text-anchor="middle" font-size="11" fill="#6b7280">以 d=512、h=8 头为例对比两种设计</text>
+
+  <!-- 方案A 标准 -->
+  <rect x="24" y="62" width="360" height="300" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="204" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">方案A（标准）：每头缩到 dₖ = 512/8 = 64</text>
+
+  <g font-size="9.5">
+    <text x="44" y="112" font-weight="bold" fill="#374151">投影参数（W_Q 全部头合计）</text>
+    <text x="44" y="130" fill="#374151">8 个头 × (512×64) = 512×512 = 262,144</text>
+    <text x="44" y="146" fill="#16a34a">＝ 和单头一个 512×512 投影<tspan font-weight="bold">一样</tspan></text>
+
+    <text x="44" y="176" font-weight="bold" fill="#374151">注意力计算量</text>
+    <text x="44" y="194" fill="#374151">每头 n²×64，×8 头 = n²×512</text>
+    <text x="44" y="210" fill="#16a34a">＝ 和单头 n²×512 <tspan font-weight="bold">一样</tspan></text>
+
+    <text x="44" y="240" font-weight="bold" fill="#374151">拼接后维度 & W_O</text>
+    <text x="44" y="258" fill="#374151">Concat: 8×64 = 512 → W_O 是 512×512</text>
+
+    <text x="44" y="290" font-weight="bold" fill="#15803d">总开销 ≈ 单头注意力</text>
+    <text x="44" y="308" fill="#374151">却得到 8 个不同子空间（各专注一种关系）</text>
+  </g>
+  <rect x="44" y="322" width="320" height="28" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="204" y="340" text-anchor="middle" font-size="10" fill="#15803d">"几乎免费"地多拿 8 个视角 → 性价比最高</text>
+
+  <!-- 方案B 不缩 -->
+  <rect x="396" y="62" width="360" height="300" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="576" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#b91c1c">方案B（你的设想）：每头保持全 dₖ = 512</text>
+
+  <g font-size="9.5">
+    <text x="416" y="112" font-weight="bold" fill="#374151">投影参数</text>
+    <text x="416" y="130" fill="#374151">8 个头 × (512×512) = 2,097,152</text>
+    <text x="416" y="146" fill="#b91c1c">＝ 标准的 <tspan font-weight="bold">8 倍</tspan></text>
+
+    <text x="416" y="176" font-weight="bold" fill="#374151">注意力计算量</text>
+    <text x="416" y="194" fill="#374151">每头 n²×512，×8 头 = 8×n²×512</text>
+    <text x="416" y="210" fill="#b91c1c">＝ 标准的 <tspan font-weight="bold">8 倍</tspan></text>
+
+    <text x="416" y="240" font-weight="bold" fill="#374151">拼接后维度 & W_O</text>
+    <text x="416" y="258" fill="#374151">Concat: 8×512 = 4096 → W_O 是 4096×512</text>
+    <text x="416" y="274" fill="#b91c1c">W_O 也是标准的 8 倍（4096×512）</text>
+
+    <text x="416" y="302" font-weight="bold" fill="#b91c1c">总开销 ≈ 单头的 8 倍</text>
+  </g>
+  <rect x="416" y="322" width="320" height="28" rx="5" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="576" y="340" text-anchor="middle" font-size="10" fill="#b91c1c">技术上可行（W_O 能修维度），但贵 8 倍、收益不明显</text>
+
+  <!-- 底注 -->
+  <rect x="24" y="374" width="732" height="56" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="40" y="394" font-size="10.5" fill="#374151">✅ 你的设想"不缩小、最后用 W_O 调维度"<tspan font-weight="bold">完全可行</tspan>——W_O 本来就负责把拼接结果映射回 d，维度怎么都能对上。</text>
+  <text x="40" y="412" font-size="10.5" fill="#374151">⚠️ 但缩到 d/h 是<tspan font-weight="bold">刻意的成本设计</tspan>：让多头"和单头同价"。多头的价值在"<tspan font-weight="bold">子空间多样性</tspan>"，不在"每头维度高"——</text>
+  <text x="40" y="428" font-size="10.5" fill="#6b7280">64 维足以表达一种关系；同样预算下"多个小头" 比 "少数大头" 更值。所以原始 Transformer 选 8 头×64，而非 8 头×512。</text>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="480" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q96 发明新编码方式能替代 CNN/Transformer 吗——能，这就是常态，但有讲究</text>
+
+  <!-- evolution -->
+  <rect x="20" y="44" width="880" height="70" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="460" y="64" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">架构一直在被更好的取代/挤占（不是圣物）</text>
+  <text x="460" y="88" text-anchor="middle" font-size="10" fill="#374151">MLP → CNN / RNN → Transformer；CNN 又被"现代化"(ConvNeXt)去追 Transformer</text>
+  <text x="460" y="106" text-anchor="middle" font-size="9.5" fill="#6b7280">当下挑战者：Mamba/状态空间模型(SSM，线性时间)、RWKV(像RNN却达Transformer水平)、RetNet、MLP-Mixer…</text>
+
+  <!-- conditions to replace -->
+  <rect x="20" y="128" width="880" height="150" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="148" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">但"替代"有讲究——要真上位，得全面胜出</text>
+  <text x="40" y="172" font-size="9.5" fill="#374151">· 在真正在意的指标上胜出：<tspan font-weight="bold">精度 / 效率 / 可扩展 / 硬件友好 / 生态工具链</tspan></text>
+  <text x="56" y="190" font-size="9" fill="#6b7280">（Transformer 赢在能变成 GPU 最爱的矩阵乘、可并行——新方法也得硬件友好+有生态）</text>
+  <text x="40" y="212" font-size="9.5" fill="#374151">· 往往是"<tspan font-weight="bold">在某些场景取代</tspan>"而非"一夜清盘"：</text>
+  <text x="56" y="230" font-size="9" fill="#374151">CNN 至今霸占很多高效/边缘视觉；Transformer 霸占大规模/多模态；新 SSM 可能先拿下超长序列</text>
+  <text x="40" y="254" font-size="9.5" fill="#374151">· 本质（接 Q94）：它们都是"<tspan font-weight="bold">跨位置混合</tspan>"的不同实现，"新编码"=<tspan font-weight="bold">新的混合算子</tspan></text>
+  <text x="56" y="272" font-size="9" fill="#b45309">谁能同时做到"全局 + 便宜 + 好归纳偏置 + 硬件友好"，谁就可能上位（Mamba=当下最强尝试：近似全局+线性时间）</text>
+
+  <!-- conclusion + project -->
+  <rect x="20" y="292" width="880" height="80" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="314" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">一句话</text>
+  <text x="460" y="336" text-anchor="middle" font-size="9.5" fill="#374151">能——架构会被更好的取代，这是深度学习常态；但要真替代需在"该指标+硬件+生态"全面胜出，</text>
+  <text x="460" y="354" text-anchor="middle" font-size="9.5" fill="#6d28d9">且多为"分场景取代"。新编码=新混合算子：全局+便宜+好偏置+硬件友好者上位</text>
+
+  <rect x="20" y="386" width="880" height="74" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="408" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">对本项目</text>
+  <text x="460" y="430" text-anchor="middle" font-size="9.5" fill="#374151">这些是研究前沿；毕业论文有 deadline，主线仍用成熟稳的 YOLO(CNN)/CLIP(Transformer)</text>
+  <text x="460" y="448" text-anchor="middle" font-size="9.5" fill="#6b7280">新架构（Mamba 等）了解即可，别追新踩坑</text>
+</svg>

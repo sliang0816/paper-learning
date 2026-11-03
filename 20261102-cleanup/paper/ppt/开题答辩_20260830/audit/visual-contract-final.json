@@ -1,0 +1,177 @@
+{
+  "schema": "slide-maker-codex-visual-contract-result/v1",
+  "pptx": "/home/bornshine/Downloads/开题答辩_20260830/朱守亮-开题答辩v8-开题版.pptx",
+  "pptx_sha256": "6a4001361904fe63c2b970cd196a357655b443d8a1fdabf542e5dde8eb11d7de",
+  "manifest": "/home/bornshine/Downloads/开题答辩_20260830/visual-contract.json",
+  "manifest_sha256": "8c99d0819f9b6389fd258edff54ed43cf49a4172c5260dec170ceb1c81daf0e6",
+  "passed": true,
+  "zones": [
+    {
+      "id": "s6-rail-label-clearance",
+      "slide": 6,
+      "pass": true,
+      "checks": [
+        {
+          "pass": true,
+          "subject": [
+            0.8,
+            2.28,
+            1.32,
+            0.52
+          ],
+          "against": [
+            2.44,
+            2.9,
+            1.48,
+            0.52
+          ],
+          "horizontal_gap": 0.32,
+          "vertical_gap": 0.1,
+          "distance": 0.335,
+          "required_gap": 0.12
+        }
+      ],
+      "crop": "/home/bornshine/Downloads/开题答辩_20260830/visual-crops/s6-rail-label-clearance.png"
+    },
+    {
+      "id": "s17-material-rail-clearance",
+      "slide": 17,
+      "pass": true,
+      "checks": [
+        {
+          "pass": true,
+          "subject": [
+            10.0,
+            1.76,
+            2.34,
+            0.46
+          ],
+          "against": [
+            4.55,
+            1.5,
+            4.58,
+            0.44
+          ],
+          "horizontal_gap": 0.87,
+          "vertical_gap": 0.0,
+          "distance": 0.87,
+          "required_gap": 0.12
+        }
+      ],
+      "crop": "/home/bornshine/Downloads/开题答辩_20260830/visual-crops/s17-material-rail-clearance.png"
+    },
+    {
+      "id": "s21-effect-label-clearance",
+      "slide": 21,
+      "pass": true,
+      "checks": [
+        {
+          "pass": true,
+          "subject": [
+            9.7,
+            2.62,
+            1.08,
+            0.38
+          ],
+          "against": [
+            10.92,
+            2.62,
+            1.52,
+            0.38
+          ],
+          "horizontal_gap": 0.14,
+          "vertical_gap": 0.0,
+          "distance": 0.14,
+          "required_gap": 0.12
+        }
+      ],
+      "crop": "/home/bornshine/Downloads/开题答辩_20260830/visual-crops/s21-effect-label-clearance.png"
+    },
+    {
+      "id": "s25-latency-label-clearance",
+      "slide": 25,
+      "pass": true,
+      "checks": [
+        {
+          "pass": true,
+          "subject": [
+            5.566,
+            2.16,
+            0.724,
+            0.4
+          ],
+          "against": [
+            6.43,
+            2.16,
+            2.14,
+            0.4
+          ],
+          "horizontal_gap": 0.14,
+          "vertical_gap": 0.0,
+          "distance": 0.14,
+          "required_gap": 0.12
+        }
+      ],
+      "crop": "/home/bornshine/Downloads/开题答辩_20260830/visual-crops/s25-latency-label-clearance.png"
+    }
+  ],
+  "icons": [
+    {
+      "id": "s2-search",
+      "slide": 2,
+      "pass": true,
+      "meaning": "表示选题依据阶段要先定位真实研究问题。",
+      "build_token": "lucide:search",
+      "reasons": []
+    },
+    {
+      "id": "s2-route",
+      "slide": 2,
+      "pass": true,
+      "meaning": "表示技术路线阶段说明如何完成验证。",
+      "build_token": "lucide:route",
+      "reasons": []
+    },
+    {
+      "id": "s2-chart",
+      "slide": 2,
+      "pass": true,
+      "meaning": "表示前期证据阶段呈现实验结果与边界。",
+      "build_token": "lucide:chart-no-axes-column-increasing",
+      "reasons": []
+    },
+    {
+      "id": "s2-calendar",
+      "slide": 2,
+      "pass": true,
+      "meaning": "表示创新与计划阶段安排后续工作。",
+      "build_token": "lucide:calendar-days",
+      "reasons": []
+    },
+    {
+      "id": "s17-database",
+      "slide": 17,
+      "pass": true,
+      "meaning": "表示独立确认工作包需要新采集并冻结的数据。",
+      "build_token": "lucide:database",
+      "reasons": []
+    },
+    {
+      "id": "s17-video",
+      "slide": 17,
+      "pass": true,
+      "meaning": "表示跨帧评估工作包需要连续视频帧和时间元数据。",
+      "build_token": "lucide:video",
+      "reasons": []
+    },
+    {
+      "id": "s17-cpu",
+      "slide": 17,
+      "pass": true,
+      "meaning": "表示目标设备工作包需要明确芯片、功率和部署框架。",
+      "build_token": "lucide:cpu",
+      "reasons": []
+    }
+  ],
+  "errors": []
+}

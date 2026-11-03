@@ -1,0 +1,95 @@
+{
+  "purpose": "江苏大学硕士学位论文开题答辩，10–15分钟现场投影；用18页主讲与7页备查呈现研究问题、受控证据、边界和后续计划。",
+  "rubric_overlay": "thesis / committee defense",
+  "reviewer": {
+    "origin": "self-review",
+    "identity": "Codex primary agent inline design audit after failed round-2 dispatch",
+    "fresh_context": true
+  },
+  "coverage": {
+    "slides_opened": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+    "passes": ["design lens (full deck)"],
+    "stats_block_seen": true,
+    "contract_card_seen": true
+  },
+  "verdict": "consent",
+  "summary": "最终候选稿保持v7江苏大学红白风格，并完成第一轮设计审阅要求：封面去除空白字段，第16页重建为可投影的三条贡献带，第19–25页加入备查导航，第23页增加原生阈值标注。逐页全尺寸检查未见裁切、碰撞、缺字或源图截断。",
+  "strengths": [
+    "第3页83.5%、第10页5/5正向和第16页三条贡献形成清楚的主讲峰值。",
+    "红色身份、蓝色协议、青色正向证据、琥珀边界和灰色中性信息在全稿中保持稳定语义。",
+    "第6、14、16页以双证据线、协议分区和三贡献带让几何结构参与论证，而非只作装饰。",
+    "18页主讲与7页备查通过‘备查x/7’标签清楚分离，现场答疑便于跳转。",
+    "关键源图保持完整四边，视觉合同的四组热点间距和七个Lucide图标语义均通过检查。"
+  ],
+  "findings": [],
+  "plan_audit": {
+    "lens_b": {
+      "concept_landed": "carried — ‘两条证据线最终收束为三项可辩护贡献’在第6、14、16页形成连续的视觉与叙事结构。",
+      "skeleton_rhythm": "kept — 照片、议程轴、数字图表、相关工作带、流程、矩阵、漏斗、路线图和表格交替，缩略图节奏可辨。",
+      "signature_move": {
+        "verdict": "landed",
+        "why": "证据轨道在路线总览、协议诊断和贡献收束三处承担不同但连续的结构任务。",
+        "carried": [
+          {"slide": 6, "structural": true, "note": "检测与语义双轨组织整页路线。"},
+          {"slide": 14, "structural": true, "note": "上下协议分区保护不同证据边界。"},
+          {"slide": 16, "structural": true, "note": "三条贡献带把证据与边界收束为记忆句。"}
+        ],
+        "proof": "matches"
+      },
+      "memorable_one_thing": "可归因、可诊断、可限定的证据链，而不是把现成模块简单拼接。",
+      "composition": {
+        "cover_archetype": "kept — 使用用户提供的校园横幅与校级红白基底，删除未知导师和日期占位符。",
+        "home_skeleton_plurality": "kept — 内页共享身份顶带和页脚，但数据、流程、比较、诊断与计划各用不同主角。"
+      },
+      "register_interiors": "kept — 红色标题线、浅纹理白底、页脚校训与校名在主讲和备查页连续出现。",
+      "money_slide": "landed — 第16页只保留三条贡献与一条边界窄轨，首读顺序为证据锚点而非九格审计表。",
+      "semantic_colour": "kept — 红色用于身份/关键边界，蓝色用于协议，青色用于正向证据，琥珀用于风险与限制。",
+      "type_tokens": "accepted — 主体中位字号16pt，主讲关键信息进一步放大；12.5pt主要限制在底部来源与审计注记，不承担口头主线。",
+      "eye_path_misses": []
+    }
+  },
+  "probes": {
+    "per_slide": [
+      {"slide": 1, "first_read": "校园横幅与研究题目", "takeaway_guess": "正式江苏大学开题答辩。"},
+      {"slide": 2, "first_read": "四段议程轴", "takeaway_guess": "按问题、路线、证据、计划展开。"},
+      {"slide": 3, "first_read": "83.5%", "takeaway_guess": "小目标是主要矛盾。"},
+      {"slide": 4, "first_read": "三类相关路线", "takeaway_guess": "已有能力尚缺完整证据链。"},
+      {"slide": 5, "first_read": "RQ1与RQ2", "takeaway_guess": "研究问题被主动收紧。"},
+      {"slide": 6, "first_read": "两条证据轨道", "takeaway_guess": "两条线共享控制与审计原则。"},
+      {"slide": 7, "first_read": "4,651→330→4,321", "takeaway_guess": "数据账可核算但仍非独立确认。"},
+      {"slide": 8, "first_read": "P2架构图", "takeaway_guess": "增加160×160检测分支并固定头宽。"},
+      {"slide": 9, "first_read": "2×2与5 seeds", "takeaway_guess": "用20次训练消除头宽混杂。"},
+      {"slide": 10, "first_read": "5/5正向", "takeaway_guess": "P2稳定正向，CBAM不稳定。"},
+      {"slide": 11, "first_read": "一升一降", "takeaway_guess": "RAOD不支持普遍跨域提升。"},
+      {"slide": 12, "first_read": "CLIP流水线", "takeaway_guess": "只做固定词表命名。"},
+      {"slide": 13, "first_read": "三级阶梯", "takeaway_guess": "逐层加入真实误差并冻结工作点。"},
+      {"slide": 14, "first_read": "59→28→17", "takeaway_guess": "历史test瓶颈与内部确认边界分开。"},
+      {"slide": 15, "first_read": "开放词汇对照与12.91 FPS", "takeaway_guess": "当前冻结配置效果有限，测速仅作量级参考。"},
+      {"slide": 16, "first_read": "三条可辩护贡献", "takeaway_guess": "贡献在归因、诊断与边界验证。"},
+      {"slide": 17, "first_read": "0–6月路线", "takeaway_guess": "按依赖补齐三类最终证据。"},
+      {"slide": 18, "first_read": "感谢与Q&A", "takeaway_guess": "主讲结束。"},
+      {"slide": 19, "first_read": "三层确认定义", "takeaway_guess": "三种确认概念不能互换。"},
+      {"slide": 20, "first_read": "5-seed表与21/26", "takeaway_guess": "结果可复现但日志覆盖有边界。"},
+      {"slide": 21, "first_read": "四条配对效应轴", "takeaway_guess": "P2与CBAM效应需分开解释。"},
+      {"slide": 22, "first_read": "RAOD协议与指标", "takeaway_guess": "外部证据只覆盖单类定位。"},
+      {"slide": 23, "first_read": "conf=0.15选点", "takeaway_guess": "阈值与prompt选择存在类别代价。"},
+      {"slide": 24, "first_read": "统一比较协议", "takeaway_guess": "比较公平但未穷尽域适配。"},
+      {"slide": 25, "first_read": "旧原型测速配置", "takeaway_guess": "速度不能外推为最终部署结论。"}
+    ],
+    "hotspot_checks": [
+      {"id": "s6-rail-label-clearance", "slide": 6, "result": "pass", "observed": "检测证据线与重复隔离标签间距0.335英寸，边界清楚且没有视觉粘连。"},
+      {"id": "s17-material-rail-clearance", "slide": 17, "result": "pass", "observed": "风险与回退栏和独立确认输入之间间距0.87英寸，分区关系明确。"},
+      {"id": "s21-effect-label-clearance", "slide": 21, "result": "pass", "observed": "+1.17 pp与4/5正向标签间距0.14英寸，仍可清楚区分。"},
+      {"id": "s25-latency-label-clearance", "slide": 25, "result": "pass", "observed": "CLIP预处理与CLIP推理标签间距0.14英寸，分段和文字均未粘连。"}
+    ],
+    "icon_checks": [
+      {"id": "s2-search", "slide": 2, "result": "pass", "observed": "search图标对应选题依据中的问题定位，语义直接且轮廓清楚。"},
+      {"id": "s2-route", "slide": 2, "result": "pass", "observed": "route图标对应技术路线，能够在一秒内提示方法路径。"},
+      {"id": "s2-chart", "slide": 2, "result": "pass", "observed": "柱状图图标对应前期证据与实验结果，投影轮廓清晰。"},
+      {"id": "s2-calendar", "slide": 2, "result": "pass", "observed": "日历图标对应创新与后续计划，和其余议程图标风格一致。"},
+      {"id": "s17-database", "slide": 17, "result": "pass", "observed": "数据库图标对应独立确认所需的新采集与冻结数据。"},
+      {"id": "s17-video", "slide": 17, "result": "pass", "observed": "视频图标对应跨帧评估所需的视频ID和时间戳元数据。"},
+      {"id": "s17-cpu", "slide": 17, "result": "pass", "observed": "芯片图标对应目标设备、功率和部署框架，语义无歧义。"}
+    ]
+  }
+}

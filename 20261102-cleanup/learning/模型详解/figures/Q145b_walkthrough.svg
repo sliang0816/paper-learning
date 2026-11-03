@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 860" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="860" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q145 手把手算一遍：最小例子（输入 2 通道 3×3，输出 2 通道，核 3×3）——每一次乘加都数出来</text>
+
+  <!-- 输入 -->
+  <rect x="20" y="40" width="900" height="120" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">输入：2 个通道，每个是 3×3（数字取简单值方便手算）</text>
+  <g font-size="11" font-family="Consolas,monospace" text-anchor="middle">
+    <text x="150" y="84" fill="#374151">通道1 X1（全是 1）</text>
+    <text x="150" y="106" fill="#1e40af">1  1  1</text><text x="150" y="126" fill="#1e40af">1  1  1</text><text x="150" y="146" fill="#1e40af">1  1  1</text>
+    <text x="400" y="84" fill="#374151">通道2 X2（全是 2）</text>
+    <text x="400" y="106" fill="#2563eb">2  2  2</text><text x="400" y="126" fill="#2563eb">2  2  2</text><text x="400" y="146" fill="#2563eb">2  2  2</text>
+    <text x="720" y="100" fill="#6b7280" font-size="9">目标：算出 2 个</text>
+    <text x="720" y="118" fill="#6b7280" font-size="9">输出通道 A 和 B</text>
+    <text x="720" y="140" fill="#6b7280" font-size="9">（每个是 1 个数）</text>
+  </g>
+
+  <!-- 标准卷积 -->
+  <rect x="20" y="172" width="900" height="240" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="192" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">① 标准卷积：一个"厚核"= 通道1的3×3 + 通道2的3×3，一次吃掉两个通道的 9 格</text>
+  <text x="40" y="216" font-size="9.5" fill="#374151">产生输出 A：厚核 = [通道1核 K1(全1)] + [通道2核 K2(全1)]</text>
+  <text x="40" y="240" font-size="10" font-family="Consolas,monospace" fill="#374151">A = (X1 的 9 格 × K1 的 9 格 相加) + (X2 的 9 格 × K2 的 9 格 相加)</text>
+  <text x="40" y="262" font-size="10" font-family="Consolas,monospace" fill="#b91c1c">  = (1×1 + 1×1 + …共9个 = 9)  +  (2×1 + 2×1 + …共9个 = 18)  =  27</text>
+  <text x="40" y="284" font-size="9.5" fill="#6b7280">↑ 这里数一下乘法：通道1 用了 9 次乘法、通道2 用了 9 次 → 一个输出数 A 花 <tspan font-weight="bold" fill="#b91c1c">18 次乘法</tspan></text>
+  <text x="40" y="312" font-size="9.5" fill="#374151">产生输出 B：换一对厚核 K1'(全1)+K2'(全0)：B = 9 + 0 = 9 → 又 18 次乘法</text>
+  <text x="40" y="336" font-size="10.5" font-weight="bold" fill="#b91c1c">两个输出通道合计：18 + 18 = 36 次乘法　（= k²·C_in·C_out = 9×2×2）</text>
+  <text x="40" y="362" font-size="9" fill="#6b7280">关键：厚核把"空间的 9 格"和"跨 2 个通道"揉在一次求和里 → 一个输出数就要 k²×C_in 次乘法，有几个输出通道再乘几倍</text>
+  <text x="40" y="386" font-size="9" fill="#6b7280">结果：输出 A=27、B=9</text>
+
+  <!-- 深度可分离 -->
+  <rect x="20" y="424" width="900" height="320" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="444" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 深度可分离：先各通道自己滤空间（不混），再用 1×1 混通道</text>
+  <!-- depthwise -->
+  <text x="40" y="470" font-size="11" font-weight="bold" fill="#b45309">第一步 Depthwise：通道1、通道2 各配 1 个自己的 3×3 核，各算各的，不混！</text>
+  <text x="40" y="494" font-size="10" font-family="Consolas,monospace" fill="#374151">通道1：dw1 = X1 的9格 × D1(全1) 相加 = 1×9 = 9    （只碰通道1，9 次乘法）</text>
+  <text x="40" y="516" font-size="10" font-family="Consolas,monospace" fill="#374151">通道2：dw2 = X2 的9格 × D2(全1) 相加 = 2×9 = 18   （只碰通道2，9 次乘法）</text>
+  <text x="40" y="538" font-size="10" font-family="Consolas,monospace" font-weight="bold" fill="#15803d">→ 得到 2 个中间值 [dw1=9, dw2=18]，彼此没混；乘法 = 9+9 = 18</text>
+  <text x="40" y="560" font-size="9" fill="#6b7280">注意：depthwise 只做了"空间求和"，没有跨通道；所以每通道 9 次乘法、和输出通道数无关</text>
+  <!-- pointwise -->
+  <text x="40" y="592" font-size="11" font-weight="bold" fill="#6d28d9">第二步 Pointwise（1×1）：把 [dw1, dw2] 这 2 个值加权混成输出，不看空间邻域</text>
+  <text x="40" y="616" font-size="10" font-family="Consolas,monospace" fill="#374151">输出 A：权重[1,1] → A = 1×dw1 + 1×dw2 = 1×9 + 1×18 = 27    （2 次乘法）</text>
+  <text x="40" y="638" font-size="10" font-family="Consolas,monospace" fill="#374151">输出 B：权重[1,0] → B = 1×9 + 0×18 = 9                    （2 次乘法）</text>
+  <text x="40" y="660" font-size="10" font-family="Consolas,monospace" font-weight="bold" fill="#6d28d9">→ 输出 A=27、B=9（和标准卷积一模一样！）；乘法 = 2+2 = 4</text>
+  <text x="40" y="686" font-size="10.5" font-weight="bold" fill="#15803d">合计：depthwise 18 + pointwise 4 = 22 次乘法　vs　标准 36 次</text>
+  <text x="40" y="712" font-size="9" fill="#6b7280">同样得到 A=27/B=9，但把"厚核一次揉完"拆成了"先各自滤空间(18) + 再便宜地混通道(4)"两步</text>
+  <text x="40" y="732" font-size="9" fill="#b91c1c">为何这里只省一点点：C_out 太小(=2)；depthwise 的 18 是固定开销，C_out 越大它越被摊薄 → 真实网络 C_out=128/256 时省约 k²≈9 倍</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="756" width="900" height="90" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="780" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">跟着数一遍就懂：一次卷积输出 1 个数 = 把它覆盖的所有格子(空间×通道) 逐个相乘再相加；</text>
+  <text x="470" y="802" text-anchor="middle" font-size="9.5" fill="#374151">标准=空间9格×2通道揉一起(18乘/输出数)；depthwise=每通道只算自己9格(不混)；pointwise=只把通道值1×1相乘相加。</text>
+  <text x="470" y="822" text-anchor="middle" font-size="9.5" fill="#374151">拆开后 depthwise 的空间开销被所有输出通道共享，只有 pointwise 随 C_out 涨 → C_out 大就省得多。</text>
+  <text x="470" y="840" text-anchor="middle" font-size="8.5" fill="#6b7280">（深度可分离是标准卷积的"精简版"，用更少参数近似，所以真实网络里略损精度换大幅提速。）</text>
+</svg>

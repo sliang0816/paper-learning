@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "slide-maker": {
+      "source": "addsumtech/slides_maker",
+      "sourceType": "github",
+      "skillPath": "skills/slide-maker/SKILL.md",
+      "computedHash": "d6cc08eabec027f305e88fd8645497c1da106da24f4463891b073f83a87d3e8e"
+    }
+  }
+}

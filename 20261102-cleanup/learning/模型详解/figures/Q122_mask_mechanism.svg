@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q122 掩码怎么实现"不看未来"："看"=加权求和 → −∞ 经 softmax 变权重 0 → 未来的 v 被乘 0</text>
+
+  <!-- ① 核心 -->
+  <rect x="20" y="42" width="900" height="66" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">① "看"在注意力里只有一个渠道：outputᵢ = Σⱼ αᵢⱼ·vⱼ</text>
+  <text x="470" y="88" text-anchor="middle" font-size="10" fill="#374151">位置 i 接收位置 j 信息的唯一通道是权重 αᵢⱼ —— 让未来位的 αᵢⱼ = 0，未来内容就一个比特都进不来</text>
+
+  <!-- ② 四步走一遍 -->
+  <rect x="20" y="120" width="900" height="180" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="142" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">② 位置 2 那一行走一遍（4 个 token）</text>
+  <g font-size="10" font-family="Consolas,monospace">
+    <text x="50" y="170" fill="#374151">① 打分 S=QK^⊤/√d：</text><text x="330" y="170" fill="#111827">[ 1.2   0.5   0.9   2.1 ]</text><text x="590" y="170" font-size="9" font-family="'Microsoft YaHei'" fill="#6b7280">← 未来的分其实也被算了</text>
+    <text x="50" y="200" fill="#374151">② 加掩码 S+M：</text><text x="330" y="200" fill="#111827">[ 1.2   0.5   <tspan fill="#b91c1c">−∞    −∞</tspan> ]</text><text x="590" y="200" font-size="9" font-family="'Microsoft YaHei'" fill="#6b7280">← j&gt;i 的上三角全部加 −∞</text>
+    <text x="50" y="230" fill="#374151">③ softmax（e^−∞=0）：</text><text x="330" y="230" fill="#111827">[ 0.67  0.33  <tspan fill="#b91c1c">0     0</tspan>  ]</text><text x="590" y="230" font-size="9" font-family="'Microsoft YaHei'" fill="#15803d">← 过去两位自动归一 =1</text>
+    <text x="50" y="260" fill="#374151">④ 加权和：</text><text x="330" y="260" fill="#111827">0.67·v₁ + 0.33·v₂ + <tspan fill="#b91c1c">0·v₃ + 0·v₄</tspan></text><text x="590" y="260" font-size="9" font-family="'Microsoft YaHei'" fill="#b91c1c">← v₃ v₄ 被乘 0 彻底消失</text>
+  </g>
+  <text x="50" y="288" font-size="9" fill="#6b7280">掩码不是"跳过计算"而是"算完作废"：QK^⊤ 整块矩阵乘照算，白算上三角换一次矩阵乘搞定全部位置（并行的代价）</text>
+
+  <!-- ③ 为什么是 −∞ -->
+  <rect x="20" y="312" width="440" height="170" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="240" y="334" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">③ 为什么非得 −∞（两个替代都不行）</text>
+  <text x="36" y="360" font-size="9.5" fill="#374151">✗ 分数置 0：softmax 里 e⁰ = 1 ≠ 0</text>
+  <text x="52" y="376" font-size="9" fill="#6b7280">→ 未来反而分到一份不小的权重</text>
+  <text x="36" y="400" font-size="9.5" fill="#374151">✗ softmax 后把权重置 0：剩余权重和 &lt; 1</text>
+  <text x="52" y="416" font-size="9" fill="#6b7280">→ 还得手动重新归一化，多此一举</text>
+  <text x="36" y="440" font-size="9.5" fill="#15803d">✓ softmax 前加 −∞：e^−∞ = 0 严格为零，</text>
+  <text x="52" y="456" font-size="9.5" fill="#15803d">且 softmax 自动只在过去位置归一（和=1）</text>
+  <text x="36" y="474" font-size="8.5" fill="#6b7280">工程上用 −10⁹ 等大负数代替 −∞，效果相同</text>
+
+  <!-- ④ 每层都要加 -->
+  <rect x="480" y="312" width="440" height="170" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="700" y="334" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 必须每一层都加掩码</text>
+  <text x="496" y="360" font-size="9.5" fill="#374151">若第 1 层不加：y₁ 的表示已混进未来信息，</text>
+  <text x="496" y="376" font-size="9.5" fill="#374151">第 2 层即使加掩码，位置 3 看 y₁ 也会<tspan font-weight="bold">间接</tspan>读到</text>
+  <text x="496" y="392" font-size="9.5" fill="#b91c1c">→ 泄漏会顺着层传播</text>
+  <text x="496" y="418" font-size="9.5" fill="#15803d">每层都是下三角 → 可见性经任意多层复合仍是</text>
+  <text x="496" y="434" font-size="9.5" fill="#15803d">下三角（位置3看位置2、而位置2只融过≤2 的内容）</text>
+  <text x="496" y="458" font-size="9" fill="#6b7280">= "不看未来"在整个网络意义上成立，</text>
+  <text x="496" y="472" font-size="9" fill="#6b7280">信息只能沿"过去→现在"单向流动</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="496" width="900" height="56" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="518" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：注意力里"看"=加权求和 αᵢⱼ·vⱼ；掩码给未来位分数加 −∞ → softmax 后权重严格为 0 → 未来的 v 被乘 0、零贡献；</text>
+  <text x="470" y="538" text-anchor="middle" font-size="9" fill="#374151">−∞ 是唯一让 softmax 输出精确 0 并自动在过去位置重新归一的手段；分数照算、算完作废；每层都加泄漏才封死。</text>
+</svg>

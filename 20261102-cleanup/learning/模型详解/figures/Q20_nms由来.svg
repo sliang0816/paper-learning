@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="360" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">NMS 的由来：稠密预测 + 一对多分配 → 同一目标冒出多个框</text>
+
+  <!-- 根因 -->
+  <text x="380" y="50" text-anchor="middle" font-size="12" fill="#6b7280">根因不是"网络出错"，而是检测器的设计：一个目标周围有很多位置/anchor 都被判为正样本</text>
+
+  <!-- 左：为什么会重复 -->
+  <text x="150" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">① 为什么会冒出重复框</text>
+  <!-- 目标 + 网格 -->
+  <rect x="40" y="96" width="220" height="160" fill="#f8fafc" stroke="#cbd5e1"/>
+  <g stroke="#e2e8f0"><line x1="95" y1="96" x2="95" y2="256"/><line x1="150" y1="96" x2="150" y2="256"/><line x1="205" y1="96" x2="205" y2="256"/><line x1="40" y1="150" x2="260" y2="150"/><line x1="40" y1="203" x2="260" y2="203"/></g>
+  <!-- 真值目标 -->
+  <ellipse cx="150" cy="176" rx="46" ry="38" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+  <text x="150" y="180" text-anchor="middle" font-size="11" fill="#92400e">真值目标</text>
+  <!-- 多个预测框 -->
+  <rect x="108" y="138" width="86" height="74" fill="none" stroke="#16a34a" stroke-width="2.4"/><text x="100" y="134" font-size="9" fill="#16a34a">0.92</text>
+  <rect x="120" y="148" width="84" height="72" fill="none" stroke="#ef4444" stroke-width="1.4" stroke-dasharray="4 2"/><text x="206" y="150" font-size="9" fill="#ef4444">0.85</text>
+  <rect x="96" y="150" width="84" height="74" fill="none" stroke="#ef4444" stroke-width="1.4" stroke-dasharray="4 2"/><text x="70" y="240" font-size="9" fill="#ef4444">0.78</text>
+  <rect x="114" y="128" width="80" height="70" fill="none" stroke="#ef4444" stroke-width="1.4" stroke-dasharray="4 2"/><text x="196" y="126" font-size="9" fill="#ef4444">0.69</text>
+  <text x="150" y="276" text-anchor="middle" font-size="9.5" fill="#374151">目标附近多个格子/anchor 都"够格" → 各报一个框</text>
+
+  <!-- 右：训练机制 -->
+  <text x="510" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#1d4ed8">② 训练时的"一对多标签分配"</text>
+  <rect x="300" y="96" width="180" height="64" rx="6" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="390" y="118" text-anchor="middle" font-size="10.5" fill="#a16207">为保证召回 / 正样本够多</text>
+  <text x="390" y="136" text-anchor="middle" font-size="10.5" fill="#374151">一个真值 → 匹配多个正样本</text>
+  <text x="390" y="152" text-anchor="middle" font-size="9" fill="#6b7280">(多个 anchor / 网格点都学着去框它)</text>
+
+  <text x="490" y="124" font-size="22" fill="#9ca3af">→</text>
+
+  <rect x="520" y="96" width="220" height="64" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="630" y="118" text-anchor="middle" font-size="10.5" fill="#b91c1c">推理时这些正样本都开火</text>
+  <text x="630" y="136" text-anchor="middle" font-size="10.5" fill="#374151">→ 同一目标输出一堆高度重叠框</text>
+  <text x="630" y="152" text-anchor="middle" font-size="9" fill="#6b7280">这就是"重复框"的来源</text>
+
+  <!-- NMS 解决 -->
+  <text x="540" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="#7c3aed">③ NMS：推理后处理去重</text>
+  <rect x="300" y="200" width="440" height="56" rx="6" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="316" y="222" font-size="10.5" fill="#374151">逐类按分数排序 → 取最高分框保留 → 删掉与它 IoU&gt;阈值 的重叠框 → 对剩余重复。</text>
+  <text x="316" y="242" font-size="10.5" fill="#6d28d9">"一个目标只留一个最自信的框"。详见 Q17 的 NMS 原理图。</text>
+
+  <!-- 底：根因总结 + v10 -->
+  <rect x="40" y="290" width="700" height="62" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="56" y="312" font-size="11.5" font-weight="bold" fill="#374151">一句话：NMS 是为了收拾"稠密预测 + 一对多正样本分配"留下的重复框——它是后处理补丁，不是网络的一部分。</text>
+  <text x="56" y="332" font-size="11" fill="#374151">代价：额外耗时、引入 IoU 阈值超参、密集目标易误删。</text>
+  <text x="56" y="348" font-size="11" fill="#b45309">YOLOv10 釜底抽薪：训练改"一对一分配"，让网络自己只出一个框 → 推理免 NMS、真端到端（见 [19] v10）。</text>
+</svg>

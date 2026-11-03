@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="380" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Mamba（SSM）：线性时间序列建模 vs Transformer 的 O(N²)</text>
+
+  <!-- ===== LEFT: SSM concept ===== -->
+  <text x="185" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#7c3aed">结构化状态空间模型（S4/Mamba）</text>
+
+  <!-- State space box -->
+  <rect x="20" y="62" width="330" height="200" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.8"/>
+
+  <!-- Continuous SSM equations -->
+  <rect x="36" y="76" width="298" height="70" rx="4" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="185" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">连续 SSM（控制论来源）</text>
+  <text x="185" y="113" text-anchor="middle" font-size="10.5" fill="#6d28d9">h'(t) = A·h(t) + B·x(t)  ← 状态转移</text>
+  <text x="185" y="130" text-anchor="middle" font-size="10.5" fill="#6d28d9">y(t)  = C·h(t) + D·x(t)  ← 输出</text>
+  <text x="185" y="145" text-anchor="middle" font-size="9" fill="#6b7280">h ∈ R^N（隐状态）, x ∈ R（输入标量）</text>
+
+  <!-- Discretization -->
+  <rect x="36" y="154" width="298" height="46" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="185" y="172" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1d4ed8">离散化（ZOH，步长 Δ）</text>
+  <text x="185" y="190" text-anchor="middle" font-size="10" fill="#1d4ed8">Ā = exp(ΔA), B̄ = (ΔA)⁻¹(Ā−I)ΔB</text>
+  <text x="185" y="205" text-anchor="middle" font-size="9" fill="#6b7280">→ 递推: hₜ = Āhₜ₋₁ + B̄xₜ</text>
+
+  <!-- Selective state space (Mamba) -->
+  <rect x="36" y="208" width="298" height="44" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="185" y="226" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">Mamba 创新：选择性机制（S6）</text>
+  <text x="185" y="244" text-anchor="middle" font-size="10" fill="#15803d">B, C, Δ 由输入 xₜ 动态生成（非固定）</text>
+
+  <!-- Complexity -->
+  <text x="185" y="274" text-anchor="middle" font-size="10" fill="#374151">推理：递推（RNN 方式），O(N) 时间，O(N) 显存</text>
+  <text x="185" y="290" text-anchor="middle" font-size="10" fill="#374151">训练：并行卷积展开，O(N log N) 或 O(N)</text>
+  <text x="185" y="306" text-anchor="middle" font-size="9.5" fill="#6b7280">（S4 用 HiPPO 矩阵初始化 A；Mamba 用 parallel scan 实现并行训练）</text>
+
+  <!-- ===== RIGHT: Comparison ===== -->
+  <text x="600" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">Mamba vs Transformer 对比</text>
+
+  <rect x="380" y="62" width="420" height="260" rx="8" fill="#f9fafb" stroke="#e2e8f0"/>
+
+  <!-- Comparison table -->
+  <g font-size="10" text-anchor="middle">
+    <!-- Header -->
+    <rect x="396" y="76" width="130" height="26" rx="3" fill="#e5e7eb"/>
+    <text x="461" y="94" fill="#374151" font-weight="bold">特性</text>
+    <rect x="532" y="76" width="120" height="26" rx="3" fill="#dbeafe"/>
+    <text x="592" y="94" fill="#1d4ed8" font-weight="bold">Transformer</text>
+    <rect x="658" y="76" width="126" height="26" rx="3" fill="#ede9fe"/>
+    <text x="721" y="94" fill="#7c3aed" font-weight="bold">Mamba (SSM)</text>
+
+    <!-- Rows -->
+    <rect x="396" y="108" width="130" height="24" rx="2" fill="#f9fafb"/>
+    <text x="461" y="124" fill="#374151">推理复杂度</text>
+    <rect x="532" y="108" width="120" height="24" rx="2" fill="#fee2e2"/>
+    <text x="592" y="124" fill="#b91c1c">O(N²)</text>
+    <rect x="658" y="108" width="126" height="24" rx="2" fill="#dcfce7"/>
+    <text x="721" y="124" fill="#15803d">O(N)</text>
+
+    <rect x="396" y="138" width="130" height="24" rx="2" fill="#f9fafb"/>
+    <text x="461" y="154" fill="#374151">显存（推理）</text>
+    <rect x="532" y="138" width="120" height="24" rx="2" fill="#fee2e2"/>
+    <text x="592" y="154" fill="#b91c1c">O(N²)</text>
+    <rect x="658" y="138" width="126" height="24" rx="2" fill="#dcfce7"/>
+    <text x="721" y="154" fill="#15803d">O(N)（常数隐状态）</text>
+
+    <rect x="396" y="168" width="130" height="24" rx="2" fill="#f9fafb"/>
+    <text x="461" y="184" fill="#374151">并行训练</text>
+    <rect x="532" y="168" width="120" height="24" rx="2" fill="#dcfce7"/>
+    <text x="592" y="184" fill="#15803d">✓（天然并行）</text>
+    <rect x="658" y="168" width="126" height="24" rx="2" fill="#dcfce7"/>
+    <text x="721" y="184" fill="#15803d">✓（scan 算法）</text>
+
+    <rect x="396" y="198" width="130" height="24" rx="2" fill="#f9fafb"/>
+    <text x="461" y="214" fill="#374151">长程依赖</text>
+    <rect x="532" y="198" width="120" height="24" rx="2" fill="#dcfce7"/>
+    <text x="592" y="214" fill="#15803d">✓（全局注意力）</text>
+    <rect x="658" y="198" width="126" height="24" rx="2" fill="#fef3c7"/>
+    <text x="721" y="214" fill="#b45309">受限（隐状态维度）</text>
+
+    <rect x="396" y="228" width="130" height="24" rx="2" fill="#f9fafb"/>
+    <text x="461" y="244" fill="#374151">可解释性</text>
+    <rect x="532" y="228" width="120" height="24" rx="2" fill="#dcfce7"/>
+    <text x="592" y="244" fill="#15803d">注意力图</text>
+    <rect x="658" y="228" width="126" height="24" rx="2" fill="#fee2e2"/>
+    <text x="721" y="244" fill="#b91c1c">隐状态不直观</text>
+
+    <rect x="396" y="258" width="130" height="24" rx="2" fill="#f9fafb"/>
+    <text x="461" y="274" fill="#374151">典型代表</text>
+    <rect x="532" y="258" width="120" height="24" rx="2" fill="#dbeafe"/>
+    <text x="592" y="274" fill="#1d4ed8">BERT, GPT, ViT</text>
+    <rect x="658" y="258" width="126" height="24" rx="2" fill="#ede9fe"/>
+    <text x="721" y="274" fill="#7c3aed">S4, Mamba, Jamba</text>
+  </g>
+
+  <!-- Status note -->
+  <rect x="380" y="332" width="420" height="36" rx="4" fill="#fff7ed" stroke="#d97706"/>
+  <text x="590" y="348" text-anchor="middle" font-size="9.5" fill="#b45309">2023 Mamba 发布：视觉 SSM（VMamba/Vim）在 ImageNet 上和同规模 Swin 精度相当，速度更快</text>
+  <text x="590" y="363" text-anchor="middle" font-size="9" fill="#92400e">2024 Jamba（Hybrid SSM+Attention）：两者混合，扬长避短，目前趋势是 SSM+Attention 混合架构</text>
+
+  <!-- Bottom status -->
+  <rect x="20" y="340" width="340" height="30" rx="4" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="190" y="358" text-anchor="middle" font-size="9.5" fill="#166534">Mamba 适合：长序列（音频/DNA/时序），资源受限推理（边缘部署）</text>
+
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+  </defs>
+</svg>

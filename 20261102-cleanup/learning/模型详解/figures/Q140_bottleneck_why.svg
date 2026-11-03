@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="640" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q140 ResNet 先降维再升维只为匹配 x 吗：一半对——升回顺便满足相加，但降维升维的真目的是省算力</text>
+
+  <!-- ① 反证 -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 反证：若只为匹配 x，根本不需要降维升维</text>
+  <!-- basic block -->
+  <rect x="40" y="80" width="410" height="95" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="245" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">Basic block（ResNet-18/34）：通道不变，天然匹配 x</text>
+  <text x="60" y="124" font-size="9.5" font-family="Consolas,monospace" fill="#374151">x[64] ─3×3→ 64 ─3×3→ 64 ── + x[64]</text>
+  <text x="60" y="146" font-size="9" fill="#6b7280">自始至终 64 通道，无降维无升维，照样和 x 同维相加</text>
+  <text x="60" y="166" font-size="9" fill="#15803d">→ 说明"匹配 x"根本不需要降维升维这套</text>
+  <!-- bottleneck -->
+  <rect x="470" y="80" width="450" height="95" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="695" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">Bottleneck（ResNet-50/101/152）：降维升维</text>
+  <text x="490" y="124" font-size="9.5" font-family="Consolas,monospace" fill="#374151">x[256] ─1×1↓→ 64 ─3×3→ 64 ─1×1↑→ 256 ─ + x[256]</text>
+  <text x="490" y="146" font-size="9" fill="#6b7280">降维升维只在更深的网络里出现</text>
+  <text x="490" y="166" font-size="9" fill="#b45309">→ 它必然另有动机（不是匹配 x）</text>
+
+  <!-- ② 算力账 -->
+  <rect x="20" y="204" width="900" height="180" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="226" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">② 真目的=省算力：把最贵的 3×3 保护在低通道数（64）上做</text>
+  <text x="40" y="252" font-size="9.5" fill="#374151">3×3 卷积算力 ∝ 核面积 × 输入通道 × 输出通道</text>
+  <text x="40" y="280" font-size="9.5" fill="#374151"><tspan font-weight="bold">若直接在 256 通道做 3×3</tspan>：3×3×256×256 ≈ <tspan font-weight="bold" fill="#b91c1c">59 万</tspan> / 空间位置</text>
+  <text x="40" y="308" font-size="9.5" fill="#374151"><tspan font-weight="bold">瓶颈：先降到 64 再做</tspan>：</text>
+  <text x="60" y="330" font-size="9" font-family="Consolas,monospace" fill="#374151">1×1×256×64 (1.6万) + 3×3×64×64 (3.7万) + 1×1×64×256 (1.6万) ≈ 6.9万</text>
+  <text x="40" y="356" font-size="9.5" font-weight="bold" fill="#15803d">→ 省约 8.5 倍！两端的 1×1 只是廉价换维度，中间贵的 3×3 在低维做</text>
+  <text x="40" y="376" font-size="9" fill="#6b7280">这也是深层 ResNet（50/101/152）能堆那么深还算得起的关键（1×1 降维借鉴 Inception，Q52）</text>
+
+  <!-- ③ 对比FFN -->
+  <rect x="20" y="396" width="900" height="140" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="418" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 与 FFN（Q120）正好相反：一个先压后扩、一个先扩后压</text>
+  <text x="40" y="444" font-size="9.5" fill="#374151">· <tspan font-weight="bold">ResNet 瓶颈</tspan>：宽→<tspan fill="#b91c1c">窄</tspan>→宽（256→64→256）= <tspan font-weight="bold">先压后扩</tspan>，为了在<tspan font-weight="bold">低维做昂贵的空间卷积</tspan></text>
+  <text x="40" y="470" font-size="9.5" fill="#374151">· <tspan font-weight="bold">FFN</tspan>：窄→<tspan fill="#15803d">宽</tspan>→窄（512→2048→512）= <tspan font-weight="bold">先扩后压</tspan>，为了在<tspan font-weight="bold">高维做非线性</tspan>（Q120）</text>
+  <text x="40" y="498" font-size="9.5" fill="#6d28d9">两者的"回到原维度"都顺便满足了残差 x+F(x) 的等维接口（Q115）——但那是约束，不是设计目的</text>
+  <text x="40" y="520" font-size="9" fill="#6b7280">"bottleneck（瓶颈）"这名字就来自中间那个窄的 64，像瓶子的细颈</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="548" width="900" height="72" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="572" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：升回 256 确实顺便满足了和 x 相加（Q115 等维接口），但"降维再升维"本身是为省算力——</text>
+  <text x="470" y="592" text-anchor="middle" font-size="9.5" fill="#374151">把贵的 3×3 放在低维 64 上做、两端 1×1 廉价换维度（省约 8.5 倍）；basic block 不降维也匹配 x，证明匹配 x 不需要这套。</text>
+  <text x="470" y="610" text-anchor="middle" font-size="9" fill="#6b7280">和 FFN 的"先扩后压"正相反：瓶颈先压后扩（低维做卷积），FFN 先扩后压（高维做非线性）。</text>
+</svg>

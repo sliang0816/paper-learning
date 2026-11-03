@@ -1,0 +1,180 @@
+{
+  "purpose": "江苏大学硕士学位论文开题答辩，10–15 分钟现场投影；用18页主讲与7页备查说明受控的P2/CBAM检测消融、检测→CLIP证据链、当前结论边界及后续验证计划。",
+  "rubric_overlay": "thesis / committee defense",
+  "coverage": {
+    "slides_opened": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+    "passes": ["design lens (full deck)"],
+    "stats_block_seen": true,
+    "contract_card_seen": true
+  },
+  "verdict": "revise",
+  "summary": "整套稿件已经形成可信、克制且高度一致的答辩视觉系统：双证据线、统一校级模板、主讲与备查内容结构都能被快速识别，且所有源图边界、热点间距和图标语义均正确。当前仍不宜直接上台，原因是主讲页的投影字号与信息负荷不匹配，尤其第16页未能成为合同承诺的视觉峰值；封面导师和日期空白也使成品呈现未完成状态。",
+  "strengths": [
+    "第6、14、16页把“双证据线→双瓶颈→贡献审计”做成了真正参与信息组织的结构，而不是装饰性母题。",
+    "第3页的83.5%、第10页的5-seed配对结果和第18页的校园收束形成了清楚的记忆锚点，首尾气质适合正式委员会场景。",
+    "红色身份、蓝色协议、青色正向证据、琥珀色边界的角色总体稳定；普通内页的顶带、校标、水印、页脚和页码也连续保留。",
+    "25页未见裁切、重叠、页脚冲突或缺字；第3、8、12、23页源图四边完整，第6、17、21、25页热点与第2、17页图标均通过目检。",
+    "缩略图节奏覆盖照片、陈述、双栏、流程、矩阵、图表、表格和路线图，composition cues各项均有有效区间，没有退化为单一模板。"
+  ],
+  "findings": [
+    {
+      "id": "deck-projectability-1",
+      "slide": "deck",
+      "severity": "major",
+      "dimension": "typography / projection legibility",
+      "issue": "合同承诺“10–15 分钟，现场投影”，但主讲页正文中位数仅14.5 pt，且第6、9、10、15、16、17页以11–16 pt级文字承载关键论证；第10与16页可见文本负荷分别约109与107词。",
+      "why": "后排专家无法在讲者继续叙述时同时核验这些关键限定和数值；18页主讲在10–15分钟内的节奏会把本应增强可信度的证据压缩成必须近距离阅读的材料。",
+      "fix": "将主讲页可讲正文统一提升到至少18 pt，源图关键轴标/图例用至少14 pt的原生覆盖标签；优先删减第6、9、10、15、17页整句说明，把审计细节移入19–25页备查，并按约40–50秒/页重新压缩主讲口径。",
+      "fix_risk": "medium"
+    },
+    {
+      "id": "s16-money-slide-1",
+      "slide": 16,
+      "severity": "major",
+      "dimension": "hierarchy / visual peak",
+      "issue": "合同明确承诺“money slide / WOW: slide 16”，设计规划还写明“#16 为 money slide，用一页收束贡献、证据与不宣称”，但成稿以三行九格、约107词和约82%占用率呈现，第一眼更像审计表而非全场峰值。",
+      "why": "委员会在这一页应立即记住论文到底贡献了什么、证据到哪里为止；当前三列等权和15 pt左右长句迫使观众逐格阅读，削弱了唯一应被带走的结论。",
+      "fix": "每行只保留“1个贡献短语 + 1个英雄数字/事实 + 1个不宣称短语”，把解释句移到备注或对应备查页；放大中间证据列并把三条边界压成右侧窄栏，使首读路径明确落在三项可辩护贡献上。",
+      "fix_risk": "medium"
+    },
+    {
+      "id": "s1-cover-fields-1",
+      "slide": 1,
+      "severity": "major",
+      "dimension": "finish quality / committee readiness",
+      "issue": "正式封面仍显示“导师：_____”和“日期：____年__月”的空白下划线。",
+      "why": "这是委员会看到的第一屏，未填字段会被直接理解为未定稿，并削弱后续严谨证据链建立的可信度。",
+      "fix": "答辩前填入导师姓名与完整日期；若确实不展示其中某项，则删除整行并重新平衡信息组，而不是保留下划线占位。",
+      "fix_risk": "low"
+    },
+    {
+      "id": "deck-type-token-sprawl-1",
+      "slide": "deck",
+      "severity": "minor",
+      "dimension": "typographic consistency",
+      "issue": "合同声明“type tokens: title 24 pt; body 14–19 pt by role; captions 11.5–12.5 pt”，但统计块识别出23个字号，且第3、4、5、6、7、9、10、11、14、15、17、21、22、23、25页各使用5–8种字号。",
+      "why": "色彩和模板虽统一，字号角色的细碎变化仍让标题、证据、注释之间的层级在不同页轻微漂移，降低专家快速扫读的稳定性。",
+      "fix": "把每页收敛到标题、主证据、正文、注释最多四档，并对同类标签、数字和来源注统一套用同一token；保留真正用于英雄数字的例外。",
+      "fix_risk": "low"
+    },
+    {
+      "id": "deck-backup-navigation-1",
+      "slide": "deck",
+      "severity": "minor",
+      "dimension": "navigation / defense usability",
+      "issue": "合同声明“25 页（18 页主讲 + 7 页备查）”，但第19–25页没有稳定可见的“备查/Backup x/7”标记，版式寄存器与主讲内页几乎相同。",
+      "why": "答疑中跳页或误继续播放时，专家与讲者都难以一眼确认已经进入备查区；这会增加现场导航成本。",
+      "fix": "在第19–25页同一角落加入小型“备查 1/7”至“备查 7/7”标签，并保持页码不变；第18页仍作为明确的主讲终点。",
+      "fix_risk": "low"
+    },
+    {
+      "id": "s23-source-chart-legibility-1",
+      "slide": 23,
+      "severity": "minor",
+      "dimension": "figures / projection legibility",
+      "issue": "阈值权衡源图四边完整，但两张图的轴标、图例和小刻度在现场投影尺寸下偏小。",
+      "why": "这页用于回答阈值与prompt选择的追问；如果专家不能从座位上读取选点和趋势，图会退化为装饰性证据。",
+      "fix": "保留整图语境，在conf=0.15与F1峰值处增加14 pt以上的原生标注；若空间仍不足，将两张图拆成两个备查页。",
+      "fix_risk": "low"
+    }
+  ],
+  "plan_audit": {
+    "lens_b": {
+      "concept_landed": "carried: 双证据线在第6页形成平行轨道、第14页形成双瓶颈汇流、第16页形成贡献审计，语义色和校园模板也持续配合该结构。",
+      "skeleton_rhythm": "kept — statement、split、diagram、chart、table、photo等主角持续轮换，composition cues各项均有非平坦区间。",
+      "wow": [
+        {
+          "slide": 3,
+          "landed": true,
+          "why": "大号83.5%和实景/统计图建立了相邻页面没有的单点压力。"
+        },
+        {
+          "slide": 10,
+          "landed": true,
+          "why": "五条配对轨迹与右侧+2.71 pp结论共同形成主证据峰值。"
+        },
+        {
+          "slide": 16,
+          "landed": false,
+          "why": "三行九格和约107词把视觉峰值压回了需要逐格阅读的审计表。"
+        }
+      ],
+      "signature_move": {
+        "verdict": "landed",
+        "why": "在balanced+约束下，双证据轨道不是角标，而是连续三页关键结构的几何骨架。",
+        "carried": [
+          {
+            "slide": 6,
+            "structural": true,
+            "note": "检测与语义两条轨道直接组织整页流程。"
+          },
+          {
+            "slide": 14,
+            "structural": true,
+            "note": "两类瓶颈在同一终点汇流，承接双轨结构。"
+          },
+          {
+            "slide": 16,
+            "structural": true,
+            "note": "贡献、证据与不宣称按双线结果编排，但密度削弱了峰值。"
+          }
+        ],
+        "proof": "matches"
+      },
+      "memorable_one_thing": "两条证据轨道最终落入“贡献—证据—不宣称”的边界账本。",
+      "composition": {
+        "cover_archetype": "kept — 使用provided-template campus-band，校园主体完整且标题叠置清楚。",
+        "home_skeleton_plurality": "kept — split/island是主要骨架，但没有压倒照片、陈述、band、table和timeline。"
+      },
+      "register_interiors": "kept — 红色标题线、校标、水印、页脚和页码贯穿普通正文与备查页。",
+      "money_slide": "degraded — 第16页承载了声明的审计结构，但107词、82%占用率和约15 pt正文使其没有成为清晰视觉峰值。",
+      "semantic_colour": "ledger kept — 红色身份、蓝色协议、青色正向证据、琥珀色边界、灰色中性信息未见关键双重含义。",
+      "type_tokens": "degraded — 标题与正文大致使用声明范围，但23个实际字号和多页5–8档字号造成角色漂移；14.5 pt正文中位数不适合本次现场投影。",
+      "eye_path_misses": [16]
+    }
+  },
+  "probes": {
+    "per_slide": [
+      {"slide": 1, "first_read": "校园横幅与长标题。", "takeaway_guess": "这是一项面向生活垃圾检测与异常识别的视觉语言模型开题。"},
+      {"slide": 2, "first_read": "横向四段议程。", "takeaway_guess": "答辩将按问题、路线、证据和计划四步展开。"},
+      {"slide": 3, "first_read": "83.5%大数字。", "takeaway_guess": "小目标占比极高，是当前检测任务的核心压力。"},
+      {"slide": 4, "first_read": "“框在哪里”与“它是什么”两个大问题。", "takeaway_guess": "定位和语义命名是必须分开的两类失败。"},
+      {"slide": 5, "first_read": "RQ1与RQ2双栏。", "takeaway_guess": "研究被收紧为可验证的检测增强与语义判别两个问题。"},
+      {"slide": 6, "first_read": "检测证据线与语义证据线两条轨道。", "takeaway_guess": "先隔离变量，再把检测错误与语义错误逐级纳入证据链。"},
+      {"slide": 7, "first_read": "4651与train/val/test分组。", "takeaway_guess": "近重复分组降低泄漏，但还不是严格独立确认。"},
+      {"slide": 8, "first_read": "P2分支架构图。", "takeaway_guess": "在固定head width下新增160×160检测分支。"},
+      {"slide": 9, "first_read": "2×2配置矩阵与5 seeds。", "takeaway_guess": "用四配置、五随机种子重跑受控消融。"},
+      {"slide": 10, "first_read": "五条配对线与绿色+2.71 pp。", "takeaway_guess": "P2五个种子全正向，CBAM效应不稳定。"},
+      {"slide": 11, "first_read": "两条RAOD哑铃对比。", "takeaway_guess": "外域精度改善，但综合定位指标并未同步改善。"},
+      {"slide": 12, "first_read": "检测框到CLIP词表的整条流水线。", "takeaway_guess": "系统做固定八类命名，不宣称发现未知类别。"},
+      {"slide": 13, "first_read": "三层阶梯。", "takeaway_guess": "语义证据按错误、冻结和阈值三层逐步补强。"},
+      {"slide": 14, "first_read": "两类瓶颈汇流到端到端召回。", "takeaway_guess": "检测与语义任一瓶颈都会限制整体召回。"},
+      {"slide": 15, "first_read": "统一对照表与12.91 FPS。", "takeaway_guess": "冻结协议下开放词汇基线仍受效果、prompt和速度限制。"},
+      {"slide": 16, "first_read": "贡献—证据—不宣称三列表。", "takeaway_guess": "每项贡献都用证据和边界配对以维持可辩护性。"},
+      {"slide": 17, "first_read": "三个阶段的后续计划。", "takeaway_guess": "下一步将补齐独立确认、时序与设备三项缺口。"},
+      {"slide": 18, "first_read": "校园照片与谢谢。", "takeaway_guess": "主讲结束并进入专家提问。"},
+      {"slide": 19, "first_read": "三层嵌套定义。", "takeaway_guess": "近重复隔离、内部确认与严格独立确认不能混为一谈。"},
+      {"slide": 20, "first_read": "四配置表与右侧审计栏。", "takeaway_guess": "五种子结果可复现，但日志直接覆盖只有21/26。"},
+      {"slide": 21, "first_read": "四条配对效应轴。", "takeaway_guess": "P2效应稳定为正，CBAM随组合变化且可能为负。"},
+      {"slide": 22, "first_read": "RAOD协议带与四个统计卡。", "takeaway_guess": "该外域证据只支持单类定位协议下的有限结论。"},
+      {"slide": 23, "first_read": "两张权衡曲线与右侧选点说明。", "takeaway_guess": "验证集选阈值能达到峰值附近，但校准和类别代价仍存在。"},
+      {"slide": 24, "first_read": "顶部统一协议链与底部结果表。", "takeaway_guess": "比较口径已标准化，但没有完成穷尽式域适配。"},
+      {"slide": 25, "first_read": "77.41 ms延迟分解。", "takeaway_guess": "RTX3090原型的瓶颈可分解，设备、时序和独立验证仍待闭环。"}
+    ],
+    "hotspot_checks": [
+      {"slide": 6, "hotspot": "“检测证据线”与“近重复隔离”", "observed_gap_in": 0.335, "pass": true, "note": "标签边界清楚，无视觉粘连。"},
+      {"slide": 17, "hotspot": "“前置材料”与“输入：新采集…”", "observed_gap_in": 0.989, "pass": true, "note": "分区充分，首读关系明确。"},
+      {"slide": 21, "hotspot": "+1.17 pp与4/5正向", "observed_gap_in": 0.14, "pass": true, "note": "间距偏紧但仍可清楚区分。"},
+      {"slide": 25, "hotspot": "CLIP预处理与CLIP推理", "observed_gap_in": 0.14, "pass": true, "note": "条形分段与标签均未粘连。"}
+    ],
+    "icon_checks": [
+      {"slide": 2, "icon": "search", "pass": true, "note": "对应问题识别，语义明确。"},
+      {"slide": 2, "icon": "route", "pass": true, "note": "对应技术路线，语义明确。"},
+      {"slide": 2, "icon": "chart-no-axes-column-increasing", "pass": true, "note": "对应证据/结果，投影轮廓清楚。"},
+      {"slide": 2, "icon": "calendar-days", "pass": true, "note": "对应计划安排，语义明确。"},
+      {"slide": 17, "icon": "database", "pass": true, "note": "对应新增数据材料。"},
+      {"slide": 17, "icon": "video", "pass": true, "note": "对应时序验证材料。"},
+      {"slide": 17, "icon": "cpu", "pass": true, "note": "对应设备侧验证。"}
+    ]
+  }
+}

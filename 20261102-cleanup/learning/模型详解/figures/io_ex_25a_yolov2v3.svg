@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="200" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">25a YOLOv2/v3 输入输出实例（加 anchor + 多尺度金字塔）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">416×416 图 → Darknet → v3 在 13²/26²/52² 三个尺度各带 anchor 预测 → 框+类别</text>
+
+  <rect x="24" y="68" width="110" height="74" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="79" y="90" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="79" y="109" text-anchor="middle" font-size="9" fill="#374151">416×416×3</text>
+  <text x="79" y="126" text-anchor="middle" font-size="8" fill="#6b7280">v2 支持多尺度训练</text>
+
+  <line x1="134" y1="105" x2="164" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="166" y="62" width="230" height="86" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="281" y="81" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#1e40af">Darknet + 三尺度头</text>
+  <text x="281" y="99" text-anchor="middle" font-size="8.4" fill="#374151">v3 输出 13²(大目标)/26²/52²(小目标)</text>
+  <text x="281" y="115" text-anchor="middle" font-size="8.4" fill="#374151">每尺度每格铺 3 个 anchor（k-means 聚类）</text>
+  <text x="281" y="132" text-anchor="middle" font-size="8" fill="#15803d">补上 v1 的两个洞：定位粗、漏小目标</text>
+
+  <line x1="396" y1="105" x2="426" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="428" y="72" width="190" height="66" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="523" y="92" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">框 + 类别（三尺度汇总）</text>
+  <text x="523" y="110" text-anchor="middle" font-size="8.3" fill="#374151">anchor 偏移解码 → NMS</text>
+  <text x="523" y="126" text-anchor="middle" font-size="8" fill="#6b7280">小目标召回明显改善</text>
+
+  <line x1="618" y1="105" x2="648" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="650" y="82" width="142" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="721" y="103" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">检测结果</text>
+  <text x="721" y="119" text-anchor="middle" font-size="7.6" fill="#6b7280">实时 + 更准</text>
+
+  <text x="410" y="174" text-anchor="middle" font-size="9.6" fill="#374151">I/O 仍是“图→框+类别”，这代签名：<tspan font-weight="bold" fill="#0369a1">引入 anchor（聚类先验）+ 三尺度金字塔</tspan>，为后续所有 YOLO 定调。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

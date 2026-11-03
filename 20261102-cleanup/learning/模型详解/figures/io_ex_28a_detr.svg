@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="220" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">26 DETR 输入输出实例（集合预测，去 anchor 去 NMS）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">图 → CNN + Transformer + N=100 个 object query → 每个 query 直接出一个(框/无物体)</text>
+
+  <rect x="22" y="72" width="104" height="72" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="74" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="74" y="113" text-anchor="middle" font-size="9" fill="#374151">一张图</text>
+  <text x="74" y="130" text-anchor="middle" font-size="8" fill="#6b7280">无 anchor</text>
+
+  <line x1="126" y1="108" x2="154" y2="108" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="156" y="66" width="160" height="84" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="236" y="85" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#1e40af">CNN 特征 + Transformer</text>
+  <text x="236" y="103" text-anchor="middle" font-size="8.3" fill="#374151">编码器 + 解码器</text>
+  <text x="236" y="119" text-anchor="middle" font-size="8.3" fill="#374151">100 个 object query 各“认领”一个物体</text>
+  <text x="236" y="135" text-anchor="middle" font-size="7.8" fill="#6b7280">query 之间互相看 → 自动去重</text>
+
+  <line x1="316" y1="108" x2="344" y2="108" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="346" y="68" width="186" height="80" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="439" y="87" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#6d28d9">N=100 个预测（集合）</text>
+  <text x="439" y="105" text-anchor="middle" font-size="8.2" fill="#374151">每个：类别（含“无物体”∅）+ 框</text>
+  <text x="439" y="121" text-anchor="middle" font-size="8.2" fill="#374151">如 #7→车@(..)、#23→∅、#41→人@(..)</text>
+  <text x="439" y="136" text-anchor="middle" font-size="7.8" fill="#6b7280">训练用二分图匹配（一物体配一 query）</text>
+
+  <line x1="532" y1="108" x2="560" y2="108" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="562" y="74" width="150" height="68" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="637" y="94" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">去掉 ∅ → 最终框</text>
+  <text x="637" y="112" text-anchor="middle" font-size="8.3" fill="#b91c1c">无需 NMS！</text>
+  <text x="637" y="127" text-anchor="middle" font-size="8" fill="#6b7280">query 已天然不重复</text>
+
+  <line x1="712" y1="108" x2="740" y2="108" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="742" y="86" width="60" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="772" y="108" text-anchor="middle" font-size="8.6" font-weight="bold" fill="#15803d">结果</text>
+  <text x="772" y="124" text-anchor="middle" font-size="7" fill="#6b7280">框+类别</text>
+
+  <text x="410" y="186" text-anchor="middle" font-size="9.6" fill="#374151">范式革新：把检测变成<tspan font-weight="bold" fill="#0369a1">“预测一个固定大小的集合”</tspan>——<tspan font-weight="bold" fill="#b91c1c">没有 anchor、没有 NMS</tspan>，开创检测 Transformer 路线。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

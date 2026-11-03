@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="460" fill="#fff"/>
+  <text x="490" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Dropout：训练时随机丢神经元，防止"互相依赖"</text>
+
+  <!-- 训练 vs 测试 -->
+  <rect x="30" y="48" width="440" height="190" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">训练阶段</text>
+  <g>
+    <circle cx="90" cy="100" r="14" fill="#fff" stroke="#3b82f6"/>
+    <circle cx="140" cy="100" r="14" fill="#fca5a5" stroke="#ef4444" stroke-dasharray="3,2"/>
+    <circle cx="190" cy="100" r="14" fill="#fff" stroke="#3b82f6"/>
+    <circle cx="240" cy="100" r="14" fill="#fca5a5" stroke="#ef4444" stroke-dasharray="3,2"/>
+    <circle cx="290" cy="100" r="14" fill="#fff" stroke="#3b82f6"/>
+    <circle cx="340" cy="100" r="14" fill="#fff" stroke="#3b82f6"/>
+    <circle cx="390" cy="100" r="14" fill="#fca5a5" stroke="#ef4444" stroke-dasharray="3,2"/>
+  </g>
+  <text x="250" y="130" text-anchor="middle" font-size="10" fill="#374151">每次前向，每个隐藏单元独立以概率p=0.5被"丢弃"（虚线红=本次丢弃）</text>
+  <text x="250" y="152" text-anchor="middle" font-size="10" fill="#374151">丢弃组合每次都不同——相当于每次训练一个不同的"瘦"子网络</text>
+  <text x="250" y="178" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">2^N个子网络共享同一套权重</text>
+  <text x="250" y="200" text-anchor="middle" font-size="9.5" fill="#374151">效果=用一份权重同时隐式训练海量子网络的"模型平均"</text>
+  <text x="250" y="220" text-anchor="middle" font-size="9.5" fill="#6b7280">目的：防止"co-adaptation"——某单元只在特定其他单元存在时才有用</text>
+
+  <rect x="510" y="48" width="440" height="190" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">测试/推理阶段</text>
+  <g>
+    <circle cx="570" cy="100" r="14" fill="#bbf7d0" stroke="#16a34a"/>
+    <circle cx="620" cy="100" r="14" fill="#bbf7d0" stroke="#16a34a"/>
+    <circle cx="670" cy="100" r="14" fill="#bbf7d0" stroke="#16a34a"/>
+    <circle cx="720" cy="100" r="14" fill="#bbf7d0" stroke="#16a34a"/>
+    <circle cx="770" cy="100" r="14" fill="#bbf7d0" stroke="#16a34a"/>
+    <circle cx="820" cy="100" r="14" fill="#bbf7d0" stroke="#16a34a"/>
+    <circle cx="870" cy="100" r="14" fill="#bbf7d0" stroke="#16a34a"/>
+  </g>
+  <text x="730" y="130" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">全部神经元都用上，不丢弃</text>
+  <text x="730" y="152" text-anchor="middle" font-size="10" fill="#374151">"mean network"：把每个单元的输出权重减半</text>
+  <text x="730" y="174" text-anchor="middle" font-size="10" fill="#374151">(补偿"现在两倍单元同时激活"这件事)</text>
+  <text x="730" y="200" text-anchor="middle" font-size="9.5" fill="#374151">等效于对2^N个子网络的预测做几何平均</text>
+  <text x="730" y="220" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">一次前向 ≈ 海量子网络投票，不需要真的训练/集成多个模型</text>
+
+  <!-- 实验结果 -->
+  <rect x="30" y="256" width="920" height="120" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">实测效果（原始论文，50%隐藏层dropout+20%输入层dropout）</text>
+  <text x="60" y="302" font-size="10" fill="#374151">MNIST：160→110个错误（额外加输入层20%dropout）</text>
+  <text x="60" y="322" font-size="10" fill="#374151">TIMIT语音识别：错误率22.7%→19.7%</text>
+  <text x="520" y="302" font-size="10" fill="#374151">CIFAR-10：18.5%→15.6%错误率</text>
+  <text x="520" y="322" font-size="10" fill="#374151">ImageNet(2012)：47.2%→42.4%错误率(创纪录)</text>
+  <text x="490" y="352" text-anchor="middle" font-size="9.5" fill="#6b7280">几乎所有测试的基准任务上都有提升——这正是AlexNet(2012)训练配方里采用Dropout的直接依据</text>
+
+  <!-- 类比GAP -->
+  <rect x="30" y="388" width="920" height="60" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="412" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">和 BatchNorm/LayerNorm(14) 的关系：都是"训练时做一件事、推理时做另一件事"的组件</text>
+  <text x="490" y="432" text-anchor="middle" font-size="9.5" fill="#374151">BN训练用batch统计量、推理用滑动平均；Dropout训练随机丢弃、推理全部保留+权重缩放——都要注意model.eval()正确切换</text>
+</svg>

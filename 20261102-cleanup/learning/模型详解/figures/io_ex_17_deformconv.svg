@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 235" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="235" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">17 可变形卷积 输入输出实例（采样位置可学习，形状不变）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">特征图进 → 标准卷积的固定 3×3 采样点 + 学到的偏移 Δ → 采样点贴合目标几何 → 特征图出</text>
+
+  <rect x="22" y="68" width="120" height="76" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="82" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入特征图</text>
+  <text x="82" y="107" text-anchor="middle" font-size="9" fill="#374151">含一个弯曲目标</text>
+  <text x="82" y="125" text-anchor="middle" font-size="8" fill="#6b7280">如倾斜的车/不规则抛洒物</text>
+
+  <line x1="142" y1="106" x2="172" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- standard sampling -->
+  <rect x="174" y="60" width="150" height="90" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="249" y="78" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#b91c1c">标准卷积：固定 3×3</text>
+  <g stroke="#b91c1c" fill="#b91c1c">
+    <circle cx="219" cy="100" r="2.5"/><circle cx="249" cy="100" r="2.5"/><circle cx="279" cy="100" r="2.5"/>
+    <circle cx="219" cy="118" r="2.5"/><circle cx="249" cy="118" r="2.5"/><circle cx="279" cy="118" r="2.5"/>
+    <circle cx="219" cy="136" r="2.5"/><circle cx="249" cy="136" r="2.5"/><circle cx="279" cy="136" r="2.5"/>
+  </g>
+  <text x="249" y="148" text-anchor="middle" font-size="7.6" fill="#6b7280">死板方格，不管目标形状</text>
+
+  <text x="338" y="110" font-size="9" fill="#374151" text-anchor="middle">+ 学偏移 Δ</text>
+  <line x1="324" y1="106" x2="360" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- deformed sampling -->
+  <rect x="362" y="60" width="160" height="90" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="442" y="78" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">可变形：采样点偏移</text>
+  <g stroke="#15803d" fill="#15803d">
+    <circle cx="400" cy="96" r="2.5"/><circle cx="424" cy="104" r="2.5"/><circle cx="452" cy="98" r="2.5"/>
+    <circle cx="408" cy="118" r="2.5"/><circle cx="436" cy="120" r="2.5"/><circle cx="468" cy="114" r="2.5"/>
+    <circle cx="414" cy="138" r="2.5"/><circle cx="444" cy="140" r="2.5"/><circle cx="476" cy="134" r="2.5"/>
+  </g>
+  <text x="442" y="148" text-anchor="middle" font-size="7.6" fill="#6b7280">采样点落到目标实际轮廓上</text>
+
+  <line x1="522" y1="106" x2="552" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="554" y="72" width="150" height="68" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="629" y="92" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">输出特征图</text>
+  <text x="629" y="110" text-anchor="middle" font-size="8.3" fill="#b91c1c">形状不变</text>
+  <text x="629" y="125" text-anchor="middle" font-size="8" fill="#6b7280">但感受野贴合几何</text>
+
+  <line x1="704" y1="106" x2="734" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="736" y="84" width="74" height="44" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="773" y="105" text-anchor="middle" font-size="8.6" font-weight="bold" fill="#15803d">更准</text>
+  <text x="773" y="121" text-anchor="middle" font-size="7.4" fill="#6b7280">适应形变</text>
+
+  <text x="410" y="180" text-anchor="middle" font-size="9.6" fill="#374151">关键：卷积的<tspan font-weight="bold" fill="#15803d">采样位置也变成可学习</tspan>——网络额外预测一组偏移 Δ，让卷积“跟着目标形状走”，而输出<tspan font-weight="bold" fill="#b91c1c">形状不变</tspan>。</text>
+  <text x="410" y="202" text-anchor="middle" font-size="9.2" fill="#6b7280">对倾斜/不规则目标（路面抛洒物常见）更友好，是卷积的增强版；本项目列为可选待读组件。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

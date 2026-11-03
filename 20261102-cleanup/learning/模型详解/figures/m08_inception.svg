@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="640" height="340" fill="#fff"/>
+  <text x="320" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">Inception 模块：并行多尺度 + 1×1 降维</text>
+  <rect x="250" y="46" width="140" height="30" rx="6" fill="#e5e7eb" stroke="#9ca3af"/><text x="320" y="66" text-anchor="middle" font-size="12">上一层特征图</text>
+  <g stroke="#9ca3af" stroke-width="1.5">
+    <line x1="320" y1="76" x2="90"  y2="100" marker-end="url(#a6)"/>
+    <line x1="320" y1="76" x2="250" y2="100" marker-end="url(#a6)"/>
+    <line x1="320" y1="76" x2="400" y2="100" marker-end="url(#a6)"/>
+    <line x1="320" y1="76" x2="560" y2="100" marker-end="url(#a6)"/>
+  </g>
+  <g font-size="11.5" text-anchor="middle">
+    <rect x="40"  y="102" width="100" height="26" rx="6" fill="#fff7ed" stroke="#f59e0b"/><text x="90" y="120">1×1</text>
+    <rect x="200" y="102" width="100" height="26" rx="6" fill="#eff6ff" stroke="#3b82f6"/><text x="250" y="120">1×1 降维</text>
+    <rect x="200" y="146" width="100" height="26" rx="6" fill="#dbeafe" stroke="#3b82f6"/><text x="250" y="164">3×3</text>
+    <rect x="350" y="102" width="100" height="26" rx="6" fill="#ecfdf5" stroke="#10b981"/><text x="400" y="120">1×1 降维</text>
+    <rect x="350" y="146" width="100" height="26" rx="6" fill="#d1fae5" stroke="#10b981"/><text x="400" y="164">5×5</text>
+    <rect x="510" y="102" width="100" height="26" rx="6" fill="#faf5ff" stroke="#a855f7"/><text x="560" y="120">3×3 池化</text>
+    <rect x="510" y="146" width="100" height="26" rx="6" fill="#f3e8ff" stroke="#a855f7"/><text x="560" y="164">1×1 降维</text>
+  </g>
+  <g stroke="#9ca3af" stroke-width="1.3">
+    <line x1="250" y1="128" x2="250" y2="144"/><line x1="400" y1="128" x2="400" y2="144"/><line x1="560" y1="128" x2="560" y2="144"/>
+    <line x1="90"  y1="128" x2="280" y2="220" marker-end="url(#a6)"/>
+    <line x1="250" y1="172" x2="300" y2="220" marker-end="url(#a6)"/>
+    <line x1="400" y1="172" x2="340" y2="220" marker-end="url(#a6)"/>
+    <line x1="560" y1="172" x2="360" y2="220" marker-end="url(#a6)"/>
+  </g>
+  <rect x="230" y="222" width="180" height="34" rx="8" fill="#fde68a" stroke="#d97706"/>
+  <text x="320" y="244" text-anchor="middle" font-size="13" font-weight="bold" fill="#7c2d12">通道拼接 concat</text>
+  <text x="320" y="285" text-anchor="middle" font-size="12" fill="#6b7280">1×1 在大核前降通道（省算）；4 分支同尺度输出沿通道维拼接</text>
+  <text x="320" y="308" text-anchor="middle" font-size="11.5" fill="#9ca3af">22 层仅 ~5M 参数（AlexNet 的 1/12）</text>
+  <defs><marker id="a6" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

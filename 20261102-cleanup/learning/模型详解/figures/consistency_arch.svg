@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 450" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="450" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">一致性模型：学"从噪声直接跳到数据"→ 1~4 步出图；Sora：DiT + 时空 patch 生成视频</text>
+
+  <!-- 多步 vs 少步 -->
+  <rect x="20" y="42" width="440" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="240" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">扩散原来：沿轨迹一步步去噪（多步）</text>
+  <circle cx="60" cy="100" r="8" fill="#9ca3af"/><text x="60" y="124" text-anchor="middle" font-size="8" fill="#374151">噪声</text>
+  <text x="80" y="104" font-size="10" fill="#9ca3af">→</text>
+  <circle cx="110" cy="100" r="8" fill="#cbd5e1"/><text x="150" y="104" font-size="10" fill="#9ca3af">→</text>
+  <circle cx="180" cy="100" r="8" fill="#d1d5db"/><text x="210" y="104" font-size="10" fill="#9ca3af">→ … →</text>
+  <circle cx="300" cy="100" r="8" fill="#86efac"/><text x="300" y="124" text-anchor="middle" font-size="8" fill="#374151">图</text>
+  <text x="40" y="150" font-size="9" fill="#374151">· DDIM 已从千步降到几十步</text>
+  <text x="40" y="168" font-size="9" fill="#b91c1c">· 但几十步对"实时/交互"还是慢</text>
+  <text x="40" y="184" font-size="8.5" fill="#6b7280">(见 46 DDIM)</text>
+
+  <rect x="480" y="42" width="440" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">一致性模型：轨迹上任意点 → 直接到终点</text>
+  <circle cx="520" cy="100" r="8" fill="#9ca3af"/><text x="520" y="124" text-anchor="middle" font-size="8" fill="#374151">噪声</text>
+  <path d="M 532 96 Q 620 60 700 96" fill="none" stroke="#16a34a" stroke-width="2" marker-end="url(#a)"/>
+  <circle cx="712" cy="100" r="8" fill="#86efac"/><text x="712" y="124" text-anchor="middle" font-size="8" fill="#374151">图</text>
+  <text x="620" y="78" text-anchor="middle" font-size="8" fill="#15803d">一步直达</text>
+  <text x="500" y="150" font-size="9" fill="#374151">· 训练一个"一致性函数"：ODE 轨迹上任意点</text>
+  <text x="512" y="164" font-size="9" fill="#374151">都映射到同一个终点(干净图)</text>
+  <text x="500" y="184" font-size="9" fill="#15803d">· 于是 1 步(或 2~4 步微调)就能出图</text>
+
+  <!-- 怎么来的 -->
+  <rect x="20" y="204" width="900" height="96" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">怎么得到少步模型</text>
+  <text x="40" y="246" font-size="9" fill="#374151">· 蒸馏：拿训练好的扩散模型当老师，让少步"学生"匹配老师的去噪轨迹(如 LCM 潜一致性模型)</text>
+  <text x="40" y="264" font-size="9" fill="#374151">· 直接训练：自洽性约束(轨迹上相邻点映到同一终点)从头训一致性模型</text>
+  <text x="40" y="282" font-size="9" fill="#15803d">· 效果：SDXL-Turbo/LCM 等能 1~4 步出图 → 实时文生图、交互式创作成为可能</text>
+
+  <!-- Sora/视频 -->
+  <rect x="20" y="312" width="900" height="70" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="332" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">扩到视频：Sora（2024）</text>
+  <text x="40" y="354" font-size="9" fill="#374151">· 基于 DiT(48)：把图像 patch 扩成"时空 patch(spacetime patch)"，在潜空间对视频做扩散</text>
+  <text x="40" y="372" font-size="9" fill="#6b7280">· 生成从"图像"走向"视频/3D"；统一用 Transformer + 扩散的框架。也有视频少步加速的探索</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="394" width="900" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="416" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话：一致性模型学"从噪声/轨迹任意点直接跳到干净图"→ 1~4 步出图(逼近实时)；</text>
+  <text x="470" y="436" text-anchor="middle" font-size="9" fill="#374151">Sora 基于 DiT 用时空 patch 把扩散扩到视频。加速(少步)与扩展(视频)是当下两大前沿。</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#16a34a"/></marker></defs>
+</svg>

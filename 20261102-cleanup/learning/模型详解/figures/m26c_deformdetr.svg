@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 360" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="360" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Deformable DETR：可变形稀疏注意力 → 10× 加速收敛</text>
+
+  <!-- ===== LEFT: Standard vs Deformable ===== -->
+  <text x="172" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">标准注意力（DETR 原版）</text>
+
+  <rect x="20" y="60" width="304" height="140" rx="6" fill="#fff5f5" stroke="#ef4444" stroke-dasharray="4 2"/>
+
+  <!-- Grid representing all positions -->
+  <g font-size="8" text-anchor="middle">
+    <!-- 6×6 grid, all lit -->
+    <rect x="38" y="72" width="14" height="14" rx="1" fill="#fecaca"/><rect x="54" y="72" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="70" y="72" width="14" height="14" rx="1" fill="#fecaca"/><rect x="86" y="72" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="102" y="72" width="14" height="14" rx="1" fill="#fecaca"/><rect x="118" y="72" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="38" y="88" width="14" height="14" rx="1" fill="#fecaca"/><rect x="54" y="88" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="70" y="88" width="14" height="14" rx="1" fill="#fecaca"/><rect x="86" y="88" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="102" y="88" width="14" height="14" rx="1" fill="#fecaca"/><rect x="118" y="88" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="38" y="104" width="14" height="14" rx="1" fill="#fecaca"/><rect x="54" y="104" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="70" y="104" width="14" height="14" rx="1" fill="#fde68a" stroke="#d97706" stroke-width="2"/><rect x="86" y="104" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="102" y="104" width="14" height="14" rx="1" fill="#fecaca"/><rect x="118" y="104" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="38" y="120" width="14" height="14" rx="1" fill="#fecaca"/><rect x="54" y="120" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="70" y="120" width="14" height="14" rx="1" fill="#fecaca"/><rect x="86" y="120" width="14" height="14" rx="1" fill="#fecaca"/>
+    <rect x="102" y="120" width="14" height="14" rx="1" fill="#fecaca"/><rect x="118" y="120" width="14" height="14" rx="1" fill="#fecaca"/>
+  </g>
+  <text x="78" y="154" text-anchor="middle" font-size="9" fill="#b91c1c">所有 N=HW 个位置</text>
+  <text x="78" y="168" text-anchor="middle" font-size="9" fill="#b91c1c">都参与注意力计算</text>
+  <text x="240" y="82" font-size="9.5" fill="#374151">复杂度：O((HW)²)</text>
+  <text x="240" y="97" font-size="9.5" fill="#ef4444">500 epoch 才收敛</text>
+  <text x="240" y="112" font-size="9.5" fill="#ef4444">无多尺度支持</text>
+  <text x="240" y="127" font-size="9.5" fill="#ef4444">小目标效果差</text>
+  <text x="240" y="142" font-size="9.5" fill="#ef4444">星号 ★ = 查询点</text>
+  <text x="240" y="157" font-size="9.5" fill="#ef4444">红色 = 所有位置参与</text>
+  <text x="240" y="185" text-anchor="middle" font-size="9" fill="#6b7280">（所有红色均参与注意力）</text>
+
+  <!-- ===== RIGHT: Deformable ===== -->
+  <text x="592" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#7c3aed">Deformable Attention（本文方案）</text>
+
+  <rect x="474" y="60" width="326" height="140" rx="6" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.8"/>
+
+  <!-- Multi-scale grids -->
+  <g font-size="8">
+    <!-- P3: 6×6 small boxes -->
+    <text x="510" y="74" font-size="9" fill="#7c3aed">P3(H/8)</text>
+    <rect x="494" y="78" width="10" height="10" rx="1" fill="#e5e7eb"/><rect x="506" y="78" width="10" height="10" rx="1" fill="#e5e7eb"/>
+    <rect x="518" y="78" width="10" height="10" rx="1" fill="#e5e7eb"/><rect x="530" y="78" width="10" height="10" rx="1" fill="#e5e7eb"/>
+    <rect x="494" y="90" width="10" height="10" rx="1" fill="#e5e7eb"/><rect x="506" y="90" width="10" height="10" rx="1" fill="#e5e7eb"/>
+    <rect x="518" y="90" width="10" height="10" rx="1" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1.5"/>
+    <rect x="530" y="90" width="10" height="10" rx="1" fill="#e5e7eb"/>
+    <rect x="494" y="102" width="10" height="10" rx="1" fill="#e5e7eb"/><rect x="506" y="102" width="10" height="10" rx="1" fill="#e5e7eb"/>
+    <rect x="518" y="102" width="10" height="10" rx="1" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1.5"/>
+    <rect x="530" y="102" width="10" height="10" rx="1" fill="#e5e7eb"/>
+    <!-- P4: 3×3 medium -->
+    <text x="572" y="74" font-size="9" fill="#3b82f6">P4(H/16)</text>
+    <rect x="556" y="78" width="16" height="16" rx="1" fill="#e5e7eb"/><rect x="574" y="78" width="16" height="16" rx="1" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="556" y="96" width="16" height="16" rx="1" fill="#e5e7eb"/><rect x="574" y="96" width="16" height="16" rx="1" fill="#e5e7eb"/>
+    <!-- P5: 2×2 large -->
+    <text x="624" y="74" font-size="9" fill="#16a34a">P5(H/32)</text>
+    <rect x="608" y="78" width="22" height="22" rx="1" fill="#e5e7eb"/>
+    <rect x="632" y="78" width="22" height="22" rx="1" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+    <rect x="608" y="102" width="22" height="22" rx="1" fill="#e5e7eb"/><rect x="632" y="102" width="22" height="22" rx="1" fill="#e5e7eb"/>
+  </g>
+  <text x="720" y="82" text-anchor="middle" font-size="9" fill="#374151">★ = 参考点</text>
+  <text x="720" y="96" text-anchor="middle" font-size="9.5" fill="#7c3aed">仅从</text>
+  <text x="720" y="110" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#7c3aed">K=4 个</text>
+  <text x="720" y="124" text-anchor="middle" font-size="9.5" fill="#7c3aed">稀疏位置</text>
+  <text x="720" y="138" text-anchor="middle" font-size="9.5" fill="#7c3aed">采样（跨4尺度）</text>
+  <text x="720" y="155" text-anchor="middle" font-size="9" fill="#6b7280">偏移 Δp 由</text>
+  <text x="720" y="167" text-anchor="middle" font-size="9" fill="#6b7280">网络预测</text>
+  <text x="637" y="140" text-anchor="middle" font-size="9" fill="#374151">总计 M×L×K=128</text>
+  <text x="637" y="154" text-anchor="middle" font-size="9" fill="#374151">个采样点/查询</text>
+
+  <!-- === Middle: Deformable Attn formula ===  -->
+  <rect x="20" y="210" width="460" height="72" rx="6" fill="#f0f9ff" stroke="#0ea5e9"/>
+  <text x="250" y="228" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0369a1">Deformable Attention 公式</text>
+  <text x="250" y="246" text-anchor="middle" font-size="10" fill="#374151">DeformAttn(z_q, p_q, x) = Σ_m W_m [Σ_k A_{mqk} · W'_m x(p_q + Δp_{mqk})]</text>
+  <text x="250" y="263" text-anchor="middle" font-size="9.5" fill="#6b7280">• Δp_{mqk}：第 m 头第 k 个采样偏移（由 z_q 线性预测）</text>
+  <text x="250" y="276" text-anchor="middle" font-size="9.5" fill="#6b7280">• A_{mqk}：归一化注意力权重（Σ_k A=1）；x()：双线性插值采样</text>
+
+  <!-- === Right: Comparison table === -->
+  <rect x="490" y="210" width="310" height="110" rx="6" fill="#f9fafb" stroke="#e2e8f0"/>
+  <text x="645" y="228" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#374151">DETR vs Deformable DETR</text>
+  <g font-size="9.5" text-anchor="middle">
+    <text x="565" y="246" font-weight="bold">项目</text>
+    <text x="665" y="246" font-weight="bold">DETR</text>
+    <text x="755" y="246" font-weight="bold">Deform.</text>
+    <text x="565" y="262">收敛</text>   <text x="665" y="262" fill="#ef4444">500 ep</text>   <text x="755" y="262" fill="#16a34a">50 ep</text>
+    <text x="565" y="278">复杂度</text>  <text x="665" y="278" fill="#ef4444">O((HW)²)</text> <text x="755" y="278" fill="#16a34a">O(HW·MK)</text>
+    <text x="565" y="294">多尺度</text>  <text x="665" y="294" fill="#ef4444">✗</text>          <text x="755" y="294" fill="#16a34a">✓ (4层)</text>
+    <text x="565" y="310">COCO AP</text> <text x="665" y="310">42.0%</text>             <text x="755" y="310" fill="#7c3aed">43.8%</text>
+  </g>
+
+  <!-- Bottom -->
+  <rect x="20" y="294" width="460" height="28" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="250" y="312" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b45309">架构演进：DETR(2020) → Deformable DETR(2021) → DAB-DETR/DN-DETR → DINO → Grounding DINO</text>
+
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+  </defs>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 440" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="440" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">SegFormer：分层 Transformer 编码器(出多尺度) + 全 MLP 轻量解码器；无位置编码</text>
+
+  <!-- 编码器 -->
+  <rect x="20" y="42" width="560" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="300" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">分层 Transformer 编码器（MiT）→ 4 个尺度特征（像 CNN 金字塔）</text>
+  <rect x="40" y="80" width="90" height="90" fill="#bfdbfe" stroke="#3b82f6"/><text x="85" y="182" text-anchor="middle" font-size="8" fill="#374151">Stage1 1/4</text>
+  <text x="135" y="128" font-size="11" fill="#9ca3af">→</text>
+  <rect x="155" y="92" width="66" height="66" fill="#93c5fd" stroke="#3b82f6"/><text x="188" y="182" text-anchor="middle" font-size="8" fill="#374151">1/8</text>
+  <text x="226" y="128" font-size="11" fill="#9ca3af">→</text>
+  <rect x="240" y="100" width="50" height="50" fill="#60a5fa" stroke="#3b82f6"/><text x="265" y="182" text-anchor="middle" font-size="8" fill="#374151">1/16</text>
+  <text x="295" y="128" font-size="11" fill="#9ca3af">→</text>
+  <rect x="310" y="108" width="34" height="34" fill="#3b82f6"/><text x="327" y="182" text-anchor="middle" font-size="8" fill="#374151">1/32</text>
+  <text x="400" y="110" font-size="9" fill="#374151">· 逐级下采样(patch merging)</text>
+  <text x="400" y="128" font-size="9" fill="#374151">出 4 个尺度 → 多尺度</text>
+  <text x="400" y="150" font-size="9" fill="#b91c1c">· 无位置编码：用 Mix-FFN</text>
+  <text x="412" y="164" font-size="8.5" fill="#6b7280">(FFN里塞3×3卷积带位置信息)</text>
+  <text x="400" y="184" font-size="8.5" fill="#6b7280">→ 换分辨率不用插值位置码</text>
+  <text x="40" y="208" font-size="9" fill="#374151">· 高效自注意力：对 K/V 做空间缩减(SRA)，降低 O(n²) 开销 → 能吃高分辨率</text>
+  <text x="40" y="226" font-size="8.5" fill="#6b7280">对比 ViT：ViT 单尺度、要位置编码；SegFormer 多尺度、无位置编码、更适合密集预测</text>
+
+  <!-- 解码器 -->
+  <text x="600" y="60" font-size="12" fill="#9ca3af">→</text>
+  <rect x="620" y="42" width="300" height="200" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="770" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">全 MLP 轻量解码器</text>
+  <text x="636" y="86" font-size="9" fill="#374151">· 4 个尺度特征各过一层 MLP 统一通道</text>
+  <text x="636" y="106" font-size="9" fill="#374151">· 上采样到同一分辨率 → concat</text>
+  <text x="636" y="126" font-size="9" fill="#374151">· 再过 MLP 融合 → 每像素分类</text>
+  <text x="636" y="150" font-size="9" fill="#15803d">· 极简：没有复杂解码结构</text>
+  <text x="636" y="172" font-size="8.5" fill="#6b7280">能这么简单，是因为编码器的多尺度</text>
+  <text x="636" y="186" font-size="8.5" fill="#6b7280">特征已经又全局又分层，解码器不用费力</text>
+  <rect x="636" y="200" width="268" height="30" rx="4" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="770" y="219" text-anchor="middle" font-size="8.5" fill="#15803d">→ 分割图（又快又准，B0 轻量~B5 高精度）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="256" width="900" height="86" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="278" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：SegFormer = 分层 Transformer 编码器(出多尺度、无位置编码、高效注意力) + 全 MLP 极简解码器；</text>
+  <text x="470" y="300" text-anchor="middle" font-size="9.5" fill="#374151">编码器足够强，解码器就能极简 → 在语义分割上又快又准，提供 B0(轻)~B5(强) 一系列。</text>
+  <text x="470" y="320" text-anchor="middle" font-size="9" fill="#6b7280">与 DeepLab 对比：都做语义分割，SegFormer 用 Transformer 骨干替代空洞卷积 CNN，且解码器更简</text>
+  <text x="470" y="336" text-anchor="middle" font-size="8" fill="#6b7280">Xie E, et al. SegFormer: Simple and Efficient Design for Semantic Segmentation with Transformers. NeurIPS 2021.</text>
+
+  <!-- 三点 -->
+  <rect x="20" y="356" width="900" height="72" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">三个设计要点</text>
+  <text x="40" y="396" font-size="9" fill="#374151">① 分层编码器出 4 尺度（补上 ViT 单尺度的短板，密集预测需要多尺度）</text>
+  <text x="40" y="412" font-size="9" fill="#374151">② 无位置编码（Mix-FFN 用 3×3 卷积注入位置）→ 换分辨率不用插值　③ 高效注意力(SRA) → 吃得起高分辨率</text>
+</svg>

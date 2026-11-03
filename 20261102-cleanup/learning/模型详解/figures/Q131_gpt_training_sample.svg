@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q131 GPT 训练样本：对——同一段文本右移一位，前当输入后当标签（一条序列的两个视角）</text>
+
+  <!-- ① 配对 -->
+  <rect x="20" y="42" width="900" height="180" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">① 你的写法 (BOS我爱你 → 我爱你EOS) ✓ 展开即"全预测"（Q126）</text>
+  <g font-size="10" font-family="Consolas,monospace">
+    <text x="60" y="94" fill="#374151">输入:  [&lt;BOS&gt;,  我,   爱,   你 ]</text>
+    <text x="60" y="116" fill="#374151">标签:  [ 我,    爱,   你,  &lt;EOS&gt;]   <tspan font-family="'Microsoft YaHei'" fill="#15803d">← 同一句右移一位</tspan></text>
+    <text x="60" y="148" fill="#6b7280">&lt;BOS&gt;         → 我</text>
+    <text x="60" y="166" fill="#6b7280">&lt;BOS&gt;我       → 爱</text>
+    <text x="60" y="184" fill="#6b7280">&lt;BOS&gt;我爱     → 你</text>
+    <text x="60" y="202" fill="#6b7280">&lt;BOS&gt;我爱你   → &lt;EOS&gt;</text>
+  </g>
+  <text x="480" y="148" font-size="9.5" fill="#374151">一条句子 = 4 条子样本，</text>
+  <text x="480" y="166" font-size="9.5" fill="#374151">一次前向并行做完（因果掩码，Q126）</text>
+  <text x="480" y="190" font-size="9.5" fill="#15803d" font-weight="bold">自监督：标签不用人标，</text>
+  <text x="480" y="208" font-size="9.5" fill="#15803d" font-weight="bold">文本自己错一位就是标签（Q127/Q128）</text>
+
+  <!-- ② 校准 -->
+  <rect x="20" y="234" width="900" height="170" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="256" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 三个工程细节校准</text>
+  <text x="40" y="282" font-size="9.5" fill="#374151">· <tspan font-weight="bold">存储不是两份</tspan>：只存一条 token 序列，训练时 输入=序列[0:-1]、标签=序列[1:] —— 同一条数组的两个视角，不复制</text>
+  <text x="40" y="308" font-size="9.5" fill="#374151">· <tspan font-weight="bold">真实预训练是"长流切块"</tspan>：海量文档拼接成超长流（文档间插分隔符，GPT-2 的 &lt;|endoftext|&gt; 一符兼任 BOS/EOS），</text>
+  <text x="56" y="326" font-size="9.5" fill="#374151">切成固定长度块（2048/4096 token）——一条样本=一个块，可跨文档边界；"一句一样本"是概念版，方向对</text>
+  <text x="40" y="352" font-size="9.5" fill="#374151">· <tspan font-weight="bold">对照翻译样本</tspan>（Q46）：seq2seq=两条不同序列配对（源句,目标句）；GPT=同一条序列和自己错一位</text>
+  <text x="56" y="370" font-size="9.5" fill="#6d28d9">—— decoder-only"同流续写"（Q127）在训练数据上的体现</text>
+  <text x="40" y="392" font-size="9" fill="#6b7280">（<tspan font-family="Consolas,monospace">&lt;BOS&gt;</tspan> 提供第一步预测的起点：没有它，第一个字就没有"前缀"可条件）</text>
+
+  <!-- ③ SFT -->
+  <rect x="20" y="416" width="900" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="438" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ SFT 变体：仍是错一位预测，但 prompt 部分损失打掩码</text>
+  <g font-size="9.5" font-family="Consolas,monospace">
+    <text x="60" y="466" fill="#374151">[user] 如何减肥 [assistant] 建议控制饮食…&lt;EOS&gt;</text>
+    <text x="60" y="490" fill="#9ca3af">└── 损失不计（掩码）──┘└──── 只有回答部分贡献梯度 ────┘</text>
+  </g>
+  <text x="40" y="518" font-size="9" fill="#6b7280">格式上还是"右移一位预测"，变的只是"哪些位置的损失算数"——模型只被训练"给定问题写回答"，不被训练"复述问题"</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="548" width="900" height="42" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="566" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：对——GPT 样本 = 同一段文本错一位（输入[0:-1] / 标签[1:]），一条序列拆 N 个子预测一次前向做完；</text>
+  <text x="470" y="583" text-anchor="middle" font-size="9" fill="#374151">实际预训练是文档拼接切块（分隔符兼任 BOS/EOS），SFT 再加"prompt 损失掩码"。</text>
+</svg>

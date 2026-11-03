@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="560" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q124 理解校验：−∞ 打在"上三角"的"分数"上，活下来的才是下三角；看不到的是"未来"</text>
+
+  <!-- ① 校验结论 -->
+  <rect x="20" y="42" width="900" height="60" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">✓ 方向全对：人为固定的掩码矩阵 + −∞ + softmax 出 0 权重 —— 三处措辞校准后即标准答案</text>
+  <text x="470" y="88" text-anchor="middle" font-size="9.5" fill="#374151">① −∞ 打上三角（j&gt;i 未来），下三角是"活下来的结果"　② 加在分数上非权重上　③ 看不到的是未来非过去</text>
+
+  <!-- ② 上三角vs下三角 -->
+  <rect x="20" y="114" width="440" height="230" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="240" y="136" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">校准①：−∞ 打上三角，活下来的是下三角</text>
+  <g font-size="9" text-anchor="middle">
+    <text x="105" y="162" fill="#6b7280">掩码矩阵 M：</text>
+    <g font-family="Consolas,monospace">
+      <text x="90" y="184" fill="#15803d">0</text><text x="130" y="184" fill="#b91c1c">−∞</text><text x="170" y="184" fill="#b91c1c">−∞</text><text x="210" y="184" fill="#b91c1c">−∞</text>
+      <text x="90" y="204" fill="#15803d">0</text><text x="130" y="204" fill="#15803d">0</text><text x="170" y="204" fill="#b91c1c">−∞</text><text x="210" y="204" fill="#b91c1c">−∞</text>
+      <text x="90" y="224" fill="#15803d">0</text><text x="130" y="224" fill="#15803d">0</text><text x="170" y="224" fill="#15803d">0</text><text x="210" y="224" fill="#b91c1c">−∞</text>
+      <text x="90" y="244" fill="#15803d">0</text><text x="130" y="244" fill="#15803d">0</text><text x="170" y="244" fill="#15803d">0</text><text x="210" y="244" fill="#15803d">0</text>
+    </g>
+    <text x="330" y="184" font-size="8.5" fill="#b91c1c">红 = 上三角 j&gt;i（未来）</text>
+    <text x="330" y="200" font-size="8.5" fill="#b91c1c">被打 −∞</text>
+    <text x="330" y="224" font-size="8.5" fill="#15803d">绿 = 下三角 j≤i（过去+自己）</text>
+    <text x="330" y="240" font-size="8.5" fill="#15803d">加 0 保留</text>
+  </g>
+  <text x="36" y="276" font-size="9.5" fill="#374151">"下三角"说的是<tspan font-weight="bold">结果</tspan>：softmax 后权重矩阵的非零区、</text>
+  <text x="36" y="294" font-size="9.5" fill="#374151">即可见区域呈下三角形状</text>
+  <text x="36" y="318" font-size="9.5" font-weight="bold" fill="#6d28d9">口诀：−∞ 打上三角，活下来的是下三角</text>
+
+  <!-- ③ 分数vs权重 -->
+  <rect x="480" y="114" width="440" height="230" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="700" y="136" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">校准②：−∞ 加在"分数"上，不是"权重"上</text>
+  <text x="496" y="164" font-size="9.5" fill="#374151">顺序（Q122 四步）：</text>
+  <rect x="496" y="176" width="130" height="30" rx="4" fill="#e5e7eb" stroke="#9ca3af"/><text x="561" y="195" text-anchor="middle" font-size="8.5" fill="#374151">分数 S=QK^⊤/√d</text>
+  <text x="636" y="195" font-size="10" fill="#9ca3af">→</text>
+  <rect x="652" y="176" width="110" height="30" rx="4" fill="#fee2e2" stroke="#ef4444"/><text x="707" y="195" text-anchor="middle" font-size="8.5" fill="#b91c1c">S+M（此处加−∞）</text>
+  <text x="772" y="195" font-size="10" fill="#9ca3af">→</text>
+  <rect x="788" y="176" width="80" height="30" rx="4" fill="#fef3c7" stroke="#d97706"/><text x="828" y="195" text-anchor="middle" font-size="8.5" fill="#b45309">softmax</text>
+  <text x="496" y="232" font-size="9.5" fill="#374151">→ 之后才得到<tspan font-weight="bold">权重 α</tspan>（和为 1）</text>
+  <text x="496" y="256" font-size="9.5" fill="#15803d">权重的 0 是被 −∞ <tspan font-weight="bold">间接逼出来的</tspan>，不是直接设 0</text>
+  <text x="496" y="280" font-size="9" fill="#6b7280">不能直接动权重：softmax 后置 0 → 权重和 &lt; 1</text>
+  <text x="496" y="296" font-size="9" fill="#6b7280">破坏归一化，还得手动补救（Q122 ③）</text>
+  <text x="496" y="322" font-size="9.5" font-weight="bold" fill="#6d28d9">"人为设置"抓得准：M 是固定常数、不学习、</text>
+  <text x="496" y="338" font-size="9.5" font-weight="bold" fill="#6d28d9">不随输入变——任务规则写进结构的硬约束</text>
+
+  <!-- ④ 修正版 -->
+  <rect x="20" y="356" width="900" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="378" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">修正后的完整表述</text>
+  <text x="470" y="406" text-anchor="middle" font-size="10.5" fill="#374151">掩码注意力 = 在 <tspan font-weight="bold">softmax 之前的注意力分数矩阵</tspan>上，人为给<tspan font-weight="bold" fill="#b91c1c">上三角（j&gt;i，未来）</tspan>加 −∞；</text>
+  <text x="470" y="430" text-anchor="middle" font-size="10.5" fill="#374151">softmax 后这些位置的权重严格为 0，可见区域（权重矩阵非零区）呈<tspan font-weight="bold" fill="#15803d">下三角</tspan>——</text>
+  <text x="470" y="454" text-anchor="middle" font-size="10.5" fill="#374151">位置 i 只能看 j≤i，即"<tspan font-weight="bold">看不到未来</tspan>"（过去恰恰是唯一能看的）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="490" width="900" height="50" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="510" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：理解对——掩码=人为固定的 −∞ 矩阵、softmax 逼出 0 权重；但 −∞ 打的是上三角（下三角是活下来的结果）、</text>
+  <text x="470" y="528" text-anchor="middle" font-size="9" fill="#374151">加的位置是 softmax 前的分数（权重的 0 是间接逼出的）、屏蔽的是未来不是过去。</text>
+</svg>

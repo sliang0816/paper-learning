@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="520" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q91 “把已有内容当作 query” = 掩码自注意力本身（不是二选一）</text>
+  <text x="460" y="44" text-anchor="middle" font-size="11" fill="#6b7280">前缀是一串词、query 要一个向量 → 中间“合成一个向量”那步，正是掩码自注意力</text>
+
+  <!-- your idea -->
+  <rect x="20" y="60" width="880" height="60" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="36" y="82" font-size="10.5" font-weight="bold" fill="#b45309">你的设想：拿“当前已有内容”当 query，跳过自注意力</text>
+  <text x="36" y="104" font-size="9.5" fill="#374151">但“已有内容” = 前缀那一串词 [&lt;BOS&gt; 我 爱]（3 个向量）；交叉注意力的 query 是“一个向量” → 必须先合成</text>
+
+  <!-- the pipeline -->
+  <rect x="40" y="142" width="180" height="70" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="130" y="166" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">已有内容（前缀）</text>
+  <text x="130" y="186" text-anchor="middle" font-size="9" fill="#374151">[&lt;BOS&gt; 我 爱]</text>
+  <text x="130" y="202" text-anchor="middle" font-size="8.5" fill="#6b7280">一串词 = 多个向量</text>
+
+  <line x1="220" y1="177" x2="300" y2="177" stroke="#dc2626" stroke-width="2.2" marker-end="url(#a)"/>
+  <text x="260" y="160" text-anchor="middle" font-size="9" font-weight="bold" fill="#b91c1c">合成一个向量</text>
+  <text x="260" y="200" text-anchor="middle" font-size="8.5" fill="#b91c1c">这步绕不开</text>
+
+  <rect x="302" y="138" width="220" height="78" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="412" y="160" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">掩码自注意力</text>
+  <text x="412" y="180" text-anchor="middle" font-size="9" fill="#374151">把前缀融成“带前缀信息的</text>
+  <text x="412" y="195" text-anchor="middle" font-size="9" fill="#374151">当前位置向量”</text>
+  <text x="412" y="210" text-anchor="middle" font-size="8.5" fill="#b91c1c">＝“把已有内容做成 query”这一步</text>
+
+  <line x1="522" y1="177" x2="602" y2="177" stroke="#16a34a" stroke-width="2.2" marker-end="url(#b)"/>
+  <text x="562" y="168" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">＝ query</text>
+
+  <rect x="604" y="142" width="280" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="744" y="166" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">交叉注意力</text>
+  <text x="744" y="186" text-anchor="middle" font-size="9" fill="#374151">Q＝这个向量，K/V＝源 memory</text>
+  <text x="744" y="202" text-anchor="middle" font-size="8.5" fill="#6b7280">→ FFN → 下一个词</text>
+
+  <text x="460" y="240" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">所以：已有内容 ──[掩码自注意力]──&gt; query ──[交叉注意力]──&gt; …　中间那台机器就是它</text>
+
+  <!-- not either-or -->
+  <rect x="20" y="258" width="880" height="86" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="280" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">“把已有内容当 query”和“生成掩码自注意力”不是二选一</text>
+  <text x="40" y="302" font-size="9.5" fill="#374151">· “生成掩码自注意力”不是额外的奇怪步骤——它<tspan font-weight="bold">就是</tspan>“把已有内容做成 query”的那个动作</text>
+  <text x="40" y="322" font-size="9.5" fill="#374151">· 自注意力的<tspan font-weight="bold">产物就是那个 query</tspan>；前缀是一串词，要变成一个 query，这步合成绕不开</text>
+  <text x="40" y="338" font-size="9" fill="#6b7280">（合成也可以换池化/RNN，但更差更慢，见 Q87/Q88）</text>
+
+  <!-- if skip synthesis -->
+  <rect x="20" y="362" width="880" height="86" rx="8" fill="#fef2f2" stroke="#f87171"/>
+  <text x="460" y="384" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">“那我不合成、直接拿最后一个词（爱）当 query”行不行？</text>
+  <text x="40" y="406" font-size="9.5" fill="#374151">· 那 query 只含“爱”，<tspan font-weight="bold">不含“我已经写了我”</tspan>（Q86/Q89）</text>
+  <text x="40" y="426" font-size="9.5" fill="#b91c1c">· → 交叉注意力焦点滑不动（Q84）、目标侧语法乱（Q85）→ 这才是真去掉自注意力，会坏</text>
+  <text x="40" y="442" font-size="9" fill="#6b7280">所以“拿当前一个词当 query”不等于“拿已有内容当 query”——后者必须把前缀融进来</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="466" width="880" height="44" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="487" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">一句话：你描述的“把已有内容当 query”恰恰需要掩码自注意力来实现——它就是那个 query 的生成方法</text>
+  <text x="460" y="503" text-anchor="middle" font-size="9" fill="#374151">不是“为什么一定要生成它”，而是“它就是你要的 query 怎么来的”</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+</svg>

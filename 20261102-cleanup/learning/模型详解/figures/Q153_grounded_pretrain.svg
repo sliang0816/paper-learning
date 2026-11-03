@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 660" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="660" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q153 grounded 预训练：让"文字里的词/短语"落到"图像里的具体区域(框)"上</text>
+
+  <!-- ① CLIP vs Grounding -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e40af">① grounding(落地) vs CLIP：对齐的「粒度」不同</text>
+  <rect x="40" y="78" width="420" height="100" rx="5" fill="#fff" stroke="#60a5fa"/>
+  <text x="250" y="98" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">CLIP = 图像级对齐</text>
+  <text x="56" y="120" font-size="10" fill="#374151">整张图 ↔ 整句话</text>
+  <text x="56" y="140" font-size="10" fill="#374151">只知道"图里有猫"</text>
+  <text x="56" y="160" font-size="10" fill="#b91c1c">✗ 不知道猫在哪个位置</text>
+  <rect x="480" y="78" width="420" height="100" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="690" y="98" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">Grounding = 区域级对齐</text>
+  <text x="496" y="120" font-size="10" fill="#374151">短语 ↔ 框（哪个词对应哪块像素）</text>
+  <text x="496" y="140" font-size="10" fill="#374151">知道"猫在这个框"</text>
+  <text x="496" y="160" font-size="10" fill="#15803d">✓ 词「落地」到具体区域</text>
+
+  <!-- ② 检测重述为短语定位 -->
+  <rect x="20" y="204" width="900" height="200" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="226" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#15803d">② grounded 预训练核心：把「目标检测」重述成「短语定位」（GLIP / Grounding DINO）</text>
+  <rect x="40" y="242" width="420" height="76" rx="5" fill="#fff" stroke="#94a3b8"/>
+  <text x="250" y="262" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#334155">传统检测</text>
+  <text x="56" y="284" font-size="10" fill="#374151">输出 框 + 类别 id（固定类别表）</text>
+  <text x="56" y="304" font-size="9.5" fill="#6b7280">分类头写死，只能认训练过的 80 类</text>
+  <rect x="480" y="242" width="420" height="76" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="690" y="262" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">grounded 检测</text>
+  <text x="496" y="284" font-size="10" fill="#374151">输入文本 prompt → 输出 框 + 对应哪个词</text>
+  <text x="496" y="304" font-size="9.5" fill="#6b7280">靠「区域特征 ↔ 词特征相似度」对齐，无固定 id</text>
+  <text x="470" y="340" text-anchor="middle" font-size="10" font-family="Consolas,monospace" fill="#374151">prompt: "person. dog. traffic light. 路上的碎玻璃"  →  每个框指向其中一个短语</text>
+  <text x="40" y="364" font-size="9.5" fill="#374151">训练数据揉三类：检测数据(类别名当短语) + grounding 数据(图-短语-框) + 海量图文对(生成伪框弱监督)</text>
+  <text x="40" y="386" font-size="9.5" fill="#6b7280">→ 检测与 grounding 统一，能吃两种数据一起大规模预训练</text>
+
+  <!-- ③ 为什么厉害 -->
+  <rect x="20" y="416" width="440" height="140" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="240" y="438" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 为什么厉害：天生开放词汇</text>
+  <text x="36" y="462" font-size="9.8" fill="#374151">学的是「词 ↔ 区域」对齐、不是固定分类头：</text>
+  <text x="48" y="484" font-size="9.8" fill="#374151">· <tspan font-weight="bold">零样本/开放词汇检测</tspan>：给新词就能框</text>
+  <text x="48" y="506" font-size="9.8" fill="#374151">· 能理解<tspan font-weight="bold">短语</tspan>："穿红衣服的人"</text>
+  <text x="48" y="528" font-size="9.8" fill="#374151">· 迁移强：新数据集零/少样本就好</text>
+  <text x="36" y="548" font-size="9" fill="#6b7280">代表：GLIP(2022)、Grounding DINO(2023)</text>
+
+  <!-- ④ 与本项目 -->
+  <rect x="480" y="416" width="440" height="140" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="700" y="438" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">④ 与本项目的关系</text>
+  <text x="496" y="462" font-size="9.8" fill="#374151">你的方案=<tspan font-weight="bold">两阶段</tspan>：YOLOv8 出框 → 裁剪</text>
+  <text x="508" y="480" font-size="9.8" fill="#374151">→ CLIP 分类（轻、可控、易部署）</text>
+  <text x="496" y="504" font-size="9.8" fill="#374151">grounded=<tspan font-weight="bold">一阶段</tspan>：文本引导端到端检测</text>
+  <text x="508" y="522" font-size="9.8" fill="#374151">（框+语义一起出，但更重）</text>
+  <text x="496" y="546" font-size="9" fill="#6b7280">相关工作可对照：两阶段 vs 一阶段的取舍</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="568" width="900" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="592" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：grounded 预训练 = 训练模型把「词/短语」对齐到「图像区域(框)」，把检测重述成短语定位。</text>
+  <text x="470" y="614" text-anchor="middle" font-size="9.5" fill="#374151">对齐靠区域-词相似度(像 CLIP 但到区域级)，天生开放词汇；GLIP/Grounding DINO 是代表，是本项目 CLIP 开放类识别的"一阶段"对照路线。</text>
+  <text x="470" y="632" text-anchor="middle" font-size="8.5" fill="#6b7280">grounding(接地/落地)一词：让"猫"不再是悬空词向量，而是指向图中猫所在的那块像素。</text>
+</svg>

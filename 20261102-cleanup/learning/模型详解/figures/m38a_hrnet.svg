@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 340" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="340" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">HRNet：多分辨率并行分支 + 持续融合（全程保持高分辨率）</text>
+
+  <!-- ===== LEFT: Traditional Encoder-Decoder ===== -->
+  <text x="142" y="52" text-anchor="middle" font-size="11" fill="#ef4444">传统编解码（信息有损）</text>
+  <rect x="20" y="58" width="244" height="200" rx="6" fill="#fff5f5" stroke="#ef4444" stroke-dasharray="4 2"/>
+
+  <!-- Down path -->
+  <rect x="36" y="70" width="96" height="24" rx="3" fill="#fecaca" stroke="#ef4444"/><text x="84" y="86" text-anchor="middle" font-size="9.5" fill="#7f1d1d">H/4 (256ch)</text>
+  <line x1="84" y1="94" x2="84" y2="106" stroke="#ef4444" stroke-width="1.5" marker-end="url(#ae)"/>
+  <rect x="36" y="106" width="96" height="24" rx="3" fill="#fecaca" stroke="#ef4444"/><text x="84" y="122" text-anchor="middle" font-size="9.5" fill="#7f1d1d">H/8 (512ch)</text>
+  <line x1="84" y1="130" x2="84" y2="142" stroke="#ef4444" stroke-width="1.5" marker-end="url(#ae)"/>
+  <rect x="36" y="142" width="96" height="24" rx="3" fill="#fecaca" stroke="#ef4444"/><text x="84" y="158" text-anchor="middle" font-size="9.5" fill="#7f1d1d">H/16 (1024ch)</text>
+  <line x1="84" y1="166" x2="84" y2="178" stroke="#ef4444" stroke-width="1.5" marker-end="url(#ae)"/>
+  <rect x="36" y="178" width="96" height="24" rx="3" fill="#fecaca" stroke="#ef4444"/><text x="84" y="194" text-anchor="middle" font-size="9.5" fill="#7f1d1d">H/32 (2048ch) ←瓶颈</text>
+
+  <text x="140" y="80" font-size="9" fill="#374151" text-anchor="middle">↑ 逐步丢失</text>
+  <text x="140" y="95" font-size="9" fill="#374151" text-anchor="middle">高分辨率信息</text>
+
+  <!-- Up path (decoder) -->
+  <line x1="165" y1="190" x2="165" y2="178" stroke="#ef4444" stroke-width="1.5" marker-end="url(#ae)"/>
+  <rect x="148" y="142" width="96" height="24" rx="3" fill="#fed7aa" stroke="#f97316"/><text x="196" y="158" text-anchor="middle" font-size="9.5" fill="#7c2d12">H/16 (上采样↑)</text>
+  <line x1="196" y1="142" x2="196" y2="130" stroke="#f97316" stroke-width="1.5" marker-end="url(#af)"/>
+  <rect x="148" y="106" width="96" height="24" rx="3" fill="#fed7aa" stroke="#f97316"/><text x="196" y="122" text-anchor="middle" font-size="9.5" fill="#7c2d12">H/8 (上采样↑)</text>
+  <line x1="196" y1="106" x2="196" y2="94" stroke="#f97316" stroke-width="1.5" marker-end="url(#af)"/>
+  <rect x="148" y="70" width="96" height="24" rx="3" fill="#fed7aa" stroke="#f97316"/><text x="196" y="86" text-anchor="middle" font-size="9.5" fill="#7c2d12">H/4 (信息已损)</text>
+
+  <text x="132" y="224" text-anchor="middle" font-size="9.5" fill="#ef4444">上采样无法还原丢失细节</text>
+  <text x="132" y="238" text-anchor="middle" font-size="9.5" fill="#ef4444">（反卷积 / 双线性插值）</text>
+
+  <!-- ===== RIGHT: HRNet ===== -->
+  <text x="554" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#7c3aed">HRNet（全程保持高分辨率）</text>
+  <rect x="284" y="58" width="516" height="200" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.8"/>
+
+  <!-- Branch 1: always high res -->
+  <g fill="#dbeafe" stroke="#3b82f6">
+    <rect x="300" y="72" width="74" height="22" rx="3"/>
+    <rect x="386" y="72" width="74" height="22" rx="3"/>
+    <rect x="472" y="72" width="74" height="22" rx="3"/>
+    <rect x="558" y="72" width="74" height="22" rx="3"/>
+    <rect x="644" y="72" width="74" height="22" rx="3" fill="#bfdbfe" stroke-width="2"/>
+  </g>
+  <text x="337" y="87" text-anchor="middle" font-size="9">H/4 (S1)</text>
+  <text x="423" y="87" text-anchor="middle" font-size="9">H/4 (S2)</text>
+  <text x="509" y="87" text-anchor="middle" font-size="9">H/4 (S3)</text>
+  <text x="595" y="87" text-anchor="middle" font-size="9">H/4 (S4)</text>
+  <text x="681" y="87" text-anchor="middle" font-size="9" font-weight="bold">→ 输出</text>
+
+  <!-- Branch 2 -->
+  <g fill="#dcfce7" stroke="#16a34a">
+    <rect x="386" y="108" width="74" height="22" rx="3"/>
+    <rect x="472" y="108" width="74" height="22" rx="3"/>
+    <rect x="558" y="108" width="74" height="22" rx="3"/>
+    <rect x="644" y="108" width="74" height="22" rx="3"/>
+  </g>
+  <text x="423" y="123" text-anchor="middle" font-size="9">H/8 (S2)</text>
+  <text x="509" y="123" text-anchor="middle" font-size="9">H/8 (S3)</text>
+  <text x="595" y="123" text-anchor="middle" font-size="9">H/8 (S4)</text>
+  <text x="681" y="123" text-anchor="middle" font-size="9">↑上采样</text>
+
+  <!-- Branch 3 -->
+  <g fill="#fef3c7" stroke="#d97706">
+    <rect x="472" y="144" width="74" height="22" rx="3"/>
+    <rect x="558" y="144" width="74" height="22" rx="3"/>
+    <rect x="644" y="144" width="74" height="22" rx="3"/>
+  </g>
+  <text x="509" y="159" text-anchor="middle" font-size="9">H/16 (S3)</text>
+  <text x="595" y="159" text-anchor="middle" font-size="9">H/16 (S4)</text>
+  <text x="681" y="159" text-anchor="middle" font-size="9">↑上采样</text>
+
+  <!-- Branch 4 -->
+  <g fill="#fecaca" stroke="#ef4444">
+    <rect x="558" y="180" width="74" height="22" rx="3"/>
+    <rect x="644" y="180" width="74" height="22" rx="3"/>
+  </g>
+  <text x="595" y="195" text-anchor="middle" font-size="9">H/32 (S4)</text>
+  <text x="681" y="195" text-anchor="middle" font-size="9">↑上采样</text>
+
+  <!-- Vertical fusion arrows within each stage -->
+  <g stroke="#374151" stroke-width="1.1" stroke-dasharray="2.5 1.5">
+    <!-- Stage 2 fusion: between branches 1 and 2 -->
+    <line x1="423" y1="94" x2="423" y2="108"/>
+    <line x1="423" y1="130" x2="423" y2="94"/>
+    <!-- Stage 3 fusion -->
+    <line x1="509" y1="94" x2="509" y2="108"/>
+    <line x1="509" y1="130" x2="509" y2="144"/>
+    <line x1="509" y1="166" x2="509" y2="130"/>
+    <line x1="509" y1="166" x2="509" y2="108"/>
+    <!-- Stage 4 fusion -->
+    <line x1="595" y1="94" x2="595" y2="108"/>
+    <line x1="595" y1="130" x2="595" y2="144"/>
+    <line x1="595" y1="166" x2="595" y2="180"/>
+    <line x1="595" y1="202" x2="595" y2="144"/>
+  </g>
+
+  <!-- Stage labels -->
+  <text x="337" y="228" text-anchor="middle" font-size="9" fill="#7c3aed">Stage 1</text>
+  <text x="423" y="228" text-anchor="middle" font-size="9" fill="#7c3aed">Stage 2</text>
+  <text x="509" y="228" text-anchor="middle" font-size="9" fill="#7c3aed">Stage 3</text>
+  <text x="595" y="228" text-anchor="middle" font-size="9" fill="#7c3aed">Stage 4</text>
+  <text x="681" y="228" text-anchor="middle" font-size="9" fill="#7c3aed">输出融合</text>
+
+  <!-- Fusion annotation -->
+  <rect x="300" y="238" width="490" height="16" rx="3" fill="#f0f9ff" stroke="#0ea5e9"/>
+  <text x="545" y="250" text-anchor="middle" font-size="9" fill="#0369a1">竖向虚线 = 分辨率融合：高→低（步长2卷积），低→高（双线性上采样 + 1×1 conv）</text>
+
+  <!-- Bottom -->
+  <rect x="20" y="272" width="780" height="48" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="410" y="290" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">与本项目的关系</text>
+  <text x="410" y="308" text-anchor="middle" font-size="9.5" fill="#374151">本项目 YOLOv8 + P2 浅层特征（H/4 高分辨率检测头）与 HRNet "全程保持高分辨率"思路一致：都为小目标保留细粒度空间信息</text>
+  <text x="410" y="324" text-anchor="middle" font-size="9" fill="#6b7280">区别：HRNet 多分支并行（计算重），YOLOv8+P2 单分支扩展（轻量，适合实时检测）</text>
+
+  <defs>
+    <marker id="ae" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#ef4444"/></marker>
+    <marker id="af" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#f97316"/></marker>
+  </defs>
+</svg>

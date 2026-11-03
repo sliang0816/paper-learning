@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 205" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="205" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">25e YOLOv9/v10/v11 输入输出实例（v8 之后各打一个补丁）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">640×640 图 → 保留 v8 主干（anchor-free+解耦头+PAN）+ 各加一项 → 框+类别；v10 推理去 NMS</text>
+
+  <rect x="22" y="70" width="106" height="72" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="75" y="92" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="75" y="111" text-anchor="middle" font-size="9" fill="#374151">640×640×3</text>
+
+  <line x1="128" y1="106" x2="156" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="158" y="60" width="250" height="92" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="283" y="79" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#1e40af">v8 主干 + 各代补丁</text>
+  <text x="283" y="97" text-anchor="middle" font-size="8.3" fill="#374151">v9：PGI 可编程梯度，缓解信息丢失</text>
+  <text x="283" y="112" text-anchor="middle" font-size="8.3" fill="#374151">v10：一对一标签分配 → 推理免 NMS</text>
+  <text x="283" y="127" text-anchor="middle" font-size="8.3" fill="#374151">v11：C3k2 + 注意力，精度/速度再平衡</text>
+  <text x="283" y="143" text-anchor="middle" font-size="7.6" fill="#6b7280">主干都还是 v8 那套</text>
+
+  <line x1="408" y1="106" x2="436" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="438" y="72" width="184" height="68" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="530" y="91" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">框 + 类别</text>
+  <text x="530" y="109" text-anchor="middle" font-size="8.3" fill="#374151">v9/v11 仍 NMS</text>
+  <text x="530" y="125" text-anchor="middle" font-size="8.3" fill="#b91c1c">v10 端到端、无 NMS</text>
+
+  <line x1="622" y1="106" x2="650" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="652" y="84" width="140" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="722" y="105" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">检测结果</text>
+  <text x="722" y="121" text-anchor="middle" font-size="7.4" fill="#6b7280">v11 作本项目对比</text>
+
+  <text x="410" y="178" text-anchor="middle" font-size="9.6" fill="#374151">I/O 同 v8（640²→框+类别），签名各一项：v9 信息流、<tspan font-weight="bold" fill="#b91c1c">v10 去 NMS（一对一标签）</tspan>、v11 模块微调。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

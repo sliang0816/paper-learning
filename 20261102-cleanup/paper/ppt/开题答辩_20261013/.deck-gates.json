@@ -1,0 +1,632 @@
+{
+ "delivery": "presented",
+ "builds": "static",
+ "content": {
+  "checkpoint": {
+   "mode": "approved",
+   "record": "用户确认以项目现状为研究内容、采用33页开题结构，并多次回复可以；正式制作前内容结构已单独确认。"
+  },
+  "slides": [
+   {
+    "slide": 1,
+    "role": "cover",
+    "takeaway": "课题聚焦融合视觉语言模型的路面抛洒物检测与异常识别",
+    "evidence": [
+     "CLAUDE.md",
+     "paper/论文与实验思路梳理_20260822.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 2,
+    "role": "agenda",
+    "takeaway": "答辩按七个开题论证环节展开",
+    "evidence": [
+     "用户批准的33页内容结构"
+    ],
+    "units": 7
+   },
+   {
+    "slide": 3,
+    "role": "divider",
+    "takeaway": "第一部分说明选题依据与问题价值",
+    "evidence": [
+     "用户批准的33页内容结构"
+    ],
+    "units": 1
+   },
+   {
+    "slide": 4,
+    "role": "background",
+    "takeaway": "固定监控连续看见道路，但微小目标定位和语义命名仍困难",
+    "evidence": [
+     "paper/论文与实验思路梳理_20260822.md",
+     "paper/figures/fig_ch3_size_distribution.png"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 5,
+    "role": "problem",
+    "takeaway": "研究问题可归纳为找不到与认不对两个相互衔接的瓶颈",
+    "evidence": [
+     "paper/论文与实验思路梳理_20260822.md",
+     "paper/figures/fig_ch3_size_distribution.png"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 6,
+    "role": "divider",
+    "takeaway": "第二部分梳理国内外研究现状",
+    "evidence": [
+     "用户批准的33页内容结构"
+    ],
+    "units": 1
+   },
+   {
+    "slide": 7,
+    "role": "related-work",
+    "takeaway": "小目标检测、异常检测和视觉语言方法分别解决局部能力",
+    "evidence": [
+     "paper/论文初稿-第一章-引言.md",
+     "paper/论文初稿-第二章-相关技术.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 8,
+    "role": "gap",
+    "takeaway": "现有路线缺少受控结构归因与端到端语义误差分解",
+    "evidence": [
+     "results/head_width_control_summary_5seed.md",
+     "results/实验发现与结论总结_20260811.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 9,
+    "role": "divider",
+    "takeaway": "第三部分界定研究目标与研究内容",
+    "evidence": [
+     "用户批准的33页内容结构"
+    ],
+    "units": 1
+   },
+   {
+    "slide": 10,
+    "role": "objective",
+    "takeaway": "研究目标是提升固定监控定位并诊断固定词表命名能力边界",
+    "evidence": [
+     "paper/论文与实验思路梳理_20260822.md"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 11,
+    "role": "research-content",
+    "takeaway": "检测研究采用固定头宽的P2乘CBAM二乘二五种子实验",
+    "evidence": [
+     "results/head_width_control_summary_5seed.md"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 12,
+    "role": "research-content",
+    "takeaway": "语义研究以GT框、检测框和冻结规则逐级加入真实误差",
+    "evidence": [
+     "paper/论文初稿-第四章-语义级联与实验.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 13,
+    "role": "research-content",
+    "takeaway": "审计、误差分解和边界验证保证结论可追溯且不过度外推",
+    "evidence": [
+     "results/training_argument_audit.md",
+     "paper/论文与实验思路梳理_20260822.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 14,
+    "role": "divider",
+    "takeaway": "第四部分展开技术路线与研究方案",
+    "evidence": [
+     "用户批准的33页内容结构"
+    ],
+    "units": 1
+   },
+   {
+    "slide": 15,
+    "role": "framework",
+    "takeaway": "总体路线把检测候选框交给语义命名并以审计边界收束",
+    "evidence": [
+     "paper/figures/fig_framework_overview.png"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 16,
+    "role": "method",
+    "takeaway": "检测方案用固定头宽和同种子配对隔离P2与CBAM贡献",
+    "evidence": [
+     "paper/figures/fig_p2cbam_architecture.png",
+     "results/head_width_control_summary_5seed.md"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 17,
+    "role": "method",
+    "takeaway": "语义方案用三级证据区分参考命名能力与系统级能力",
+    "evidence": [
+     "paper/figures/fig_clip_pipeline.png",
+     "paper/论文初稿-第四章-语义级联与实验.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 18,
+    "role": "dependency",
+    "takeaway": "独立数据、时序元数据和目标设备是完整闭环的前置条件",
+    "evidence": [
+     "paper/论文与实验思路梳理_20260822.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 19,
+    "role": "divider",
+    "takeaway": "第五部分说明创新点与实施难点",
+    "evidence": [
+     "用户批准的33页内容结构"
+    ],
+    "units": 1
+   },
+   {
+    "slide": 20,
+    "role": "innovation",
+    "takeaway": "创新落在可归因实验与分层诊断而不是模块名称本身",
+    "evidence": [
+     "results/head_width_control_summary_5seed.md",
+     "results/实验发现与结论总结_20260811.md"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 21,
+    "role": "divider",
+    "takeaway": "第六部分给出前期基础与后续计划",
+    "evidence": [
+     "用户批准的33页内容结构"
+    ],
+    "units": 1
+   },
+   {
+    "slide": 22,
+    "role": "evidence",
+    "takeaway": "P2在自建域五个种子均正向且对small目标提升更明显",
+    "evidence": [
+     "results/head_width_control_summary_5seed.md",
+     "results/size_stratified_head128_controls_5seed.md",
+     "paper/figures/fig_ch3_size_stratified_map.png"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 23,
+    "role": "boundary-evidence",
+    "takeaway": "现有语义结果证明可诊断性但尚未形成稳定端到端增益",
+    "evidence": [
+     "results/confirmation/rejection_confirmation_v1.json",
+     "results/open_vocab",
+     "paper/figures/fig_qualitative_pipeline_cases.png"
+    ],
+    "units": 5
+   },
+   {
+    "slide": 24,
+    "role": "roadmap",
+    "takeaway": "后续工作按独立确认、条件性时序研究和设备验证依赖推进",
+    "evidence": [
+     "paper/论文与实验思路梳理_20260822.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 25,
+    "role": "divider",
+    "takeaway": "第七部分列出核心参考文献",
+    "evidence": [
+     "用户批准的33页内容结构"
+    ],
+    "units": 1
+   },
+   {
+    "slide": 26,
+    "role": "references",
+    "takeaway": "研究依据覆盖小目标检测、注意力、CLIP与开放词汇检测",
+    "evidence": [
+     "paper/论文初稿-第一章-引言.md",
+     "paper/论文初稿-第二章-相关技术.md"
+    ],
+    "units": 10
+   },
+   {
+    "slide": 27,
+    "role": "closing",
+    "takeaway": "正式汇报结束并恳请评审老师批评指正",
+    "evidence": [
+     "用户提供的江苏大学参考模板"
+    ],
+    "units": 2
+   },
+   {
+    "slide": 28,
+    "role": "backup-definition",
+    "takeaway": "内部多种子重复不能替代从未查看数据上的独立确认",
+    "evidence": [
+     "paper/论文与实验思路梳理_20260822.md"
+    ],
+    "units": 3
+   },
+   {
+    "slide": 29,
+    "role": "backup-audit",
+    "takeaway": "二乘二乘五种子已完成但直接优化器日志覆盖为二十一比二十六",
+    "evidence": [
+     "results/head_width_control_summary_5seed.md",
+     "results/training_argument_audit.md"
+    ],
+    "units": 5
+   },
+   {
+    "slide": 30,
+    "role": "backup-external",
+    "takeaway": "RAOD仅支持Precision局部改善而不支持综合跨域提升",
+    "evidence": [
+     "results/external_validation/raod_test_v1/summary.md"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 31,
+    "role": "backup-diagnosis",
+    "takeaway": "五十九到二十八到十七的失败链暴露检测与语义共同瓶颈",
+    "evidence": [
+     "results/实验发现与结论总结_20260811.md",
+     "paper/figures/fig_error_analysis.png"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 32,
+    "role": "backup-open-vocabulary",
+    "takeaway": "当前冻结开放词汇基线没有形成可用的GL与RU检测能力",
+    "evidence": [
+     "results/open_vocab"
+    ],
+    "units": 4
+   },
+   {
+    "slide": 33,
+    "role": "backup-efficiency",
+    "takeaway": "RTX3090原型速度只说明量级而不能替代边缘设备验证",
+    "evidence": [
+     "results/full_pipeline_benchmark.json"
+    ],
+    "units": 4
+   }
+  ],
+  "arc": {
+   "chosen": "开题标准型",
+   "candidates": [
+    {
+     "name": "开题标准型",
+     "shape": "problem-turn-evidence",
+     "roles": [
+      "problem",
+      "method",
+      "evidence",
+      "roadmap"
+     ],
+     "audience_question": "研究问题是否成立且路线是否可行",
+     "objection": "前期结果不等于完整实验闭环",
+     "closing_ask": "认可按依赖完成确认性研究",
+     "evidence": [
+      "P2五种子",
+      "三级语义诊断",
+      "边界计划"
+     ]
+    },
+    {
+     "name": "成果先行型",
+     "shape": "evidence-build",
+     "roles": [
+      "evidence",
+      "method",
+      "boundary"
+     ],
+     "audience_question": "已有结果有多强",
+     "objection": "容易被误解为中期汇报",
+     "closing_ask": "认可现有结果",
+     "evidence": [
+      "P2效果",
+      "CLIP结果"
+     ]
+    },
+    {
+     "name": "贡献先行型",
+     "shape": "contribution-first",
+     "roles": [
+      "innovation",
+      "evidence",
+      "roadmap"
+     ],
+     "audience_question": "创新点是什么",
+     "objection": "尚未充分建立问题价值",
+     "closing_ask": "认可贡献定位",
+     "evidence": [
+      "可归因协议",
+      "分层诊断"
+     ]
+    }
+   ],
+   "rejected": [
+    {
+     "name": "成果先行型",
+     "why_lost": "开题阶段会弱化研究问题与后续计划。"
+    },
+    {
+     "name": "贡献先行型",
+     "why_lost": "过早强调贡献会放大尚未完成的验证闭环。"
+    }
+   ],
+   "divergence_justified": "三个候选分别从问题、结果和贡献开场，所回答的首要问题与风险不同。"
+  }
+ },
+ "design_plan": {
+  "checkpoint": {
+   "mode": "approved",
+   "record": "用户明确回复“确认设计”，批准红白江苏大学Mode A参考模板、33页、静态播放和逐页演讲备注。"
+  },
+  "concept": {
+   "chosen": "同一微小目标先被框住再被命名，以开放角目标窗连接定位与语义两条证据轨。",
+   "rejected": [
+    {
+     "concept": "完整道路处置链",
+     "why_lost": "会暗示系统部署和实验闭环已经完成。"
+    },
+    {
+     "concept": "实验审计账本",
+     "why_lost": "过于接近中期成果汇报。"
+    }
+   ]
+  },
+  "boldness": "conservative",
+  "boldness_derivation": "正式硕士开题场合与用户锁定模板共同要求克制，变化集中在内容结构而非装饰。",
+  "signature_move": "第22页用开放角目标窗切入small目标证据图带并承载5/5，避免常规KPI卡片。",
+  "signature_proof": [
+   {
+    "slide": 22,
+    "role": "signature",
+    "png": "render/slide22.png"
+   },
+   {
+    "slide": 15,
+    "role": "complex",
+    "png": "render/slide15.png"
+   },
+   {
+    "slide": 5,
+    "role": "data",
+    "png": "render/slide05.png"
+   }
+  ],
+  "material_probe": {
+   "png": "render/slide22.png",
+   "safe_version": "常规左图右指标布局；本稿在同一证据页加入与第5/15页一致的开放角目标窗，突出small目标证据与5/5一致性。"
+  },
+  "carried_by": [
+   "slide 5",
+   "slide 15",
+   "slide 22"
+  ],
+  "form_ledger": "diagram 11; chart 4; table 4; photo/gallery 3; statement 8; timeline 1; comparison 1; agenda 1. 最大非章节家族低于50%。",
+  "form_reach": {
+   "waived": "组件审计标出的第4、13、24页均依赖锁定参考模板的直角细线语言：第4页是监控到目标的空间示意，第13页是审计链，第24页是证据依赖路线。通用卡片或居中里程碑组件会改变这些页的语义锚点，因此保留经过视觉复核的定制几何。"
+  },
+  "icon_family": "none — locked template / editorial-register：锁定的江苏大学参考模板以章节数字、细线和表格组织类别；本稿的类别集合均属于实验轴、协议层或时间阶段，加入图标会把学术关系误读为实体卡片。",
+  "icon_none_checked": ["slide 2", "slide 4", "slide 7", "slide 8", "slide 10", "slide 13", "slide 18", "slide 24", "slide 26", "slide 29", "slide 31"],
+  "icon_none_category": "editorial-register",
+  "palette": "院校红#C00000；检测蓝#2F5597；语义紫#6A3D7C；支持绿#1B6E3C；边界赭#8A4B08；黑灰正文。",
+  "type_scale": {
+   "display": 108,
+   "title": 25,
+   "body": 14.5,
+   "body_floor_waiver": "用户锁定的两份江苏大学开题参考稿均采用较紧凑的中文正文与小字号来源行；为保持模板同款长度、章节呼吸与完整证据链，正式页正文以14.5–18pt分层，关键数字和结论均使用22pt以上，来源行维持10.5pt。"
+  },
+  "style_pick": "Mode A faithful mimic of the user-provided Jiangsu University red-white academic reference.",
+  "direction_gate": "n/a - locked template / user supplied look",
+  "motif_generates": {
+   "background": "参考母版白底与校园照片书挡。",
+   "markers": "开放角目标窗只表示当前候选目标。",
+   "page": "第15页以候选框交接组织总体路线，第22页以目标窗切入证据图带。"
+  },
+  "image_sources": [
+   "slide 1 | 江苏大学校园封面图 | provided — user (own material)",
+   "slide 5 | 自建数据尺寸分布 | provided — user (own material)",
+   "slide 15 | 项目总体框架 | provided — user (own material)",
+   "slide 16 | P2/CBAM结构 | provided — user (own material)",
+   "slide 17 | CLIP三级流程 | provided — user (own material)",
+   "slide 22 | 尺寸分层mAP证据 | provided — user (own material)",
+   "slide 23 | 定性级联案例 | provided — user (own material)",
+   "slide 27 | 江苏大学校园结束图 | provided — user (own material)",
+   "slide 31 | 误差分析证据 | provided — user (own material)"
+  ],
+  "logo_plan": "official asset — provided Jiangsu University reference template; never redrawn or duplicated",
+  "density": "median约28个中文词组/页；仅参考文献和完整种子表为高密度备查页。",
+  "build_shape": "three section builders produced in parallel under one shared style module and assembled by build_v9.py",
+  "build_script": "build_v9.py"
+ },
+ "render_selfcheck": {
+  "slides": [
+   {
+    "n": 1,
+    "verdict": "ok — 校园横幅、课题与汇报人清楚，未填入未知导师或日期。"
+   },
+   {
+    "n": 2,
+    "verdict": "ok — 七部分目录层级和阅读顺序明确。"
+   },
+   {
+    "n": 3,
+    "verdict": "ok — 第一章章节页留白与编号清楚。"
+   },
+   {
+    "n": 4,
+    "verdict": "ok — 固定监控、远处小目标和三段问题链均可辨认。"
+   },
+   {
+    "n": 5,
+    "verdict": "ok — 83.5%主证据突出，找不到到认不对的转折清楚。"
+   },
+   {
+    "n": 6,
+    "verdict": "ok — 第二章章节页节奏正常。"
+   },
+   {
+    "n": 7,
+    "verdict": "ok — 三类研究路线及共同缺口清楚，字号可读。"
+   },
+   {
+    "n": 8,
+    "verdict": "ok — 结构收益与语义能力两类缺口形成清晰对照。"
+   },
+   {
+    "n": 9,
+    "verdict": "ok — 第三章章节页清楚。"
+   },
+   {
+    "n": 10,
+    "verdict": "ok — 两个目标与当前边界均可快速读取。"
+   },
+   {
+    "n": 11,
+    "verdict": "ok — 2×2×5受控实验矩阵与固定条件表达清楚。"
+   },
+   {
+    "n": 12,
+    "verdict": "ok — GT框、检测框、冻结规则三级递进清楚。"
+   },
+   {
+    "n": 13,
+    "verdict": "ok — 审计链与三类约束形成单一结论。"
+   },
+   {
+    "n": 14,
+    "verdict": "ok — 第四章章节页清楚。"
+   },
+   {
+    "n": 15,
+    "verdict": "ok — 两级诊断框架与任务链、审计链对应明确。"
+   },
+   {
+    "n": 16,
+    "verdict": "ok — P2/CBAM结构图、固定头宽和控制变量可读。"
+   },
+   {
+    "n": 17,
+    "verdict": "ok — 三级语义流程和输入误差递进明确。"
+   },
+   {
+    "n": 18,
+    "verdict": "ok — 三项闭环依赖与右侧边界结论清楚。"
+   },
+   {
+    "n": 19,
+    "verdict": "ok — 第五章章节页清楚。"
+   },
+   {
+    "n": 20,
+    "verdict": "ok — 两项创新与已形成、不承诺的边界分明。"
+   },
+   {
+    "n": 21,
+    "verdict": "ok — 第六章章节页清楚。"
+   },
+   {
+    "n": 22,
+    "verdict": "ok — P2五种子证据为视觉中心，CBAM边界未被夸大。"
+   },
+   {
+    "n": 23,
+    "verdict": "ok — 案例图、GT框结果和开放词汇负结果均可读。"
+   },
+   {
+    "n": 24,
+    "verdict": "ok — 三阶段路线按进入条件推进，不虚构日期。"
+   },
+   {
+    "n": 25,
+    "verdict": "ok — 第七章章节页清楚。"
+   },
+   {
+    "n": 26,
+    "verdict": "ok — 核心参考文献完整显示，密度仅用于现场备查。"
+   },
+   {
+    "n": 27,
+    "verdict": "ok — 结束页与封面形成校园照片书挡。"
+   },
+   {
+    "n": 28,
+    "verdict": "ok — 内部重复与独立确认用不等号明确区分。"
+   },
+   {
+    "n": 29,
+    "verdict": "ok — 四配置结果、日志完整性和缺失边界可读。"
+   },
+   {
+    "n": 30,
+    "verdict": "ok — RAOD精度收益与综合指标下降同时呈现。"
+   },
+   {
+    "n": 31,
+    "verdict": "ok — 59到28到17的错误收缩链清楚。"
+   },
+   {
+    "n": 32,
+    "verdict": "ok — 两类开放词汇基线负结果和适用边界清楚。"
+   },
+   {
+    "n": 33,
+    "verdict": "ok — 速度量级、阶段耗时与非部署结论清楚。"
+   }
+  ]
+ },
+ "provenance": {
+  "waived": "内容与数字均来自用户本地项目文档、结果文件和参考PPT；保留本地路径溯源，不虚构公开URL。"
+ },
+ "density": {
+  "waived": "用户明确要求长度与两份开题参考稿相近；本稿保留七个章节换气页、完整演讲备注和六页按需备查，正文视觉检查可读。中文字符计数会显著高于以空格分词的参考英文统计。"
+ },
+ "critic": {
+  "verdict": "consent",
+  "reviews_seen": 3,
+  "blockers": 0,
+  "majors": 0,
+  "source": "/Users/shouliang/Documents/vlm-rd-detect/paper/ppt/开题答辩_20261013/audit/review-content-r2.json",
+  "sha256": "4b9e1a34851dc5cd0b6b77b86bdc44d8cf4ea30c935e0b6d06eed462802981f6",
+  "reviews": [
+   "/Users/shouliang/Documents/vlm-rd-detect/paper/ppt/开题答辩_20261013/audit/review-content-r2.json",
+   "/Users/shouliang/Documents/vlm-rd-detect/paper/ppt/开题答辩_20261013/audit/review-coherence-r2.json",
+   "/Users/shouliang/Documents/vlm-rd-detect/paper/ppt/开题答辩_20261013/audit/review-design-r2.json"
+  ],
+  "recorded_by": "content/coherence consent; design r2 majors fixed in latest rebuild; visual contract PASS",
+  "rounds": 2
+ }
+}

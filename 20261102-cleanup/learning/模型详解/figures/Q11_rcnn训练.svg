@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="720" height="300" fill="#fff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">R-CNN 四阶段分开训练（非端到端）</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="20"  y="60" width="150" height="56" rx="6" fill="#e5e7eb" stroke="#9ca3af"/><text x="95" y="82">① CNN 预训练</text><text x="95" y="100" fill="#6b7280">ImageNet 1000类</text>
+    <rect x="195" y="60" width="150" height="56" rx="6" fill="#dbeafe" stroke="#3b82f6"/><text x="270" y="82">② CNN 微调</text><text x="270" y="100" fill="#6b7280">检测数据,softmax</text>
+    <rect x="370" y="60" width="150" height="56" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="445" y="82">③ 每类训一个 SVM</text><text x="445" y="100" fill="#7c2d12">冻结CNN特征上</text>
+    <rect x="545" y="60" width="150" height="56" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="620" y="82">④ 每类边框回归</text><text x="620" y="100" fill="#6b7280">冻结CNN特征上</text>
+  </g>
+  <g stroke="#374151" stroke-width="1.8">
+    <line x1="170" y1="88" x2="193" y2="88" marker-end="url(#aq)"/>
+    <line x1="345" y1="88" x2="368" y2="88" marker-end="url(#aq)"/>
+    <line x1="520" y1="88" x2="543" y2="88" marker-end="url(#aq)"/>
+  </g>
+  <text x="445" y="134" text-anchor="middle" font-size="10" fill="#b45309">②微调后冻结 CNN，当固定特征提取器 →③④</text>
+
+  <!-- SVM 细节框 -->
+  <rect x="40" y="152" width="640" height="116" rx="10" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="60" y="174" font-size="13" font-weight="bold" fill="#b45309">③ 单个 SVM 怎么训（以"汽车"为例，one-vs-rest，20类→20个SVM）</text>
+  <text x="60" y="198" font-size="11.5" fill="#374151">输入：候选框过冻结 CNN 得到的 4096 维特征 → 学线性分类器 w（合页损失）</text>
+  <text x="60" y="220" font-size="11.5" fill="#16a34a">正样本：只取真值框(GT)本身　　负样本：与GT IoU &lt; 0.3 的框　　忽略：IoU∈[0.3,1)</text>
+  <text x="60" y="242" font-size="11.5" fill="#ef4444">难负样本挖掘：把被错判为汽车的"难负样本"挑出来反复重训</text>
+  <text x="60" y="262" font-size="10.5" fill="#9ca3af">注：SVM 正负定义比②微调(IoU≥0.5)更严格 → 精度更高；Fast R-CNN 后用 softmax 取代，去掉 SVM</text>
+  <defs><marker id="aq" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

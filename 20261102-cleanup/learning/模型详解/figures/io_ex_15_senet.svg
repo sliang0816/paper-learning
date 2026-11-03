@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 230" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="230" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">15 SE-Net 输入输出实例（通道注意力鼻祖，输入输出同形状）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">特征图进 → Squeeze(每通道GAP) → Excitation(学通道权重) → Scale(逐通道乘) → 同形状出</text>
+
+  <rect x="20" y="70" width="116" height="74" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="78" y="90" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入特征图</text>
+  <text x="78" y="109" text-anchor="middle" font-size="9.2" fill="#374151">256×20×20</text>
+  <text x="78" y="127" text-anchor="middle" font-size="8" fill="#6b7280">C×H×W</text>
+
+  <line x1="136" y1="107" x2="164" y2="107" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="166" y="64" width="150" height="86" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="241" y="83" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#b45309">① Squeeze 压</text>
+  <text x="241" y="100" text-anchor="middle" font-size="8.3" fill="#374151">每个通道做 GAP</text>
+  <text x="241" y="114" text-anchor="middle" font-size="8.3" fill="#374151">→ 256 维全局描述符</text>
+  <text x="241" y="131" text-anchor="middle" font-size="8" fill="#6b7280">把 20×20 拍成 1 个数/通道</text>
+  <text x="241" y="144" text-anchor="middle" font-size="8" fill="#6b7280">（无参数）</text>
+
+  <line x1="316" y1="107" x2="344" y2="107" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="346" y="64" width="160" height="86" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="426" y="83" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#6d28d9">② Excitation 激励</text>
+  <text x="426" y="100" text-anchor="middle" font-size="8.3" fill="#374151">FC→ReLU→FC→sigmoid</text>
+  <text x="426" y="114" text-anchor="middle" font-size="8.3" fill="#374151">→ 通道权重 [0.9,0.1,…]</text>
+  <text x="426" y="131" text-anchor="middle" font-size="8" fill="#6b7280">学“哪些通道重要”</text>
+  <text x="426" y="144" text-anchor="middle" font-size="8" fill="#6b7280">每个 ∈ (0,1)</text>
+
+  <line x1="506" y1="107" x2="534" y2="107" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="536" y="70" width="130" height="74" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="601" y="90" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">③ Scale 重标定</text>
+  <text x="601" y="108" text-anchor="middle" font-size="8.3" fill="#374151">逐通道乘权重</text>
+  <text x="601" y="124" text-anchor="middle" font-size="8" fill="#b91c1c">输出 256×20×20</text>
+  <text x="601" y="137" text-anchor="middle" font-size="7.8" fill="#6b7280">形状不变</text>
+
+  <line x1="666" y1="107" x2="694" y2="107" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="696" y="84" width="96" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="744" y="105" text-anchor="middle" font-size="8.8" font-weight="bold" fill="#15803d">送回主干</text>
+  <text x="744" y="121" text-anchor="middle" font-size="7.6" fill="#6b7280">重要通道被放大</text>
+
+  <text x="410" y="180" text-anchor="middle" font-size="9.6" fill="#374151">和 CBAM 一样<tspan font-weight="bold" fill="#b91c1c">不改形状</tspan>，但 SE <tspan font-weight="bold" fill="#6d28d9">只做通道注意力</tspan>（没有空间注意力）——CBAM = SE + 空间注意力。</text>
+  <text x="410" y="202" text-anchor="middle" font-size="9.2" fill="#6b7280">Squeeze 详解见 [Q54]；本项目用其升级版 CBAM（16）做创新点 1。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

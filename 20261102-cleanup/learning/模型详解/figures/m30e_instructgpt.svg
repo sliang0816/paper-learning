@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 500" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="500" fill="#fff"/>
+  <text x="490" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">InstructGPT / RLHF：三步把GPT-3"对齐"成听话的助手</text>
+
+  <!-- 三步 -->
+  <rect x="30" y="48" width="290" height="180" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="175" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① SFT 监督微调</text>
+  <text x="175" y="96" text-anchor="middle" font-size="9.5" fill="#374151">人类标注员写"示范回答"</text>
+  <text x="175" y="116" text-anchor="middle" font-size="9.5" fill="#374151">(给定prompt，写出理想输出)</text>
+  <text x="175" y="140" text-anchor="middle" font-size="9.5" fill="#374151">用这批(prompt,示范回答)</text>
+  <text x="175" y="158" text-anchor="middle" font-size="9.5" fill="#374151">直接微调GPT-3</text>
+  <text x="175" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">→ 得到SFT模型</text>
+  <text x="175" y="210" text-anchor="middle" font-size="9" fill="#6b7280">最像人类示范的"抄作业式"起点</text>
+
+  <text x="335" y="140" text-anchor="middle" font-size="20">→</text>
+
+  <rect x="355" y="48" width="290" height="180" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="500" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② RM 奖励模型训练</text>
+  <text x="500" y="96" text-anchor="middle" font-size="9.5" fill="#374151">同一prompt让模型出多个回答</text>
+  <text x="500" y="116" text-anchor="middle" font-size="9.5" fill="#374151">标注员对这些回答排序(好→差)</text>
+  <text x="500" y="140" text-anchor="middle" font-size="9.5" fill="#374151">训一个模型学会预测"人类会</text>
+  <text x="500" y="158" text-anchor="middle" font-size="9.5" fill="#374151">更喜欢哪个回答"</text>
+  <text x="500" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">→ 得到奖励模型RM</text>
+  <text x="500" y="210" text-anchor="middle" font-size="9" fill="#6b7280">把"人类偏好"变成可计算的打分函数</text>
+
+  <text x="660" y="140" text-anchor="middle" font-size="20">→</text>
+
+  <rect x="680" y="48" width="290" height="180" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="825" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">③ PPO 强化学习</text>
+  <text x="825" y="96" text-anchor="middle" font-size="9.5" fill="#374151">SFT模型继续生成回答</text>
+  <text x="825" y="116" text-anchor="middle" font-size="9.5" fill="#374151">RM给这些回答打分当"奖励"</text>
+  <text x="825" y="140" text-anchor="middle" font-size="9.5" fill="#374151">用PPO算法调整模型策略</text>
+  <text x="825" y="158" text-anchor="middle" font-size="9.5" fill="#374151">去最大化RM打分</text>
+  <text x="825" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">→ 得到InstructGPT</text>
+  <text x="825" y="210" text-anchor="middle" font-size="9" fill="#6b7280">这就是RLHF——人类反馈驱动的强化学习</text>
+
+  <!-- 实测效果 -->
+  <rect x="30" y="248" width="940" height="140" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="500" y="272" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">震撼结果：1.3B的InstructGPT 打赢 175B的GPT-3（参数量少100倍以上）</text>
+  <text x="500" y="298" text-anchor="middle" font-size="10" fill="#374151">175B InstructGPT 相比175B GPT-3被标注员偏好的胜率 85±3%；相比"加了少样本提示的GPT-3"胜率仍有 71±4%</text>
+  <text x="500" y="322" text-anchor="middle" font-size="10" fill="#374151">TruthfulQA真实性：约提升2倍；封闭域幻觉率：41%→21%（减半）；有毒输出：减少约25%</text>
+  <text x="500" y="350" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">关键结论：把模型做大 ≠ 更听话——"对齐"(alignment)需要专门的训练目标，不是规模的自然产物</text>
+  <text x="500" y="372" text-anchor="middle" font-size="9.5" fill="#6b7280">呼应30a Scaling Laws：scaling law预测的是loss/能力，不保证模型"想做用户想要的事"</text>
+
+  <!-- alignment tax -->
+  <rect x="30" y="398" width="940" height="86" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="500" y="422" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">"对齐税"(alignment tax)与修正：PPO-ptx</text>
+  <text x="500" y="446" text-anchor="middle" font-size="9.8" fill="#374151">纯RLHF微调会让模型在SQuAD/DROP等公开NLP基准上性能下降——这是"对齐"带来的代价</text>
+  <text x="500" y="468" text-anchor="middle" font-size="9.8" fill="#374151">解法：PPO更新时混入"继续最大化预训练分布对数似然"的梯度(PPO-ptx)，公开基准性能regression大幅减小，且不牺牲标注员偏好评分</text>
+</svg>

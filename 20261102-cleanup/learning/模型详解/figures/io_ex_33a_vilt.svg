@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 230" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="900" height="230" fill="#fff"/>
+  <text x="450" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">33a ViLT 输入/输出实例（单流图文 Transformer）</text>
+
+  <rect x="20" y="40" width="860" height="80" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="30" y="60" font-size="11" font-weight="bold" fill="#b45309">输入</text>
+  <text x="30" y="82" font-size="9.5" fill="#374151">📥 图像（切 patch → 线性投影成 patch token） + 文本（词 token），两串拼接成一个序列</text>
+  <text x="30" y="102" font-size="9" fill="#6b7280">例：一张"狗在跑"的图 + 文本 "a dog is running"；无需先跑目标检测抽区域特征</text>
+
+  <rect x="20" y="130" width="860" height="84" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="30" y="150" font-size="11" font-weight="bold" fill="#15803d">输出（随任务而定）</text>
+  <text x="30" y="172" font-size="9.5" fill="#374151">📤 图文匹配分（这对图文配不配，用于检索）／ 掩码词预测（填被遮的词，看图猜）／ VQA 答案</text>
+  <text x="30" y="192" font-size="9" fill="#374151">机制：图文 token 在同一 Transformer 里自注意力深度交互 → pooled token 接任务头</text>
+  <text x="30" y="208" font-size="9" fill="#6b7280">和 CLIP 不同：CLIP 出"相似度"，ViLT 能做需要深度图文推理的任务（VQA/NLVR2）</text>
+</svg>

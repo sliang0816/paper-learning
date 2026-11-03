@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q123 为什么设计成编码器-解码器：读源句要双向、写目标句须因果，视野规则相反只能分两个模块</text>
+
+  <!-- ① 两件事对比 -->
+  <rect x="20" y="42" width="900" height="170" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 翻译 = 两件性质相反的事，一套注意力伺候不了</text>
+  <!-- encoder box -->
+  <rect x="50" y="80" width="400" height="110" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="250" y="102" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">读懂源句 → 编码器</text>
+  <text x="70" y="126" font-size="9.5" fill="#374151">· 整句完全已知 → <tspan font-weight="bold">双向</tspan>看全句，越全越好</text>
+  <text x="70" y="146" font-size="9.5" fill="#374151">· 不带因果掩码，注意力矩阵是满的</text>
+  <text x="70" y="166" font-size="9.5" fill="#374151">· 一次并行编码完 → 输出 memory</text>
+  <!-- decoder box -->
+  <rect x="490" y="80" width="400" height="110" rx="6" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="690" y="102" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">逐词写目标句 → 解码器</text>
+  <text x="510" y="126" font-size="9.5" fill="#374151">· 只有已生成前缀，未来<tspan font-weight="bold">不存在</tspan>（Q121）</text>
+  <text x="510" y="146" font-size="9.5" fill="#374151">· 必须因果掩码，下三角只看过去</text>
+  <text x="510" y="166" font-size="9.5" fill="#374151">· 逐步自回归生成</text>
+
+  <!-- ② 桥 -->
+  <rect x="20" y="224" width="900" height="90" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="246" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 桥 = 交叉注意力（Q=目标 query，K/V=编码器 memory）＋ 效率红利</text>
+  <text x="40" y="272" font-size="9.5" fill="#374151">· 解码器每层用交叉注意力"查"源句（Q79/Q81）——理解和生成之间唯一的信息通道</text>
+  <text x="40" y="294" font-size="9.5" fill="#15803d">· 编码器只跑一次，memory 缓存后被生成的每一步反复读；混成一个模块则源句理解须跟着每步重算</text>
+
+  <!-- ③ 范式继承 -->
+  <rect x="20" y="326" width="900" height="80" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="348" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ 形式跟着任务走：继承自 seq2seq 范式（2014 RNN 版 + 2015 Bahdanau 注意力）</text>
+  <text x="40" y="372" font-size="9.5" fill="#374151">任务 = 一条序列 → <tspan font-weight="bold">另一条异构序列</tspan>（不同语言、不同长度）→ 自然分"先压成理解、再展开成生成"两段</text>
+  <text x="40" y="392" font-size="9.5" fill="#6b7280">Transformer 论文的任务恰好是翻译，照这个范式把 RNN 换成自注意力——编码器-解码器不是 Transformer 的发明</text>
+
+  <!-- ④ 反证/演化 -->
+  <rect x="20" y="418" width="900" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="440" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 反证：任务结构一变，形式就被拆了</text>
+  <text x="40" y="466" font-size="9.5" fill="#374151">· 只理解不生成 → 砍掉解码器 = <tspan font-weight="bold">BERT / ViT / CLIP</tspan>（encoder-only）</text>
+  <text x="40" y="488" font-size="9.5" fill="#374151">· 输入输出是<tspan font-weight="bold">同一条流的续写</tspan>（prompt+回答同空间）→ 不需单独编码器和交叉注意力 = <tspan font-weight="bold">GPT</tspan>（decoder-only，Q92），更简单更好规模化</text>
+  <text x="40" y="510" font-size="9.5" fill="#374151">· 输入输出仍是<tspan font-weight="bold">两条异构序列/模态</tspan> → encoder-decoder 至今活着：T5 翻译、Whisper 语音→文字、DETR 图像 memory+query 解码</text>
+  <text x="40" y="534" font-size="9.5" fill="#6d28d9">判据：两条异构序列→编码器-解码器；只理解→仅编码器；同流续写→仅解码器</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="560" width="900" height="48" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="580" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：读源句要双向满视野、写目标句须因果只看过去——视野规则相反只能分两模块，交叉注意力当桥、编码一次反复查；</text>
+  <text x="470" y="598" text-anchor="middle" font-size="9" fill="#374151">这是"异构序列→序列"任务结构决定的形式（继承 seq2seq），任务一变就拆：BERT 只留编码器、GPT 只留解码器。</text>
+</svg>

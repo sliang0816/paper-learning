@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 900" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="900" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q162 CoCa 为何把文本解码器"劈成两半"：上下如何定义、为何不能反过来、为何不做两个独立解码器</text>
+
+  <!-- ① 上下定义 -->
+  <rect x="20" y="42" width="460" height="230" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① "上/下"如何定义：深度堆叠的先后顺序</text>
+  <text x="36" y="86" font-size="9.5" fill="#374151">文本token嵌入(输入)</text>
+  <rect x="60" y="94" width="360" height="26" fill="#fff" stroke="#60a5fa"/><text x="240" y="112" text-anchor="middle" font-size="9.5" fill="#1e40af">第1层</text>
+  <rect x="60" y="124" width="360" height="26" fill="#fff" stroke="#60a5fa"/><text x="240" y="142" text-anchor="middle" font-size="9.5" fill="#1e40af">第2层 ⋯ 第N/2层　←"下半"(靠近输入,先算)</text>
+  <rect x="60" y="160" width="360" height="26" fill="#dbeafe" stroke="#1e40af"/><text x="240" y="178" text-anchor="middle" font-size="9.5" fill="#1e40af" font-weight="bold">第N/2+1层 ⋯ 第N层　←"上半"(靠近输出,后算)</text>
+  <text x="36" y="204" font-size="9.5" fill="#374151">最终输出(下一词logits)</text>
+  <text x="36" y="228" font-size="9" fill="#6b7280">数据单向流动：下半算完的结果=上半的输入</text>
+  <text x="36" y="248" font-size="9" fill="#1e40af" font-weight="bold">下=靠近输入先计算；上=靠近输出后计算，与"输入下/输出上"惯例一致</text>
+
+  <!-- ② 为何不能反过来 -->
+  <rect x="500" y="42" width="460" height="230" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="730" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">② 为何不能反过来（下半看图、上半不看图）</text>
+  <text x="516" y="88" font-size="9.5" fill="#374151">交叉注意力=不可逆的混合操作：一旦某层把图像</text>
+  <text x="516" y="106" font-size="9.5" fill="#374151">信息混进token表示，往后无论过多少层纯文本自</text>
+  <text x="516" y="124" font-size="9.5" fill="#374151">注意力，图像信息都留在残差流里，<tspan font-weight="bold">没法擦除</tspan></text>
+  <text x="516" y="150" font-size="9.5" font-weight="bold" fill="#b91c1c">"必须保持干净(对比用)"的计算，必须排在</text>
+  <text x="516" y="168" font-size="9.5" font-weight="bold" fill="#b91c1c">"混入图像(生成用)"的计算之前——不是偏好，</text>
+  <text x="516" y="186" font-size="9.5" font-weight="bold" fill="#b91c1c">是Transformer前向单向流动的物理限制</text>
+  <text x="516" y="210" font-size="9" fill="#374151">若反过来：上半即便不做新交叉注意力，输入已</text>
+  <text x="516" y="228" font-size="9" fill="#374151">带图像印记，"单模态"标签是自欺欺人</text>
+  <text x="516" y="252" font-size="9" fill="#15803d">同源Q159：ALBEF对齐必须在融合编码器之前算好</text>
+
+  <!-- ③ 为何不做两个独立解码器 -->
+  <rect x="20" y="290" width="940" height="330" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="312" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 为何不做两个完全独立的解码器（解码器A纯文本对比 + 解码器B从第一层就看图生成）——技术上可行，但更贵</text>
+  <text x="40" y="336" font-size="9.8" fill="#374151">先确认：这个方案<tspan font-weight="bold">架构上是行得通的</tspan>——两套独立计算图，不存在①②里"混入不可逆"的问题</text>
+  <rect x="40" y="350" width="440" height="120" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="260" y="370" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">代价一：文本理解能力学两遍</text>
+  <text x="56" y="392" font-size="9.3" fill="#374151">解码器A要学"因果处理文本建立上下文"</text>
+  <text x="56" y="410" font-size="9.3" fill="#374151">解码器B也要学同样的能力(才能生成)</text>
+  <text x="56" y="428" font-size="9.3" fill="#374151">同一种基础能力，两套独立参数各学一遍</text>
+  <text x="56" y="450" font-size="9.3" fill="#15803d" font-weight="bold">CoCa共享下半：只学一次，两头复用</text>
+  <rect x="500" y="350" width="460" height="120" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="730" y="370" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">代价二：交叉注意力反而铺得更多/更难</text>
+  <text x="516" y="392" font-size="9.3" fill="#374151">解码器B若从第1层就配交叉注意力(呼应Q76/</text>
+  <text x="516" y="408" font-size="9.3" fill="#374151">Q154逐层深化才扎实)→层数比CoCa"只在上半</text>
+  <text x="516" y="424" font-size="9.3" fill="#374151">配"多得多；若为省成本做浅→要在少数层里</text>
+  <text x="516" y="440" font-size="9.3" fill="#374151">同时学"处理文本"+"看图生成"，比CoCa的</text>
+  <text x="516" y="456" font-size="9.3" fill="#374151">上半接手成熟文本表示、只需专心加"看图"更难</text>
+  <rect x="40" y="484" width="920" height="110" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="480" y="506" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">代价三：丢掉"两个信号互相搭把手"的联合训练增益</text>
+  <text x="56" y="528" font-size="9.5" fill="#374151">独立方案：解码器A参数只被对比损失塑造，解码器B参数只被生成损失塑造，各自闭门造车、互不影响</text>
+  <text x="56" y="548" font-size="9.5" fill="#374151">CoCa共享方案：下半参数<tspan font-weight="bold">同时</tspan>接受两种监督信号塑造(对比要求整体语义对齐+生成要求支撑逐词预测)</text>
+  <text x="56" y="568" font-size="9.5" fill="#15803d" font-weight="bold">论文核心主张：联合塑造出的共享表示比各自独立训练更强、更通用——独立方案拿不到这个增益</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="636" width="940" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="660" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">这不是"对错"问题，是同一类设计权衡的又一次呈现</text>
+  <text x="490" y="684" text-anchor="middle" font-size="9.8" fill="#374151">完全独立的两个解码器：各自纯粹优化、互不牵制，但参数/算力更贵、丢失联合增益——完全合法的备选设计</text>
+  <text x="490" y="704" text-anchor="middle" font-size="9.8" fill="#374151">CoCa劈开共享：省参数省算力+联合增益，代价是共享部分要同时兼顾两个目标、不能各自极致优化</text>
+  <text x="490" y="726" text-anchor="middle" font-size="9.5" fill="#6d28d9" font-weight="bold">同源 Q159(对齐vs融合)、Q161(Q-Former压缩vs LLaVA不压缩)：共享省资源但要妥协 vs 独立不妥协但费资源</text>
+  <text x="490" y="748" text-anchor="middle" font-size="9" fill="#6b7280">"劈成两半"=让"必须干净"的计算排在"混入图像"的计算之前，同时让两个目标共享底层、互相塑造出更强的表示</text>
+
+  <!-- 底部 一句话总结条 -->
+  <rect x="20" y="778" width="940" height="102" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="802" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：上/下=深度堆叠先后顺序(下靠近输入先算、上靠近输出后算)；顺序不能反是因为交叉注意力混入信息不可逆，</text>
+  <text x="490" y="824" text-anchor="middle" font-size="9.5" fill="#374151">"必须干净"的对比计算只能排在"混入图像"的生成计算之前；不做两个独立解码器，是因为共享下半能省去文本理解能力的</text>
+  <text x="490" y="846" text-anchor="middle" font-size="9.5" fill="#374151">重复学习、省去更多交叉注意力层、还能让对比与生成两个信号联合塑造出更强的共享表示——独立方案技术可行但更贵且丢增益。</text>
+</svg>

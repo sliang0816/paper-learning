@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 500" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="500" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">1×1 卷积·完整特征图视角：2×2×2 → 2×2×2（同一套核扫遍 4 个位置）</text>
+  <text x="410" y="46" text-anchor="middle" font-size="11" fill="#6b7280">"1×1"指核空间上只盖 1 个像素；它在每个位置只混通道、不混邻居，故 H×W 不变</text>
+
+  <!-- 输入两张特征图 -->
+  <text x="135" y="78" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#0369a1">输入：2 通道，各一张 2×2 图</text>
+  <!-- channel A -->
+  <text x="80" y="100" text-anchor="middle" font-size="10" fill="#1d4ed8">通道A</text>
+  <g font-size="13" text-anchor="middle">
+    <rect x="50" y="108" width="34" height="34" fill="#dbeafe" stroke="#3b82f6"/><text x="67" y="130">1</text>
+    <rect x="84" y="108" width="34" height="34" fill="#dbeafe" stroke="#3b82f6"/><text x="101" y="130">2</text>
+    <rect x="50" y="142" width="34" height="34" fill="#dbeafe" stroke="#3b82f6"/><text x="67" y="164">0</text>
+    <rect x="84" y="142" width="34" height="34" fill="#dbeafe" stroke="#3b82f6"/><text x="101" y="164">3</text>
+  </g>
+  <!-- channel B -->
+  <text x="200" y="100" text-anchor="middle" font-size="10" fill="#15803d">通道B</text>
+  <g font-size="13" text-anchor="middle">
+    <rect x="170" y="108" width="34" height="34" fill="#dcfce7" stroke="#16a34a"/><text x="187" y="130">4</text>
+    <rect x="204" y="108" width="34" height="34" fill="#dcfce7" stroke="#16a34a"/><text x="221" y="130">1</text>
+    <rect x="170" y="142" width="34" height="34" fill="#dcfce7" stroke="#16a34a"/><text x="187" y="164">2</text>
+    <rect x="204" y="142" width="34" height="34" fill="#dcfce7" stroke="#16a34a"/><text x="221" y="164">0</text>
+  </g>
+
+  <!-- 两个核 -->
+  <text x="410" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#7c3aed">2 个 1×1 核（每核混 2 通道）</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="320" y="112" width="180" height="28" rx="4" fill="#ede9fe" stroke="#7c3aed"/><text x="410" y="131">核1: w=[1, −1]  → A−B</text>
+    <rect x="320" y="146" width="180" height="28" rx="4" fill="#ede9fe" stroke="#7c3aed"/><text x="410" y="165">核2: w=[1,  1]  → A+B</text>
+  </g>
+
+  <!-- 输出两张特征图 -->
+  <text x="650" y="78" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#b45309">输出：2 通道，各一张 2×2 图</text>
+  <text x="595" y="100" text-anchor="middle" font-size="10" fill="#b91c1c">输出1=A−B</text>
+  <g font-size="13" text-anchor="middle">
+    <rect x="565" y="108" width="34" height="34" fill="#fee2e2" stroke="#ef4444"/><text x="582" y="130">−3</text>
+    <rect x="599" y="108" width="34" height="34" fill="#fee2e2" stroke="#ef4444"/><text x="616" y="130">1</text>
+    <rect x="565" y="142" width="34" height="34" fill="#fee2e2" stroke="#ef4444"/><text x="582" y="164">−2</text>
+    <rect x="599" y="142" width="34" height="34" fill="#fee2e2" stroke="#ef4444"/><text x="616" y="164">3</text>
+  </g>
+  <text x="715" y="100" text-anchor="middle" font-size="10" fill="#a16207">输出2=A+B</text>
+  <g font-size="13" text-anchor="middle">
+    <rect x="685" y="108" width="34" height="34" fill="#fef9c3" stroke="#eab308"/><text x="702" y="130">5</text>
+    <rect x="719" y="108" width="34" height="34" fill="#fef9c3" stroke="#eab308"/><text x="736" y="130">3</text>
+    <rect x="685" y="142" width="34" height="34" fill="#fef9c3" stroke="#eab308"/><text x="702" y="164">2</text>
+    <rect x="719" y="142" width="34" height="34" fill="#fef9c3" stroke="#eab308"/><text x="736" y="164">3</text>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)">
+    <line x1="245" y1="142" x2="315" y2="142"/>
+    <line x1="505" y1="142" x2="560" y2="142"/>
+  </g>
+
+  <!-- 四个位置逐个算 -->
+  <rect x="40" y="196" width="740" height="146" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="56" y="218" font-size="11" font-weight="bold" fill="#1d4ed8">同一套核，在 4 个空间位置各算一次（每个位置只看自己那一摞通道值）：</text>
+  <text x="56" y="244" font-size="10.5" fill="#374151" font-family="monospace">位置(0,0): A=1,B=4 → 核1:1·1+(−1)·4=−3 ; 核2:1·1+1·4=5</text>
+  <text x="56" y="266" font-size="10.5" fill="#374151" font-family="monospace">位置(0,1): A=2,B=1 → 核1:1·2+(−1)·1= 1 ; 核2:1·2+1·1=3</text>
+  <text x="56" y="288" font-size="10.5" fill="#374151" font-family="monospace">位置(1,0): A=0,B=2 → 核1:1·0+(−1)·2=−2 ; 核2:1·0+1·2=2</text>
+  <text x="56" y="310" font-size="10.5" fill="#374151" font-family="monospace">位置(1,1): A=3,B=0 → 核1:1·3+(−1)·0= 3 ; 核2:1·3+1·0=3</text>
+  <text x="56" y="332" font-size="10" fill="#16a34a">→ 4 个结果拼回 2×2 网格，就得到上面右边两张输出图。</text>
+
+  <!-- 结论 -->
+  <rect x="40" y="356" width="740" height="124" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="56" y="378" font-size="11" font-weight="bold" fill="#374151">看这个例子能看清三件事：</text>
+  <text x="56" y="400" font-size="10.5" fill="#374151">• <tspan font-weight="bold">空间 H×W 不变</tspan>：输入 2×2 → 输出 2×2。1×1 核只盖 1 像素，不碰上下左右邻居，所以图的尺寸不动。</text>
+  <text x="56" y="420" font-size="10.5" fill="#374151">• <tspan font-weight="bold">只在"通道方向"做加权求和</tspan>：每个位置把该位置的 A、B 两个通道值线性组合，混的是<tspan font-weight="bold">深度</tspan>（呼应 Q40 通道=一整张图）。</text>
+  <text x="56" y="440" font-size="10.5" fill="#374151">• <tspan font-weight="bold">权重共享</tspan>：4 个位置用的是同一套核 w=[1,−1] 和 [1,1]，只是喂进去的数不同 → 这就是"卷积核滑动"。</text>
+  <text x="56" y="462" font-size="10" fill="#6b7280">若把核2去掉只留核1，就是 2 通道→1 通道的"降维"（Inception 瓶颈的常用法，见 Q7）。</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker>
+  </defs>
+</svg>

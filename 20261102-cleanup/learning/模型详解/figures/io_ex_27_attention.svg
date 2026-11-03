@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 225" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="225" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">27 注意力机制 输入输出实例（按相关性加权求和）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">一个 Query + 一组 Key/Value → 算相关性 → softmax 权重 → 加权求和 → 上下文向量</text>
+
+  <rect x="22" y="64" width="140" height="92" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="92" y="83" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#075985">输入</text>
+  <text x="92" y="101" text-anchor="middle" font-size="8.4" fill="#374151">Query q：想找“road 相关”</text>
+  <text x="92" y="117" text-anchor="middle" font-size="8.4" fill="#374151">一组 Key/Value：</text>
+  <text x="92" y="131" text-anchor="middle" font-size="8" fill="#6b7280">the / debris / on / road</text>
+  <text x="92" y="147" text-anchor="middle" font-size="8" fill="#6b7280">每个词一对 (k, v)</text>
+
+  <line x1="162" y1="110" x2="192" y2="110" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="194" y="62" width="200" height="96" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="294" y="81" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#1e40af">① q·k 算相关性 → softmax</text>
+  <text x="294" y="99" text-anchor="middle" font-size="8.3" fill="#374151">权重 = [the .05, debris .60,</text>
+  <text x="294" y="113" text-anchor="middle" font-size="8.3" fill="#374151">　　　 on .10, road .25]（和=1）</text>
+  <text x="294" y="131" text-anchor="middle" font-size="8.3" fill="#374151">② 加权求和各 v</text>
+  <text x="294" y="147" text-anchor="middle" font-size="8" fill="#6b7280">相关的 v 占比大</text>
+
+  <line x1="394" y1="110" x2="424" y2="110" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="426" y="74" width="180" height="70" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="516" y="94" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">输出：上下文向量</text>
+  <text x="516" y="112" text-anchor="middle" font-size="8.3" fill="#374151">≈ 0.6·v_debris + 0.25·v_road…</text>
+  <text x="516" y="128" text-anchor="middle" font-size="8" fill="#6b7280">聚焦了最相关的信息</text>
+
+  <line x1="606" y1="110" x2="636" y2="110" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="638" y="86" width="154" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="715" y="107" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">给下游用</text>
+  <text x="715" y="123" text-anchor="middle" font-size="7.6" fill="#6b7280">翻译/分类/检索…</text>
+
+  <text x="410" y="186" text-anchor="middle" font-size="9.6" fill="#374151">核心是“<tspan font-weight="bold" fill="#0369a1">谁相关就多看谁</tspan>”——用 Query 和每个 Key 算相似度当权重，再加权融合 Value。</text>
+  <text x="410" y="208" text-anchor="middle" font-size="9.2" fill="#6b7280">这是 Transformer（28）、ViT（31）、CLIP（33）的共同底层思想（点积注意力见 Q31）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

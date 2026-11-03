@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="520" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q93 BERT 的"双向"如何体现——自注意力不加因果掩码 + 完形填空(MLM)训练</text>
+
+  <!-- attention matrices comparison -->
+  <text x="245" y="56" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">GPT（单向/因果）：只看左边</text>
+  <text x="675" y="56" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">BERT（双向）：左右都看</text>
+
+  <!-- GPT causal matrix (lower triangular) -->
+  <g>
+    <text x="70" y="80" font-size="8.5" fill="#6b7280">行=当前词，列=它能看的词</text>
+    <!-- 4x4 grid -->
+    <g font-size="8">
+      <text x="95" y="98" fill="#6b7280">路</text><text x="123" y="98" fill="#6b7280">面</text><text x="151" y="98" fill="#6b7280">有</text><text x="179" y="98" fill="#6b7280">物</text>
+    </g>
+    <!-- row labels + cells -->
+    <text x="66" y="118" font-size="8" fill="#6b7280">路</text>
+    <rect x="86" y="106" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="114" y="106" width="20" height="16" fill="#f3f4f6" stroke="#e5e7eb"/><rect x="142" y="106" width="20" height="16" fill="#f3f4f6" stroke="#e5e7eb"/><rect x="170" y="106" width="20" height="16" fill="#f3f4f6" stroke="#e5e7eb"/>
+    <text x="66" y="138" font-size="8" fill="#6b7280">面</text>
+    <rect x="86" y="126" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="114" y="126" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="142" y="126" width="20" height="16" fill="#f3f4f6" stroke="#e5e7eb"/><rect x="170" y="126" width="20" height="16" fill="#f3f4f6" stroke="#e5e7eb"/>
+    <text x="66" y="158" font-size="8" fill="#6b7280">有</text>
+    <rect x="86" y="146" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="114" y="146" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="142" y="146" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="170" y="146" width="20" height="16" fill="#f3f4f6" stroke="#e5e7eb"/>
+    <text x="66" y="178" font-size="8" fill="#6b7280">物</text>
+    <rect x="86" y="166" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="114" y="166" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="142" y="166" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/><rect x="170" y="166" width="20" height="16" fill="#bbf7d0" stroke="#86efac"/>
+    <text x="140" y="200" text-anchor="middle" font-size="8.5" fill="#15803d">下三角（掩掉未来=灰格）</text>
+  </g>
+
+  <!-- BERT full matrix -->
+  <g>
+    <text x="500" y="80" font-size="8.5" fill="#6b7280">行=当前词，列=它能看的词</text>
+    <g font-size="8">
+      <text x="525" y="98" fill="#6b7280">路</text><text x="553" y="98" fill="#6b7280">面</text><text x="581" y="98" fill="#6b7280">[M]</text><text x="609" y="98" fill="#6b7280">清</text>
+    </g>
+    <text x="496" y="118" font-size="8" fill="#6b7280">路</text>
+    <rect x="516" y="106" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="544" y="106" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="572" y="106" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="600" y="106" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/>
+    <text x="496" y="138" font-size="8" fill="#6b7280">面</text>
+    <rect x="516" y="126" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="544" y="126" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="572" y="126" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="600" y="126" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/>
+    <text x="492" y="158" font-size="8" fill="#b91c1c">[M]</text>
+    <rect x="516" y="146" width="20" height="16" fill="#fca5a5" stroke="#f87171"/><rect x="544" y="146" width="20" height="16" fill="#fca5a5" stroke="#f87171"/><rect x="572" y="146" width="20" height="16" fill="#fde68a" stroke="#f59e0b"/><rect x="600" y="146" width="20" height="16" fill="#fca5a5" stroke="#f87171"/>
+    <text x="496" y="178" font-size="8" fill="#6b7280">清</text>
+    <rect x="516" y="166" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="544" y="166" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="572" y="166" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/><rect x="600" y="166" width="20" height="16" fill="#bfdbfe" stroke="#93c5fd"/>
+    <text x="570" y="200" text-anchor="middle" font-size="8.5" fill="#1e40af">满矩阵（无掩码，左右都看）</text>
+  </g>
+
+  <text x="740" y="140" font-size="9" fill="#374151">[M]=[MASK]</text>
+  <text x="740" y="158" font-size="9" fill="#b91c1c">被遮词也左右都看</text>
+  <text x="740" y="176" font-size="9" fill="#374151">→ 用两侧猜它</text>
+
+  <!-- why -->
+  <rect x="20" y="220" width="880" height="150" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="240" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">为什么 BERT 能双向、GPT 不能——防"偷看答案"的方式不同</text>
+
+  <rect x="36" y="252" width="410" height="106" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="241" y="272" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">GPT：预测"下一个词"</text>
+  <text x="52" y="292" font-size="9" fill="#374151">未来那个词就是答案 → 看了=作弊</text>
+  <text x="52" y="310" font-size="9" fill="#374151">→ 只能<tspan font-weight="bold">用因果掩码挡住未来（遮方向）</tspan></text>
+  <text x="52" y="330" font-size="9" fill="#b91c1c">→ 被迫单向</text>
+  <text x="52" y="350" font-size="8.5" fill="#6b7280">强项：逐词生成（自回归）</text>
+
+  <rect x="474" y="252" width="410" height="106" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="679" y="272" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">BERT：完形填空（MLM）</text>
+  <text x="490" y="292" font-size="9" fill="#374151">随机遮 ~15% 词换成 [MASK]、用两侧猜它</text>
+  <text x="490" y="310" font-size="9" fill="#374151">防作弊靠<tspan font-weight="bold">遮住目标词本身（遮词，非遮方向）</tspan></text>
+  <text x="490" y="330" font-size="9" fill="#15803d">→ 目标词已不在输入 → 敢左右都看 → 双向</text>
+  <text x="490" y="350" font-size="8.5" fill="#6b7280">强项：理解（分类/NER/QA），不擅生成</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="382" width="880" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="404" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">一句话</text>
+  <text x="460" y="426" text-anchor="middle" font-size="9.5" fill="#374151">BERT 的"双向" = ① 自注意力不加因果掩码（每个词左右都看、注意力矩阵是满的）</text>
+  <text x="460" y="446" text-anchor="middle" font-size="9.5" fill="#374151">＋ ② 用 MLM 完形填空训练（遮词而非遮方向，所以敢双向）</text>
+  <text x="460" y="470" text-anchor="middle" font-size="9.5" fill="#6d28d9">对比：GPT 靠"遮住方向(未来)"防作弊→单向；BERT 靠"遮住目标词本身"防作弊→双向</text>
+  <text x="460" y="490" text-anchor="middle" font-size="9" fill="#6b7280">例：路面 上 有 [MASK] 需要 清理 → 猜 [MASK]（抛洒物）同时用左"路面上有"+右"需要清理"</text>
+</svg>

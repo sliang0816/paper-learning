@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="640" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q129 RLHF：把"人类觉得哪个回答好"变成训练信号——预训练→SFT→奖励模型→PPO 强化学习</text>
+
+  <!-- ① 为什么需要 -->
+  <rect x="20" y="42" width="900" height="110" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">① 为什么交叉熵不够用：好回答没有唯一标准答案</text>
+  <text x="40" y="90" font-size="9.5" fill="#374151">· 预训练出的是"续写机器"：问"如何减肥"可能续写出another问题列表而非回答；SFT 教会格式，但示范数据写不尽所有情形</text>
+  <text x="40" y="112" font-size="9.5" fill="#374151">· "有帮助/诚实/无害"是<tspan font-weight="bold">偏好</tspan>不是标签：同一问题多个回答都"对"、只是有好有差——交叉熵需要唯一正确 token，定义不了"更好"</text>
+  <text x="40" y="134" font-size="9.5" fill="#15803d">· RLHF 的思路：让人类只做"比较"（排序哪个好）而非"示范"（写出完美答案）——比较比示范便宜且一致性高</text>
+
+  <!-- ② 三步 -->
+  <rect x="20" y="164" width="900" height="240" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="186" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">② 三步流水线（InstructGPT / ChatGPT 配方）</text>
+  <!-- step1 -->
+  <rect x="40" y="200" width="270" height="130" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="175" y="222" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">步骤1 SFT 指令微调</text>
+  <text x="56" y="246" font-size="8.5" fill="#374151">人类写"指令+示范回答"</text>
+  <text x="56" y="264" font-size="8.5" fill="#374151">→ 继续下一词训练（交叉熵）</text>
+  <text x="56" y="282" font-size="8.5" fill="#374151">→ 模型学会"听话干活"的格式</text>
+  <text x="56" y="306" font-size="8" fill="#6b7280">仍是监督学习（Q128 的 SFT）</text>
+  <!-- step2 -->
+  <rect x="330" y="200" width="280" height="130" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="222" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">步骤2 训练奖励模型 RM</text>
+  <text x="346" y="246" font-size="8.5" fill="#374151">同一 prompt 采样 4~9 个回答</text>
+  <text x="346" y="264" font-size="8.5" fill="#374151">→ 人类只做排序（A&gt;B&gt;C…）</text>
+  <text x="346" y="282" font-size="8.5" fill="#374151">→ 训练 RM 给任意回答打分（标量）</text>
+  <text x="346" y="306" font-size="8" fill="#6b7280">RM≈同架构 LLM 换标量输出头；把人类偏好"蒸馏"成可自动打分的函数</text>
+  <!-- step3 -->
+  <rect x="630" y="200" width="280" height="130" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="770" y="222" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">步骤3 PPO 强化学习</text>
+  <text x="646" y="246" font-size="8.5" fill="#374151">模型生成回答 → RM 打分当奖励</text>
+  <text x="646" y="264" font-size="8.5" fill="#374151">→ 策略梯度更新权重，让高分回答</text>
+  <text x="646" y="282" font-size="8.5" fill="#374151">　概率变大（不再是交叉熵）</text>
+  <text x="646" y="306" font-size="8" fill="#b91c1c">+ KL 惩罚拴住：别偏离 SFT 模型太远（防刷分跑偏/语言崩坏）</text>
+  <text x="320" y="270" font-size="12" fill="#9ca3af">→</text>
+  <text x="618" y="270" font-size="12" fill="#9ca3af">→</text>
+  <text x="40" y="356" font-size="9.5" fill="#374151">更新的还是<tspan font-weight="bold">同一套模型权重</tspan>（全参数或 PEFT）——变的不是"调哪里"，是<tspan font-weight="bold">损失信号</tspan>：交叉熵(有标准答案) → 奖励最大化(只有偏好)</text>
+  <text x="40" y="380" font-size="9.5" fill="#15803d">效果：GPT-3 → ChatGPT 的关键一步——"对齐"（helpful / honest / harmless），1.3B 的 InstructGPT 人评胜过 175B 的 GPT-3</text>
+
+  <!-- ③ 演化 -->
+  <rect x="20" y="416" width="900" height="130" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="438" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ 后续演化与位置</text>
+  <text x="40" y="464" font-size="9.5" fill="#374151">· <tspan font-weight="bold">DPO</tspan>（直接偏好优化）：跳过 RM 和 RL，直接把"偏好对(好回答,差回答)"写成监督式损失——更简单稳定，开源模型主流</text>
+  <text x="40" y="488" font-size="9.5" fill="#374151">· <tspan font-weight="bold">RLAIF / Constitutional AI</tspan>：用 AI 按一套原则替代人类做偏好标注，降低人工成本</text>
+  <text x="40" y="512" font-size="9.5" fill="#6b7280">· 全流程定位：生成式预训练（学会语言）→ SFT（学会听话）→ RLHF/DPO（学会把话说好）——GPT 三部曲（Q128→本问）</text>
+  <text x="40" y="534" font-size="9" fill="#6b7280">· 与本项目无直接关联，纯模型学习（检测/CLIP 管线不涉及 RLHF）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="558" width="900" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="578" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：RLHF=人类只排序不示范 → 排序训练出奖励模型 → 奖励当强化学习信号（PPO+KL拴绳）更新同一套权重；</text>
+  <text x="470" y="598" text-anchor="middle" font-size="9" fill="#374151">解决"好回答没有唯一标准答案、交叉熵定义不了更好"的问题——GPT-3 变 ChatGPT 的关键一步；简化版=DPO。</text>
+</svg>

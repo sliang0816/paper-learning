@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="620" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q169 PatchCore 异常是如何像素级定位的</text>
+
+  <!-- ① 每个patch都留了自己的距离 -->
+  <rect x="20" y="42" width="940" height="130" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 图像级分数只是取max，但每个patch本来就各自算过一遍距离</text>
+  <text x="490" y="88" text-anchor="middle" font-size="11" font-family="monospace" fill="#111827">s* = max_(patch) min_(m∈M) ‖patch − m‖₂  ← 图像级只留最大值</text>
+  <text x="490" y="112" text-anchor="middle" font-size="10" fill="#374151">但要算这个max，测试图里每一个patch必须先各自算出 d(h,w) = 离记忆库最近邻的距离</text>
+  <text x="490" y="134" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">把全部patch的d(h,w)按空间位置(h,w)摆回网格 → 低分辨率异常分布图</text>
+
+  <!-- ② 两步后处理 -->
+  <rect x="20" y="186" width="940" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="490" y="208" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">② 低分辨率网格 → 像素级热力图：两步后处理</text>
+  <text x="60" y="236" font-size="10" font-weight="bold" fill="#b91c1c">1) 双线性插值上采样</text>
+  <text x="60" y="256" font-size="9.6" fill="#374151">中间层特征图分辨率远低于原图</text>
+  <text x="60" y="274" font-size="9.6" fill="#374151">(如28×28 vs 224×224)，插值放大到原图尺寸</text>
+  <text x="520" y="236" font-size="10" font-weight="bold" fill="#b91c1c">2) 高斯平滑(σ=4)</text>
+  <text x="520" y="256" font-size="9.6" fill="#374151">插值后网格边界生硬/块状</text>
+  <text x="520" y="274" font-size="9.6" fill="#374151">高斯核平滑让异常区域边界更连续自然</text>
+  <text x="490" y="308" text-anchor="middle" font-size="10" fill="#374151">异常区域附近像素值高(找不到相近正常邻居)，正常区域像素值低</text>
+
+  <!-- ③ 免费 -->
+  <rect x="20" y="352" width="460" height="130" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="250" y="374" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 为什么说"免费"</text>
+  <text x="40" y="398" font-size="9.6" fill="#374151">没有另外训练分割头、没有引入新参数</text>
+  <text x="40" y="418" font-size="9.6" fill="#374151">图像级检测本来就要算出"每个patch的</text>
+  <text x="40" y="436" font-size="9.6" fill="#374151">最近邻距离"才能取max</text>
+  <text x="40" y="456" font-size="9.6" font-weight="bold" fill="#15803d">检测和定位=同一次最近邻搜索的两种读法</text>
+
+  <!-- ④ 分辨率局限 -->
+  <rect x="500" y="352" width="460" height="130" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="730" y="374" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">④ 分辨率局限</text>
+  <text x="516" y="398" font-size="9.6" fill="#374151">每个patch特征概括的是一小片邻域</text>
+  <text x="516" y="416" font-size="9.6" fill="#374151">而非真对应原图单个像素；插值放大</text>
+  <text x="516" y="434" font-size="9.6" fill="#374151">出来的"像素级"是网格级距离插值+平滑</text>
+  <text x="516" y="456" font-size="9.6" fill="#374151">小缺陷落在patch邻域重叠区，边界会略粗糙</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="500" width="940" height="100" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="526" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：图像级检测只留"最惨"那个patch的距离当分数，但每个patch的距离本来都算过——</text>
+  <text x="490" y="548" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">把全部距离按空间位置摆回网格、插值放大、高斯平滑，就是像素级异常图。</text>
+  <text x="490" y="570" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">检测和定位共用同一次最近邻搜索，不是两套独立机制。</text>
+</svg>

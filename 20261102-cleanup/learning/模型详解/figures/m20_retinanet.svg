@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="360" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">RetinaNet：ResNet + FPN + 双子网，靠 Focal Loss 解决正负不平衡</text>
+
+  <!-- 输入 -->
+  <rect x="20" y="150" width="48" height="56" rx="4" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="44" y="175" text-anchor="middle" font-size="10" fill="#0369a1">输入</text>
+  <text x="44" y="191" text-anchor="middle" font-size="8" fill="#6b7280">图像</text>
+
+  <!-- Backbone -->
+  <rect x="82" y="140" width="92" height="76" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="128" y="166" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">骨干</text>
+  <text x="128" y="184" text-anchor="middle" font-size="10" fill="#374151">ResNet</text>
+  <text x="128" y="200" text-anchor="middle" font-size="8.5" fill="#6b7280">C3/C4/C5</text>
+
+  <!-- FPN -->
+  <rect x="188" y="84" width="104" height="190" rx="6" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">FPN 颈部</text>
+  <text x="240" y="119" text-anchor="middle" font-size="8" fill="#6b7280">自顶向下融合</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="202" y="126" width="76" height="22" rx="3" fill="#fff" stroke="#7c3aed"/><text x="240" y="141">P7</text>
+    <rect x="202" y="152" width="76" height="22" rx="3" fill="#fff" stroke="#7c3aed"/><text x="240" y="167">P6</text>
+    <rect x="202" y="178" width="76" height="22" rx="3" fill="#fff" stroke="#7c3aed"/><text x="240" y="193">P5</text>
+    <rect x="202" y="204" width="76" height="22" rx="3" fill="#fff" stroke="#7c3aed"/><text x="240" y="219">P4</text>
+    <rect x="202" y="230" width="76" height="22" rx="3" fill="#fff" stroke="#7c3aed"/><text x="240" y="245">P3</text>
+  </g>
+  <text x="240" y="266" text-anchor="middle" font-size="8" fill="#6b7280">每级各放 9 个 anchor</text>
+
+  <!-- 双子网（每级共享） -->
+  <text x="430" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">每个金字塔级共享两个子网</text>
+  <rect x="320" y="116" width="220" height="58" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="430" y="136" text-anchor="middle" font-size="10.5" fill="#15803d">① 分类子网（4×conv → K·A）</text>
+  <text x="430" y="153" text-anchor="middle" font-size="9" fill="#374151">每位置每 anchor 出 K 类得分</text>
+  <text x="430" y="167" text-anchor="middle" font-size="9" fill="#dc2626">⭐ 用 Focal Loss 训练</text>
+
+  <rect x="320" y="184" width="220" height="54" rx="6" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="430" y="204" text-anchor="middle" font-size="10.5" fill="#a16207">② 框回归子网（4×conv → 4·A）</text>
+  <text x="430" y="221" text-anchor="middle" font-size="9" fill="#374151">每 anchor 回归 4 个偏移</text>
+  <text x="430" y="234" text-anchor="middle" font-size="8.5" fill="#6b7280">Smooth L1</text>
+
+  <g stroke="#374151" stroke-width="1.4">
+    <line x1="68" y1="178" x2="80" y2="178" marker-end="url(#a)"/>
+    <line x1="174" y1="178" x2="186" y2="178" marker-end="url(#a)"/>
+    <line x1="292" y1="150" x2="318" y2="145" marker-end="url(#a)"/>
+    <line x1="292" y1="208" x2="318" y2="208" marker-end="url(#a)"/>
+  </g>
+
+  <!-- 输出 -->
+  <rect x="560" y="150" width="100" height="56" rx="6" fill="#fce7f3" stroke="#db2777"/>
+  <text x="610" y="173" text-anchor="middle" font-size="10" fill="#be185d">稠密预测</text>
+  <text x="610" y="190" text-anchor="middle" font-size="8.5" fill="#6b7280">→ NMS → 结果</text>
+  <line x1="540" y1="178" x2="558" y2="178" stroke="#374151" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- Focal Loss 公式块 -->
+  <rect x="560" y="84" width="184" height="50" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="652" y="104" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">Focal Loss</text>
+  <text x="652" y="123" text-anchor="middle" font-size="11" fill="#111827">FL = −(1−p_t)^γ · log(p_t)</text>
+
+  <!-- 底注 -->
+  <rect x="20" y="286" width="724" height="66" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="36" y="307" font-size="11" fill="#374151">核心：一阶段稠密预测 → 海量易分背景淹没梯度（见 Q25）。Focal Loss 给易样本乘 (1−p_t)^γ 降权，让训练聚焦难例。</text>
+  <text x="36" y="326" font-size="11" fill="#374151">γ=2、α=0.25（论文默认）。不靠采样、不靠 RPN 筛选，就把正负不平衡压下去 → 一阶段精度首次追平二阶段。</text>
+  <text x="36" y="344" font-size="10" fill="#b45309">本项目：YOLOv8 用 VFL/BCE+DFL（Focal 思想的后续），第三章加 P2 使网格更密、负样本更多时尤需关注此问题。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

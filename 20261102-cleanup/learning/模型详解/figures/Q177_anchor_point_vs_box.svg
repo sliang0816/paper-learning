@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="560" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q177 补充：一个格子等于一个点吗？——"anchor点"= 区域浓缩成的一个参照坐标</text>
+
+  <!-- 左：格子是区域 -->
+  <rect x="20" y="42" width="300" height="230" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="170" y="64" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f766e">① 格子本身是"区域"(有面积)</text>
+  <!-- 网格 -->
+  <g stroke="#94a3b8" stroke-width="1" fill="none">
+    <rect x="60" y="80" width="210" height="150"/>
+    <line x1="60" y1="130" x2="270" y2="130"/><line x1="60" y1="180" x2="270" y2="180"/>
+    <line x1="130" y1="80" x2="130" y2="230"/><line x1="200" y1="80" x2="200" y2="230"/>
+  </g>
+  <!-- 高亮一个格子 -->
+  <rect x="130" y="130" width="70" height="50" fill="#5eead4" fill-opacity="0.5" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="165" y="250" text-anchor="middle" font-size="9" fill="#374151">7×7网格铺448图，每格覆盖64×64像素</text>
+  <text x="165" y="266" text-anchor="middle" font-size="9" fill="#374151">高亮格 (row=3,col=4) 是一小块方形区域</text>
+
+  <!-- 中：浓缩成一个参照点 -->
+  <rect x="340" y="42" width="300" height="230" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">② 作预测参照时浓缩成"一个坐标"</text>
+  <rect x="380" y="90" width="130" height="95" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <!-- 参照点=格子网格坐标 -->
+  <circle cx="380" cy="90" r="6" fill="#1e40af"/>
+  <text x="393" y="88" font-size="9" fill="#1e40af" font-weight="bold">参照原点 (col=4,row=3)</text>
+  <!-- 回归出的中心 -->
+  <circle cx="445" cy="140" r="4" fill="#ef4444"/>
+  <text x="452" y="144" font-size="9" fill="#ef4444">框心 bx,by</text>
+  <text x="360" y="210" font-size="8.6" fill="#374151" font-family="monospace">bx=(col+tx)/7×448=(4+tx)/7×448</text>
+  <text x="360" y="226" font-size="8.6" fill="#374151">tx,ty∈[0,1] 把中心放进格子内某处</text>
+  <text x="360" y="246" font-size="9" font-weight="bold" fill="#1e40af">一个格子 → 一个 (col,row) 参照坐标</text>
+  <text x="360" y="264" font-size="8.6" fill="#6b7280">"点"=就框从哪起算而言，格子只给1个原点</text>
+
+  <!-- 右：点vs框 -->
+  <rect x="660" y="42" width="300" height="230" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="810" y="64" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">③ 关键：参照物带不带"形状"</text>
+  <text x="675" y="88" font-size="9.3" font-weight="bold" fill="#1e40af">anchor点(v1格子/FCOS/v8)：只有位置</text>
+  <text x="690" y="106" font-size="9" fill="#374151">(x, y) —— 2个数</text>
+  <text x="690" y="123" font-size="9" fill="#374151">宽高从零自由回归 bw=tw×W(无预设)</text>
+  <text x="675" y="148" font-size="9.3" font-weight="bold" fill="#b45309">anchor框(v2+预设框)：位置+形状</text>
+  <text x="690" y="166" font-size="9" fill="#374151">(x, y, w, h) —— 4个数</text>
+  <text x="690" y="183" font-size="9" fill="#374151">学相对模板缩放 bw=pw·e^tw(pw预设宽)</text>
+  <!-- 图钉 vs 相框 类比 -->
+  <text x="675" y="212" font-size="9" fill="#6d28d9" font-weight="bold">类比：</text>
+  <text x="690" y="229" font-size="9" fill="#374151">anchor点 = 地图钉一根图钉(只标位置)</text>
+  <text x="690" y="246" font-size="9" fill="#374151">anchor框 = 图钉处摆一个特定尺寸相框</text>
+  <text x="690" y="263" font-size="8.6" fill="#6b7280">(位置 + 尺寸)</text>
+
+  <!-- 底部结论 -->
+  <rect x="20" y="286" width="940" height="90" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="308" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">结论：一个格子不是"零面积的点"，而是"作预测参照时被浓缩成一个坐标"</text>
+  <text x="45" y="332" font-size="9.6" fill="#374151">·空间形态：格子是一小块区域(64×64像素，有面积)</text>
+  <text x="45" y="352" font-size="9.6" fill="#374151">·参照角色：每个格子对外只提供一个参照原点(网格坐标)，框中心从它出发、宽高从零自由回归</text>
+  <text x="45" y="370" font-size="9.6" font-weight="bold" fill="#15803d">·"点"的含义=参照物只携带"位置"(在哪儿)、不携带"形状"(该多大多长)——这就是它区别于anchor框的本质</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="388" width="940" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="410" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话："网格=anchor点"= 每个格子(虽是区域)预测时只贡献一个参照坐标，给了"在哪儿"(位置先验)但没给"该多大"(形状先验)；</text>
+  <text x="490" y="428" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">真anchor框比它多带一个形状模板。这正是v1 anchor-free、v2引入anchor的差别。</text>
+
+  <rect x="20" y="452" width="940" height="90" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="474" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">数值对照(格(row=3,col=4)预测一个框)</text>
+  <text x="45" y="498" font-size="9.4" fill="#374151" font-family="monospace">anchor点(v1)：中心 bx=(4+tx)/7×448、by=(3+ty)/7×448 ← 参照=格子坐标(4,3)；宽 bw=tw×448、高 bh=th×448 ← 无预设，自由回归</text>
+  <text x="45" y="520" font-size="9.4" fill="#374151" font-family="monospace">anchor框(v2)：中心 bx=σ(tx)+cx、by=σ(ty)+cy ← 参照=格子坐标；宽 bw=pw·e^tw、高 bh=ph·e^th ← pw,ph是预设模板宽高</text>
+  <text x="490" y="538" text-anchor="middle" font-size="9" fill="#6b7280">两者中心解码都以"格子坐标"为原点(都用了anchor点)；差别只在宽高：v1从零回归、v2以预设模板pw/ph为基准——多出的正是"形状先验"</text>
+</svg>

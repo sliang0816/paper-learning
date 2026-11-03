@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="250" fill="#fff"/>
+  <text x="420" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">16 CBAM 输入输出实例（即插即用，输入输出同形状）</text>
+  <text x="420" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">特征图进 → 通道注意力 ⊗ 空间注意力 → 同形状特征图出，重要通道/位置被放大</text>
+
+  <rect x="20" y="74" width="118" height="80" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="79" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入特征图</text>
+  <text x="79" y="113" text-anchor="middle" font-size="9.3" fill="#374151">256×20×20</text>
+  <text x="79" y="131" text-anchor="middle" font-size="8.3" fill="#6b7280">C×H×W</text>
+  <text x="79" y="146" text-anchor="middle" font-size="8" fill="#6b7280">某检测层的特征</text>
+
+  <line x1="138" y1="114" x2="166" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- channel attn -->
+  <rect x="168" y="70" width="180" height="88" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="258" y="89" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#b45309">① 通道注意力 Mc</text>
+  <text x="258" y="107" text-anchor="middle" font-size="8.5" fill="#374151">压空间→比 256 个通道谁重要</text>
+  <text x="258" y="123" text-anchor="middle" font-size="9" fill="#374151">权重 [0.9, 0.2, …] (1×1×256)</text>
+  <text x="258" y="139" text-anchor="middle" font-size="8.3" fill="#6b7280">⊗ 逐通道缩放</text>
+  <text x="258" y="152" text-anchor="middle" font-size="8" fill="#b45309">强化“目标”通道、压抑无关通道</text>
+
+  <line x1="348" y1="114" x2="376" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- spatial attn -->
+  <rect x="378" y="70" width="180" height="88" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="468" y="89" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#6d28d9">② 空间注意力 Ms</text>
+  <text x="468" y="107" text-anchor="middle" font-size="8.5" fill="#374151">压通道→比 20×20 个位置谁重要</text>
+  <text x="468" y="123" text-anchor="middle" font-size="9" fill="#374151">权重图 1×20×20</text>
+  <text x="468" y="139" text-anchor="middle" font-size="8.3" fill="#374151">目标处 0.8 / 背景 0.1 ⊗</text>
+  <text x="468" y="152" text-anchor="middle" font-size="8" fill="#6d28d9">聚焦“目标在哪”</text>
+
+  <line x1="558" y1="114" x2="586" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="588" y="74" width="120" height="80" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="648" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出特征图</text>
+  <text x="648" y="113" text-anchor="middle" font-size="9.3" fill="#374151">256×20×20</text>
+  <text x="648" y="131" text-anchor="middle" font-size="8" fill="#b91c1c">形状不变！</text>
+  <text x="648" y="146" text-anchor="middle" font-size="8" fill="#6b7280">重要处被放大</text>
+
+  <line x1="708" y1="114" x2="736" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="738" y="86" width="92" height="56" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="784" y="108" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">送回主干</text>
+  <text x="784" y="125" text-anchor="middle" font-size="8" fill="#6b7280">继续往下走</text>
+
+  <text x="420" y="186" text-anchor="middle" font-size="9.8" fill="#374151">关键：CBAM <tspan font-weight="bold" fill="#b91c1c">不改变形状</tspan>（256×20×20 进、256×20×20 出），只是给“哪些通道、哪些位置”乘上注意力权重。</text>
+  <text x="420" y="208" text-anchor="middle" font-size="9.3" fill="#6b7280">所以能像积木一样插进任意网络中间——本项目把它插进 YOLOv8 检测头（创新点 1：P2 + CBAM）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

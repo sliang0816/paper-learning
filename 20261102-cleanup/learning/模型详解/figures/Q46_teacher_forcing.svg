@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 430" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="430" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">翻译样本 = (源句, 目标句)；目标句"I love road"就是标签</text>
+  <text x="410" y="46" text-anchor="middle" font-size="11" fill="#6b7280">训练时它既当标签、又(右移后)被喂进解码器 —— teacher forcing</text>
+
+  <!-- sample pair -->
+  <rect x="40" y="62" width="340" height="56" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="56" y="84" font-size="11" font-weight="bold" fill="#0369a1">源句（输入 → 编码器）</text>
+  <text x="56" y="106" font-size="13" fill="#0c4a6e">我　爱　路</text>
+  <rect x="440" y="62" width="340" height="56" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="456" y="84" font-size="11" font-weight="bold" fill="#15803d">目标句（标签 → 解码器要生成）</text>
+  <text x="456" y="106" font-size="13" fill="#14532d">I　love　road</text>
+
+  <!-- teacher forcing alignment -->
+  <text x="410" y="148" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#7c3aed">训练（teacher forcing）：把目标句错位 → 一份当输入，一份当标签</text>
+
+  <!-- header -->
+  <text x="120" y="178" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#374151">步</text>
+  <text x="330" y="178" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1d4ed8">解码器输入 = 目标句右移 + &lt;BOS&gt;</text>
+  <text x="620" y="178" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">标签 = 目标句 + &lt;EOS&gt;</text>
+
+  <g font-size="11.5" text-anchor="middle">
+    <!-- inputs -->
+    <rect x="240" y="190" width="80" height="26" rx="4" fill="#dbeafe" stroke="#3b82f6"/><text x="280" y="208">&lt;BOS&gt;</text>
+    <rect x="240" y="222" width="80" height="26" rx="4" fill="#dbeafe" stroke="#3b82f6"/><text x="280" y="240">I</text>
+    <rect x="240" y="254" width="80" height="26" rx="4" fill="#dbeafe" stroke="#3b82f6"/><text x="280" y="272">love</text>
+    <rect x="240" y="286" width="80" height="26" rx="4" fill="#dbeafe" stroke="#3b82f6"/><text x="280" y="304">road</text>
+    <!-- labels -->
+    <rect x="560" y="190" width="80" height="26" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="600" y="208">I</text>
+    <rect x="560" y="222" width="80" height="26" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="600" y="240">love</text>
+    <rect x="560" y="254" width="80" height="26" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="600" y="272">road</text>
+    <rect x="560" y="286" width="80" height="26" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="600" y="304">&lt;EOS&gt;</text>
+    <!-- step nums -->
+    <text x="120" y="208">步1</text><text x="120" y="240">步2</text><text x="120" y="272">步3</text><text x="120" y="304">步4</text>
+  </g>
+  <!-- predict arrows -->
+  <g stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="322" y1="203" x2="558" y2="203"/>
+    <line x1="322" y1="235" x2="558" y2="235"/>
+    <line x1="322" y1="267" x2="558" y2="267"/>
+    <line x1="322" y1="299" x2="558" y2="299"/>
+  </g>
+  <text x="440" y="324" text-anchor="middle" font-size="9" fill="#6b7280">每步：输入该词 → 预测分布 → 与标签算交叉熵损失</text>
+
+  <!-- bottom: train vs infer -->
+  <rect x="40" y="338" width="365" height="78" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="56" y="358" font-size="10.5" font-weight="bold" fill="#15803d">训练：有"I love road"</text>
+  <text x="56" y="378" font-size="9.5" fill="#374151">它是标签；右移版被喂进解码器(teacher</text>
+  <text x="56" y="394" font-size="9.5" fill="#374151">forcing)，喂标准答案的上一个词，又快又稳。</text>
+
+  <rect x="415" y="338" width="365" height="78" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="431" y="358" font-size="10.5" font-weight="bold" fill="#b91c1c">推理：没有"I love road"</text>
+  <text x="431" y="378" font-size="9.5" fill="#374151">这正是要预测的东西；解码器只能用</text>
+  <text x="431" y="394" font-size="9.5" fill="#374151">自己上一步的输出自回归生成。</text>
+
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#9ca3af"/></marker>
+  </defs>
+</svg>

@@ -1,0 +1,3045 @@
+{
+  "deck": "/home/bornshine/Downloads/开题答辩_20260830/朱守亮-开题答辩v8-开题版.pptx",
+  "sources": [
+    "paper/drafts/abstract.md",
+    "paper/drafts/acknowledgments.md",
+    "paper/drafts/ch1_introduction.md",
+    "paper/drafts/ch2_related_work.md",
+    "paper/drafts/ch3_method.md",
+    "paper/drafts/ch4_clip.md",
+    "paper/drafts/ch5_experiments.md",
+    "paper/drafts/ch6_conclusion.md",
+    "paper/drafts/declaration.md",
+    "paper/drafts/publications.md",
+    "paper/drafts/references.md",
+    "paper/reviews/开题前论文终审与文献核验_20260830.md",
+    "paper/论文与实验思路梳理_20260822.md",
+    "results/core_experiment_status.md",
+    "results/detection_multiseed_summary.md",
+    "results/external_validation/raod_test_v1/summary.md",
+    "results/head_width_control_summary_5seed.md",
+    "results/size_stratified_head128_controls_5seed.md",
+    "results/training_argument_audit.md",
+    "results/实验发现与结论总结_20260811.md",
+    "results/实验结果记录.md"
+  ],
+  "n": 3,
+  "quoted": [
+    {
+      "slide": 1,
+      "text": "融合视觉语言模型的路面抛洒物\n检测与异常识别方法研究",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 1,
+      "text": "导师：________\n日期：____年__月",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 1,
+      "text": "博 学  ·  求 是  ·  明 德",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 1,
+      "text": "JIANGSU UNIVERSITY",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "JIANGSU",
+        "UNIVERSITY"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "技术路线",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "83.5%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "720 / 862",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "数据：测试集 862 个目标；small 720,medium 142.",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "它是什么？",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "≠",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "近重复隔离",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "2×2×5-seed",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "尺寸分层",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "RAOD边界",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "检测\n边界",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "真值框参考",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "val冻结校准",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "开放词汇对照",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "语义\n边界",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "前期基础：固定头宽2×2×5-seed;CLIP真值框→端到端→冻结校准。",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "4,651",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "train",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "3,021",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "val",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "650",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "选配置 / 阈值",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "test",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "650",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "P2:160×160 高分辨率分支",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "Detect 分类头宽度 = 128",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "固定分类头隐藏宽度 = 128",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "P2 因子",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "CBAM\n因子",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "无 P2",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "有 P2",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "无 CBAM",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "有 CBAM",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "baseline",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "p2_head128",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "cbam_only",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "p2_cbam_head128",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "40",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "41",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "42",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "43",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "44",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "45",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "46",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "47",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "seed 0",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "42.75",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "42.75"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "45.00",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "45.00"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "seed 1",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "41.00",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "41.00"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "43.28",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "43.28"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "seed 2",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "40.64",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "40.64"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "46.21",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "46.21"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "seed 3",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "42.20",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "42.20"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "43.49",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "43.49"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "seed 4",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "41.55",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "41.55"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "43.69",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "43.69"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "● baseline",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "● P2（head=128)",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "+2.71 ± 1.65 pp\n5 / 5 seed 正向",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "small AP@0.5\n+4.01 ± 1.58 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "CBAM独立效应\n方向不稳定",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "P2×CBAM 交互\n−1.53 ± 3.12 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "固定分类头宽128;4配置×5 seeds.n=5,不作强显著性外推。",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "seeds.n"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "官方 test 一次性冻结评估 · 3 个同 seed 配对 · 单类 debris 定位",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "Precision",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "84.76%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "86.10%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "+1.34 ± 0.70 pp\n3/3 正向",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "AP50-95",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "52.66%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "50.95%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "−1.70 ± 2.22 pp\n1/3 正向",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "RAOD:baseline / p2_head128;Precision 与 AP50-95 同时报告。",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "1  真值框参考",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "3  验证集冻结校准",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "检测候选召回\n47.46%  ·  28/59",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "条件分类正确\n60.71%  ·  17/28",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "端到端 recall\n28.81%\n17 / 59",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "conf-only F1\n39.44%",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "conf-only"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "joint margin + conf F1\n32.45%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": ">",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "来源：results/实验发现与结论总结_20260811.md;results/confirmation/rejection_confirmation_v1.json.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/confirmation/rejection_confirmation_v1.json."
+      ],
+      "absent_numbers": [
+        "20260811"
+      ]
+    },
+    {
+      "slide": 15,
+      "text": "统一 640 输入 · 同 GL/RU 词表 · val 选阈值 · IoU=0.5",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "12.91 FPS",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "完整 YOLO→CLIP 管线",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "77.41 ms / 图",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "RTX 3090 · 120 W · batch=1",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "来源：results/open_vocab/*/summary.json;results/full_pipeline_benchmark.json.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/full_pipeline_benchmark.json."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "贡献",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "不宣称",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "01  可归因实验",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "固定128头宽 · 2×2×5-seed\nP2:mAP50 +2.71pp,5/5正向",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "模块首创\nCBAM协同",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "阶段 1｜独立确认",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "阶段 3｜目标设备实测",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "Q & A",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "博 学  ·  求 是  ·  明 德",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "JIANGSU UNIVERSITY",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "JIANGSU",
+        "UNIVERSITY"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "严格独立确认",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "回溯内部确认",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "dHash ≤ 2 不跨 train / val / test｜已完成",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "n=5,不作强显著性外推",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "P2｜无 CBAM",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "+2.71 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "5/5 正向",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "P2｜有 CBAM",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "+1.81 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "1.81"
+      ]
+    },
+    {
+      "slide": 21,
+      "text": "4/5 正向",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "CBAM｜无 P2",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "+0.64 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "方向不稳定",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "CBAM｜有 P2",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "-0.90 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "平均为负",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "P2×CBAM 交互：−1.53 ± 3.12 pp  →  不支持正向协同叙事",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "2,910",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "图像",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "3,868",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "目标",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "+1.34 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "Precision（3/3正向）",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "−1.70 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "AP50-95（1/3正向）",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "可支持：局部 Precision 改善　　不支持：P2 跨域提高综合定位指标",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "Prompt\nsurveillance_v2\n由 val 选出",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "冻结校准\nconf-only 39.44%\njoint 32.45%",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "conf-only"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "B/32 val/test:50.91% / 52.54%;L/14:41.82% / 44.07%",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "来源：results/实验发现与结论总结_20260811.md;results/confirmation/rejection_confirmation_v1.json.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/confirmation/rejection_confirmation_v1.json."
+      ],
+      "absent_numbers": [
+        "20260811"
+      ]
+    },
+    {
+      "slide": 24,
+      "text": "640 输入",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "GL/RU 英文词表",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "IoU = 0.5",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "来源：results/open_vocab/yoloworld_v2s_gl_ru_imgsz640_fp16/summary.json 与 Grounding DINO 对应 summary.json.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/open_vocab/yoloworld_v2s_gl_ru_imgsz640_fp16/summary.json",
+        "summary.json."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "JPEG 解码",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "JPEG"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "31.36",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "检测",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "13.94",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "CLIP\n预处理",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "8.57",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "CLIP 推理",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "22.62",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "端到端：77.41 ms / 图  ·  12.91 FPS\n中位 65.16 ms  ·  P95 121.94 ms",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": []
+    }
+  ],
+  "composed": [
+    {
+      "slide": 1,
+      "text": "硕士学位论文开题答辩",
+      "absent_ngrams": [
+        "开题答",
+        "文开题",
+        "论文开",
+        "题答辩"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 1,
+      "text": "汇报人：朱守亮\n学　院：电气信息工程学院\n专　业：控制工程（非全日制专业硕士）",
+      "absent_ngrams": [
+        "制专业",
+        "日制专",
+        "汇报人"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "汇报围绕“问题、路线、证据、计划”四个问题展开",
+      "absent_ngrams": [
+        "四个问",
+        "报围绕",
+        "汇报围",
+        "问题展",
+        "题展开"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "选题依据",
+      "absent_ngrams": [
+        "选题依",
+        "题依据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "为什么值得做",
+      "absent_ngrams": [
+        "么值得",
+        "什么值",
+        "值得做"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "准备怎么做",
+      "absent_ngrams": [
+        "准备怎",
+        "备怎么",
+        "怎么做"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "前期证据",
+      "absent_ngrams": [
+        "前期证",
+        "期证据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "现在知道什么",
+      "absent_ngrams": [
+        "在知道",
+        "现在知",
+        "知道什",
+        "道什么"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "创新与计划",
+      "absent_ngrams": [
+        "与计划",
+        "创新与",
+        "新与计"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "如何完成闭环",
+      "absent_ngrams": [
+        "何完成",
+        "如何完",
+        "完成闭",
+        "成闭环"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 2,
+      "text": "不按论文目录复述，只回答评审最关心的四个问题",
+      "absent_ngrams": [
+        "不按论",
+        "关心的",
+        "只回答",
+        "四个问",
+        "回答评",
+        "审最关",
+        "录复述",
+        "心的四",
+        "按论文",
+        "文目录",
+        "最关心",
+        "的四个",
+        "目录复",
+        "答评审",
+        "论文目",
+        "评审最"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "固定监控把目标拍进画面，却仍难保留小目标细节",
+      "absent_ngrams": [
+        "仍难保",
+        "保留小",
+        "却仍难",
+        "把目标",
+        "拍进画",
+        "控把目",
+        "标拍进",
+        "标细节",
+        "留小目",
+        "监控把",
+        "目标拍",
+        "目标细",
+        "进画面",
+        "难保留"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "test 目标属于 small",
+      "absent_ngrams": [
+        "标属于",
+        "目标属"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 3,
+      "text": "640 letterbox 后的 COCO 面积分层",
+      "absent_ngrams": [
+        "积分层",
+        "面积分"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "闭集检测解决“框在哪里”，却没有回答预留类别“是什么”",
+      "absent_ngrams": [
+        "回答预",
+        "有回答",
+        "框在哪",
+        "检测解",
+        "没有回",
+        "测解决",
+        "答预留"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "框在哪里？",
+      "absent_ngrams": [
+        "框在哪"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "P3 下采样可能丢失细节\n小目标更易漏检",
+      "absent_ngrams": [
+        "丢失细",
+        "可能丢",
+        "失细节",
+        "更易漏",
+        "标更易",
+        "目标更",
+        "能丢失"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "GL / RU 不参与检测训练\n检测器无法直接命名",
+      "absent_ngrams": [
+        "器无法"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 4,
+      "text": "预留类别识别 ≠ 任意未知类发现；两类错误必须拆开研究",
+      "absent_ngrams": [
+        "两类错",
+        "必须拆",
+        "拆开研",
+        "知类发",
+        "类发现",
+        "类错误",
+        "误必须",
+        "错误必",
+        "须拆开"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "本课题只回答两个可验证问题，并主动限制外推",
+      "absent_ngrams": [
+        "个可验",
+        "主动限",
+        "制外推",
+        "动限制",
+        "只回答",
+        "可验证",
+        "回答两",
+        "并主动",
+        "本课题",
+        "答两个",
+        "证问题",
+        "课题只",
+        "限制外",
+        "题只回",
+        "验证问"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "RQ1\n控制头宽后，P2 收益能否重复？",
+      "absent_ngrams": [
+        "收益能",
+        "益能否",
+        "能否重"
+      ],
+      "absent_tokens": [
+        "RQ1"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "RQ2\nCLIP 在分层协议中卡在哪里？",
+      "absent_ngrams": [
+        "中卡在",
+        "协议中",
+        "卡在哪",
+        "在分层",
+        "议中卡"
+      ],
+      "absent_tokens": [
+        "RQ2"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "共享\n证据原则",
+      "absent_ngrams": [
+        "据原则",
+        "证据原"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "不宣称模块首创",
+      "absent_ngrams": [
+        "宣称模",
+        "称模块"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "不宣称任意未知发现",
+      "absent_ngrams": [
+        "宣称任",
+        "未知发",
+        "知发现",
+        "称任意"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "不宣称已成熟部署",
+      "absent_ngrams": [
+        "已成熟",
+        "成熟部",
+        "熟部署",
+        "称已成"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "研究对象更小，但每一个结论都能被实验检验",
+      "absent_ngrams": [
+        "一个结",
+        "个结论",
+        "但每一",
+        "实验检",
+        "对象更",
+        "每一个",
+        "结论都",
+        "能被实",
+        "被实验",
+        "论都能",
+        "象更小",
+        "都能被",
+        "验检验"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "两条技术主线共享同一原则：先控制变量，再逐层加入真实误差",
+      "absent_ngrams": [
+        "一原则",
+        "两条技",
+        "主线共",
+        "享同一",
+        "先控制",
+        "共享同",
+        "再逐层",
+        "制变量",
+        "同一原",
+        "技术主",
+        "控制变",
+        "术主线",
+        "条技术",
+        "线共享"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "共同原则：每个结论都必须能回到配置、日志、结构化结果与适用边界",
+      "absent_ngrams": [
+        "与适用",
+        "个结论",
+        "共同原",
+        "到配置",
+        "化结果",
+        "同原则",
+        "回到配",
+        "必须能",
+        "构化结",
+        "果与适",
+        "每个结",
+        "结论都",
+        "能回到",
+        "论都必",
+        "都必须",
+        "须能回"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "检测证据线",
+      "absent_ngrams": [
+        "证据线"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "语义证据线",
+      "absent_ngrams": [
+        "义证据",
+        "证据线",
+        "语义证"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "端到端级联",
+      "absent_ngrams": [
+        "到端级",
+        "端级联"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 6,
+      "text": "统一输出：配置 · 日志 · 结构化结果 · 结论摘要",
+      "absent_ngrams": [
+        "一输出",
+        "化结果",
+        "构化结"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "近重复隔离减少划分污染，但不等于真正未查看的确认集",
+      "absent_ngrams": [
+        "于真正",
+        "但不等",
+        "减少划",
+        "分污染",
+        "划分污",
+        "少划分",
+        "正未查",
+        "看的确",
+        "离减少",
+        "等于真",
+        "隔离减"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "张自建图像",
+      "absent_ngrams": [
+        "建图像",
+        "张自建",
+        "自建图"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "拟合模型",
+      "absent_ngrams": [
+        "拟合模"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "冻结后评估",
+      "absent_ngrams": [
+        "后评估",
+        "结后评"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "dHash ≤ 2 的近重复图像成组隔离，不跨划分",
+      "absent_ngrams": [
+        "不跨划",
+        "像成组",
+        "图像成",
+        "复图像",
+        "成组隔",
+        "的近重"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "已控制：近重复泄漏、val / test 角色\n仍有边界：历史 test 曾用于 prompt 探索，回溯内部确认也不是“从未查看”",
+      "absent_ngrams": [
+        "仍有边",
+        "从未查",
+        "复泄漏",
+        "已控制",
+        "有边界",
+        "确认也",
+        "认也不",
+        "重复泄"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 7,
+      "text": "数据划分：3,021 / 650 / 650;确认集边界将在后续工作中补齐。",
+      "absent_ngrams": [
+        "中补齐",
+        "作中补",
+        "将在后",
+        "工作中",
+        "界将在",
+        "认集边",
+        "边界将",
+        "集边界"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "P2 增加 160×160 浅层分支，目标是保留小目标空间信息",
+      "absent_ngrams": [
+        "保留小",
+        "层分支",
+        "是保留",
+        "标是保",
+        "标空间",
+        "浅层分",
+        "留小目",
+        "目标空"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "CBAM:检测尺度后的对照因子",
+      "absent_ngrams": [
+        "后的对",
+        "对照因",
+        "尺度后",
+        "照因子"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 8,
+      "text": "结构来源：论文图3.1;P2与CBAM均不作模块首创宣称。",
+      "absent_ngrams": [
+        "不作模",
+        "作模块",
+        "创宣称",
+        "构来源",
+        "结构来",
+        "论文图",
+        "首创宣"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "原 P2 结果混入头宽 128→64,必须用 2×2×5-seed 重新归因",
+      "absent_ngrams": [
+        "入头宽",
+        "必须用",
+        "新归因",
+        "果混入",
+        "混入头",
+        "结果混",
+        "重新归"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "5 个独立随机种子\n\nseed 0  ·  1  ·  2  ·  3  ·  4\n\n4 配置 × 5 seeds\n= 20 次训练",
+      "absent_ngrams": [
+        "个独立",
+        "独立随",
+        "立随机"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "5-seed 是重复训练和同 seed 配对，不是五折交叉验证",
+      "absent_ngrams": [
+        "不是五",
+        "五折交",
+        "是五折",
+        "练和同",
+        "训练和"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "训练实参审计：21/26 组有直接日志，已覆盖的均解析为 AdamW.",
+      "absent_ngrams": [
+        "已覆盖",
+        "接日志",
+        "的均解",
+        "盖的均",
+        "直接日",
+        "组有直"
+      ],
+      "absent_tokens": [
+        "AdamW."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "控制头宽后，P2在自建域5/5正向，CBAM没有稳定独立贡献",
+      "absent_ngrams": [
+        "自建域"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "同 seed 配对的 test mAP@0.5（%)",
+      "absent_ngrams": [
+        "配对的"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "RAOD 只复现 Precision 提高，没有复现综合定位提升",
+      "absent_ngrams": [
+        "位提升",
+        "只复现",
+        "复现综",
+        "定位提",
+        "现综合"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 11,
+      "text": "结论：自建域 P2 收益不能直接外推为普遍跨域提升",
+      "absent_ngrams": [
+        "域提升",
+        "普遍跨",
+        "自建域",
+        "遍跨域"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "CLIP 只在固定八类词表内命名检测框，不负责发现任意未知类",
+      "absent_ngrams": [
+        "不负责",
+        "内命名",
+        "只在固",
+        "名检测",
+        "命名检",
+        "表内命",
+        "词表内",
+        "负责发",
+        "责发现"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "GL / RU 未参与检测训练｜名称进入固定词表",
+      "absent_ngrams": [
+        "名称进",
+        "称进入"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "OOD 代理分数：只作诊断",
+      "absent_ngrams": [
+        "作诊断",
+        "只作诊"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "历史 test 数值：仅作探索性证据",
+      "absent_ngrams": [
+        "仅作探",
+        "作探索"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 12,
+      "text": "共享核心：检测框裁剪 → CLIP 图文相似度 → 固定词表命名。",
+      "absent_ngrams": [
+        "享核心",
+        "共享核"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "三级证据逐层加入检测误差和阈值选择，避免单一指标替代系统分析",
+      "absent_ngrams": [
+        "一指标",
+        "代系统",
+        "免单一",
+        "加入检",
+        "单一指",
+        "指标替",
+        "据逐层",
+        "替代系",
+        "标替代",
+        "系统分",
+        "统分析",
+        "证据逐",
+        "避免单"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "只测 CLIP 语义能力",
+      "absent_ngrams": [
+        "义能力",
+        "语义能"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "2  端到端级联",
+      "absent_ngrams": [
+        "到端级",
+        "端级联"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "加入候选漏检\n与冗余候选",
+      "absent_ngrams": [
+        "与冗余",
+        "候选漏",
+        "入候选",
+        "冗余候",
+        "加入候",
+        "选漏检"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "val 选工作点后锁定\n再评估 precision / recall",
+      "absent_ngrams": [
+        "作点后",
+        "再评估",
+        "后锁定",
+        "点后锁",
+        "选工作"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "冻结锁：选择后不再看评估集调参",
+      "absent_ngrams": [
+        "不再看",
+        "估集调",
+        "再看评",
+        "冻结锁",
+        "后不再",
+        "择后不",
+        "看评估",
+        "评估集",
+        "选择后",
+        "集调参"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "三层共享同一 CLIP 核心，不是三个模型",
+      "absent_ngrams": [
+        "三层共",
+        "享同一",
+        "共享同",
+        "层共享"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 13,
+      "text": "内部确认 ≠ 从项目开始从未查看的确认集",
+      "absent_ngrams": [
+        "从未查",
+        "始从未",
+        "开始从",
+        "看的确"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "端到端低性能来自候选漏检、语义混淆和冗余候选的共同作用",
+      "absent_ngrams": [
+        "低性能",
+        "候选漏",
+        "候选的",
+        "冗余候",
+        "到端低",
+        "和冗余",
+        "性能来",
+        "来自候",
+        "淆和冗",
+        "的共同",
+        "端低性",
+        "能来自",
+        "自候选",
+        "选漏检",
+        "选的共"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "多瓶颈\n共同作用",
+      "absent_ngrams": [
+        "多瓶颈"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "直接开放词汇基线未形成有效检测，当前管线也仍有明显成本和类别权衡",
+      "absent_ngrams": [
+        "也仍有",
+        "前管线",
+        "当前管",
+        "成本和",
+        "明显成",
+        "显成本",
+        "本和类",
+        "管线也",
+        "线也仍"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "定向 prompt 并非无代价\nGL/RU 宏平均：52.54% → 37.29%",
+      "absent_ngrams": [
+        "并非无",
+        "无代价",
+        "非无代"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 15,
+      "text": "不代表边缘设备或无人值守部署",
+      "absent_ngrams": [
+        "人值守",
+        "代表边",
+        "值守部",
+        "备或无",
+        "守部署",
+        "或无人",
+        "无人值",
+        "表边缘",
+        "设备或"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "创新不在模块命名，而在可归因实验、分层诊断和边界验证",
+      "absent_ngrams": [
+        "不在模",
+        "分层诊",
+        "在可归",
+        "在模块",
+        "块命名",
+        "层诊断",
+        "断和边",
+        "新不在",
+        "模块命",
+        "界验证",
+        "而在可",
+        "诊断和",
+        "边界验"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "把“贡献”与“证据”和“不宣称”放在同一页，是本课题可信度的一部分",
+      "absent_ngrams": [
+        "同一页",
+        "度的一",
+        "放在同",
+        "是本课",
+        "本课题",
+        "的一部",
+        "课题可",
+        "题可信"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "承载证据",
+      "absent_ngrams": [
+        "承载证",
+        "载证据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "02  分层诊断",
+      "absent_ngrams": [
+        "分层诊",
+        "层诊断"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "真值框 → 检测框 → 冻结工作点\n漏检、语义混淆与阈值分别定位",
+      "absent_ngrams": [
+        "与阈值",
+        "冻结工",
+        "淆与阈",
+        "混淆与",
+        "结工作"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "任意未知类发现\n单一指标代表系统",
+      "absent_ngrams": [
+        "一指标",
+        "代表系",
+        "单一指",
+        "指标代",
+        "标代表",
+        "知类发",
+        "类发现",
+        "表系统"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "03  边界验证",
+      "absent_ngrams": [
+        "界验证",
+        "边界验"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "RAOD · 640开放词汇对照 · 完整管线测速\n正向、负向与代价同时报告",
+      "absent_ngrams": [
+        "与代价",
+        "代价同",
+        "价同时",
+        "向与代",
+        "负向与"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "稳定跨域提升\n成熟边缘部署",
+      "absent_ngrams": [
+        "域提升",
+        "定跨域",
+        "成熟边",
+        "熟边缘",
+        "稳定跨",
+        "缘部署",
+        "边缘部"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 16,
+      "text": "结论可归因  ·  失败可定位  ·  边界被写入协议",
+      "absent_ngrams": [
+        "入协议",
+        "写入协",
+        "可定位",
+        "失败可",
+        "界被写",
+        "结论可",
+        "被写入",
+        "论可归",
+        "败可定",
+        "边界被"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "后续工作将用独立确认、跨帧和目标设备测试补齐最终证据",
+      "absent_ngrams": [
+        "作将用",
+        "备测试",
+        "将用独",
+        "最终证",
+        "测试补",
+        "用独立",
+        "终证据",
+        "补齐最",
+        "设备测",
+        "试补齐",
+        "齐最终"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "输入：新采集、从未查看的同域数据",
+      "absent_ngrams": [
+        "从未查",
+        "同域数",
+        "域数据",
+        "新采集"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "交付：冻结协议下的确认性指标",
+      "absent_ngrams": [
+        "下的确",
+        "冻结协",
+        "性指标",
+        "结协议",
+        "认性指"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "阶段 2｜跨帧评估",
+      "absent_ngrams": [
+        "帧评估",
+        "跨帧评"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "输入：带视频 ID / 时间戳的连续帧",
+      "absent_ngrams": [
+        "带视频",
+        "戳的连",
+        "的连续",
+        "间戳的"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "交付：帧级与事件级指标、泄漏检查",
+      "absent_ngrams": [
+        "与事件",
+        "事件级",
+        "件级指",
+        "帧级与",
+        "泄漏检",
+        "漏检查",
+        "级与事",
+        "级指标"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "输入：明确芯片、功率和部署框架",
+      "absent_ngrams": [
+        "功率和",
+        "和部署",
+        "明确芯",
+        "率和部",
+        "确芯片",
+        "署框架",
+        "部署框"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "交付：延迟、内存、功耗与准确率报告",
+      "absent_ngrams": [
+        "与准确",
+        "率报告",
+        "确率报",
+        "耗与准"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "前置材料",
+      "absent_ngrams": [
+        "前置材",
+        "置材料"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "新采集数据\n视频元数据\n目标设备",
+      "absent_ngrams": [
+        "新采集",
+        "采集数",
+        "集数据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "共同留存",
+      "absent_ngrams": [
+        "共同留",
+        "同留存"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "配置 · 日志\n结构化结果\n结论摘要",
+      "absent_ngrams": [
+        "化结果",
+        "构化结"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 17,
+      "text": "未有真实材料前不伪造独立确认、跨帧或设备结果。",
+      "absent_ngrams": [
+        "不伪造",
+        "伪造独",
+        "前不伪",
+        "实材料",
+        "帧或设",
+        "或设备",
+        "料前不",
+        "未有真",
+        "材料前",
+        "真实材",
+        "跨帧或",
+        "造独立"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "感谢各位老师指导",
+      "absent_ngrams": [
+        "师指导",
+        "感谢各",
+        "老师指",
+        "谢各位"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "恳请批评指正",
+      "absent_ngrams": [
+        "恳请批",
+        "批评指",
+        "评指正",
+        "请批评"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "希望获得评审对\n研究问题 · 验证协议 · 后续计划的建议",
+      "absent_ngrams": [
+        "划的建",
+        "希望获",
+        "得评审",
+        "望获得",
+        "的建议",
+        "获得评",
+        "计划的",
+        "证协议",
+        "评审对",
+        "验证协"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "近重复隔离、内部确认与严格独立确认是三个不同概念",
+      "absent_ngrams": [
+        "三个不",
+        "不同概",
+        "与严格",
+        "个不同",
+        "同概念",
+        "确认是",
+        "认与严",
+        "认是三"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "项目开始后从未查看的新采集数据｜待完成",
+      "absent_ngrams": [
+        "从未查",
+        "后从未",
+        "始后从",
+        "开始后",
+        "待完成",
+        "新采集",
+        "的新采",
+        "采集数",
+        "集数据"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "后期定义确认角色，不能恢复时间上的独立性",
+      "absent_ngrams": [
+        "上的独",
+        "不能恢",
+        "后期定",
+        "复时间",
+        "定义确",
+        "恢复时",
+        "时间上",
+        "期定义",
+        "独立性",
+        "能恢复",
+        "间上的"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "近重复成组隔离",
+      "absent_ngrams": [
+        "复成组",
+        "成组隔",
+        "重复成"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 19,
+      "text": "定义强度：近重复隔离 < 回溯内部确认 < 从未查看的严格独立确认。",
+      "absent_ngrams": [
+        "义强度",
+        "从未查",
+        "定义强"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "5-seed 完整表与训练实参支持复现，但直接日志覆盖为 21/26",
+      "absent_ngrams": [
+        "但直接",
+        "参支持",
+        "完整表",
+        "实参支",
+        "志覆盖",
+        "持复现",
+        "接日志",
+        "支持复",
+        "整表与",
+        "日志覆",
+        "直接日",
+        "表与训",
+        "覆盖为"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "日志可直接核验的训练\n\noptimizer  AdamW\nlr  0.001\nmomentum  0.9\ndecay 组  0.0005\n\n覆盖：21 / 26",
+      "absent_ngrams": [
+        "志可直",
+        "接核验",
+        "日志可",
+        "核验的",
+        "直接核",
+        "验的训"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "seeds 0–4 全部完成；无日志的 5 组不伪造直接证据",
+      "absent_ngrams": [
+        "不伪造",
+        "伪造直",
+        "无日志",
+        "组不伪",
+        "造直接"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 20,
+      "text": "数值来源：head_width_control_summary_5seed 与 training_argument_audit.",
+      "absent_ngrams": [
+        "值来源",
+        "数值来"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "同 seed 配对把 P2,CBAM 和交互项分开，避免只看最好模型",
+      "absent_ngrams": [
+        "互项分",
+        "免只看",
+        "只看最",
+        "好模型",
+        "最好模",
+        "看最好",
+        "避免只",
+        "配对把",
+        "项分开"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "水平轴单位：test mAP@0.5 配对差值（百分点）；零点为无效应。",
+      "absent_ngrams": [
+        "为无效",
+        "平轴单",
+        "无效应",
+        "水平轴",
+        "点为无",
+        "轴单位",
+        "零点为"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "RAOD 按视频 ID 分组并冻结 test,但只验证单类外部定位",
+      "absent_ngrams": [
+        "但只验",
+        "分组并",
+        "单类外",
+        "只验证",
+        "外部定",
+        "按视频",
+        "类外部",
+        "组并冻",
+        "证单类",
+        "部定位",
+        "验证单"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "数据协议：视频 ID 成组 → 单类 debris 映射 → baseline / P2 同 seed 训练 → 官方 test 一次性评估",
+      "absent_ngrams": [
+        "数据协"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 22,
+      "text": "RAOD 仅作单类外部定位边界，不是同域预留类别的语义确认集。",
+      "absent_ngrams": [
+        "不是同",
+        "仅作单",
+        "位边界",
+        "作单类",
+        "别的语",
+        "单类外",
+        "同域预",
+        "域预留",
+        "外部定",
+        "定位边",
+        "是同域",
+        "类外部",
+        "部定位"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "Prompt,阈值和定向消融共同说明“选择有效”不等于“无代价”",
+      "absent_ngrams": [
+        "值和定",
+        "共同说",
+        "同说明",
+        "和定向",
+        "择有效",
+        "无代价",
+        "消融共",
+        "融共同",
+        "选择有"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "类别代价\nGL/RU\n52.54% → 37.29%",
+      "absent_ngrams": [
+        "别代价",
+        "类别代"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "历史 test 泄漏已披露，不写成严格确认",
+      "absent_ngrams": [
+        "不写成",
+        "严格确",
+        "写成严",
+        "已披露",
+        "成严格",
+        "格确认",
+        "泄漏已",
+        "漏已披"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "开放词汇比较统一了输入、词表、阈值和 IoU,但没有穷尽域适配",
+      "absent_ngrams": [
+        "一了输",
+        "了输入",
+        "尽域适",
+        "汇比较",
+        "穷尽域",
+        "词汇比"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "val 选置信度",
+      "absent_ngrams": [
+        "选置信"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 24,
+      "text": "结论限于当前模型版本、提示、阈值搜索和本地领域；不否定域适配后的可能性",
+      "absent_ngrams": [
+        "不否定",
+        "值搜索",
+        "前模型",
+        "可能性",
+        "后的可",
+        "否定域",
+        "和本地",
+        "地领域",
+        "定域适",
+        "当前模",
+        "搜索和",
+        "本地领",
+        "索和本",
+        "论限于",
+        "适配后",
+        "配后的",
+        "阈值搜",
+        "限于当"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "当前效率只代表 RTX 3090 原型，最终仍需跨帧与目标设备闭环",
+      "absent_ngrams": [
+        "仍需跨",
+        "前效率",
+        "备闭环",
+        "帧与目",
+        "当前效",
+        "效率只",
+        "率只代",
+        "设备闭",
+        "跨帧与",
+        "需跨帧"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "主要阶段平均延迟（ms / 图；其余 0.22 ms 未标注）",
+      "absent_ngrams": [
+        "未标注",
+        "段平均",
+        "阶段平"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "测试环境\n\nRTX 3090\n120 W 功耗限制\nbatch = 1\n峰值预留显存 1242 MB",
+      "absent_ngrams": [
+        "值预留",
+        "峰值预",
+        "测试环",
+        "试环境",
+        "预留显"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "仍需的真实输入：新采集独立确认数据 · 视频元数据 · 目标边缘设备\n在这些材料到位前，不宣称跨帧稳定或边缘可部署",
+      "absent_ngrams": [
+        "些材料",
+        "仍需的",
+        "到位前",
+        "在这些",
+        "定或边",
+        "实输入",
+        "宣称跨",
+        "帧稳定",
+        "或边缘",
+        "料到位",
+        "新采集",
+        "材料到",
+        "的真实",
+        "真实输",
+        "称跨帧",
+        "稳定或",
+        "缘可部",
+        "跨帧稳",
+        "边缘可",
+        "这些材",
+        "采集独",
+        "需的真"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "测速不含模型加载与预热；为顺序流式 batch=1,不代表离线批处理吞吐。",
+      "absent_ngrams": [
+        "不含模",
+        "与预热",
+        "为顺序",
+        "代表离",
+        "加载与",
+        "含模型",
+        "处理吞",
+        "序流式",
+        "测速不",
+        "理吞吐",
+        "表离线",
+        "载与预",
+        "速不含",
+        "顺序流"
+      ],
+      "absent_tokens": [],
+      "absent_numbers": []
+    }
+  ],
+  "absent_hard": [
+    {
+      "slide": 1,
+      "text": "JIANGSU UNIVERSITY",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "JIANGSU",
+        "UNIVERSITY"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "RQ1\n控制头宽后，P2 收益能否重复？",
+      "absent_ngrams": [
+        "收益能",
+        "益能否",
+        "能否重"
+      ],
+      "absent_tokens": [
+        "RQ1"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 5,
+      "text": "RQ2\nCLIP 在分层协议中卡在哪里？",
+      "absent_ngrams": [
+        "中卡在",
+        "协议中",
+        "卡在哪",
+        "在分层",
+        "议中卡"
+      ],
+      "absent_tokens": [
+        "RQ2"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 9,
+      "text": "训练实参审计：21/26 组有直接日志，已覆盖的均解析为 AdamW.",
+      "absent_ngrams": [
+        "已覆盖",
+        "接日志",
+        "的均解",
+        "盖的均",
+        "直接日",
+        "组有直"
+      ],
+      "absent_tokens": [
+        "AdamW."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 10,
+      "text": "42.75",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "42.75"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "45.00",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "45.00"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "41.00",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "41.00"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "43.28",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "43.28"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "40.64",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "40.64"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "46.21",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "46.21"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "42.20",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "42.20"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "43.49",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "43.49"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "41.55",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "41.55"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "43.69",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "43.69"
+      ]
+    },
+    {
+      "slide": 10,
+      "text": "固定分类头宽128;4配置×5 seeds.n=5,不作强显著性外推。",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "seeds.n"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "conf-only F1\n39.44%",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "conf-only"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 14,
+      "text": "来源：results/实验发现与结论总结_20260811.md;results/confirmation/rejection_confirmation_v1.json.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/confirmation/rejection_confirmation_v1.json."
+      ],
+      "absent_numbers": [
+        "20260811"
+      ]
+    },
+    {
+      "slide": 15,
+      "text": "来源：results/open_vocab/*/summary.json;results/full_pipeline_benchmark.json.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/full_pipeline_benchmark.json."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 18,
+      "text": "JIANGSU UNIVERSITY",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "JIANGSU",
+        "UNIVERSITY"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 21,
+      "text": "+1.81 pp",
+      "absent_ngrams": [],
+      "absent_tokens": [],
+      "absent_numbers": [
+        "1.81"
+      ]
+    },
+    {
+      "slide": 23,
+      "text": "冻结校准\nconf-only 39.44%\njoint 32.45%",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "conf-only"
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 23,
+      "text": "来源：results/实验发现与结论总结_20260811.md;results/confirmation/rejection_confirmation_v1.json.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/confirmation/rejection_confirmation_v1.json."
+      ],
+      "absent_numbers": [
+        "20260811"
+      ]
+    },
+    {
+      "slide": 24,
+      "text": "来源：results/open_vocab/yoloworld_v2s_gl_ru_imgsz640_fp16/summary.json 与 Grounding DINO 对应 summary.json.",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "results/open_vocab/yoloworld_v2s_gl_ru_imgsz640_fp16/summary.json",
+        "summary.json."
+      ],
+      "absent_numbers": []
+    },
+    {
+      "slide": 25,
+      "text": "JPEG 解码",
+      "absent_ngrams": [],
+      "absent_tokens": [
+        "JPEG"
+      ],
+      "absent_numbers": []
+    }
+  ]
+}

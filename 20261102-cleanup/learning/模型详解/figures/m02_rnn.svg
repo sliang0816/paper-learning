@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="430" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">RNN：循环（参数共享）→ 按时间展开 → seq2seq 瓶颈（注意力的由来）</text>
+
+  <!-- ① 折叠循环 -->
+  <text x="120" y="56" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">① 循环结构（折叠）</text>
+  <rect x="78" y="78" width="84" height="48" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="120" y="107" text-anchor="middle" font-size="12" fill="#1d4ed8">RNN 单元</text>
+  <path d="M162,90 C205,80 205,124 162,114" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#a)"/>
+  <text x="205" y="105" font-size="9" fill="#7c3aed">h 自环</text>
+  <line x1="120" y1="140" x2="120" y2="126" stroke="#374151" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="120" y="154" text-anchor="middle" font-size="10" fill="#374151">输入 x_t</text>
+  <line x1="120" y1="78" x2="120" y2="64" stroke="#374151" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="180" y="146" font-size="9.5" fill="#6b7280">hₜ=tanh(Wₕhₜ₋₁+Wₓxₜ+b)</text>
+
+  <!-- ② 展开 -->
+  <text x="520" y="56" text-anchor="middle" font-size="12" font-weight="bold" fill="#16a34a">② 按时间展开（同一组权重 W 复用）</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="320" y="84" width="56" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="348" y="108">h₁</text>
+    <rect x="412" y="84" width="56" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="440" y="108">h₂</text>
+    <rect x="504" y="84" width="56" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="532" y="108">h₃</text>
+    <rect x="640" y="84" width="56" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="668" y="108">hₜ</text>
+  </g>
+  <g stroke="#16a34a" stroke-width="1.6">
+    <line x1="376" y1="104" x2="410" y2="104" marker-end="url(#g)"/>
+    <line x1="468" y1="104" x2="502" y2="104" marker-end="url(#g)"/>
+    <line x1="560" y1="104" x2="594" y2="104" stroke-dasharray="4 3" marker-end="url(#g)"/>
+  </g>
+  <text x="582" y="100" font-size="11" fill="#6b7280">···</text>
+  <g font-size="9" text-anchor="middle" fill="#374151">
+    <text x="348" y="150">x₁</text><text x="440" y="150">x₂</text><text x="532" y="150">x₃</text><text x="668" y="150">xₜ</text>
+  </g>
+  <g stroke="#374151" stroke-width="1.2">
+    <line x1="348" y1="140" x2="348" y2="126" marker-end="url(#a)"/>
+    <line x1="440" y1="140" x2="440" y2="126" marker-end="url(#a)"/>
+    <line x1="532" y1="140" x2="532" y2="126" marker-end="url(#a)"/>
+    <line x1="668" y1="140" x2="668" y2="126" marker-end="url(#a)"/>
+  </g>
+  <text x="508" y="170" text-anchor="middle" font-size="9" fill="#b45309">梯度沿链条连乘 → 长序列梯度消失/爆炸（→ LSTM 修门控高速路）</text>
+
+  <line x1="40" y1="186" x2="720" y2="186" stroke="#e5e7eb"/>
+
+  <!-- ③ seq2seq 瓶颈 -->
+  <text x="380" y="208" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#b91c1c">③ Seq2Seq 编码器-解码器 与"信息瓶颈"——注意力（Attention）正是来修它</text>
+
+  <!-- encoder -->
+  <text x="150" y="232" text-anchor="middle" font-size="10.5" fill="#1d4ed8">编码器 RNN（读输入）</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="56" y="242" width="50" height="34" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="81" y="263">h₁</text>
+    <rect x="120" y="242" width="50" height="34" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="145" y="263">h₂</text>
+    <rect x="184" y="242" width="50" height="34" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="209" y="263">h₃</text>
+  </g>
+  <g stroke="#3b82f6" stroke-width="1.4"><line x1="106" y1="259" x2="118" y2="259" marker-end="url(#b)"/><line x1="170" y1="259" x2="182" y2="259" marker-end="url(#b)"/></g>
+  <g font-size="8.5" text-anchor="middle" fill="#374151"><text x="81" y="292">我</text><text x="145" y="292">爱</text><text x="209" y="292">路</text></g>
+
+  <!-- context vector bottleneck -->
+  <rect x="266" y="240" width="74" height="40" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="303" y="258" text-anchor="middle" font-size="10" fill="#b91c1c">语境向量 c</text>
+  <text x="303" y="272" text-anchor="middle" font-size="8" fill="#b91c1c">整句压成一个</text>
+  <line x1="234" y1="259" x2="264" y2="259" stroke="#dc2626" stroke-width="2" marker-end="url(#r)"/>
+  <text x="303" y="300" text-anchor="middle" font-size="8.5" fill="#dc2626">🔴 瓶颈：长句被压扁→信息丢失</text>
+
+  <!-- decoder -->
+  <text x="520" y="232" text-anchor="middle" font-size="10.5" fill="#16a34a">解码器 RNN（出翻译）</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="392" y="242" width="50" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="417" y="263">s₁</text>
+    <rect x="456" y="242" width="50" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="481" y="263">s₂</text>
+    <rect x="520" y="242" width="50" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="545" y="263">s₃</text>
+  </g>
+  <g stroke="#16a34a" stroke-width="1.4"><line x1="442" y1="259" x2="454" y2="259" marker-end="url(#g)"/><line x1="506" y1="259" x2="518" y2="259" marker-end="url(#g)"/></g>
+  <line x1="340" y1="259" x2="390" y2="259" stroke="#dc2626" stroke-width="2" marker-end="url(#r)"/>
+  <g font-size="8.5" text-anchor="middle" fill="#374151"><text x="417" y="292">I</text><text x="481" y="292">love</text><text x="545" y="292">road</text></g>
+
+  <!-- attention fix -->
+  <rect x="592" y="240" width="148" height="56" rx="8" fill="#f5f3ff" stroke="#7c3aed"/>
+  <text x="666" y="258" text-anchor="middle" font-size="9.5" fill="#6d28d9">Attention 的改进：</text>
+  <text x="666" y="273" text-anchor="middle" font-size="8.5" fill="#374151">解码每步回看编码器</text>
+  <text x="666" y="286" text-anchor="middle" font-size="8.5" fill="#374151">全部 hₜ（不只 c）</text>
+
+  <!-- 底注 -->
+  <rect x="40" y="318" width="700" height="98" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="56" y="340" font-size="11" fill="#374151">核心思想：用一个**隐藏状态 hₜ**沿时间传递"记忆"，所有时间步**共享同一组权重 W**（参数共享）。</text>
+  <text x="56" y="360" font-size="11" fill="#b45309">缺陷①：长程依赖——梯度沿时间连乘，长序列消失/爆炸 → LSTM/GRU 用门控缓解（见 03 LSTM）。</text>
+  <text x="56" y="380" font-size="11" fill="#b91c1c">缺陷②：seq2seq 把整句压成一个定长向量 c，长句信息丢失 → Attention 让解码器每步"回看"编码器所有状态（见 23 注意力机制）。</text>
+  <text x="56" y="400" font-size="10.5" fill="#6b7280">缺陷③：本质串行（hₜ 依赖 hₜ₋₁），无法并行 → Transformer 砍掉循环、纯注意力并行（见 24 Transformer）。</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker>
+    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3b82f6"/></marker>
+    <marker id="g" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+    <marker id="r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+</svg>

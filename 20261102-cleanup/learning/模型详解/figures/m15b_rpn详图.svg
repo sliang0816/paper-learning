@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="470" fill="#fff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">RPN 网络结构详图（k=9 时 2k=18, 4k=36）</text>
+
+  <!-- ===== 上：主干 → 共享特征图 ===== -->
+  <rect x="30" y="64" width="84" height="70" rx="6" fill="#e5e7eb" stroke="#9ca3af"/><text x="72" y="96" text-anchor="middle" font-size="11">输入图像</text><text x="72" y="114" text-anchor="middle" font-size="10" fill="#6b7280">如 600×800</text>
+  <line x1="114" y1="99" x2="150" y2="99" stroke="#374151" stroke-width="1.8" marker-end="url(#r)"/>
+  <rect x="152" y="60" width="110" height="78" rx="6" fill="#dbeafe" stroke="#3b82f6"/><text x="207" y="92" text-anchor="middle" font-size="11">Backbone CNN</text><text x="207" y="110" text-anchor="middle" font-size="10" fill="#6b7280">VGG/ZF 共享卷积</text>
+  <line x1="262" y1="99" x2="298" y2="99" stroke="#374151" stroke-width="1.8" marker-end="url(#r)"/>
+  <!-- feature map slab -->
+  <rect x="306" y="64" width="92" height="70" fill="#bfdbfe" stroke="#3b82f6"/>
+  <rect x="312" y="58" width="92" height="70" fill="#c7d2fe" stroke="#3b82f6" fill-opacity="0.7"/>
+  <text x="358" y="150" text-anchor="middle" font-size="10.5" fill="#3b82f6">共享特征图 W×H×512</text>
+  <text x="600" y="80" text-anchor="middle" font-size="11" fill="#6b7280">特征图每个位置都执行下面的 RPN 头</text>
+  <line x1="358" y1="138" x2="358" y2="172" stroke="#374151" stroke-width="1.8" marker-end="url(#r)"/>
+
+  <!-- ===== 中：RPN 头 ===== -->
+  <rect x="40" y="186" width="680" height="150" rx="10" fill="#fafafa" stroke="#e5e7eb"/>
+  <text x="60" y="208" font-size="13" font-weight="bold" fill="#374151">RPN 头（全卷积，逐位置共享权重）</text>
+
+  <rect x="70" y="222" width="150" height="44" rx="6" fill="#fde68a" stroke="#d97706"/><text x="145" y="240" text-anchor="middle" font-size="11">3×3 conv, 512</text><text x="145" y="256" text-anchor="middle" font-size="9.5" fill="#7c2d12">pad=1 滑窗→W×H×512</text>
+  <line x1="220" y1="244" x2="256" y2="244" stroke="#374151" stroke-width="1.8" marker-end="url(#r)"/>
+
+  <!-- 两个 1×1 头 -->
+  <line x1="258" y1="240" x2="300" y2="214" stroke="#374151" stroke-width="1.6" marker-end="url(#r)"/>
+  <line x1="258" y1="250" x2="300" y2="290" stroke="#374151" stroke-width="1.6" marker-end="url(#r)"/>
+
+  <rect x="302" y="196" width="180" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b"/><text x="392" y="213" text-anchor="middle" font-size="11">① 分类 1×1 conv, 2k</text><text x="392" y="229" text-anchor="middle" font-size="9.5" fill="#7c2d12">→ W×H×18　每anchor:物体/背景</text>
+  <rect x="302" y="272" width="180" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="392" y="289" text-anchor="middle" font-size="11">② 回归 1×1 conv, 4k</text><text x="392" y="305" text-anchor="middle" font-size="9.5" fill="#166534">→ W×H×36　每anchor:tx,ty,tw,th</text>
+
+  <line x1="482" y1="216" x2="518" y2="216" stroke="#374151" stroke-width="1.6" marker-end="url(#r)"/>
+  <line x1="482" y1="292" x2="518" y2="292" stroke="#374151" stroke-width="1.6" marker-end="url(#r)"/>
+  <text x="566" y="214" text-anchor="middle" font-size="10" fill="#b45309">softmax 物体分数</text>
+  <text x="566" y="294" text-anchor="middle" font-size="10" fill="#166534">框偏移量</text>
+
+  <!-- anchors panel -->
+  <text x="640" y="206" text-anchor="middle" font-size="10.5" fill="#374151">每位置 k=9 anchor</text>
+  <text x="640" y="220" text-anchor="middle" font-size="9.5" fill="#6b7280">3尺度×3比例</text>
+  <g fill="none" stroke-width="1.4">
+    <rect x="612" y="232" width="56" height="34" stroke="#3b82f6"/>
+    <rect x="620" y="226" width="40" height="46" stroke="#8b5cf6"/>
+    <rect x="606" y="240" width="68" height="20" stroke="#ec4899"/>
+  </g>
+  <circle cx="640" cy="250" r="2.5" fill="#111827"/>
+
+  <!-- ===== 下：解码 + 训练 ===== -->
+  <line x1="392" y1="336" x2="392" y2="356" stroke="#374151" stroke-width="1.8" marker-end="url(#r)"/>
+  <rect x="40" y="358" width="680" height="100" rx="10" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="60" y="380" font-size="12.5" font-weight="bold" fill="#1d4ed8">推理：anchor + 回归偏移 → 候选框 → 按物体分数排序 + NMS → ~2000 proposals → RoI Pooling + 检测头</text>
+  <text x="60" y="404" font-size="11.5" fill="#374151">规模：W×H×k 个 anchor（如 ~60×40×9 ≈ 2 万）→ 筛到约 2000 个</text>
+  <text x="60" y="426" font-size="11.5" fill="#b91c1c">训练损失 = 分类(物体/背景, log loss) + 回归(Smooth L1，仅正样本)</text>
+  <text x="60" y="446" font-size="10.5" fill="#9ca3af">正样本: 与GT IoU&gt;0.7 或每个GT最高IoU；负样本: IoU&lt;0.3；中间忽略</text>
+  <defs><marker id="r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

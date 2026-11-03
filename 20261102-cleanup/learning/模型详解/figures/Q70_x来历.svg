@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="880" height="560" fill="#fff"/>
+  <text x="440" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">512 维中间向量 x 是怎么来的：4608 个输入数 → 512 个核各做一次点积 → 512 个输出数</text>
+  <text x="440" y="44" text-anchor="middle" font-size="11" fill="#6b7280">x 不是那 4608 个数本身，而是它们被 512 个不同的核各加权求和（+ReLU）后得到的 512 个新数</text>
+
+  <!-- input neighborhood -->
+  <rect x="24" y="70" width="180" height="150" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="114" y="92" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">位置 (20,30) 的邻域</text>
+  <text x="114" y="110" text-anchor="middle" font-size="9.5" fill="#374151">3×3 空间 × 512 通道</text>
+  <!-- mini grid -->
+  <g>
+    <rect x="44" y="120" width="42" height="42" fill="#fff" stroke="#93c5fd"/>
+    <line x1="58" y1="120" x2="58" y2="162" stroke="#dbeafe"/><line x1="72" y1="120" x2="72" y2="162" stroke="#dbeafe"/>
+    <line x1="44" y1="134" x2="86" y2="134" stroke="#dbeafe"/><line x1="44" y1="148" x2="86" y2="148" stroke="#dbeafe"/>
+    <text x="96" y="135" font-size="11" fill="#6b7280">×</text>
+    <rect x="108" y="120" width="28" height="42" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="122" y="145" text-anchor="middle" font-size="8" fill="#1e40af">512</text>
+  </g>
+  <text x="114" y="182" text-anchor="middle" font-size="10" fill="#374151">拉平 = 一个长向量 n</text>
+  <rect x="34" y="190" width="160" height="22" rx="4" fill="#fff" stroke="#93c5fd"/>
+  <text x="114" y="205" text-anchor="middle" font-size="9" fill="#374151">n = [n₁, n₂, …, n₄₆₀₈]</text>
+
+  <!-- arrow -->
+  <line x1="204" y1="145" x2="246" y2="145" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="225" y="138" text-anchor="middle" font-size="8.5" fill="#6b7280">点积</text>
+
+  <!-- 512 filters -->
+  <rect x="250" y="70" width="330" height="290" rx="8" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="415" y="92" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">512 个卷积核（每核 3×3×512 = 4608 个权重）</text>
+  <g font-size="9.5">
+    <rect x="266" y="104" width="298" height="40" rx="5" fill="#fff" stroke="#86efac"/>
+    <text x="276" y="121" fill="#374151">核 W₁ · n + b₁ → ReLU →</text>
+    <text x="500" y="121" font-weight="bold" fill="#15803d">x₁</text>
+    <text x="276" y="137" fill="#9ca3af" font-size="8">W₁ 是 4608 维权重，和 n 逐元素相乘再求和</text>
+
+    <rect x="266" y="150" width="298" height="34" rx="5" fill="#fff" stroke="#86efac"/>
+    <text x="276" y="171" fill="#374151">核 W₂ · n + b₂ → ReLU →</text>
+    <text x="500" y="171" font-weight="bold" fill="#15803d">x₂</text>
+
+    <rect x="266" y="190" width="298" height="34" rx="5" fill="#fff" stroke="#86efac"/>
+    <text x="276" y="211" fill="#374151">核 W₃ · n + b₃ → ReLU →</text>
+    <text x="500" y="211" font-weight="bold" fill="#15803d">x₃</text>
+
+    <text x="415" y="244" text-anchor="middle" font-size="13" fill="#6b7280">⋮</text>
+
+    <rect x="266" y="252" width="298" height="34" rx="5" fill="#fff" stroke="#86efac"/>
+    <text x="276" y="273" fill="#374151">核 W₅₁₂ · n + b₅₁₂ → ReLU →</text>
+    <text x="495" y="273" font-weight="bold" fill="#15803d">x₅₁₂</text>
+  </g>
+  <text x="415" y="308" text-anchor="middle" font-size="9.5" fill="#374151">每个核管 x 的<tspan font-weight="bold">一个</tspan>维度；512 个核 → 512 个数</text>
+  <rect x="266" y="318" width="298" height="32" rx="5" fill="#374151"/>
+  <text x="415" y="333" text-anchor="middle" font-size="9" fill="#fff">第 j 维：xⱼ = ReLU( Wⱼ · n + bⱼ )</text>
+  <text x="415" y="346" text-anchor="middle" font-size="8.5" fill="#d1d5db">Wⱼ·n = w₁n₁ + w₂n₂ + … + w₄₆₀₈n₄₆₀₈</text>
+
+  <!-- arrow -->
+  <line x1="580" y1="215" x2="622" y2="215" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- output x -->
+  <rect x="626" y="150" width="228" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="740" y="172" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">中间向量 x</text>
+  <text x="740" y="190" text-anchor="middle" font-size="10" fill="#374151">= [x₁, x₂, x₃, …, x₅₁₂]</text>
+  <text x="740" y="212" text-anchor="middle" font-size="9.5" fill="#6b7280">512 维（= 核的个数）</text>
+  <text x="740" y="234" text-anchor="middle" font-size="9" fill="#374151">这就是该位置的“中间特征”，</text>
+  <text x="740" y="250" text-anchor="middle" font-size="9" fill="#374151">下一步喂给 cls / reg 头</text>
+  <text x="740" y="268" text-anchor="middle" font-size="8.5" fill="#9ca3af">（38×50 每个位置都算一个 x）</text>
+
+  <!-- two 512 callout -->
+  <rect x="24" y="234" width="206" height="126" rx="8" fill="#fffbeb" stroke="#fcd34d"/>
+  <text x="40" y="254" font-size="10.5" font-weight="bold" fill="#b45309">⚠ 两个“512”不是一回事</text>
+  <text x="40" y="274" font-size="9" fill="#374151"><tspan font-weight="bold">输入</tspan>的 512 = 通道数，</text>
+  <text x="40" y="288" font-size="9" fill="#374151">决定每个核的<tspan font-weight="bold">深度</tspan>（3×3×512）。</text>
+  <text x="40" y="308" font-size="9" fill="#374151"><tspan font-weight="bold">输出</tspan> x 的 512 = <tspan font-weight="bold">核的个数</tspan>，</text>
+  <text x="40" y="322" font-size="9" fill="#374151">是设计选择（ZF 网络用 256）。</text>
+  <text x="40" y="342" font-size="8.6" fill="#6b7280">两者恰好都 512，但含义不同：</text>
+  <text x="40" y="354" font-size="8.6" fill="#6b7280">一个是“每核多厚”，一个是“多少核”。</text>
+
+  <!-- toy numeric example -->
+  <rect x="24" y="376" width="830" height="160" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="40" y="398" font-size="12" font-weight="bold" fill="#334155">🔢 玩具小例（把 4608 缩成 8，看清一个 xⱼ 怎么算）</text>
+  <text x="40" y="420" font-size="9.8" fill="#374151">设邻域拉平后 n = [1, 0, 2, −1, 3, 1, 0, 2]（假装只有 8 个数）；某个核 W = [0.5, −1, 0, 1, 0.2, 0, −0.5, 1]，b = 0。</text>
+  <text x="40" y="442" font-size="9.8" fill="#374151">点积 W·n ＝ 0.5×1 + (−1)×0 + 0×2 + 1×(−1) + 0.2×3 + 0×1 + (−0.5)×0 + 1×2</text>
+  <text x="40" y="462" font-size="9.8" fill="#374151">　　　　＝ 0.5 + 0 + 0 − 1 + 0.6 + 0 + 0 + 2 ＝ <tspan font-weight="bold" fill="#15803d">2.1</tspan>　→　+b=0 → ReLU(2.1) ＝ <tspan font-weight="bold" fill="#15803d">2.1</tspan>　＝ 这个核对应的那一维 xⱼ</text>
+  <text x="40" y="486" font-size="9.8" fill="#374151">换一个核（另一组权重）→ 得到另一维；<tspan font-weight="bold">512 个核就得到 x 的 512 维</tspan>。</text>
+  <text x="40" y="512" font-size="9.5" fill="#6b7280">真实里 n 是 4608 维、核也是 4608 维权重、共 512 个核——算法一模一样，只是数字多。x 就是这 512 次点积的结果。</text>
+  <text x="40" y="528" font-size="9.5" fill="#b45309">一句话：x 的每一维 = “一个核把邻域 4608 个数加权求和成一个数”，512 个核 → 512 维 x。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

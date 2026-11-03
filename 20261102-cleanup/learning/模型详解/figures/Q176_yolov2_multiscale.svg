@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 660" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="660" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q176 YOLOv2 为什么能支持多尺寸训练？——去掉全连接层、改全卷积</text>
+
+  <!-- YOLOv1 障碍 -->
+  <rect x="20" y="42" width="460" height="230" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="250" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">YOLOv1：末端有全连接(FC)→ 输入尺寸被焊死</text>
+  <text x="40" y="90" font-size="9.6" fill="#374151">卷积部分 → 7×7×1024 特征图</text>
+  <text x="40" y="110" font-size="9.6" fill="#374151">→ 拉平(flatten)成 50176 维向量</text>
+  <text x="40" y="130" font-size="9.6" fill="#374151">→ FC(50176 → 4096) → FC(4096 → 7×7×30)</text>
+  <text x="40" y="156" font-size="9.6" font-weight="bold" fill="#b91c1c">FC 权重矩阵大小 = 输入维 × 输出维 = 死的</text>
+  <text x="40" y="178" font-size="9.6" fill="#374151">输入维 50176 焊死 → 只有 448×448 输入才能</text>
+  <text x="40" y="196" font-size="9.6" fill="#374151">　恰好产生 7×7 特征图 → 拉平正好 50176</text>
+  <text x="40" y="220" font-size="9.6" fill="#374151">换个输入尺寸 → 特征图变 → 拉平维度变</text>
+  <text x="40" y="240" font-size="9.6" fill="#374151">　→ 和 FC 权重对不上 → 报错，跑不了</text>
+  <text x="40" y="262" font-size="9" fill="#6b7280">呼应Q44：CNN的"定长约束"其实卡在FC头</text>
+
+  <!-- YOLOv2 解法 -->
+  <rect x="500" y="42" width="460" height="230" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">YOLOv2：删掉FC，检测头改全卷积+anchor</text>
+  <text x="520" y="90" font-size="9.6" fill="#374151">卷积部分 → H×W×1024 特征图</text>
+  <text x="520" y="110" font-size="9.6" fill="#374151">→ 直接 1×1 卷积出 H×W×[5×(5+C)]</text>
+  <text x="520" y="130" font-size="9.6" fill="#374151">　(每格铺anchor，在特征图上逐格预测)</text>
+  <text x="520" y="156" font-size="9.6" font-weight="bold" fill="#15803d">卷积核权重跨空间位置共享(滑窗)</text>
+  <text x="520" y="178" font-size="9.6" fill="#374151">3×3/1×1 卷积核不在乎特征图多大 H×W</text>
+  <text x="520" y="198" font-size="9.6" fill="#374151">同一套卷积权重，喂多大图都能算</text>
+  <text x="520" y="220" font-size="9.6" fill="#374151">输出网格 = 输入÷32，随输入大小自动伸缩</text>
+  <text x="520" y="240" font-size="9.6" fill="#374151">参数量不随输入尺寸变 → 尺寸自由</text>
+  <text x="520" y="262" font-size="9" fill="#6b7280">同类思路：GAP(Q141)/SPP(Q50)也是为解绑尺寸</text>
+
+  <!-- 唯一约束 -->
+  <rect x="20" y="286" width="940" height="52" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="308" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">唯一的约束：输入边长必须是总下采样步长 32 的整数倍</text>
+  <text x="490" y="328" text-anchor="middle" font-size="9.8" fill="#374151">否则特征图尺寸除不尽、出小数。所以可选尺寸={320,352,384,416,448,480,512,544,576,608}(全是32的倍数)</text>
+
+  <!-- 多尺度训练机制 -->
+  <rect x="20" y="352" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="370" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">多尺度训练：训练时每隔10个batch随机换一次输入尺寸</text>
+
+  <rect x="20" y="388" width="940" height="88" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="40" y="412" font-size="9.8" fill="#374151">每10个batch从{320…608}里随机抽一个新尺寸，把整批图resize到该尺寸继续训练。输入320→输出10×10网格；输入608→输出19×19网格。</text>
+  <text x="40" y="436" font-size="9.8" fill="#374151">网格变了，但卷积权重一套不变、anchor是相对格子的偏移也照常算、损失照常在当前网格上算——全流程无一处依赖固定尺寸。</text>
+  <text x="40" y="462" font-size="9.8" font-weight="bold" fill="#1e40af">效果：一个模型被迫适应多种分辨率，见过大图小图，对尺度更鲁棒(等于一种数据增强)。</text>
+
+  <!-- 附带好处 -->
+  <rect x="20" y="490" width="940" height="70" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="512" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">附带好处：推理时"同一个模型，改输入尺寸就能换速度/精度档位"，无需重训</text>
+  <text x="40" y="536" font-size="9.8" fill="#374151">测试用 288×288 → 快(高FPS)、精度略低；测试用 544×544 → 慢一点、精度更高。同一套权重，按场景需求现挑分辨率。</text>
+  <text x="40" y="556" font-size="9" fill="#6b7280">这是全卷积带来的灵活性；YOLOv3及以后全卷积+多尺度成了标配，本项目YOLOv8同样支持任意32倍数输入。</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="572" width="940" height="26" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="590" text-anchor="middle" font-size="10.3" font-weight="bold" fill="#a16207">一句话：卡住尺寸的是FC(权重维度焊死)；YOLOv2删FC改全卷积后，卷积权重跨空间共享不认尺寸，只要输入是32倍数就能随意换尺寸训练。</text>
+
+  <rect x="20" y="604" width="940" height="44" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="490" y="622" text-anchor="middle" font-size="9.6" fill="#374151">补充：v2 删FC还顺带解决了另一件事——FC参数量巨大(50176×4096≈2亿)易过拟合，改全卷积后参数骤减；同时anchor机制(Q14⑧)也需要在特征图上逐格预测，</text>
+  <text x="490" y="640" text-anchor="middle" font-size="9.6" fill="#374151">天然要求全卷积结构。所以"删FC→全卷积"一步同时带来了 多尺度自由 + 参数减少 + anchor可行 三个好处。</text>
+</svg>

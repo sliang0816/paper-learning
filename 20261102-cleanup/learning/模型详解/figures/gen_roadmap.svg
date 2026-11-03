@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 610" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="610" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">生成模型（图像生成）论文脉络：入门 → 最新</text>
+  <text x="480" y="46" text-anchor="middle" font-size="10" fill="#6b7280">主线：GAN/VAE 两大前身 → 扩散(稳且高质但慢) → 降本(潜空间)+加速(少步)+可控(文本/结构)+换骨干(Transformer)+扩视频（✅=本库已有）</text>
+
+  <line x1="60" y1="66" x2="60" y2="560" stroke="#cbd5e1" stroke-width="2"/>
+
+  <!-- VAE/GAN -->
+  <circle cx="60" cy="92" r="5" fill="#ef4444"/>
+  <rect x="80" y="74" width="860" height="42" rx="5" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="92" y="90" font-size="10" font-weight="bold" fill="#b91c1c">2013–14 两大前身 · VAE / GAN</text>
+  <text x="92" y="105" font-size="8.5" fill="#374151">VAE：编码到隐分布→采样→解码；稳但糊。GAN：生成器 vs 判别器对抗；锐但不稳/模式崩溃　⟵ 45</text>
+
+  <!-- DDPM -->
+  <circle cx="60" cy="146" r="5" fill="#16a34a"/>
+  <rect x="80" y="128" width="860" height="42" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="92" y="144" font-size="10" font-weight="bold" fill="#15803d">2020 去噪扩散 · DDPM</text>
+  <text x="92" y="159" font-size="8.5" fill="#374151">前向逐步加噪→纯噪声；反向学"逐步去噪"(网络预测每步噪声)；质量高、稳、覆盖全，但慢(~1000步)　⟵ 46</text>
+
+  <!-- DDIM -->
+  <circle cx="60" cy="200" r="5" fill="#16a34a"/>
+  <rect x="80" y="182" width="860" height="40" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="92" y="197" font-size="10" font-weight="bold" fill="#15803d">2020 加速采样 · DDIM</text>
+  <text x="92" y="212" font-size="8.5" fill="#374151">同一模型，确定性非马尔可夫采样 → 几十步就够（原来上千步）；扩散实用化的关键一步　⟵ 46</text>
+
+  <!-- CFG -->
+  <circle cx="60" cy="252" r="5" fill="#8b5cf6"/>
+  <rect x="80" y="234" width="860" height="40" rx="5" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="92" y="249" font-size="10" font-weight="bold" fill="#6d28d9">2021 无分类器引导 · Classifier-Free Guidance</text>
+  <text x="92" y="264" font-size="8.5" fill="#374151">同训"有条件/无条件"，采样时朝条件外推 → 更听 prompt（牺牲一点多样性换保真度）　⟵ 47</text>
+
+  <!-- LDM/SD -->
+  <circle cx="60" cy="304" r="5" fill="#3b82f6"/>
+  <rect x="80" y="286" width="860" height="42" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="92" y="302" font-size="10" font-weight="bold" fill="#1e40af">2022 潜空间扩散 · Latent / Stable Diffusion</text>
+  <text x="92" y="317" font-size="8.5" fill="#374151">在 VAE 潜空间做扩散（小得多、便宜）+ U-Net 去噪 + 交叉注意力文本条件 → 文生图规模化　⟵ 47</text>
+
+  <!-- ControlNet -->
+  <circle cx="60" cy="356" r="5" fill="#3b82f6"/>
+  <rect x="80" y="338" width="860" height="40" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="92" y="353" font-size="10" font-weight="bold" fill="#1e40af">2023 结构可控 · ControlNet✅</text>
+  <text x="92" y="368" font-size="8.5" fill="#374151">在冻结 SD 上加一支旁路，用边缘/深度/姿态图控制生成结构（本项目数据增强引擎）　⟵ 39✅</text>
+
+  <!-- DiT -->
+  <circle cx="60" cy="408" r="5" fill="#d97706"/>
+  <rect x="80" y="390" width="860" height="40" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="92" y="405" font-size="10" font-weight="bold" fill="#b45309">2023 换骨干 · DiT（Diffusion Transformer）</text>
+  <text x="92" y="420" font-size="8.5" fill="#374151">把去噪骨干从 U-Net 换成 Transformer（在潜 patch 上），扩展性更好 → Sora 的基础　⟵ 48</text>
+
+  <!-- Consistency -->
+  <circle cx="60" cy="460" r="5" fill="#db2777"/>
+  <rect x="80" y="442" width="860" height="40" rx="5" fill="#fce7f3" stroke="#be185d"/>
+  <text x="92" y="457" font-size="10" font-weight="bold" fill="#be185d">2023–24 少步生成 · Consistency Models / LCM / 蒸馏</text>
+  <text x="92" y="472" font-size="8.5" fill="#374151">学"从噪声直接跳到数据"→ 1~4 步出图（原来几十步）；实时生成的关键　⟵ 49</text>
+
+  <!-- video -->
+  <circle cx="60" cy="512" r="5" fill="#111827"/>
+  <rect x="80" y="494" width="860" height="40" rx="5" fill="#e5e7eb" stroke="#374151"/>
+  <text x="92" y="509" font-size="10" font-weight="bold" fill="#111827">2024 扩到视频 · Sora / 视频扩散</text>
+  <text x="92" y="524" font-size="8.5" fill="#374151">基于 DiT，把图像 patch 扩成"时空 patch"生成视频；生成从图像走向视频/3D　⟵ 49</text>
+
+  <!-- 三条主线 -->
+  <rect x="60" y="546" width="880" height="58" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="500" y="564" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">三条主线</text>
+  <text x="80" y="582" font-size="8.5" fill="#374151">① 质量与稳定：GAN 锐但不稳/模式崩溃 → 扩散 稳且覆盖全但慢　② 降本+加速：像素→潜空间(LDM)、多步→少步(DDIM/一致性)</text>
+  <text x="80" y="596" font-size="8.5" fill="#374151">③ 可控+扩展：文本条件(CFG)、结构条件(ControlNet)、骨干 Transformer 化(DiT)、图像→视频(Sora)</text>
+</svg>

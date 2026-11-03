@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="720" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q180 YOLOv2 为什么引入 Darknet-19？它是什么？</text>
+
+  <!-- 是什么 -->
+  <rect x="20" y="42" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">是什么：Darknet-19 = YOLOv2 的骨干网络(特征提取器)，19个卷积层 + 5个maxpool，融合三家好设计</text>
+
+  <!-- 三家设计 -->
+  <rect x="20" y="78" width="300" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="170" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">借VGG：3×3小卷积堆叠</text>
+  <text x="35" y="124" font-size="9.3" fill="#374151">主体用3×3卷积一层层堆(Q6)</text>
+  <text x="35" y="144" font-size="9.3" fill="#374151">小核+深堆=大感受野、参数省</text>
+  <text x="35" y="164" font-size="9.3" fill="#374151">每次maxpool后通道翻倍</text>
+  <text x="35" y="184" font-size="9.3" fill="#374151">(32→64→128→256→512→1024)</text>
+  <text x="35" y="208" font-size="9" fill="#6b7280">VGG式的规整结构，精度好</text>
+
+  <rect x="340" y="78" width="300" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">借NiN/GoogLeNet：1×1压缩+GAP</text>
+  <text x="355" y="124" font-size="9.3" fill="#374151">3×3之间插1×1卷积压通道(Q7/Q52)</text>
+  <text x="355" y="144" font-size="9.3" fill="#374151">→ 先降维再卷积，省大量算力</text>
+  <text x="355" y="166" font-size="9.3" fill="#374151">分类头用GAP全局平均池化(Q141)</text>
+  <text x="355" y="186" font-size="9.3" fill="#374151">替代VGG的巨大FC → 参数骤减</text>
+  <text x="355" y="210" font-size="9" fill="#6b7280">GAP还顺带让输入尺寸灵活(接Q176)</text>
+
+  <rect x="660" y="78" width="300" height="150" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="810" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">借BatchNorm：每个卷积都加BN</text>
+  <text x="675" y="124" font-size="9.3" fill="#374151">19个卷积每个后面都接BatchNorm(Q14)</text>
+  <text x="675" y="146" font-size="9.3" fill="#374151">稳定分布、加速收敛、正则化</text>
+  <text x="675" y="168" font-size="9.3" font-weight="bold" fill="#6d28d9">仅BN这一项就带来 mAP +2%</text>
+  <text x="675" y="190" font-size="9.3" fill="#374151">还能去掉Dropout不过拟合</text>
+  <text x="675" y="212" font-size="9" fill="#6b7280">YOLOv1骨干没有BN，v2补上</text>
+
+  <!-- 为什么引入 -->
+  <rect x="20" y="240" width="940" height="26" rx="6" fill="#b45309"/>
+  <text x="490" y="258" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">为什么引入：在"精度"和"速度"之间找更好的平衡点——YOLOv2的目标是 Better + Faster</text>
+
+  <rect x="20" y="276" width="460" height="140" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="250" y="298" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">两难：旧骨干不够好 / VGG太重</text>
+  <text x="40" y="322" font-size="9.4" fill="#374151">·YOLOv1骨干(仿GoogLeNet的自定义网)</text>
+  <text x="40" y="340" font-size="9.4" fill="#374151">　精度一般、无BN，拖累检测上限</text>
+  <text x="40" y="362" font-size="9.4" fill="#374151">·VGG-16精度高，但~30.7 GFLOPs太重</text>
+  <text x="40" y="380" font-size="9.4" fill="#374151">　跑一次前向太慢 → 破坏实时性</text>
+  <text x="40" y="402" font-size="9" fill="#6b7280">要么不够准，要么不够快，都不满足</text>
+
+  <rect x="500" y="276" width="460" height="140" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="730" y="298" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f766e">Darknet-19：又快又准的甜点</text>
+  <text x="520" y="322" font-size="9.4" fill="#374151" font-family="monospace">Darknet-19 ≈ 5.58 GFLOPs</text>
+  <text x="520" y="342" font-size="9.4" fill="#374151" font-family="monospace">VGG-16    ≈ 30.7 GFLOPs (约5.5倍)</text>
+  <text x="520" y="364" font-size="9.4" fill="#374151">精度相近(ImageNet top-5≈91.2%)</text>
+  <text x="520" y="384" font-size="9.4" font-weight="bold" fill="#0f766e">→ 用约1/5.5的算力达到相近精度</text>
+  <text x="520" y="406" font-size="9" fill="#6b7280">既提精度(比v1骨干强)又保实时(比VGG快)</text>
+
+  <!-- 怎么接进检测 -->
+  <rect x="20" y="428" width="940" height="26" rx="6" fill="#6d28d9"/>
+  <text x="490" y="446" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">怎么变成检测器：去掉分类头，换上检测头（backbone概念，Q170）</text>
+
+  <rect x="20" y="464" width="940" height="70" rx="8" fill="#faf5ff" stroke="#8b5cf6"/>
+  <text x="40" y="488" font-size="9.6" fill="#374151">分类用途：Darknet-19全部卷积 → GAP → softmax(1000类)  ← 先在ImageNet上当分类器训练好</text>
+  <text x="40" y="510" font-size="9.6" fill="#374151">检测用途：砍掉最后的GAP+softmax分类头 → 保留卷积主体(出H×W×1024特征) → 接1×1卷积检测头(Q179)</text>
+  <text x="40" y="528" font-size="9" fill="#6b7280">这正是Q170"骨干=去掉分类层的分类网络"的具体一例；YOLOv1骨干同理，v2只是换了个更好的骨干</text>
+
+  <!-- 两阶段训练 -->
+  <rect x="20" y="546" width="940" height="60" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="568" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">附：高分辨率分类器预训练（YOLOv2另一个涨点技巧）</text>
+  <text x="40" y="590" font-size="9.4" fill="#374151">先在ImageNet 224×224训Darknet-19分类 → 再切448×448微调分类器(让骨干适应大图) → 最后转检测。仅"高分辨率微调"这一步带来 mAP +4%。</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="618" width="940" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="640" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">一句话：Darknet-19是YOLOv2专门设计的骨干(19卷积)，融合VGG的3×3堆叠+GoogLeNet的1×1压缩与GAP+BatchNorm；</text>
+  <text x="490" y="658" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">引入它是为了用约1/5.5于VGG的算力达到相近精度——既比YOLOv1旧骨干更准、又比VGG快，让YOLOv2同时做到"更准+仍实时"。</text>
+
+  <!-- 名字来历 -->
+  <rect x="20" y="680" width="940" height="30" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="490" y="700" text-anchor="middle" font-size="9.4" fill="#374151">名字来历：Darknet = 作者Redmon自研的C/CUDA深度学习框架；"19" = 19个卷积层。后续v3升级为Darknet-53(加残差)，YOLOv8骨干CSPDarknet也是这一脉。</text>
+</svg>

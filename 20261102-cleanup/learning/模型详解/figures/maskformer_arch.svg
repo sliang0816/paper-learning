@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 480" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="480" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">MaskFormer/Mask2Former：把分割从"逐像素分类"改成"mask 分类"——一组 query 各出一个掩码+类别</text>
+
+  <!-- 范式对比 -->
+  <rect x="20" y="42" width="440" height="120" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="240" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">旧范式：逐像素分类（per-pixel）</text>
+  <text x="40" y="84" font-size="9" fill="#374151">· 对每个像素预测"它是哪一类"</text>
+  <text x="40" y="102" font-size="9" fill="#374151">· 语义分割这么做，但实例/全景要另设计</text>
+  <text x="40" y="122" font-size="9" fill="#b91c1c">· 三种分割任务各用一套方法，割裂</text>
+  <text x="40" y="144" font-size="8.5" fill="#6b7280">FCN/DeepLab/SegFormer 都是逐像素分类</text>
+
+  <rect x="480" y="42" width="440" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">新范式：mask 分类（mask classification）</text>
+  <text x="500" y="84" font-size="9" fill="#374151">· 一组 query，每个 query 预测：一个二值掩码 + 一个类别</text>
+  <text x="500" y="102" font-size="9" fill="#374151">· "这块区域是什么" 而非 "这个像素是什么"</text>
+  <text x="500" y="122" font-size="9" fill="#15803d">· 语义/实例/全景 用同一套框架！只是后处理不同</text>
+  <text x="500" y="144" font-size="8.5" fill="#6b7280">思想来自 DETR：query + 二分匹配（见 28a/Q111）</text>
+
+  <!-- 架构 -->
+  <rect x="20" y="176" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">架构：骨干 + 像素解码器 + Transformer 解码器(query)</text>
+  <rect x="40" y="214" width="100" height="46" fill="#e5e7eb" stroke="#9ca3af"/><text x="90" y="234" text-anchor="middle" font-size="8.5" fill="#374151">骨干+像素解码器</text><text x="90" y="248" text-anchor="middle" font-size="7.5" fill="#6b7280">出逐像素特征图</text>
+  <text x="148" y="240" font-size="12" fill="#9ca3af">→</text>
+  <rect x="170" y="210" width="150" height="54" rx="4" fill="#ede9fe" stroke="#8b5cf6"/><text x="245" y="230" text-anchor="middle" font-size="8.5" fill="#6d28d9">Transformer 解码器</text><text x="245" y="244" text-anchor="middle" font-size="7.5" fill="#374151">N 个 query</text><text x="245" y="256" text-anchor="middle" font-size="7.5" fill="#6b7280">(像 DETR object query)</text>
+  <text x="328" y="240" font-size="12" fill="#9ca3af">→</text>
+  <rect x="350" y="210" width="150" height="26" rx="3" fill="#dcfce7" stroke="#16a34a"/><text x="425" y="227" text-anchor="middle" font-size="8" fill="#15803d">每 query → 类别</text>
+  <rect x="350" y="240" width="150" height="26" rx="3" fill="#dcfce7" stroke="#16a34a"/><text x="425" y="257" text-anchor="middle" font-size="8" fill="#15803d">每 query·像素特征 → 掩码</text>
+  <text x="508" y="240" font-size="12" fill="#9ca3af">→</text>
+  <rect x="530" y="210" width="170" height="54" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="615" y="232" text-anchor="middle" font-size="8.5" fill="#15803d">N 个 (掩码+类别)</text><text x="615" y="248" text-anchor="middle" font-size="7.5" fill="#374151">→ 组合成分割结果</text>
+  <text x="720" y="228" font-size="8.5" fill="#374151">掩码 = query 向量</text>
+  <text x="720" y="242" font-size="8.5" fill="#374151">与逐像素特征做点积</text>
+  <text x="720" y="256" font-size="8.5" fill="#6b7280">(哪些像素属于这个query)</text>
+  <text x="470" y="300" text-anchor="middle" font-size="9" fill="#374151">训练：和 DETR 一样用二分匹配(匈牙利)把 N 个 query 一对一配到真值掩码（见 Q111）</text>
+  <text x="470" y="316" text-anchor="middle" font-size="8.5" fill="#6b7280">语义分割：同类掩码合并；实例/全景：每 query 一个个体 → 一套框架三种任务</text>
+
+  <!-- Mask2Former 改进 -->
+  <rect x="20" y="340" width="900" height="60" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="360" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">Mask2Former 的改进（2022）</text>
+  <text x="40" y="380" font-size="9" fill="#374151">· 掩码注意力(masked attention)：query 只注意"自己预测掩码内"的区域 → 收敛快、精度高</text>
+  <text x="40" y="394" font-size="9" fill="#6b7280">· 多尺度特征 + 效率优化 → 语义/实例/全景全部刷到 SOTA，真正"一套架构通吃三种分割"</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="414" width="900" height="58" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="436" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话：把"逐像素分类"换成"一组 query 各预测一个掩码+类别"(mask 分类，思想同 DETR)，</text>
+  <text x="470" y="456" text-anchor="middle" font-size="9.5" fill="#374151">语义/实例/全景三种分割统一进一套框架；Mask2Former 加掩码注意力刷到 SOTA。</text>
+  <text x="470" y="470" text-anchor="middle" font-size="7.5" fill="#6b7280">Cheng B, et al. MaskFormer (NeurIPS 2021) / Mask2Former (CVPR 2022).</text>
+</svg>

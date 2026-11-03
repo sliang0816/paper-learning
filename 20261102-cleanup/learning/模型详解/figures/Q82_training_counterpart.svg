@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q82 同一例子的训练版：&lt;BOS&gt; 位置前向和 Q81 推理一样，但有标签+算损失+更新权重</text>
+
+  <!-- source -> memory -->
+  <rect x="20" y="42" width="200" height="66" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="120" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">源 “I love road”</text>
+  <text x="120" y="80" text-anchor="middle" font-size="9" fill="#374151">→ 编码器 → memory</text>
+  <text x="120" y="97" text-anchor="middle" font-size="8.5" fill="#6b7280">（和推理完全一样）</text>
+
+  <!-- teacher forcing input -->
+  <rect x="240" y="42" width="680" height="66" rx="8" fill="#fffbeb" stroke="#d97706"/>
+  <text x="580" y="60" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">解码器输入（右移、teacher forcing：整句一次喂入、喂的是真值）</text>
+  <g font-size="11" font-weight="bold">
+    <rect x="300" y="72" width="120" height="26" fill="#fef3c7" stroke="#d97706"/><text x="360" y="90" text-anchor="middle" fill="#92400e">&lt;BOS&gt;</text>
+    <rect x="440" y="72" width="120" height="26" fill="#fef3c7" stroke="#d97706"/><text x="500" y="90" text-anchor="middle" fill="#92400e">我(真值)</text>
+    <rect x="580" y="72" width="120" height="26" fill="#fef3c7" stroke="#d97706"/><text x="640" y="90" text-anchor="middle" fill="#92400e">爱(真值)</text>
+    <rect x="720" y="72" width="120" height="26" fill="#fef3c7" stroke="#d97706"/><text x="780" y="90" text-anchor="middle" fill="#92400e">路(真值)</text>
+  </g>
+
+  <!-- 4 positions parallel -->
+  <text x="470" y="128" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#374151">4 个位置并行各算一次（每个：嵌入→掩码自注意力→交叉注意力读 memory→FFN→输出投影→分布）</text>
+
+  <!-- BOS position highlighted -->
+  <rect x="40" y="140" width="200" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="140" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">&lt;BOS&gt; 位置 = Q81 那一步</text>
+  <text x="140" y="178" text-anchor="middle" font-size="8.5" fill="#374151">前向和推理完全相同</text>
+  <text x="140" y="192" text-anchor="middle" font-size="8.5" fill="#374151">交叉注意力读 memory</text>
+  <rect x="56" y="200" width="168" height="40" rx="5" fill="#fff" stroke="#93c5fd"/>
+  <text x="140" y="216" text-anchor="middle" font-size="9" fill="#374151">输出分布：我 0.1?（早期）</text>
+  <text x="140" y="231" text-anchor="middle" font-size="8" fill="#b91c1c">早期权重没调好、未必是“我”</text>
+  <rect x="56" y="246" width="168" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="140" y="262" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">标签 = 我</text>
+  <text x="140" y="275" text-anchor="middle" font-size="8" fill="#374151">→ 交叉熵损失</text>
+
+  <!-- other positions -->
+  <rect x="256" y="140" width="216" height="150" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="364" y="160" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#374151">“我”位置（喂真值“我”）</text>
+  <text x="364" y="178" text-anchor="middle" font-size="8.5" fill="#374151">同样前向 → 输出分布</text>
+  <text x="364" y="196" text-anchor="middle" font-size="8.5" fill="#b91c1c">喂的是真值“我”，非模型预测</text>
+  <text x="364" y="210" text-anchor="middle" font-size="8" fill="#6b7280">（这就是 teacher forcing）</text>
+  <rect x="272" y="246" width="184" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="364" y="267" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">标签 = 爱 → 损失</text>
+
+  <rect x="488" y="140" width="200" height="150" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="588" y="160" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#374151">“爱”位置（喂真值“爱”）</text>
+  <text x="588" y="178" text-anchor="middle" font-size="8.5" fill="#374151">同样前向 → 输出分布</text>
+  <rect x="504" y="246" width="168" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="588" y="267" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">标签 = 路 → 损失</text>
+
+  <rect x="704" y="140" width="216" height="150" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="812" y="160" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#374151">“路”位置（喂真值“路”）</text>
+  <text x="812" y="178" text-anchor="middle" font-size="8.5" fill="#374151">同样前向 → 输出分布</text>
+  <rect x="720" y="246" width="184" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="812" y="267" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">标签 = &lt;EOS&gt; → 损失</text>
+
+  <!-- loss sum + backprop -->
+  <rect x="40" y="306" width="880" height="50" rx="8" fill="#fef2f2" stroke="#f87171"/>
+  <text x="470" y="326" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">4 个位置损失相加 → 一次反向传播 → 更新权重（W_Q/W_K/.../输出投影）</text>
+  <text x="470" y="344" text-anchor="middle" font-size="9.5" fill="#374151">把“源=I love road、句首 → 我”的概率往上抬；其余位置同理</text>
+  <path d="M120 306 C 120 296, 130 290, 140 290" fill="none" stroke="#dc2626" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <!-- converge -->
+  <rect x="40" y="370" width="880" height="56" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="392" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">重复海量句对、多轮 → 权重收敛 → “I love road+句首→我”固化进参数 → 训练结束冻结</text>
+  <text x="470" y="412" text-anchor="middle" font-size="10" fill="#374151">这套冻结权重，正是 Q80/Q81 推理时用的 → 那时 &lt;BOS&gt; 位置就稳定输出“我 0.88”</text>
+
+  <!-- contrast table -->
+  <rect x="40" y="440" width="880" height="146" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="460" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">同一例子：训练 vs 推理（Q81）</text>
+  <line x1="360" y1="468" x2="360" y2="578" stroke="#c4b5fd"/>
+  <line x1="640" y1="468" x2="640" y2="578" stroke="#c4b5fd"/>
+  <text x="200" y="484" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#374151">对比项</text>
+  <text x="500" y="484" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b45309">训练</text>
+  <text x="780" y="484" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1e40af">推理（Q81）</text>
+
+  <text x="52" y="504" font-size="9" fill="#374151">&lt;BOS&gt; 位置前向</text>
+  <text x="500" y="504" text-anchor="middle" font-size="9" fill="#15803d">完全相同（读 memory）</text>
+  <text x="780" y="504" text-anchor="middle" font-size="9" fill="#15803d">完全相同</text>
+
+  <text x="52" y="522" font-size="9" fill="#374151">我/爱/路 喂什么</text>
+  <text x="500" y="522" text-anchor="middle" font-size="9" fill="#374151">真值前缀(teacher forcing)</text>
+  <text x="780" y="522" text-anchor="middle" font-size="9" fill="#374151">自己上一步输出</text>
+
+  <text x="52" y="540" font-size="9" fill="#374151">并行 / 串行</text>
+  <text x="500" y="540" text-anchor="middle" font-size="9" fill="#374151">4 位置并行</text>
+  <text x="780" y="540" text-anchor="middle" font-size="9" fill="#374151">逐词串行</text>
+
+  <text x="52" y="558" font-size="9" fill="#374151">标签/损失/权重</text>
+  <text x="500" y="558" text-anchor="middle" font-size="9" fill="#b91c1c">有标签、算损失、更新权重</text>
+  <text x="780" y="558" text-anchor="middle" font-size="9" fill="#374151">无、冻结</text>
+
+  <text x="52" y="576" font-size="9" fill="#374151">&lt;BOS&gt; 输出“我”?</text>
+  <text x="500" y="576" text-anchor="middle" font-size="9" fill="#374151">早期未必，训练让它逐渐是</text>
+  <text x="780" y="576" text-anchor="middle" font-size="9" fill="#374151">一定是（已收敛）</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker></defs>
+</svg>

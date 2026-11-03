@@ -1,0 +1,9 @@
+{
+  "schema": "slide-maker-codex-delivery-receipt/v1",
+  "status": "PASS",
+  "created_at": "2026-08-31T11:11:23.795075+00:00",
+  "pptx": "\u6731\u5b88\u4eae-\u5f00\u9898\u7b54\u8fa9v8-\u5f00\u9898\u7248.pptx",
+  "pptx_sha256": "6a4001361904fe63c2b970cd196a357655b443d8a1fdabf542e5dde8eb11d7de",
+  "evidence_sha256": "bbdf2acecf901c998c403427198337e7a2895601a96e31523b053ea97cc1c14e",
+  "build_script_sha256": "30b22f7c3a368fc76995baba1701c30ff5a336f693bfd9c52255aa99eb0e041d"
+}

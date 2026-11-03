@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 820" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="820" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q159 先对齐再融合 / 融合再对齐 / 边对齐边融合：三种范式的设计谱系</text>
+
+  <!-- ① 纠正误解 -->
+  <rect x="20" y="42" width="940" height="82" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="490" y="64" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#334155">先纠正：ALBEF"align before fuse"不是两个先后的训练阶段</text>
+  <text x="40" y="86" font-size="9.8" fill="#374151">同一次前向、同一步梯度里：图/文各自编码→池化输出算对比损失ITC(对齐)；同一份token又送进融合编码器算ITM+MLM(融合)。</text>
+  <text x="40" y="104" font-size="9.8" fill="#374151">"before"指的是计算图上的依赖顺序(融合吃对齐用的表示)，不是"练完对齐才开始学融合"。</text>
+
+  <!-- ② 三方案对比 -->
+  <g>
+  <!-- A -->
+  <rect x="20" y="136" width="300" height="290" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="170" y="158" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e40af">A. 先对齐再融合(ALBEF)</text>
+  <text x="36" y="182" font-size="9.5" fill="#374151">图/文各自独立编码 → ITC对比对齐</text>
+  <text x="36" y="200" font-size="9.5" fill="#374151">→ 同批token再送融合编码器ITM+MLM</text>
+  <text x="36" y="224" font-size="9.5" fill="#15803d" font-weight="bold">保留独立编码支路→可预缓存、快检索</text>
+  <text x="36" y="246" font-size="9.5" fill="#374151">融合时"料"已对齐，融合模块少走弯路</text>
+  <text x="36" y="274" font-size="9.5" font-weight="bold" fill="#b45309">代价：</text>
+  <text x="36" y="292" font-size="9.5" fill="#374151">全局对齐仍是"整体"级，细粒度要靠融合</text>
+  <text x="36" y="314" font-size="9.5" fill="#374151">编码器补</text>
+  <text x="36" y="344" font-size="9" fill="#6b7280">对应本项目CLIP同源思路(双塔快检索)</text>
+  <text x="36" y="364" font-size="9" fill="#6b7280">+额外补一个融合分支做深理解</text>
+  <text x="36" y="400" font-size="9.3" fill="#1e40af" font-weight="bold">代表：ALBEF、BLIP</text>
+
+  <!-- B -->
+  <rect x="340" y="136" width="300" height="290" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="490" y="158" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b91c1c">B. 融合再对齐（反过来走）</text>
+  <text x="356" y="182" font-size="9.5" fill="#374151">图文token先深度融合(跨模态自注意力)</text>
+  <text x="356" y="200" font-size="9.5" fill="#374151">→ 在融合后表示上再做"对齐"</text>
+  <text x="356" y="228" font-size="9.5" font-weight="bold" fill="#b91c1c">根本问题：融合后表示已"绑死"</text>
+  <text x="356" y="248" font-size="9.5" fill="#374151">图A融合了文B的结果，换文C要重新融合</text>
+  <text x="356" y="268" font-size="9.5" fill="#374151">一遍 → 没法独立编码后快速配对</text>
+  <text x="356" y="296" font-size="9.5" fill="#b91c1c" font-weight="bold">丢掉可预缓存/快检索的核心卖点</text>
+  <text x="356" y="318" font-size="9.5" fill="#374151">退化成单流模型(UNITER/ViLT)老路</text>
+  <text x="356" y="340" font-size="9.5" fill="#374151">+多余的事后对齐损失，无实质收益</text>
+  <text x="356" y="368" font-size="9" fill="#6b7280">检索模式(每对都要重算) vs 对齐</text>
+  <text x="356" y="384" font-size="9" fill="#6b7280">模式(各编一次、随便配对)天然冲突</text>
+  <text x="356" y="410" font-size="9.3" fill="#b91c1c" font-weight="bold">现实：基本不可行/无实质收益</text>
+
+  <!-- C -->
+  <rect x="660" y="136" width="300" height="290" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="810" y="158" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">C. 边对齐边融合（已有真实工作）</text>
+  <text x="676" y="182" font-size="9.5" fill="#374151"><tspan font-weight="bold">①逐层交替</tspan>：GLIP/GroundingDINO</text>
+  <text x="688" y="200" font-size="9.5" fill="#374151">特征增强器每层双向交叉注意力，对齐</text>
+  <text x="688" y="218" font-size="9.5" fill="#374151">与融合在每一层同时发生(见Q154)</text>
+  <text x="676" y="242" font-size="9.5" fill="#374151"><tspan font-weight="bold">②并行双支路</tspan>：CoCa 对比头+</text>
+  <text x="688" y="260" font-size="9.5" fill="#374151">生成式融合解码器共享底座，同批同</text>
+  <text x="688" y="278" font-size="9.5" fill="#374151">步算，不分先后</text>
+  <text x="676" y="302" font-size="9.5" fill="#374151"><tspan font-weight="bold">③多层桥接</tspan>：BridgeTower把每层</text>
+  <text x="688" y="320" font-size="9.5" fill="#374151">单模态表示都接入融合模块，非只用顶层</text>
+  <text x="676" y="348" font-size="9.5" font-weight="bold" fill="#15803d">仍需留一条独立编码支路保检索</text>
+  <text x="676" y="368" font-size="9.5" fill="#374151">(CoCa/ALBEF式)，否则也会丢检索能力</text>
+  <text x="676" y="400" font-size="9.3" fill="#15803d" font-weight="bold">代表：GLIP、GroundingDINO、CoCa、BridgeTower</text>
+  </g>
+
+  <!-- ③ 根本权衡 -->
+  <rect x="20" y="446" width="940" height="150" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="490" y="468" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ 判断任何新设计的同一把尺子：绕不开的根本权衡</text>
+  <text x="40" y="494" font-size="10" fill="#374151">想要<tspan font-weight="bold" fill="#1e40af">快检索/可预缓存</tspan>（ALBEF ITC、CLIP那味）→ 必须留一条"图文各自独立编码"的通路，不能全程深度绑死</text>
+  <text x="40" y="518" font-size="10" fill="#374151">想要<tspan font-weight="bold" fill="#15803d">细粒度深理解</tspan>（VQA/grounding）→ 需要图文在多层里深度互相看，越早融合越充分</text>
+  <text x="40" y="546" font-size="10" font-weight="bold" fill="#b45309">"边对齐边融合"各变体本质是在两头各让一步：要么留独立编码支路专服务对齐(CoCa)，</text>
+  <text x="40" y="566" font-size="10" font-weight="bold" fill="#b45309">要么把融合拆细、分层进行、每层顺带对齐(GLIP/BridgeTower)——没有免费午餐</text>
+
+  <!-- ④ 一句话 -->
+  <rect x="20" y="612" width="940" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="636" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">一句话：ALBEF"先对齐再融合"是同一步梯度里的计算依赖顺序，非训练阶段先后；</text>
+  <text x="490" y="658" text-anchor="middle" font-size="9.8" fill="#374151">"融合再对齐"会把融合后表示"绑死"、丢掉独立编码的快检索能力，基本不可行；</text>
+  <text x="490" y="680" text-anchor="middle" font-size="9.8" fill="#374151">"边对齐边融合"已有真实工作(GLIP/GroundingDINO逐层交替、CoCa并行双支路、BridgeTower多层桥接)，</text>
+  <text x="490" y="702" text-anchor="middle" font-size="9.8" fill="#374151">但都要在"检索速度"与"理解深度"间做同一种取舍——没有能两头都白拿的免费设计。</text>
+
+  <!-- 项目关联 -->
+  <rect x="20" y="742" width="940" height="60" rx="8" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="490" y="766" text-anchor="middle" font-size="9.5" fill="#334155">本项目用CLIP双塔(方案A同源思路的极简版，无融合分支)，图省事+可预缓存+零样本；</text>
+  <text x="490" y="786" text-anchor="middle" font-size="9.5" fill="#334155">理解这条设计谱系有助于在相关工作章节说清"为何不选边对齐边融合的重方案"。</text>
+</svg>

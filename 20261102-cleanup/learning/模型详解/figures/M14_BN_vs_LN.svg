@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="420" fill="#fff"/>
+  <text x="410" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">BatchNorm vs LayerNorm：唯一区别是"沿哪个轴求均值方差"</text>
+  <text x="410" y="48" text-anchor="middle" font-size="11" fill="#6b7280">特征张量 [N 批, C 通道, (H×W) 空间]；γβ 仿射两者都有</text>
+
+  <!-- BN cube -->
+  <text x="210" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#1d4ed8">① BatchNorm：每个通道，跨"整批样本+空间"</text>
+  <!-- draw N stacked slabs, highlight one channel across all -->
+  <g>
+    <!-- axes labels -->
+    <text x="60" y="120" font-size="10" fill="#374151">N 批 →</text>
+    <text x="40" y="230" font-size="10" fill="#374151" transform="rotate(-90 40 230)">C 通道 ↑</text>
+    <!-- grid: rows=channels(4), cols=samples(4) -->
+    <g>
+      <!-- channel 2 highlighted (blue strip across all samples) -->
+      <rect x="90" y="170" width="240" height="30" fill="#bfdbfe" stroke="#3b82f6"/>
+    </g>
+    <g stroke="#93c5fd" fill="none">
+      <rect x="90" y="110" width="240" height="120"/>
+      <line x1="90" y1="140" x2="330" y2="140"/><line x1="90" y1="170" x2="330" y2="170"/><line x1="90" y1="200" x2="330" y2="200"/>
+      <line x1="150" y1="110" x2="150" y2="230"/><line x1="210" y1="110" x2="210" y2="230"/><line x1="270" y1="110" x2="270" y2="230"/>
+    </g>
+    <text x="210" y="190" text-anchor="middle" font-size="9" fill="#1e40af">一个通道：对所有样本(N)的所有像素求 μ,σ</text>
+    <text x="210" y="252" text-anchor="middle" font-size="9.5" fill="#374151">每个通道一套 (μ,σ,γ,β)，统计量依赖整个 batch</text>
+  </g>
+
+  <!-- LN cube -->
+  <text x="610" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">② LayerNorm：每个样本，跨"自己所有通道+空间"</text>
+  <g>
+    <text x="460" y="120" font-size="10" fill="#374151">N 批 →</text>
+    <text x="440" y="230" font-size="10" fill="#374151" transform="rotate(-90 440 230)">C 通道 ↑</text>
+    <g>
+      <!-- sample 2 highlighted (green strip across all channels) -->
+      <rect x="550" y="110" width="60" height="120" fill="#bbf7d0" stroke="#16a34a"/>
+    </g>
+    <g stroke="#86efac" fill="none">
+      <rect x="490" y="110" width="240" height="120"/>
+      <line x1="490" y1="140" x2="730" y2="140"/><line x1="490" y1="170" x2="730" y2="170"/><line x1="490" y1="200" x2="730" y2="200"/>
+      <line x1="550" y1="110" x2="550" y2="230"/><line x1="610" y1="110" x2="610" y2="230"/><line x1="670" y1="110" x2="670" y2="230"/>
+    </g>
+    <text x="580" y="125" text-anchor="middle" font-size="9" fill="#15803d">一个样本：</text>
+    <text x="580" y="252" text-anchor="middle" font-size="9.5" fill="#374151">对该样本所有通道求 μ,σ，与 batch 无关</text>
+  </g>
+
+  <!-- bottom notes -->
+  <rect x="40" y="280" width="740" height="120" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="56" y="302" font-size="11" font-weight="bold" fill="#374151">四步：μ → σ² → 标准化 (x−μ)/√(σ²+ε) → 仿射 γx̂+β（γ,β 可学，能撤销归一化）</text>
+  <text x="56" y="326" font-size="10.5" fill="#374151">• <tspan font-weight="bold" fill="#1d4ed8">BN</tspan>：batch 越大越准；推理改用训练累积的滑动平均（忘 eval() 会出错）→ CNN 视觉常用。</text>
+  <text x="56" y="346" font-size="10.5" fill="#374151">• <tspan font-weight="bold" fill="#15803d">LN</tspan>：与 batch、序列长度无关 → 变长序列的 Transformer/NLP 用它。</text>
+  <text x="56" y="366" font-size="10.5" fill="#374151">• 小 batch 检测/分割 → GroupNorm（通道分组，介于两者之间）。</text>
+  <text x="56" y="386" font-size="10" fill="#6b7280">YOLOv8 = Conv-BN-SiLU；导出推理时把 BN 折叠进卷积省算。</text>
+</svg>

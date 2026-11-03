@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="460" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">扩散之前的两大生成前身：VAE（稳但糊）与 GAN（锐但不稳）</text>
+
+  <!-- VAE -->
+  <rect x="20" y="42" width="440" height="190" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="240" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">VAE 变分自编码器（2013）</text>
+  <rect x="40" y="82" width="70" height="40" rx="4" fill="#bfdbfe" stroke="#3b82f6"/><text x="75" y="106" text-anchor="middle" font-size="8" fill="#1e40af">编码器</text>
+  <text x="115" y="104" font-size="11" fill="#9ca3af">→</text>
+  <rect x="135" y="80" width="90" height="44" rx="4" fill="#fef3c7" stroke="#d97706"/><text x="180" y="98" text-anchor="middle" font-size="8" fill="#b45309">隐分布(μ,σ)</text><text x="180" y="112" text-anchor="middle" font-size="7.5" fill="#6b7280">采样(重参数)</text>
+  <text x="230" y="104" font-size="11" fill="#9ca3af">→</text>
+  <rect x="250" y="82" width="70" height="40" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="285" y="106" text-anchor="middle" font-size="8" fill="#15803d">解码器</text>
+  <text x="330" y="104" font-size="11" fill="#9ca3af">→</text>
+  <rect x="350" y="82" width="70" height="40" fill="#e5e7eb" stroke="#9ca3af"/><text x="385" y="106" text-anchor="middle" font-size="8" fill="#374151">重建图</text>
+  <text x="40" y="146" font-size="8.5" fill="#374151">损失 = 重建误差 + KL(隐分布‖N(0,I))</text>
+  <text x="40" y="164" font-size="8.5" fill="#374151">生成：从先验 N(0,I) 采样隐向量 → 解码</text>
+  <text x="40" y="186" font-size="8.5" fill="#15803d">优点：训练稳、隐空间规整、可插值</text>
+  <text x="40" y="204" font-size="8.5" fill="#b91c1c">缺点：样本偏糊（重建+KL 倾向平均）</text>
+  <text x="40" y="224" font-size="8" fill="#6b7280">→ 隐空间思想被 Latent Diffusion 复用(47)</text>
+
+  <!-- GAN -->
+  <rect x="480" y="42" width="440" height="190" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="700" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">GAN 生成对抗网络（2014）</text>
+  <rect x="500" y="82" width="80" height="40" rx="4" fill="#fecaca" stroke="#ef4444"/><text x="540" y="100" text-anchor="middle" font-size="8" fill="#b91c1c">生成器 G</text><text x="540" y="114" text-anchor="middle" font-size="7.5" fill="#6b7280">噪声→假图</text>
+  <text x="588" y="104" font-size="11" fill="#9ca3af">→</text>
+  <rect x="608" y="82" width="90" height="40" rx="4" fill="#fed7aa" stroke="#d97706"/><text x="653" y="100" text-anchor="middle" font-size="8" fill="#b45309">判别器 D</text><text x="653" y="114" text-anchor="middle" font-size="7.5" fill="#6b7280">真图 vs 假图</text>
+  <text x="706" y="104" font-size="11" fill="#9ca3af">→</text>
+  <rect x="726" y="82" width="90" height="40" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="771" y="100" text-anchor="middle" font-size="8" fill="#15803d">真/假 概率</text>
+  <text x="500" y="146" font-size="8.5" fill="#374151">对抗：G 想骗过 D，D 想识破 G（minimax 博弈）</text>
+  <text x="500" y="164" font-size="8.5" fill="#374151">G 越练越像真、D 越练越会挑刺 → 共同进步</text>
+  <text x="500" y="186" font-size="8.5" fill="#15803d">优点：样本锐利、逼真（StyleGAN 惊艳）</text>
+  <text x="500" y="204" font-size="8.5" fill="#b91c1c">缺点：训练不稳、模式崩溃（只生成几种样子）</text>
+  <text x="500" y="224" font-size="8" fill="#6b7280">→ 扩散后来在稳定性+覆盖度上胜出</text>
+
+  <!-- 对比 + 承上启下 -->
+  <rect x="20" y="246" width="900" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="266" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">对比 + 为什么扩散后来居上</text>
+  <line x1="330" y1="276" x2="330" y2="356" stroke="#c4b5fd"/><line x1="630" y1="276" x2="630" y2="356" stroke="#c4b5fd"/>
+  <text x="175" y="292" text-anchor="middle" font-size="9" font-weight="bold" fill="#374151">　</text>
+  <text x="480" y="292" text-anchor="middle" font-size="9" font-weight="bold" fill="#3b82f6">VAE</text>
+  <text x="780" y="292" text-anchor="middle" font-size="9" font-weight="bold" fill="#b91c1c">GAN</text>
+  <text x="175" y="312" text-anchor="middle" font-size="8.5" fill="#374151">训练稳定性</text><text x="480" y="312" text-anchor="middle" font-size="8.5" fill="#15803d">稳</text><text x="780" y="312" text-anchor="middle" font-size="8.5" fill="#b91c1c">不稳、易崩溃</text>
+  <text x="175" y="330" text-anchor="middle" font-size="8.5" fill="#374151">样本质量</text><text x="480" y="330" text-anchor="middle" font-size="8.5" fill="#b91c1c">糊</text><text x="780" y="330" text-anchor="middle" font-size="8.5" fill="#15803d">锐</text>
+  <text x="175" y="348" text-anchor="middle" font-size="8.5" fill="#374151">多样性/覆盖</text><text x="480" y="348" text-anchor="middle" font-size="8.5" fill="#15803d">全</text><text x="780" y="348" text-anchor="middle" font-size="8.5" fill="#b91c1c">易漏(模式崩溃)</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="378" width="900" height="72" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="400" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：VAE(稳、隐空间规整、但糊) 与 GAN(锐、逼真、但训练不稳/模式崩溃) 是扩散前的两大前身；</text>
+  <text x="470" y="422" text-anchor="middle" font-size="9.5" fill="#374151">扩散(46) 后来兼得"稳 + 高质 + 覆盖全"胜出，而 VAE 的隐空间思想被 Latent Diffusion(47) 复用。</text>
+  <text x="470" y="440" text-anchor="middle" font-size="8" fill="#6b7280">Kingma & Welling, VAE (2013) · Goodfellow et al., GAN (2014)</text>
+</svg>

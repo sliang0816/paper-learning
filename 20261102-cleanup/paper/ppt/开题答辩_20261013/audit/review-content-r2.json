@@ -1,0 +1,180 @@
+{
+  "purpose": "江苏大学硕士学位论文开题答辩，11–14 分钟，现场投影；面向学院开题评审专家，目标是认可研究问题、技术路线、前期证据和后续计划，同时不把开题证据误写成论文实验全部完成。",
+  "rubric_overlay": "thesis / committee defense",
+  "coverage": {
+    "slides_opened": [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+      12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+      23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33
+    ],
+    "passes": [
+      "content lens (full deck)",
+      "fresh whole-deck re-pass"
+    ],
+    "stats_block_seen": true,
+    "contract_card_seen": true
+  },
+  "plan_audit": {
+    "_comment": "Lens A round-2 contract audit against all 33 latest rendered slides, all speaker notes, the updated lint report, contract card, trace artifact, gate ledger and local primary result files.",
+    "lens_a": {
+      "memory_sentence": "固定监控中的微小抛洒物必须先被可靠定位、再被正确命名；受控实验支持继续研究 P2，但独立确认、开放词汇闭环和真实设备部署仍是后续边界。",
+      "matches_deck_message": true,
+      "curve_visible": "kept — 场景压力经研究缺口、受控设计和分层诊断推进到 slide 22 的五种子证据峰值，随后以 slide 23 的负结果和 slide 24 的依赖式计划主动收紧结论。",
+      "takeaway_titles": "kept overall — 关键内容页均以结论型标题绑定合同 takeaway；slide 5 已明确六类检测口径，slide 20 已把创新限定为研究设计贡献，slide 23 已逐块标明三种协议，slide 24 已给出相对月份与阶段出口。",
+      "motion_manifest": "kept — 用户明确选择全静态；33 页无 appear build、无转场，未以转场冒充动画，且全稿静态终态可独立阅读。",
+      "question_chain": "kept — 为什么固定监控仍困难→现有路线缺什么→怎样用受控实验与三级诊断拆开问题→已有证据支持什么→哪些条件满足后才能进入独立确认、开放集和设备验证。",
+      "round1_resolution": [
+        {
+          "id": "s5-cohort-denominator-1",
+          "status": "closed",
+          "evidence": "slide 5 标题与大数字均写明六类检测 test，脚注明确完整八类 test=921、GL/RU 预留类 59 个另作语义诊断；notes 使用同一口径。"
+        },
+        {
+          "id": "deck-novelty-positioning-1",
+          "status": "closed-with-minor-ceiling",
+          "evidence": "slides 7–8 先说明三条既有路线及共同证据缺口，slide 20 将两项创新明确降格并界定为研究设计贡献，同时列出不能主张的外部确认、开放词汇闭环和部署结论。"
+        },
+        {
+          "id": "s23-protocol-splice-1",
+          "status": "closed",
+          "evidence": "slide 23 三个数值区分别标成 val｜GT框分类｜top-1、internal-confirm-230｜检测框规则｜F1、internal-confirm-230｜直接开放词汇｜F1，不再形成同队列横向比较的错觉。"
+        },
+        {
+          "id": "s24-plan-feasibility-1",
+          "status": "closed-with-minor-ceiling",
+          "evidence": "slide 24 给出答辩后 0–2、2–5、5–8 月三阶段，并为独立确认、元数据/开放集和设备实测分别设置验收出口；notes 明确未满足则停留在当前边界。"
+        },
+        {
+          "id": "s12-title-occlusion-1",
+          "status": "closed",
+          "evidence": "最新像素中 slides 12、16 标题首字完整可见。"
+        },
+        {
+          "id": "s30-source-crop-1",
+          "status": "closed",
+          "evidence": "slide 30 来源行已完整显示 results/external_validation/raod_test_v1/summary.md。"
+        }
+      ],
+      "claim_verification": [
+        {
+          "id": "C01",
+          "status": "verified",
+          "source": "results/dataset_audit.json + results/size_stratified_head128_controls_5seed.md",
+          "check": "完整八类 test 为 921 个框；六类检测 test 为 862 个框，其中 small 720、medium 142、large 0，720/862=83.53%，与 slide 5 的 83.5% 一致。"
+        },
+        {
+          "id": "C02",
+          "status": "verified",
+          "source": "results/head_width_control_summary_5seed.md",
+          "check": "四配置分类头隐藏宽度统一为 128，seed 0–4，共 4×5=20 次主实验。"
+        },
+        {
+          "id": "C03",
+          "status": "verified",
+          "source": "results/head_width_control_summary_5seed.md",
+          "check": "P2 对 mAP@0.5 的同 seed 配对提升为 +2.71±1.65 pp，5/5 seed 为正。"
+        },
+        {
+          "id": "C04",
+          "status": "verified",
+          "source": "results/size_stratified_head128_controls_5seed.md",
+          "check": "P2 对 small AP@0.5 的同 seed 配对提升为 +4.01±1.58 pp，5/5 seed 为正。"
+        },
+        {
+          "id": "C05",
+          "status": "verified",
+          "source": "results/head_width_control_summary_5seed.md",
+          "check": "P2×CBAM 交互项为 −1.53±3.12 pp，当前结果不支持 CBAM 的稳定独立正收益或正向协同叙事。"
+        },
+        {
+          "id": "C06",
+          "status": "verified",
+          "source": "paper/drafts/ch4_clip.md:52-56,248-255",
+          "check": "验证集 surveillance_v2 的 GL/RU 真值框 top-1 为 28/55=50.91%。"
+        },
+        {
+          "id": "C07",
+          "status": "verified",
+          "source": "results/confirmation/rejection_confirmation_v1.json + paper/drafts/ch4_clip.md:233-244",
+          "check": "230 张回溯内部确认中 detector-confidence-only F1=39.44%，联合规则 F1=32.45%。"
+        },
+        {
+          "id": "C08",
+          "status": "verified",
+          "source": "results/open_vocab/yoloworld_v2s_gl_ru_internal_confirm_v1/summary.json + results/open_vocab/grounding_dino_tiny_gl_ru_internal_confirm_v1/summary.json",
+          "check": "冻结协议下 YOLO-World 为 0 TP/16 predictions、F1=0；Grounding DINO 为 2 TP/236 predictions、F1≈0.80%。"
+        },
+        {
+          "id": "C09",
+          "status": "verified",
+          "source": "results/training_argument_audit.md",
+          "check": "26 次正式训练中 21 次有优化器日志直接证据，5 次缺失并保持未恢复。"
+        },
+        {
+          "id": "C10",
+          "status": "verified",
+          "source": "results/external_validation/raod_test_v1/summary.md",
+          "check": "RAOD 三组配对中 Precision +1.34±0.70 pp 且 3/3 正向，AP50-95 −1.70±2.22 pp 且仅 1/3 正向。"
+        },
+        {
+          "id": "C11",
+          "status": "verified",
+          "source": "paper/drafts/ch4_clip.md:153-178 + paper/figures/fig_error_analysis.png",
+          "check": "历史 test 的 GL/RU 真值 59 个，检测匹配候选 28 个，最终正确命名 17 个；该链被明确限定为条件性诊断。"
+        },
+        {
+          "id": "C12",
+          "status": "verified",
+          "source": "results/full_pipeline_benchmark.json",
+          "check": "RTX 3090、120 W、顺序 batch=1、700 图条件下平均 77.4088 ms/图、12.9117 FPS、P95 121.9401 ms，与 slide 33 的四舍五入值一致。"
+        }
+      ]
+    }
+  },
+  "probes": {
+    "_comment": "Fresh memory sentence was written after the blind contact-sheet and complete 33-slide pixel pass, before re-opening the contract card.",
+    "memory_sentence": "我记住的是：固定监控中的微小抛洒物必须先被可靠定位、再被正确命名；受控实验支持继续研究 P2，但独立确认、开放词汇闭环和真实设备部署仍是后续边界。合同卡的 deck message 与此一致。"
+  },
+  "verdict": "consent",
+  "summary": "第二轮 Lens A 复审同意通过。上轮四项核心内容问题均已实质收口：slide 5 区分六类 862 与完整八类 921，slide 20 将创新限定为可归因与可诊断的研究设计贡献，slide 23 为三组数字逐一绑定协议，slide 24 补入相对月份和验收出口。全稿的 12 条承重主张可回到本地一手结果，且没有把内部重复、历史 test、外部 RAOD 或 RTX 3090 原型越界写成独立确认、普遍泛化或边缘部署。剩余问题均为不阻塞答辩的精修项。",
+  "strengths": [
+    "六类检测、完整八类、GL/RU 预留语义诊断三种口径现在前后一致，slide 5 与 slide 31 不再造成分母变化的疑问。",
+    "贡献表述从模块堆叠转向研究设计：固定头宽同 seed 多种子因子实验与三级误差诊断形成清楚、可审计的两条贡献线。",
+    "slide 23 把验证集 GT 框上限、回溯内部确认规则比较和直接开放词汇负结果拆成三个有协议标签的证据块，保住了全稿最关键的证据边界。",
+    "slide 24 的相对月份、依赖条件和验收出口使后续计划从先后关系升级为可审查的执行路线，同时明确不提前承诺部署。",
+    "slides 28–33 继续为独立确认、训练审计、跨域边界、错误链、开放词汇负结果和速度量级提供高价值备查证据。"
+  ],
+  "findings": [
+    {
+      "id": "s20-prior-work-map-r2",
+      "slide": 20,
+      "severity": "minor",
+      "dimension": "positioning vs prior work / explicit contribution",
+      "issue": "slide 20 已正确称为‘设计贡献’，slides 7–8 也说明了共同缺口，但仍未把两项贡献逐一指向一篇最接近工作或一个明确缺失列。",
+      "why": "委员会若继续追问‘谁最接近、差异在哪里’，讲者仍需主要依赖口头回答；这不再构成创新性自我宣称，但会降低答辩时的检索效率。",
+      "fix": "可在 slide 20 每项贡献后各补一个极短的‘相对已有工作’括注，或在备查页增加 4–6 行对照表，列出固定头宽、同 seed、多种子、交互项与三级误差分解。",
+      "fix_risk": "medium"
+    },
+    {
+      "id": "s24-exit-threshold-r2",
+      "slide": 24,
+      "severity": "minor",
+      "dimension": "research plan / acceptance criteria",
+      "issue": "时间窗和验收出口已经补齐，但‘日志覆盖率达标’‘元数据可用’仍是定性词，没有给出最小覆盖率、样本量或缺失率阈值。",
+      "why": "评审可以判断阶段顺序和交付物，却还不能完全判断何种结果触发进入下一阶段或止损。",
+      "fix": "在真实约束确定后，为前两阶段各补一个可量化门槛，例如日志覆盖率目标、独立确认最小样本量、时间元数据允许缺失率；未知时明确标成答辩后首月需锁定的决策项。",
+      "fix_risk": "low"
+    },
+    {
+      "id": "deck-reading-load-r2",
+      "slide": "deck",
+      "severity": "minor",
+      "dimension": "audience readability / presented delivery",
+      "issue": "最新 lint 仍显示多页 reading load 超过 presented 默认预算，正文中位字号约 14 pt；slides 7、20、23、24 在后排投影下仍需较高阅读投入。",
+      "why": "本轮关键协议已变得准确，但过小的限定语最容易在现场被略过，尤其会影响贡献、协议边界和验收条件的理解。",
+      "fix": "若还有精修时间，优先放大 slides 20、23、24 的限定语与协议标签，删除与 notes 重复的句子；不要再压缩字号。",
+      "fix_risk": "medium"
+    }
+  ],
+  "ceiling": "若把 slide 20 的两项设计贡献与最接近工作做成一眼可审查的逐项对照，并把 slide 24 的阶段出口量化，这套稿件会从可信的开题答辩提升为更能经受委员会追问的研究计划。"
+}

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="420" fill="#fff"/>
+  <text x="490" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Seq2Seq：编码器压成一个向量，解码器再展开成新序列</text>
+
+  <rect x="30" y="50" width="430" height="180" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="245" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">编码器 Encoder（一个LSTM）</text>
+  <text x="80" y="106" font-size="11">A</text><text x="130" y="106" font-size="11">→</text>
+  <text x="160" y="106" font-size="11">B</text><text x="200" y="106" font-size="11">→</text>
+  <text x="230" y="106" font-size="11">C</text><text x="270" y="106" font-size="11">→</text>
+  <text x="300" y="106" font-size="11">&lt;EOS&gt;</text>
+  <text x="245" y="140" text-anchor="middle" font-size="10" fill="#374151">逐个时间步读入，每步更新隐藏状态</text>
+  <rect x="170" y="152" width="150" height="40" rx="6" fill="#bfdbfe" stroke="#1e40af"/>
+  <text x="245" y="176" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">最后一步隐藏状态 v</text>
+  <text x="245" y="204" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">固定维度向量——整句话被压缩成这一个向量（信息瓶颈）</text>
+
+  <text x="475" y="140" text-anchor="middle" font-size="22">→</text>
+
+  <rect x="520" y="50" width="430" height="180" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="735" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">解码器 Decoder（另一个LSTM）</text>
+  <text x="735" y="96" text-anchor="middle" font-size="10" fill="#374151">初始隐藏状态 = 编码器的 v</text>
+  <text x="600" y="130" font-size="11">W</text><text x="640" y="130" font-size="11">→</text>
+  <text x="665" y="130" font-size="11">X</text><text x="705" y="130" font-size="11">→</text>
+  <text x="730" y="130" font-size="11">Y</text><text x="770" y="130" font-size="11">→</text>
+  <text x="795" y="130" font-size="11">Z</text><text x="835" y="130" font-size="11">→</text>
+  <text x="855" y="130" font-size="11">&lt;EOS&gt;</text>
+  <text x="735" y="160" text-anchor="middle" font-size="10" fill="#374151">自回归：每步用上一步刚生成的词当输入，逐词生成</text>
+  <text x="735" y="188" text-anchor="middle" font-size="10" fill="#374151">p(y₁,…,y_T'|x₁,…,x_T) = Π p(y_t|v, y₁,…,y_{t-1})</text>
+  <text x="735" y="210" text-anchor="middle" font-size="9.5" fill="#6b7280">推理时用beam search维护多个候选，不是贪心选一个</text>
+
+  <rect x="30" y="248" width="920" height="80" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="270" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b45309">关键技巧：把源句子倒序输入</text>
+  <text x="490" y="292" text-anchor="middle" font-size="10" fill="#374151">"a b c"倒序变成"c b a"喂给编码器——不改变语义，但让源句首词和目标句首词的时间距离变短</text>
+  <text x="490" y="312" text-anchor="middle" font-size="10" fill="#374151">引入大量"短程"依赖，SGD优化明显更容易，长句翻译质量显著提升——纯工程技巧，却是本文关键贡献之一</text>
+
+  <rect x="30" y="340" width="920" height="60" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="364" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">局限（下一步被attention解决）：不管源句多长，都要压进同一个固定维度向量v——句子越长，压缩损失越大</text>
+  <text x="490" y="384" text-anchor="middle" font-size="9.5" fill="#6b7280">Bahdanau attention(2015)正是为解决这个"定长瓶颈"而生：解码时不再只看v，而是逐步"回看"编码器每一步的隐藏状态</text>
+</svg>

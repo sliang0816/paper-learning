@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="300" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">YOLOv6 / v7（2022）　对照 v5：高效骨干重构（部署提速 + 同精度提速）</text>
+
+  <!-- v6 行 -->
+  <text x="48" y="62" font-size="13" font-weight="bold" fill="#b45309">v6（美团）：面向工业部署</text>
+  <g font-size="9.5" text-anchor="middle">
+    <rect x="40" y="74" width="80" height="40" rx="6" fill="#dbeafe" stroke="#ef4444" stroke-width="2"/><text x="80" y="90" fill="#dc2626">🔴 RepVGG</text><text x="80" y="105" fill="#dc2626">重参数化骨干</text>
+    <rect x="148" y="74" width="92" height="40" rx="6" fill="#ede9fe" stroke="#7c3aed"/><text x="194" y="90">Rep-PAN</text><text x="194" y="105" font-size="8" fill="#6b7280">颈部</text>
+    <rect x="268" y="74" width="90" height="40" rx="6" fill="#dcfce7" stroke="#ef4444" stroke-width="2"/><text x="313" y="90" fill="#dc2626">🔴 解耦头</text><text x="313" y="105" font-size="8" fill="#6b7280">Efficient Decoupled</text>
+    <rect x="386" y="74" width="78" height="40" rx="6" fill="#fce7f3" stroke="#db2777"/><text x="425" y="97">3 尺度输出</text>
+  </g>
+  <g stroke="#374151" stroke-width="1.3">
+    <line x1="120" y1="94" x2="146" y2="94" marker-end="url(#a)"/>
+    <line x1="240" y1="94" x2="266" y2="94" marker-end="url(#a)"/>
+    <line x1="358" y1="94" x2="384" y2="94" marker-end="url(#a)"/>
+  </g>
+  <text x="478" y="86" font-size="10" fill="#374151">训练时多分支(强表达)</text>
+  <text x="478" y="102" font-size="10" fill="#dc2626">→ 推理时融合成单分支(快)</text>
+  <text x="478" y="116" font-size="8.5" fill="#6b7280">FLOPs 不变但实测延迟↓（呼应 Q8）</text>
+
+  <line x1="40" y1="134" x2="720" y2="134" stroke="#e5e7eb"/>
+
+  <!-- v7 行 -->
+  <text x="48" y="160" font-size="13" font-weight="bold" fill="#1d4ed8">v7（YOLOv4 作者）：同精度下提速</text>
+  <g font-size="9.5" text-anchor="middle">
+    <rect x="40" y="172" width="92" height="42" rx="6" fill="#dbeafe" stroke="#ef4444" stroke-width="2"/><text x="86" y="189" fill="#dc2626">🔴 E-ELAN</text><text x="86" y="204" font-size="8" fill="#6b7280">高效层聚合</text>
+    <rect x="160" y="172" width="86" height="42" rx="6" fill="#ede9fe" stroke="#7c3aed"/><text x="203" y="189">PAN 颈部</text>
+    <rect x="274" y="172" width="92" height="42" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="320" y="189">检测头</text>
+    <rect x="274" y="172" width="92" height="42" rx="6" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+    <rect x="394" y="172" width="78" height="42" rx="6" fill="#fce7f3" stroke="#db2777"/><text x="433" y="197">3 尺度输出</text>
+  </g>
+  <text x="320" y="232" text-anchor="middle" font-size="8.5" fill="#dc2626">🔴 训练加辅助头(deep supervision)，推理丢弃</text>
+  <g stroke="#374151" stroke-width="1.3">
+    <line x1="132" y1="193" x2="158" y2="193" marker-end="url(#a)"/>
+    <line x1="246" y1="193" x2="272" y2="193" marker-end="url(#a)"/>
+    <line x1="366" y1="193" x2="392" y2="193" marker-end="url(#a)"/>
+  </g>
+  <text x="492" y="190" font-size="10" fill="#374151">E-ELAN 控制梯度路径</text>
+  <text x="492" y="206" font-size="10" fill="#374151">→ 更深网络学得更高效</text>
+
+  <rect x="20" y="246" width="720" height="46" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="36" y="266" font-size="11" font-weight="bold" fill="#b91c1c">🔴 相对 v5 的改进：主要在骨干/训练效率，整体三段式(骨干→PAN→头)不变。</text>
+  <text x="36" y="284" font-size="11" fill="#374151">v6 用重参数化把"训练强表达"与"推理快"解耦；v7 用 E-ELAN + 辅助头在不增推理成本下提精度。二者都是"结构换效率"。</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

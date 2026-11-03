@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="560" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q74 别把两种“迭代”混为一谈：训练迭代（调权重）vs L 层精修（一次前向内）</text>
+  <text x="460" y="44" text-anchor="middle" font-size="11" fill="#6b7280">“越来越准”是跨训练步调权重；“L 次精修”是一次前向内的网络深度——正交，都要</text>
+
+  <!-- ===== Panel B: inside one forward pass (L layers) ===== -->
+  <rect x="20" y="60" width="500" height="300" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="270" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e40af">B. L 层解码器精修 = 一次前向传递内</text>
+  <text x="270" y="100" text-anchor="middle" font-size="9.5" fill="#374151">同一张图，query 依次穿过物理堆叠的 6 层，每层框收紧一点</text>
+
+  <!-- single image with box tightening across layers -->
+  <g>
+    <rect x="40" y="116" width="74" height="74" fill="#fff" stroke="#93c5fd"/>
+    <rect x="52" y="126" width="52" height="50" fill="none" stroke="#f87171" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="77" y="205" text-anchor="middle" font-size="8.5" fill="#374151">L1 框粗</text>
+  </g>
+  <text x="122" y="155" font-size="13" fill="#9ca3af">→</text>
+  <g>
+    <rect x="138" y="116" width="74" height="74" fill="#fff" stroke="#93c5fd"/>
+    <rect x="152" y="130" width="40" height="40" fill="none" stroke="#fb923c" stroke-width="2" stroke-dasharray="3 2"/>
+    <text x="175" y="205" text-anchor="middle" font-size="8.5" fill="#374151">L2</text>
+  </g>
+  <text x="220" y="155" font-size="13" fill="#9ca3af">→</text>
+  <g>
+    <rect x="236" y="116" width="74" height="74" fill="#fff" stroke="#93c5fd"/>
+    <rect x="252" y="133" width="32" height="34" fill="none" stroke="#f59e0b" stroke-width="2"/>
+    <text x="273" y="205" text-anchor="middle" font-size="8.5" fill="#374151">L3–L5 渐准</text>
+  </g>
+  <text x="318" y="155" font-size="13" fill="#9ca3af">→</text>
+  <g>
+    <rect x="334" y="116" width="74" height="74" fill="#fff" stroke="#93c5fd"/>
+    <rect x="350" y="137" width="26" height="26" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+    <text x="371" y="205" text-anchor="middle" font-size="8.5" fill="#15803d">L6 贴合</text>
+  </g>
+  <text x="416" y="155" font-size="13" fill="#9ca3af">→</text>
+  <rect x="432" y="130" width="74" height="46" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="469" y="150" text-anchor="middle" font-size="9" fill="#15803d">读最后一层</text>
+  <text x="469" y="164" text-anchor="middle" font-size="9" fill="#15803d">= 输出框</text>
+
+  <rect x="40" y="222" width="460" height="58" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="54" y="242" font-size="9.5" fill="#374151">· 第 l 层预测参考框 → 第 l+1 层从它出发继续修（DINO 显式迭代）</text>
+  <text x="54" y="259" font-size="9.5" fill="#374151">· 训练 + 推理<tspan font-weight="bold">都走</tspan>这 L 层；推理只是没损失/匹配，跑完读 L6</text>
+  <text x="54" y="274" font-size="9" fill="#b91c1c">· L 次精修完全在一次前向内完成 ✓（你的猜测对）</text>
+
+  <rect x="40" y="290" width="460" height="58" rx="6" fill="#fef2f2" stroke="#f87171"/>
+  <text x="270" y="308" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">能不能去掉 L、只靠训练让它准？不能</text>
+  <text x="54" y="325" font-size="9" fill="#374151">推理面对新图，要靠前向把框定位到这张图——一层表达力不够。</text>
+  <text x="54" y="340" font-size="9" fill="#374151">类比：ResNet 训练好也不能把 50 层砍成 1 层；DETR 减层 → AP 明显掉。</text>
+
+  <!-- ===== Panel A: training iterations ===== -->
+  <rect x="540" y="60" width="360" height="300" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="720" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">A. 训练迭代 = 跨很多图/epoch</text>
+  <text x="720" y="100" text-anchor="middle" font-size="9.5" fill="#374151">前向+反向，梯度下降调权重 → 模型越来越准</text>
+
+  <!-- images stack + backward -->
+  <rect x="566" y="116" width="60" height="44" fill="#fff" stroke="#fcd34d"/><text x="596" y="142" text-anchor="middle" font-size="8" fill="#92400e">图1</text>
+  <rect x="576" y="126" width="60" height="44" fill="#fff" stroke="#fcd34d"/><text x="606" y="152" text-anchor="middle" font-size="8" fill="#92400e">图2</text>
+  <rect x="586" y="136" width="60" height="44" fill="#fff" stroke="#fcd34d"/><text x="616" y="162" text-anchor="middle" font-size="8" fill="#92400e">图…N</text>
+  <text x="690" y="150" font-size="13" fill="#9ca3af">→</text>
+  <rect x="710" y="120" width="170" height="60" rx="6" fill="#fff" stroke="#fcd34d"/>
+  <text x="795" y="140" text-anchor="middle" font-size="9" fill="#374151">每张：前向(走完L层)</text>
+  <text x="795" y="155" text-anchor="middle" font-size="9" fill="#374151">→匈牙利匹配→损失</text>
+  <text x="795" y="170" text-anchor="middle" font-size="9" fill="#b45309">→反向更新权重</text>
+
+  <path d="M795 182 Q720 210 640 188" fill="none" stroke="#dc2626" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="715" y="212" text-anchor="middle" font-size="8.5" fill="#dc2626">反向：调 query嵌入/解码器/头的权重</text>
+
+  <rect x="560" y="222" width="320" height="126" rx="6" fill="#fffbeb" stroke="#fcd34d"/>
+  <text x="720" y="242" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">调的是“权重/先验”，不是某次的框</text>
+  <text x="574" y="262" font-size="9" fill="#374151">· 按最低代价反复配对 → 随机 query 自组织成</text>
+  <text x="584" y="277" font-size="9" fill="#374151">　“专精槽位”（偏好某区域/尺寸）</text>
+  <text x="574" y="295" font-size="9" fill="#374151">· 框由 L1+GIoU 压准、一物一框 → 免 NMS</text>
+  <text x="574" y="313" font-size="9" fill="#374151">· query ≈ 可学习 anchor（DAB-DETR/DINO 字面化</text>
+  <text x="584" y="328" font-size="9" fill="#374151">　为 4 维可学习 anchor 框）；比 anchor 稀疏+一对一</text>
+  <text x="574" y="344" font-size="8.5" fill="#6b7280">· 教会每层怎么修（每层接辅助损失）</text>
+
+  <!-- bottom takeaway -->
+  <rect x="20" y="376" width="880" height="80" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="400" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">两者正交、缺一不可</text>
+  <text x="460" y="423" text-anchor="middle" font-size="10" fill="#374151">A 训练（跨步调权重）让模型<tspan font-weight="bold">学会怎么修</tspan>；B 的 L 层（一次前向内的深度）是模型每次真正<tspan font-weight="bold">去修的计算过程</tspan>。</text>
+  <text x="460" y="444" text-anchor="middle" font-size="10" fill="#374151">你说的“迭代多次越来越准”=A；你问的“L 次精修”=B，在<tspan font-weight="bold" fill="#1e40af">一次前向内</tspan>完成；A 准了也<tspan font-weight="bold" fill="#b91c1c">替代不了</tspan> B 的深度。</text>
+
+  <text x="460" y="490" text-anchor="middle" font-size="9.5" fill="#6b7280">类比记忆：A = 练琴很多遍（长本事/调“权重”）；B = 一次演奏里逐句校准（一次前向内由粗到细）。练得再熟，每次演奏仍要逐句弹完。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker></defs>
+</svg>

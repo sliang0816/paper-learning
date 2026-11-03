@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="470" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">MAE 架构：掩码 75% → 编码器只看可见 25% → 轻量解码器重建缺失像素（非对称）</text>
+
+  <!-- 1. 原图分块+掩码 -->
+  <text x="105" y="58" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#374151">① 分 patch，随机盖 75%</text>
+  <g>
+    <!-- 4x4 grid, mask ~12 of 16 -->
+    <rect x="55" y="70" width="100" height="100" fill="#f8fafc" stroke="#cbd5e1"/>
+    <!-- visible patches (colored) -->
+    <rect x="55" y="70" width="25" height="25" fill="#bfdbfe" stroke="#3b82f6"/>
+    <rect x="130" y="95" width="25" height="25" fill="#bfdbfe" stroke="#3b82f6"/>
+    <rect x="80" y="145" width="25" height="25" fill="#bfdbfe" stroke="#3b82f6"/>
+    <rect x="105" y="70" width="25" height="25" fill="#bfdbfe" stroke="#3b82f6"/>
+    <!-- masked (gray) -->
+    <g fill="#9ca3af">
+      <rect x="80" y="70" width="25" height="25"/><rect x="130" y="70" width="25" height="25"/>
+      <rect x="55" y="95" width="25" height="25"/><rect x="80" y="95" width="25" height="25"/><rect x="105" y="95" width="25" height="25"/>
+      <rect x="55" y="120" width="25" height="25"/><rect x="80" y="120" width="25" height="25"/><rect x="105" y="120" width="25" height="25"/><rect x="130" y="120" width="25" height="25"/>
+      <rect x="55" y="145" width="25" height="25"/><rect x="105" y="145" width="25" height="25"/><rect x="130" y="145" width="25" height="25"/>
+    </g>
+    <line x1="80" y1="70" x2="80" y2="170" stroke="#e5e7eb"/><line x1="105" y1="70" x2="105" y2="170" stroke="#e5e7eb"/><line x1="130" y1="70" x2="130" y2="170" stroke="#e5e7eb"/>
+    <line x1="55" y1="95" x2="155" y2="95" stroke="#e5e7eb"/><line x1="55" y1="120" x2="155" y2="120" stroke="#e5e7eb"/><line x1="55" y1="145" x2="155" y2="145" stroke="#e5e7eb"/>
+  </g>
+  <text x="105" y="186" text-anchor="middle" font-size="8" fill="#3b82f6">蓝=可见25%　灰=盖住75%</text>
+
+  <text x="175" y="120" font-size="16" fill="#9ca3af">→</text>
+
+  <!-- 2. Encoder 只看可见 -->
+  <text x="290" y="58" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">② 编码器只处理可见 patch</text>
+  <g>
+    <rect x="215" y="80" width="30" height="20" fill="#bfdbfe" stroke="#3b82f6"/>
+    <rect x="215" y="105" width="30" height="20" fill="#bfdbfe" stroke="#3b82f6"/>
+    <rect x="215" y="130" width="30" height="20" fill="#bfdbfe" stroke="#3b82f6"/>
+    <rect x="215" y="155" width="30" height="20" fill="#bfdbfe" stroke="#3b82f6"/>
+    <text x="230" y="192" text-anchor="middle" font-size="8" fill="#3b82f6">仅25%token</text>
+  </g>
+  <rect x="265" y="80" width="60" height="95" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="295" y="122" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af" transform="rotate(-90 295 122)">ViT 编码器</text>
+  <text x="295" y="192" text-anchor="middle" font-size="8" fill="#b91c1c">重(大)、但只算25%→省算力</text>
+  <text x="340" y="120" font-size="16" fill="#9ca3af">→</text>
+
+  <!-- 3. 加 mask token + Decoder -->
+  <text x="500" y="58" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">③ 补回 mask token → 轻量解码器</text>
+  <g>
+    <!-- encoded visible + mask tokens -->
+    <rect x="368" y="80" width="26" height="18" fill="#93c5fd" stroke="#3b82f6"/>
+    <rect x="368" y="100" width="26" height="18" fill="#fca5a5" stroke="#ef4444"/>
+    <rect x="368" y="120" width="26" height="18" fill="#93c5fd" stroke="#3b82f6"/>
+    <rect x="368" y="140" width="26" height="18" fill="#fca5a5" stroke="#ef4444"/>
+    <rect x="368" y="160" width="26" height="18" fill="#fca5a5" stroke="#ef4444"/>
+    <text x="381" y="192" text-anchor="middle" font-size="7.5" fill="#374151">蓝=编码, 红=mask token</text>
+  </g>
+  <rect x="415" y="80" width="55" height="98" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="442" y="129" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b45309" transform="rotate(-90 442 129)">轻量解码器</text>
+  <text x="500" y="192" text-anchor="middle" font-size="8" fill="#b45309">小(浅)，全部token都进→重建全图</text>
+  <text x="475" y="120" font-size="16" fill="#9ca3af">→</text>
+
+  <!-- 4. 重建 + loss -->
+  <text x="600" y="58" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">④ 重建被盖 patch 的像素</text>
+  <rect x="540" y="70" width="100" height="100" fill="#f8fafc" stroke="#cbd5e1"/>
+  <g stroke="#e5e7eb"><line x1="565" y1="70" x2="565" y2="170"/><line x1="590" y1="70" x2="590" y2="170"/><line x1="615" y1="70" x2="615" y2="170"/><line x1="540" y1="95" x2="640" y2="95"/><line x1="540" y1="120" x2="640" y2="120"/><line x1="540" y1="145" x2="640" y2="145"/></g>
+  <rect x="540" y="70" width="100" height="100" fill="#86efac" opacity="0.35"/>
+  <text x="590" y="124" text-anchor="middle" font-size="9" fill="#15803d">重建整图</text>
+  <text x="590" y="186" text-anchor="middle" font-size="8" fill="#b91c1c">损失=只在被盖 patch 上算 MSE 像素误差</text>
+
+  <!-- 下游 -->
+  <rect x="680" y="66" width="240" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="800" y="86" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">⑤ 预训练完 → 扔掉解码器</text>
+  <text x="696" y="108" font-size="9" fill="#374151">· 只留编码器当骨干</text>
+  <text x="696" y="126" font-size="9" fill="#374151">· 下游用全部 patch(不掩码)</text>
+  <text x="696" y="144" font-size="9" fill="#374151">· 少量标注微调 → 检测/分割/分类</text>
+  <text x="696" y="168" font-size="8.5" fill="#6d28d9">解码器只为"重建"任务临时存在</text>
+
+  <!-- 关键设计 -->
+  <rect x="20" y="214" width="900" height="110" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="234" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">三个关键设计</text>
+  <text x="40" y="258" font-size="9.5" fill="#374151">① <tspan font-weight="bold">高掩码率(75%)</tspan>：图像冗余大，盖少了靠邻居插值就能补、学不到语义；盖到 75% 逼模型真正"理解"内容才能重建</text>
+  <text x="40" y="280" font-size="9.5" fill="#374151">② <tspan font-weight="bold">非对称编码器-解码器</tspan>：编码器重但只吃可见 25% → 训练快省显存；解码器轻、只在预训练用，用完丢弃</text>
+  <text x="40" y="302" font-size="9.5" fill="#374151">③ <tspan font-weight="bold">重建像素、只在被盖 patch 上算损失</tspan>：无需标签 = 自监督；目标是"补全被盖处的原始像素"</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="336" width="900" height="120" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="358" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">一句话 = "BERT for images"（掩码图像建模 MIM）</text>
+  <text x="470" y="382" text-anchor="middle" font-size="9.5" fill="#374151">BERT 遮词猜词（掩码语言建模）→ MAE 遮 patch 补像素（掩码图像建模）；都是"挖空—填空"式自监督，不用标签学表示</text>
+  <text x="470" y="404" text-anchor="middle" font-size="9.5" fill="#374151">差别：文本离散、遮 15% 就难；图像连续冗余大，要遮到 75% 才够难。产物都是一个强力"编码器/骨干"供下游微调</text>
+  <text x="470" y="428" text-anchor="middle" font-size="9.5" fill="#15803d">对本项目：可用 ~2TB 无标注路面视频做 MAE 预训练骨干 → 再用少量标注微调 → 潜在提升检测（尤其稀缺类）</text>
+  <text x="470" y="448" text-anchor="middle" font-size="8.5" fill="#6b7280">He 等（何恺明），Masked Autoencoders Are Scalable Vision Learners，CVPR 2022</text>
+</svg>

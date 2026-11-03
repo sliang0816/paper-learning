@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 580" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="580" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q142 特征金字塔要 GAP 吗：不能——GAP 毁空间信息(要 what)，金字塔保空间信息(要 where)，目的相反</text>
+
+  <!-- ① 目的相反 -->
+  <rect x="20" y="42" width="900" height="110" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 核心：两者目的正相反</text>
+  <text x="40" y="90" font-size="9.5" fill="#374151">· <tspan font-weight="bold">GAP</tspan> 存在的意义就是"故意毁掉空间信息"：7×7 → 1 个数，只留"有没有此特征"(<tspan font-weight="bold">what</tspan>)、丢"在哪"(where)——分类只要 what</text>
+  <text x="40" y="116" font-size="9.5" fill="#374151">· <tspan font-weight="bold">特征金字塔</tspan> 给检测/FPN 用，检测要"目标在哪"(<tspan font-weight="bold">where</tspan>)→ 必须保留空间位置 → 每级都是 H×W×C 空间张量、不能过 GAP</text>
+  <text x="40" y="140" font-size="9" fill="#b91c1c">若某级过了 GAP，它塌成一个向量、位置全没，检测头无从知道目标在哪 → 检测直接失效</text>
+
+  <!-- ② 金字塔尺寸 -->
+  <rect x="20" y="164" width="440" height="230" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="240" y="186" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 骨干各级保持空间尺寸（640×640 输入，ResNet-50）</text>
+  <g font-size="9.5" font-family="Consolas,monospace">
+    <text x="40" y="216" fill="#374151">C2  步长4   160×160×256</text>
+    <text x="40" y="242" fill="#374151">C3  步长8    80×80×512</text>
+    <text x="40" y="268" fill="#374151">C4  步长16   40×40×1024</text>
+    <text x="40" y="294" fill="#374151">C5  步长32   20×20×2048</text>
+  </g>
+  <text x="40" y="326" font-size="9.5" font-family="'Microsoft YaHei'" fill="#15803d">→ FPN 自顶向下+横向融合 → P2~P5 仍是空间图</text>
+  <text x="40" y="350" font-size="9.5" font-family="'Microsoft YaHei'" fill="#374151">→ 检测头在每个空间位置滑动预测框</text>
+  <text x="40" y="376" font-size="9" font-family="'Microsoft YaHei'" fill="#6b7280">全程无 GAP（骨干→FPN→检测头）</text>
+
+  <!-- ③ 两条路对照 -->
+  <rect x="480" y="164" width="440" height="230" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="700" y="186" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ 同一个 ResNet，两条互斥的路</text>
+  <text x="496" y="214" font-size="9.5" fill="#374151"><tspan font-weight="bold">用法A 分类器</tspan>：C5 7×7×2048</text>
+  <text x="512" y="234" font-size="9.5" fill="#b45309">─GAP→ 1×1×2048 ─FC→ softmax（要 what）</text>
+  <text x="496" y="264" font-size="9.5" fill="#374151"><tspan font-weight="bold">用法B 检测骨干</tspan>：取 C2~C5 空间图</text>
+  <text x="512" y="284" font-size="9.5" fill="#15803d">─无GAP→ FPN → 检测头（要 where）</text>
+  <text x="496" y="316" font-size="9.5" fill="#6d28d9">GAP 把 H×W×C → 1×1×C（分类）</text>
+  <text x="496" y="338" font-size="9.5" fill="#6d28d9">金字塔保持 H×W×C（检测）</text>
+  <text x="496" y="366" font-size="9" fill="#6b7280">接 GAP=分类器、保留空间图=检测骨干，两条路互斥</text>
+
+  <!-- ④ 易混点 -->
+  <rect x="20" y="406" width="900" height="100" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="428" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 易混点：骨干内部 SE/CBAM 的 GAP ≠ 最终输出过 GAP</text>
+  <text x="40" y="454" font-size="9.5" fill="#374151">· SE/CBAM 模块内部 Squeeze 会用 GAP 算通道注意力（Q54/Q141），但那是"算个权重再乘回主干"</text>
+  <text x="40" y="478" font-size="9.5" fill="#374151">· <tspan font-weight="bold">不改变主干特征图的空间尺寸</tspan>（H×W 不变）—— 和"最终输出过 GAP 塌成向量"是两码事</text>
+  <text x="40" y="498" font-size="9" fill="#6b7280">· 两阶段检测的 RoIAlign（Q47）是区域级池化取定长、也不是全局 GAP</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="518" width="900" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="540" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：特征金字塔不能过 GAP——GAP 毁空间(为分类要 what)、金字塔保空间(为检测要 where)，目的相反；</text>
+  <text x="470" y="560" text-anchor="middle" font-size="9" fill="#374151">骨干→FPN→检测头全程无 GAP；骨干内 SE/CBAM 的 GAP 是算注意力权重、不改主干空间尺寸，别混。</text>
+</svg>

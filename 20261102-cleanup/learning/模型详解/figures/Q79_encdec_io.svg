@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="620" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q79 Transformer 输入/输出 + Decoder 的掩码自注意力与交叉注意力</text>
+  <text x="460" y="44" text-anchor="middle" font-size="11" fill="#6b7280">例：翻译 “I love road” → “我 爱 路”（原始 encoder-decoder）</text>
+
+  <!-- Encoder -->
+  <rect x="30" y="64" width="300" height="220" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="180" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#075985">编码器 Encoder</text>
+  <rect x="50" y="100" width="260" height="40" rx="5" fill="#fff" stroke="#7dd3fc"/>
+  <text x="180" y="116" text-anchor="middle" font-size="9" fill="#374151">输入：源序列 token 词嵌入 + 位置编码</text>
+  <text x="180" y="131" text-anchor="middle" font-size="9" fill="#374151">“I” “love” “road”（各 512 维）</text>
+  <text x="180" y="160" text-anchor="middle" font-size="11" fill="#0284c7">自注意力（不掩码）+ FFN ×N</text>
+  <rect x="50" y="176" width="260" height="44" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="180" y="194" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1e40af">输出：memory（等长上下文向量）</text>
+  <text x="180" y="210" text-anchor="middle" font-size="8.5" fill="#6b7280">每 token 看过全句的新表示，供解码器查阅</text>
+  <text x="180" y="244" text-anchor="middle" font-size="8.5" fill="#6b7280">（不是答案，是“原文理解”）</text>
+  <text x="180" y="266" text-anchor="middle" font-size="8.5" fill="#6b7280">memory 只算一次，供解码器所有层/步复用</text>
+
+  <!-- Decoder -->
+  <rect x="430" y="64" width="320" height="360" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="590" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">解码器 Decoder（每层三子层）</text>
+
+  <rect x="450" y="100" width="280" height="40" rx="5" fill="#fff" stroke="#cbd5e1"/>
+  <text x="590" y="116" text-anchor="middle" font-size="9" fill="#374151">输入：已生成的目标前缀（右移）</text>
+  <text x="590" y="131" text-anchor="middle" font-size="9" fill="#374151">&lt;BOS&gt; 我 爱 …（训练并行/推理自回归）</text>
+
+  <rect x="450" y="150" width="280" height="56" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="590" y="168" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">① 掩码自注意力</text>
+  <text x="590" y="184" text-anchor="middle" font-size="8.5" fill="#374151">Q/K/V=目标自己；因果掩码挡未来</text>
+  <text x="590" y="198" text-anchor="middle" font-size="8.5" fill="#b91c1c">作用：看“已写出来的”，保自回归不偷看答案</text>
+
+  <rect x="450" y="216" width="280" height="56" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="590" y="234" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">② 交叉注意力</text>
+  <text x="590" y="250" text-anchor="middle" font-size="8.5" fill="#374151">Q=目标，K/V=编码器 memory（源）</text>
+  <text x="590" y="264" text-anchor="middle" font-size="8.5" fill="#b91c1c">作用：看原文，把输出锚定在输入（译“路”↔“road”）</text>
+
+  <rect x="450" y="282" width="280" height="36" rx="5" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="590" y="304" text-anchor="middle" font-size="9.5" fill="#6d28d9">③ FFN（逐 token 加工）</text>
+
+  <rect x="450" y="328" width="280" height="48" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="590" y="347" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">输出：目标词表上的概率分布</text>
+  <text x="590" y="363" text-anchor="middle" font-size="8.5" fill="#374151">→ 取下一个 token → 自回归拼出 “我 爱 路 &lt;EOS&gt;”</text>
+
+  <text x="590" y="398" text-anchor="middle" font-size="8.5" fill="#6b7280">训练：整句并行+掩码算损失　|　推理：逐词生成喂回</text>
+
+  <!-- memory arrow to cross-attn -->
+  <path d="M330 198 Q390 230 450 240" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#a)"/>
+  <text x="388" y="214" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#1e40af">memory→K/V</text>
+
+  <!-- 必须都要有吗 -->
+  <rect x="30" y="300" width="380" height="124" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="220" y="320" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">都必须有吗？看架构</text>
+  <text x="44" y="340" font-size="9" fill="#374151">· <tspan font-weight="bold">encoder-decoder（原版/T5）</tspan>：两者都要</text>
+  <text x="56" y="355" font-size="8.5" fill="#b91c1c">去交叉=不看输入只自说自话；去掩码=偷看答案/破坏自回归</text>
+  <text x="44" y="374" font-size="9" fill="#374151">· <tspan font-weight="bold">decoder-only（GPT）</tspan>：没有交叉注意力</text>
+  <text x="56" y="389" font-size="8.5" fill="#6b7280">无独立编码器，输入直接拼进同一序列，只掩码自注意力</text>
+  <text x="44" y="408" font-size="9" fill="#374151">· <tspan font-weight="bold">encoder-only（BERT）</tspan>：连 Decoder 都没有</text>
+
+  <!-- bottom takeaway -->
+  <rect x="30" y="440" width="860" height="80" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="462" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">一句话：掩码自注意力=“看我已经写出来的”(输出自洽)；交叉注意力=“看原文”(锚定输入)</text>
+  <text x="460" y="484" text-anchor="middle" font-size="9.5" fill="#374151">一个管输出连贯、一个管对齐输入；交叉注意力之所以存在，正因为有一个独立编码器要去查阅</text>
+  <text x="460" y="504" text-anchor="middle" font-size="9.5" fill="#374151">输入=源序列(→编码器)+已生成目标前缀(→解码器)；输出=下一个 token 的概率分布→拼成目标序列</text>
+
+  <!-- DETR对照 -->
+  <rect x="30" y="532" width="860" height="72" rx="8" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="460" y="552" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">对照 DETR（同结构、掩不掩码取决于“输出有没有顺序”）</text>
+  <text x="50" y="573" font-size="9.5" fill="#374151"><tspan font-weight="bold">翻译解码器</tspan>：自注意力<tspan font-weight="bold" fill="#b45309">带因果掩码</tspan>——逐词有序生成，不能偷看未来。</text>
+  <text x="50" y="592" font-size="9.5" fill="#374151"><tspan font-weight="bold">DETR 解码器</tspan>：自注意力<tspan font-weight="bold" fill="#1e40af">不带掩码</tspan>——集合预测，N 个 query 无先后、全部并行；交叉注意力则是“看图像”而非“看源句”。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3b82f6"/></marker></defs>
+</svg>

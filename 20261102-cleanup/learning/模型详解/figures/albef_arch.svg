@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 500" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="500" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">ALBEF：先对齐再融合（Align before Fuse）——先像 CLIP 那样对齐单模态，再用交叉注意力深度融合</text>
+
+  <!-- 两个单模态编码器 -->
+  <rect x="30" y="48" width="150" height="46" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="105" y="68" text-anchor="middle" font-size="9" fill="#1e40af">图像编码器 (ViT)</text>
+  <text x="105" y="84" text-anchor="middle" font-size="8" fill="#6b7280">无检测器、无区域特征</text>
+  <rect x="30" y="108" width="150" height="46" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="105" y="128" text-anchor="middle" font-size="9" fill="#15803d">文本编码器</text>
+  <text x="105" y="144" text-anchor="middle" font-size="8" fill="#6b7280">(BERT 前 6 层)</text>
+
+  <!-- Step1 ITC -->
+  <rect x="210" y="60" width="180" height="82" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="300" y="80" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">① 先对齐 ITC</text>
+  <text x="300" y="98" text-anchor="middle" font-size="8.5" fill="#374151">图文对比（像 CLIP）</text>
+  <text x="300" y="113" text-anchor="middle" font-size="8.5" fill="#374151">拉近配对、推远不配对</text>
+  <text x="300" y="130" text-anchor="middle" font-size="8" fill="#b91c1c">先把两模态拉到同一空间</text>
+  <line x1="180" y1="71" x2="210" y2="85" stroke="#9ca3af"/>
+  <line x1="180" y1="131" x2="210" y2="115" stroke="#9ca3af"/>
+
+  <text x="405" y="105" font-size="14" fill="#9ca3af">→</text>
+
+  <!-- Step2 fuse -->
+  <rect x="425" y="48" width="200" height="106" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="525" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">② 再融合</text>
+  <text x="525" y="86" text-anchor="middle" font-size="8.5" fill="#374151">多模态编码器</text>
+  <text x="525" y="100" text-anchor="middle" font-size="8" fill="#6b7280">(BERT 后 6 层 + 交叉注意力)</text>
+  <text x="525" y="118" text-anchor="middle" font-size="8.5" fill="#374151">文本 query 交叉注意图像</text>
+  <text x="525" y="136" text-anchor="middle" font-size="8" fill="#b45309">→ 深度图文交互</text>
+
+  <text x="640" y="105" font-size="14" fill="#9ca3af">→</text>
+
+  <!-- 损失 -->
+  <rect x="660" y="52" width="250" height="46" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="785" y="70" text-anchor="middle" font-size="9" fill="#15803d">ITM 图文匹配（难负样本挖掘）</text>
+  <text x="785" y="86" text-anchor="middle" font-size="8" fill="#6b7280">难负样本来自 ITC 相似度</text>
+  <rect x="660" y="104" width="250" height="40" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="785" y="122" text-anchor="middle" font-size="9" fill="#15803d">MLM 掩码语言建模</text>
+  <text x="785" y="137" text-anchor="middle" font-size="8" fill="#6b7280">遮词、靠图+上下文猜</text>
+
+  <!-- 为什么先对齐 -->
+  <rect x="30" y="176" width="440" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">为什么"先对齐再融合"</text>
+  <text x="46" y="218" font-size="9" fill="#374151">· 之前的融合模型：图文特征在不同空间，直接</text>
+  <text x="58" y="232" font-size="9" fill="#374151">丢进交叉注意力，融合器要费力"对号入座"</text>
+  <text x="46" y="252" font-size="9" fill="#374151">· ALBEF：先用 ITC 把图、文拉到同一空间（对齐），</text>
+  <text x="58" y="266" font-size="9" fill="#15803d">再融合 → 融合器更省力、效果更好</text>
+  <text x="46" y="288" font-size="9" fill="#374151">· 一举两得：ITC 得到的单模态特征还能直接做</text>
+  <text x="58" y="302" font-size="9" fill="#374151">检索（像 CLIP），融合后又能做 VQA/推理</text>
+  <text x="46" y="320" font-size="8.5" fill="#6b7280">→ 兼顾"检索"与"深度推理"两类任务</text>
+
+  <!-- 动量蒸馏 -->
+  <rect x="480" y="176" width="430" height="150" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="695" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">动量蒸馏（治网络数据噪声）</text>
+  <text x="496" y="218" font-size="9" fill="#374151">· 网络图文对很脏：一张图配的文本常不唯一、</text>
+  <text x="508" y="232" font-size="9" fill="#374151">很多"负样本"其实也说得通</text>
+  <text x="496" y="252" font-size="9" fill="#374151">· 硬标签（非配即负）会误伤这些"合理负样本"</text>
+  <text x="496" y="272" font-size="9" fill="#374151">· 用一个动量模型（EMA 权重）产出软伪标签，</text>
+  <text x="508" y="286" font-size="9" fill="#15803d">让主模型向软目标学 → 抗噪、更稳</text>
+  <text x="496" y="308" font-size="8.5" fill="#6b7280">EMA = 主模型权重的滑动平均，产更平滑的监督</text>
+
+  <!-- 一句话 -->
+  <rect x="30" y="338" width="880" height="80" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="360" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：ALBEF = 先用图文对比(ITC)把单模态对齐（像 CLIP），再用交叉注意力深度融合(ITM+MLM)，</text>
+  <text x="470" y="382" text-anchor="middle" font-size="9.5" fill="#374151">配动量蒸馏抗网络噪声——是"对齐派(CLIP)"和"融合派"的桥梁，也是 BLIP 的直接前身。</text>
+  <text x="470" y="404" text-anchor="middle" font-size="8" fill="#6b7280">Li J, et al. Align before Fuse: Vision and Language Representation Learning with Momentum Distillation. NeurIPS 2021.</text>
+
+  <rect x="30" y="430" width="880" height="56" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="450" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#6d28d9">与 CLIP / ViLT 的关系</text>
+  <text x="470" y="470" text-anchor="middle" font-size="9" fill="#374151">CLIP=只对齐（浅融合）；ViLT=只融合（无显式对齐）；ALBEF=先对齐再融合，两者优点都要 → BLIP 沿此路线</text>
+</svg>

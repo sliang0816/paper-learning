@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="540" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q80 训练的结果 = 一套冻结的权重；推理 = 拿冻结权重做前向（生成端自回归）</text>
+
+  <!-- training side -->
+  <rect x="20" y="44" width="430" height="320" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="235" y="66" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">训练 → 产出：确定下来、冻结的参数</text>
+  <text x="235" y="86" text-anchor="middle" font-size="9.5" fill="#374151">梯度下降把所有“待定参数”调到合适值后冻结</text>
+
+  <rect x="40" y="98" width="390" height="200" rx="6" fill="#fff" stroke="#fcd34d"/>
+  <text x="56" y="118" font-size="10" font-weight="bold" fill="#92400e">学到的参数清单（一大袋数 = checkpoint）</text>
+  <text x="56" y="140" font-size="9.5" fill="#374151">· 词嵌入表（token→向量）、(可学习)位置嵌入</text>
+  <text x="56" y="160" font-size="9.5" fill="#374151">· 每层 W_Q / W_K / W_V / W_O（注意力投影）</text>
+  <text x="56" y="180" font-size="9.5" fill="#374151">· 每层 FFN 的 W₁,b₁,W₂,b₂</text>
+  <text x="56" y="200" font-size="9.5" fill="#374151">· 每层 LayerNorm 的 γ, β</text>
+  <text x="56" y="220" font-size="9.5" fill="#374151">· 输出投影（512 → 词表）</text>
+  <text x="56" y="244" font-size="9" fill="#b45309">原版 base ≈ 6500 万个数</text>
+  <text x="56" y="266" font-size="9" fill="#6b7280">这些数编码了“怎么看上下文 / 怎么把‘路’对齐</text>
+  <text x="56" y="282" font-size="9" fill="#6b7280">‘road’ / 怎么选下一个词”的全部知识</text>
+
+  <text x="235" y="320" text-anchor="middle" font-size="10" fill="#374151">训练用：源句+目标句(右移)并行喂、vs标签算损失</text>
+  <text x="235" y="340" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">→ 反向传播更新这些数（见 Q74/Q79）</text>
+  <text x="235" y="357" text-anchor="middle" font-size="9" fill="#6b7280">训练结束 = 这套数定格、冻结</text>
+
+  <!-- arrow -->
+  <line x1="450" y1="200" x2="490" y2="200" stroke="#16a34a" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="470" y="190" text-anchor="middle" font-size="8.5" fill="#15803d">冻结</text>
+
+  <!-- inference side -->
+  <rect x="490" y="44" width="410" height="320" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="695" y="66" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e40af">推理 → 加载冻结权重，只做前向</text>
+  <text x="695" y="86" text-anchor="middle" font-size="9.5" fill="#b91c1c">权重不再更新 · 不算损失 · 不反向传播</text>
+
+  <rect x="510" y="98" width="370" height="60" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="695" y="118" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">编码器：源句一次并行 → memory</text>
+  <text x="695" y="136" text-anchor="middle" font-size="9" fill="#6b7280">不是自回归；memory 只算一次、逐步复用</text>
+  <text x="695" y="151" text-anchor="middle" font-size="8.5" fill="#374151">（BERT 这类 encoder-only 到此为止，无生成）</text>
+
+  <rect x="510" y="166" width="370" height="92" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="695" y="186" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">解码器(生成)：用固定权重逐词自回归</text>
+  <text x="524" y="206" font-size="9" fill="#374151">[&lt;BOS&gt;]→我 ; [&lt;BOS&gt; 我]→爱 ; [&lt;BOS&gt; 我 爱]→路 ; →&lt;EOS&gt;</text>
+  <text x="524" y="224" font-size="9" fill="#374151">每步把上一步输出接回输入（串行 N 步）</text>
+  <text x="524" y="242" font-size="8.5" fill="#1e40af">“自回归”只在生成端；编码器侧是并行、不自回归</text>
+
+  <rect x="510" y="266" width="370" height="86" rx="6" fill="#fff" stroke="#93c5fd"/>
+  <text x="695" y="285" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">两个小补充（让说法更准）</text>
+  <text x="524" y="304" font-size="9" fill="#374151">· 解码策略是额外选择：贪心 argmax / beam / top-k·top-p 采样</text>
+  <text x="524" y="320" font-size="8.5" fill="#6b7280">　同一套冻结权重，换策略输出可不同</text>
+  <text x="524" y="337" font-size="9" fill="#374151">· KV 缓存：缓存已算 K/V 避免重算 = 纯加速，不改数学</text>
+
+  <!-- bottom -->
+  <rect x="20" y="380" width="880" height="140" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="402" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">你的理解：基本正确 ✅</text>
+  <text x="40" y="426" font-size="10" fill="#374151">· “训练的结果 = 待定参数固定下来” ✅ —— 产物就是一套冻结的权重（checkpoint）</text>
+  <text x="40" y="448" font-size="10" fill="#374151">· “推理按训练好的参数自回归输出” ✅ —— 但补两点：①“自回归”只在<tspan font-weight="bold">生成端</tspan>(编码器并行)；②还要选<tspan font-weight="bold">解码策略</tspan></text>
+  <text x="40" y="470" font-size="10" fill="#374151">· 呼应 Q74：<tspan font-weight="bold">训练 = 调权重(优化)</tspan>、<tspan font-weight="bold">推理 = 用固定权重做前向(加工)</tspan></text>
+  <text x="460" y="500" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">一句话：训练产出“一套定格的数”，推理就是拿这套数把输入算成输出，权重全程不变</text>
+
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#16a34a"/></marker></defs>
+</svg>

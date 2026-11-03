@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="470" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Latent / Stable Diffusion：在 VAE 潜空间做扩散(便宜) + 交叉注意力文本条件 + 无分类器引导</text>
+
+  <!-- 潜空间 -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 潜空间扩散：不在像素上、在 VAE 压缩后的小潜空间上做扩散</text>
+  <rect x="40" y="80" width="70" height="60" fill="#e5e7eb" stroke="#9ca3af"/><text x="75" y="156" text-anchor="middle" font-size="8" fill="#374151">512×512 图</text>
+  <text x="115" y="112" font-size="11" fill="#9ca3af">→</text>
+  <rect x="135" y="92" width="60" height="36" rx="3" fill="#bfdbfe" stroke="#3b82f6"/><text x="165" y="114" text-anchor="middle" font-size="8" fill="#1e40af">VAE编码器</text>
+  <text x="200" y="112" font-size="11" fill="#9ca3af">→</text>
+  <rect x="220" y="98" width="40" height="24" fill="#fde68a" stroke="#d97706"/><text x="240" y="140" text-anchor="middle" font-size="8" fill="#b45309">潜 64×64</text>
+  <text x="270" y="112" font-size="11" fill="#9ca3af">→</text>
+  <rect x="290" y="88" width="140" height="46" rx="4" fill="#ede9fe" stroke="#8b5cf6"/><text x="360" y="106" text-anchor="middle" font-size="8.5" fill="#6d28d9">在潜空间做扩散</text><text x="360" y="120" text-anchor="middle" font-size="7.5" fill="#6b7280">U-Net 去噪(DDPM/DDIM)</text>
+  <text x="435" y="112" font-size="11" fill="#9ca3af">→</text>
+  <rect x="455" y="98" width="40" height="24" fill="#fde68a" stroke="#d97706"/><text x="475" y="140" text-anchor="middle" font-size="8" fill="#b45309">去噪后潜</text>
+  <text x="500" y="112" font-size="11" fill="#9ca3af">→</text>
+  <rect x="520" y="92" width="60" height="36" rx="3" fill="#dcfce7" stroke="#16a34a"/><text x="550" y="114" text-anchor="middle" font-size="8" fill="#15803d">VAE解码器</text>
+  <text x="585" y="112" font-size="11" fill="#9ca3af">→</text>
+  <rect x="605" y="80" width="70" height="60" fill="#e5e7eb" stroke="#9ca3af"/><text x="640" y="156" text-anchor="middle" font-size="8" fill="#374151">生成图</text>
+  <text x="700" y="104" font-size="9" fill="#374151">潜空间比像素小几十倍</text>
+  <text x="700" y="122" font-size="9" fill="#15803d">→ 扩散便宜很多、能规模化</text>
+  <text x="700" y="140" font-size="8" fill="#6b7280">(VAE 隐空间思想来自 45)</text>
+
+  <!-- 文本条件 -->
+  <rect x="20" y="204" width="450" height="150" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="245" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 文本条件：交叉注意力注入 prompt</text>
+  <rect x="40" y="240" width="150" height="30" rx="4" fill="#fed7aa" stroke="#d97706"/><text x="115" y="259" text-anchor="middle" font-size="8" fill="#b45309">文本编码器(CLIP文本塔)</text>
+  <text x="40" y="290" font-size="9" fill="#374151">· prompt → 文本特征</text>
+  <text x="40" y="308" font-size="9" fill="#374151">· U-Net 去噪时，图像特征做 query、</text>
+  <text x="52" y="322" font-size="9" fill="#374151">文本特征做 K/V 的交叉注意力</text>
+  <text x="40" y="342" font-size="9" fill="#15803d">→ 生成被 prompt 引导（文生图）</text>
+
+  <!-- CFG -->
+  <rect x="490" y="204" width="430" height="150" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="705" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 无分类器引导 CFG</text>
+  <text x="510" y="246" font-size="9" fill="#374151">· 训练时随机丢掉条件 → 同一模型会"有条件"</text>
+  <text x="522" y="260" font-size="9" fill="#374151">和"无条件"两种预测</text>
+  <text x="510" y="280" font-size="9" fill="#374151">· 采样：ε = ε_无条件 + w·(ε_有条件 − ε_无条件)</text>
+  <text x="522" y="294" font-size="9" fill="#374151">朝"更符合条件"的方向外推</text>
+  <text x="510" y="316" font-size="9" fill="#15803d">· w 越大越听 prompt（保真↑）</text>
+  <text x="510" y="332" font-size="9" fill="#b91c1c">· 但太大牺牲多样性/出画质问题</text>
+  <text x="510" y="348" font-size="8" fill="#6b7280">不需要额外分类器 → 故名"无分类器"</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="366" width="900" height="90" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="388" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：Stable Diffusion = 在 VAE 潜空间做扩散(便宜、可规模化) + 交叉注意力把文本 prompt 注入去噪 +</text>
+  <text x="470" y="410" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">无分类器引导(更听 prompt) → 让"文生图"真正落地。</text>
+  <text x="470" y="430" text-anchor="middle" font-size="9" fill="#374151">三件套：潜空间降本(来自VAE隐空间) + 文本交叉注意力 + CFG。ControlNet(39) 再在此之上加结构控制。</text>
+  <text x="470" y="448" text-anchor="middle" font-size="8" fill="#6b7280">Rombach et al., High-Resolution Image Synthesis with Latent Diffusion Models. CVPR 2022 · Ho & Salimans, CFG 2021</text>
+</svg>

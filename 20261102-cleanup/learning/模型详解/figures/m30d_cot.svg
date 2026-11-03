@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="460" fill="#fff"/>
+  <text x="490" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Chain-of-Thought：提示里加"中间推理步骤"的示范</text>
+
+  <!-- 对比 -->
+  <rect x="30" y="48" width="440" height="180" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="250" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">标准提示 Standard Prompting</text>
+  <text x="50" y="94" font-size="9.5" fill="#374151">示例(输入,输出)对：</text>
+  <text x="50" y="114" font-size="9" fill="#374151">Q: Roger有5个网球，又买2罐每罐3个，共几个？</text>
+  <text x="50" y="132" font-size="9" font-weight="bold" fill="#b91c1c">A: 答案是11。</text>
+  <text x="50" y="156" font-size="9" fill="#374151">Q: 食堂有23个苹果，用掉20个，又买6个，还有几个？</text>
+  <text x="50" y="176" font-size="9" font-weight="bold" fill="#ef4444">模型输出：答案是27。（错误✗）</text>
+  <text x="250" y="204" text-anchor="middle" font-size="9.5" fill="#6b7280">直接给"问题→答案"，模型没有中间推理过程，多步问题容易算错</text>
+
+  <rect x="510" y="48" width="440" height="180" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">思维链提示 Chain-of-Thought Prompting</text>
+  <text x="530" y="94" text-anchor="middle" font-size="9.5" fill="#374151">示例变成(输入,思维链,输出)三元组：</text>
+  <text x="530" y="114" font-size="9" fill="#374151">Q: Roger有5个网球...共几个？</text>
+  <text x="530" y="132" font-size="9" font-weight="bold" fill="#15803d">A: 2罐×3个=6个，5+6=11。答案是11。</text>
+  <text x="530" y="156" font-size="9" fill="#374151">Q: 食堂有23个苹果，用掉20个，又买6个，还有几个？</text>
+  <text x="530" y="176" font-size="9" font-weight="bold" fill="#15803d">模型输出：23-20=3，3+6=9。答案是9。（正确✓）</text>
+  <text x="730" y="204" text-anchor="middle" font-size="9.5" fill="#6b7280">示范里加了"一步步怎么算"，模型照猫画虎，自己也生成中间步骤再给答案</text>
+
+  <!-- 涌现能力 -->
+  <rect x="30" y="248" width="920" height="130" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">关键发现：思维链是"涌现能力"（emergent ability）——只在足够大的模型上才起作用</text>
+  <text x="490" y="296" text-anchor="middle" font-size="10" fill="#374151">小模型：生成的"思维链"通顺但逻辑不对，反而可能比标准提示更差</text>
+  <text x="490" y="318" text-anchor="middle" font-size="10" fill="#374151">约100B参数规模以上：思维链带来的推理能力提升开始显著、且随规模持续增大</text>
+  <text x="490" y="344" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">GSM8K数学应用题：PaLM 540B + CoT 提示(仅8个示例) 超过 微调过的GPT-3+验证器</text>
+  <text x="490" y="366" text-anchor="middle" font-size="9.5" fill="#6b7280">不需要微调、不需要额外训练数据——纯靠改提示格式就解锁了推理能力</text>
+
+  <!-- 意义 -->
+  <rect x="30" y="392" width="920" height="56" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="416" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">和Scaling Laws的关系：scaling law讲的是loss随规模平滑下降，CoT这类"涌现能力"却是规模跨过某个阈值后突然出现</text>
+  <text x="490" y="436" text-anchor="middle" font-size="9.5" fill="#374151">不是所有能力都随规模平滑提升——这是理解"大模型能力"复杂性的重要补充视角</text>
+</svg>

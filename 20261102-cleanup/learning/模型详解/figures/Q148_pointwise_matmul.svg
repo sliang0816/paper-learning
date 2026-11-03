@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 760" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="760" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q148 逐点卷积 64→128 怎么算：一个像素上 (1×64)×(64×128)=(1×128)，整张图=一次大矩阵乘(GEMM)</text>
+
+  <!-- ① 一个像素的矩阵账 -->
+  <rect x="20" y="42" width="920" height="210" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="480" y="64" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#6d28d9">① 在「一个像素位置」上：把该像素的 64 维通道向量右乘 64×128 权重矩阵 → 128 维（你的账正确 ✓）</text>
+  <!-- x -->
+  <rect x="70" y="120" width="150" height="30" fill="#fff" stroke="#7c3aed"/>
+  <text x="145" y="140" text-anchor="middle" font-size="11" font-family="Consolas,monospace" fill="#374151">x  (1 × 64)</text>
+  <text x="145" y="170" text-anchor="middle" font-size="9" fill="#6b7280">该像素 64 个通道值</text>
+  <text x="145" y="184" text-anchor="middle" font-size="9" fill="#6b7280">(针扎穿 64 张胶片)</text>
+  <text x="240" y="150" text-anchor="middle" font-size="16" fill="#6d28d9">×</text>
+  <!-- W -->
+  <rect x="270" y="100" width="150" height="120" fill="#fff" stroke="#7c3aed"/>
+  <text x="345" y="150" text-anchor="middle" font-size="11" font-family="Consolas,monospace" fill="#374151">W (64 × 128)</text>
+  <text x="345" y="240" text-anchor="middle" font-size="9" fill="#6b7280">64行=输入通道 · 128列=输出通道</text>
+  <text x="345" y="90" text-anchor="middle" font-size="9" fill="#6b7280">第 n 列 = 第 n 个 1×1×64 滤波器</text>
+  <text x="440" y="150" text-anchor="middle" font-size="16" fill="#6d28d9">=</text>
+  <!-- y -->
+  <rect x="470" y="120" width="160" height="30" fill="#ede9fe" stroke="#6d28d9"/>
+  <text x="550" y="140" text-anchor="middle" font-size="11" font-family="Consolas,monospace" font-weight="bold" fill="#6d28d9">y  (1 × 128)</text>
+  <text x="550" y="170" text-anchor="middle" font-size="9" fill="#6b7280">该像素新的 128 维通道向量</text>
+  <!-- dot detail -->
+  <rect x="668" y="96" width="264" height="130" rx="6" fill="#fff" stroke="#a78bfa"/>
+  <text x="800" y="116" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">每个输出数 = 一次 64 维点乘</text>
+  <text x="684" y="140" font-size="10" font-family="Consolas,monospace" fill="#374151">yₙ = x · wₙ = Σ xᵢ·wᵢ,ₙ  (i=1..64)</text>
+  <text x="684" y="162" font-size="9.5" fill="#374151">128 个输出通道 = 128 次点乘</text>
+  <text x="684" y="182" font-size="9.5" fill="#374151">= 一次「向量 × 矩阵」</text>
+  <text x="684" y="204" font-size="9.5" fill="#15803d">乘加 = 64×128 = 8,192（=C_in·C_out）</text>
+  <text x="684" y="220" font-size="9" fill="#6b7280">工程上常 +128 维偏置 bₙ</text>
+
+  <!-- ② 滤波器名字拆解 -->
+  <rect x="20" y="264" width="920" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="480" y="286" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#15803d">② "1×1×64" 这个滤波器名字拆开看</text>
+  <text x="40" y="312" font-size="10.5" fill="#374151"><tspan font-weight="bold" fill="#b45309">1×1 = 空间尺寸</tspan>：只看当前这一个像素，不看上下左右邻域 → <tspan font-weight="bold">不动空间</tspan></text>
+  <text x="40" y="334" font-size="10.5" fill="#374151"><tspan font-weight="bold" fill="#6d28d9">64 = 纵深</tspan>：一次跨过全部 64 个输入通道 → <tspan font-weight="bold">动通道</tspan>；这样的滤波器有 <tspan font-weight="bold">128 个</tspan> → 输出 128 通道</text>
+  <text x="40" y="356" font-size="10.5" fill="#15803d">参数量 = 1×1×64×128 = 8,192 个权重(+128 偏置)。= Q39"1×1=对通道做线性组合"：128 个输出 = 128 种不同的通道加权配方</text>
+  <text x="40" y="376" font-size="9" fill="#6b7280">对照 Q147b：pointwise 只动通道、不动空间；depthwise 反过来只动空间、不动通道</text>
+
+  <!-- ③ 整张图 = 大矩阵乘 GEMM -->
+  <rect x="20" y="396" width="920" height="230" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="480" y="418" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e40af">③ 整张 H×W 图：同一个 W 在每个像素复用(权重共享) → 摊平成一次大矩阵乘(GEMM)</text>
+  <!-- X -->
+  <rect x="120" y="460" width="120" height="120" fill="#fff" stroke="#3b82f6"/>
+  <text x="180" y="516" text-anchor="middle" font-size="10.5" font-family="Consolas,monospace" fill="#374151">X</text>
+  <text x="180" y="534" text-anchor="middle" font-size="10.5" font-family="Consolas,monospace" fill="#374151">(H·W × 64)</text>
+  <text x="180" y="600" text-anchor="middle" font-size="9" fill="#6b7280">整张图摊平：每行=一个像素的64通道</text>
+  <text x="260" y="525" text-anchor="middle" font-size="16" fill="#1d4ed8">×</text>
+  <!-- W -->
+  <rect x="290" y="470" width="120" height="100" fill="#fff" stroke="#3b82f6"/>
+  <text x="350" y="516" text-anchor="middle" font-size="10.5" font-family="Consolas,monospace" fill="#374151">W</text>
+  <text x="350" y="534" text-anchor="middle" font-size="10.5" font-family="Consolas,monospace" fill="#374151">(64 × 128)</text>
+  <text x="350" y="590" text-anchor="middle" font-size="9" fill="#6b7280">同一份权重，所有像素共用</text>
+  <text x="430" y="525" text-anchor="middle" font-size="16" fill="#1d4ed8">=</text>
+  <!-- Y -->
+  <rect x="460" y="460" width="130" height="120" fill="#dbeafe" stroke="#1d4ed8"/>
+  <text x="525" y="516" text-anchor="middle" font-size="10.5" font-family="Consolas,monospace" font-weight="bold" fill="#1e40af">Y</text>
+  <text x="525" y="534" text-anchor="middle" font-size="10.5" font-family="Consolas,monospace" font-weight="bold" fill="#1e40af">(H·W × 128)</text>
+  <text x="525" y="600" text-anchor="middle" font-size="9" fill="#6b7280">输出：每行=该像素新的128通道</text>
+  <!-- note -->
+  <rect x="628" y="452" width="300" height="140" rx="6" fill="#fff" stroke="#60a5fa"/>
+  <text x="778" y="474" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">这就是它「又省又快」的原因</text>
+  <text x="644" y="498" font-size="9.5" fill="#374151">· 一个像素 (1×64)(64×128) 重复 H·W 次</text>
+  <text x="644" y="518" font-size="9.5" fill="#374151">· 摊平 = 一次 GEMM，GPU/BLAS 飞快</text>
+  <text x="644" y="538" font-size="9.5" fill="#15803d">· 1×1 连 im2col 重排都不用，拿起就算</text>
+  <text x="644" y="560" font-size="9.5" fill="#374151">· 对应 Q147：95% 算力在 1×1，快慢</text>
+  <text x="660" y="576" font-size="9.5" fill="#374151">取决于 1×1(GEMM) 优化程度</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="638" width="920" height="106" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="664" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：逐点 64→128 = 把每个像素的 64 维通道向量右乘一个 64×128 权重矩阵，得 128 维 —— 你的 (1×64)×(64×128)=(1×128) 完全正确。</text>
+  <text x="480" y="686" text-anchor="middle" font-size="9.8" fill="#374151">每个输出通道 = 该像素 64 个通道值与一列权重的点乘（一种加权配方）；128 列 = 128 种配方 = 128 个输出通道。</text>
+  <text x="480" y="708" text-anchor="middle" font-size="9.8" fill="#374151">整张图 = 同一个 W 在 H·W 个像素上复用 → 摊平成一次 (H·W×64)×(64×128) 大矩阵乘 (GEMM)，这就是 1×1 省又快的根源。</text>
+  <text x="480" y="730" text-anchor="middle" font-size="9.3" fill="#6b7280">名字拆解：1×1=空间尺寸(只看本像素、不动空间)、64=跨全部输入通道(动通道)、128 个滤波器=输出 128 通道。</text>
+</svg>

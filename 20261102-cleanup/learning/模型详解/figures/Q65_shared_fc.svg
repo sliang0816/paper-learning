@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="520" fill="#fff"/>
+  <text x="420" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">分类头与回归头为何共享 FC6/FC7，只在最后一层才分叉</text>
+  <text x="420" y="44" text-anchor="middle" font-size="11" fill="#6b7280">共享主干 = 学“这个框里是什么东西”的通用表征；两任务都从它读取，末端各加一层专属线性层</text>
+
+  <!-- shared trunk -->
+  <rect x="30" y="70" width="100" height="56" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="80" y="93" text-anchor="middle" font-size="10.5" fill="#075985">RoI 特征</text>
+  <text x="80" y="109" text-anchor="middle" font-size="9.5" fill="#6b7280">7×7×512</text>
+  <text x="80" y="122" text-anchor="middle" font-size="8.5" fill="#6b7280">RoI Align</text>
+
+  <line x1="130" y1="98" x2="158" y2="98" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="160" y="68" width="240" height="60" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="280" y="90" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">FC6 → FC7（共享主干）</text>
+  <text x="280" y="108" text-anchor="middle" font-size="9.5" fill="#374151">25088 → 4096 → 4096</text>
+  <text x="280" y="122" text-anchor="middle" font-size="9" fill="#6b7280">输出“RoI 特征向量”：通用语义描述</text>
+
+  <!-- split point -->
+  <circle cx="412" cy="98" r="5" fill="#8b5cf6"/>
+  <text x="412" y="62" text-anchor="middle" font-size="9.5" fill="#6d28d9">↓ 最后一层才分叉</text>
+  <line x1="400" y1="98" x2="430" y2="98" stroke="#9ca3af" stroke-width="1.4"/>
+  <line x1="430" y1="98" x2="470" y2="72" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="430" y1="98" x2="470" y2="124" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- cls head -->
+  <rect x="472" y="52" width="170" height="44" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="557" y="71" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">分类头 4096→K+1</text>
+  <text x="557" y="87" text-anchor="middle" font-size="9" fill="#6b7280">softmax → 类别（含背景）</text>
+  <!-- reg head -->
+  <rect x="472" y="104" width="170" height="44" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="557" y="123" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">回归头 4096→4(K+1)</text>
+  <text x="557" y="139" text-anchor="middle" font-size="9" fill="#6b7280">每类一组 (tx,ty,tw,th)</text>
+
+  <text x="690" y="76" font-size="9" fill="#15803d">“是什么”</text>
+  <text x="690" y="128" font-size="9" fill="#b45309">“在哪、多大”</text>
+
+  <!-- WHY SHARE box -->
+  <rect x="30" y="160" width="385" height="158" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="46" y="182" font-size="12" font-weight="bold" fill="#15803d">为什么共享主干（3 个理由）</text>
+  <text x="46" y="204" font-size="10" fill="#374151"><tspan font-weight="bold" fill="#15803d">① 特征重叠</tspan>：认出“是什么”要看形状/纹理/部件，</text>
+  <text x="60" y="220" font-size="10" fill="#374151">定位“在哪”要看物体边界/范围——中层特征高度重叠，</text>
+  <text x="60" y="236" font-size="10" fill="#374151">同一份 RoI 特征向量两个任务都够用。</text>
+  <text x="46" y="258" font-size="10" fill="#374151"><tspan font-weight="bold" fill="#15803d">② 省参数/算力</tspan>：FC6/FC7 是头里最大的层</text>
+  <text x="60" y="274" font-size="10" fill="#374151">（25088×4096 ≈ 1 亿参数）。若拆成两座独立塔，</text>
+  <text x="60" y="290" font-size="10" fill="#374151">最贵的部分要算两遍，~300 个 RoI 逐个过，开销翻倍。</text>
+  <text x="46" y="312" font-size="10" fill="#374151"><tspan font-weight="bold" fill="#15803d">③ 多任务正则</tspan>：两个损失一起反传，互相约束 → 泛化更好。</text>
+
+  <!-- WHY SPLIT box -->
+  <rect x="430" y="160" width="380" height="158" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="446" y="182" font-size="12" font-weight="bold" fill="#6d28d9">为什么不全程共享、最后才分叉</text>
+  <text x="446" y="204" font-size="10" fill="#374151">两任务末端诉求其实相反：</text>
+  <text x="446" y="226" font-size="10" fill="#374151"><tspan font-weight="bold" fill="#16a34a">分类</tspan>要<tspan font-weight="bold">平移不变</tspan>：猫在框里偏左偏右都是猫，</text>
+  <text x="460" y="242" font-size="10" fill="#374151">希望对位置“钝感”。</text>
+  <text x="446" y="264" font-size="10" fill="#374151"><tspan font-weight="bold" fill="#d97706">回归</tspan>要<tspan font-weight="bold">平移敏感</tspan>：边界差几像素就要修，</text>
+  <text x="460" y="280" font-size="10" fill="#374151">希望对位置“敏感”。</text>
+  <text x="446" y="302" font-size="9.5" fill="#6b7280">→ 共享主干学通用中层特征，<tspan font-weight="bold" fill="#6d28d9">各自最后一层线性层</tspan>专门化。</text>
+
+  <!-- evolution strip -->
+  <rect x="30" y="334" width="780" height="120" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="46" y="356" font-size="12" font-weight="bold" fill="#334155">演化：从“完全分离”到“共享主干”再到“解耦头”</text>
+
+  <rect x="46" y="368" width="240" height="70" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="166" y="387" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">R-CNN：完全分离</text>
+  <text x="166" y="405" text-anchor="middle" font-size="9" fill="#374151">固定 CNN 特征 → 单独训 SVM(分类)</text>
+  <text x="166" y="420" text-anchor="middle" font-size="9" fill="#374151">+ 单独训岭回归(框)，不联合优化</text>
+  <text x="166" y="433" text-anchor="middle" font-size="8.5" fill="#6b7280">慢、割裂</text>
+
+  <rect x="300" y="368" width="240" height="70" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="420" y="387" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">Fast/Faster：共享 FC + 末端分叉</text>
+  <text x="420" y="405" text-anchor="middle" font-size="9" fill="#374151">FC6/FC7 共享 → 末层分两头</text>
+  <text x="420" y="420" text-anchor="middle" font-size="9" fill="#374151">联合训练、端到端</text>
+  <text x="420" y="433" text-anchor="middle" font-size="8.5" fill="#6b7280">本问的设计</text>
+
+  <rect x="554" y="368" width="240" height="70" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="674" y="387" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">YOLOv8：解耦头（分得更早）</text>
+  <text x="674" y="405" text-anchor="middle" font-size="9" fill="#374151">cls 与 reg 各走一条卷积分支</text>
+  <text x="674" y="420" text-anchor="middle" font-size="9" fill="#374151">缓解“分类 vs 定位”特征冲突</text>
+  <text x="674" y="433" text-anchor="middle" font-size="8.5" fill="#6b7280">本项目基线</text>
+
+  <text x="420" y="476" text-anchor="middle" font-size="11" fill="#334155">一句话：<tspan font-weight="bold" fill="#15803d">共享</tspan>是因为两任务需要的中层特征重叠、且 FC 太贵不值得复制；<tspan font-weight="bold" fill="#6d28d9">末端分叉</tspan>是因为分类要平移不变、回归要平移敏感。</text>
+  <text x="420" y="498" text-anchor="middle" font-size="10" fill="#6b7280">后续检测器（解耦头）发现“共享太多”有损精度，趋势是把两头分得更开——YOLOv8 的解耦头正是如此。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="470" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q95 BERT 玩完形填空，怎么就会文本分类了——填空是手段，理解才是目的</text>
+
+  <!-- pretrain -->
+  <rect x="20" y="48" width="430" height="170" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="235" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 预训练：MLM 完形填空（海量无标注）</text>
+  <rect x="40" y="82" width="390" height="34" rx="5" fill="#fff" stroke="#93c5fd"/>
+  <text x="235" y="103" text-anchor="middle" font-size="9.5" fill="#374151">路面 上 有 [MASK] 需要 清理 → 猜 [MASK]=抛洒物</text>
+  <text x="36" y="136" font-size="9.5" fill="#374151">· 要填对，必须懂 语法/语义/上下文/常识</text>
+  <text x="36" y="156" font-size="9.5" fill="#374151">· 填空只是"练习"，真正学到的是：</text>
+  <text x="52" y="176" font-size="10" font-weight="bold" fill="#1e40af">"理解语言 + 把每词编码成含全句语境的好向量"</text>
+  <text x="36" y="200" font-size="8.5" fill="#6b7280">产物 = 一套通用的"文本编码器"（不是"会填空"这件事本身）</text>
+
+  <!-- arrow -->
+  <line x1="450" y1="133" x2="490" y2="133" stroke="#16a34a" stroke-width="2.4" marker-end="url(#a)"/>
+  <text x="470" y="124" text-anchor="middle" font-size="8" fill="#15803d">复用表示</text>
+
+  <!-- finetune -->
+  <rect x="492" y="48" width="408" height="170" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="696" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 微调：接小头适配任务（少量有标注）</text>
+  <text x="508" y="92" font-size="9.5" fill="#374151">· [CLS] token 的最终向量（双向看过全句）= 整句摘要</text>
+  <rect x="508" y="102" width="376" height="30" rx="5" fill="#fff" stroke="#86efac"/>
+  <text x="696" y="122" text-anchor="middle" font-size="9" fill="#374151">[CLS]向量 → 一层线性分类头 → 类别</text>
+  <text x="508" y="152" font-size="9.5" fill="#374151">· 预训练表示已很丰富 → 少量标注数据即可微调到位</text>
+  <text x="508" y="174" font-size="9.5" fill="#374151">· 同理可做 命名实体识别 / 问答（都是"理解类"任务）</text>
+  <text x="508" y="198" font-size="8.5" fill="#b91c1c">· 但不能生成（非自回归）——那是 GPT 的活</text>
+
+  <!-- analogy -->
+  <rect x="20" y="234" width="880" height="70" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="256" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">类比</text>
+  <text x="460" y="278" text-anchor="middle" font-size="9.5" fill="#374151">MLM 像"做填空题练语文"；练好后你能做的不只填空——阅读理解、判断、分类都行</text>
+  <text x="460" y="296" text-anchor="middle" font-size="9.5" fill="#374151">因为真正学到的是"理解"，填空只是练习方式</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="318" width="880" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="340" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">一句话</text>
+  <text x="460" y="362" text-anchor="middle" font-size="10" fill="#374151">填空是训练的"游戏"，留下来的是"会理解文本的编码器"；分类复用的是这份理解，不是填空本身。</text>
+  <text x="40" y="388" font-size="9.5" fill="#374151">· "适合分类" = MLM 预训练给的深度理解表示 + 微调接个小头适配任务</text>
+  <text x="40" y="408" font-size="9.5" fill="#374151">· 擅长一切"理解类"任务（分类/NER/QA）；不擅"生成"（非自回归）</text>
+  <text x="40" y="430" font-size="9" fill="#6b7280">· 范式：预训练(无标注,学通用表示) → 微调(有标注,适配具体任务) —— 迁移学习的经典范式</text>
+
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#16a34a"/></marker></defs>
+</svg>

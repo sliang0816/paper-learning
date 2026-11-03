@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="720" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q147 补充：什么是"空间"、什么是"通道"——特征图 = H×W×C 三维块（一摞透明胶片）</text>
+
+  <!-- 左：胶片摞示意 -->
+  <rect x="20" y="44" width="440" height="330" rx="8" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="240" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">特征图 = C 张 H×W 胶片叠成一摞</text>
+  <!-- stacked sheets -->
+  <g>
+    <rect x="120" y="150" width="150" height="110" fill="#dbeafe" stroke="#3b82f6"/>
+    <rect x="140" y="130" width="150" height="110" fill="#bfdbfe" stroke="#3b82f6"/>
+    <rect x="160" y="110" width="150" height="110" fill="#93c5fd" stroke="#2563eb"/>
+    <rect x="180" y="90"  width="150" height="110" fill="#60a5fa" stroke="#1d4ed8"/>
+    <!-- grid on top sheet -->
+    <g stroke="#1e3a8a" stroke-width="0.6" opacity="0.5">
+      <line x1="180" y1="126.7" x2="330" y2="126.7"/><line x1="180" y1="163.3" x2="330" y2="163.3"/>
+      <line x1="230" y1="90" x2="230" y2="200"/><line x1="280" y1="90" x2="280" y2="200"/>
+    </g>
+  </g>
+  <!-- H W arrows on top sheet -->
+  <text x="255" y="82" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1d4ed8">W（宽）</text>
+  <text x="172" y="150" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1d4ed8" transform="rotate(-90 172 150)">H（高）</text>
+  <!-- channel depth arrow -->
+  <line x1="110" y1="270" x2="170" y2="120" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="88" y="250" font-size="10.5" font-weight="bold" fill="#dc2626">C（通道</text>
+  <text x="88" y="264" font-size="10.5" font-weight="bold" fill="#dc2626">=第几张）</text>
+  <!-- needle through one position -->
+  <line x1="205" y1="60" x2="145" y2="235" stroke="#7c3aed" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#ar2)"/>
+  <circle cx="205" cy="115" r="3.2" fill="#7c3aed"/><circle cx="199" cy="135" r="3.2" fill="#7c3aed"/><circle cx="193" cy="155" r="3.2" fill="#7c3aed"/><circle cx="187" cy="175" r="3.2" fill="#7c3aed"/>
+  <text x="300" y="300" font-size="9.5" fill="#7c3aed">紫针穿一个空间位置 → 穿过 C 个通道值</text>
+  <text x="300" y="316" font-size="9.5" fill="#7c3aed">= 该位置的 C 维"通道向量"</text>
+  <text x="40" y="352" font-size="10" fill="#334155">· 空间(H×W)=单张胶片内的位置"在哪"　· 通道(C)=第几张胶片"是什么特征"</text>
+  <text x="40" y="368" font-size="9" fill="#64748b">每张胶片 = 一整张"某种特征在各处有多强"的响应图</text>
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#dc2626"/></marker>
+    <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7c3aed"/></marker>
+  </defs>
+
+  <!-- 右：空间 vs 通道 定义 -->
+  <rect x="472" y="44" width="468" height="160" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="706" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">空间 Spatial = "在哪里"（H×W 平面的位置）</text>
+  <text x="488" y="90" font-size="10" fill="#374151">· 一个空间位置 = 网格上一个点 (i,j)，像地图坐标</text>
+  <text x="488" y="112" font-size="10" fill="#374151">· 空间邻域 = k×k 窗（"我和周围一圈的格子"）</text>
+  <text x="488" y="134" font-size="10" fill="#374151">· 承载几何/结构：边缘在哪、物体左右、纹理排布</text>
+  <text x="488" y="158" font-size="10" fill="#15803d">· 动空间的操作：卷积 k×k 滑窗、池化、下采样</text>
+  <text x="488" y="182" font-size="9" fill="#64748b">例：56×56×64 里的 "56×56" 就是空间</text>
+
+  <rect x="472" y="216" width="468" height="160" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="706" y="238" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">通道 Channel = "是什么"（C 方向的深度）</text>
+  <text x="488" y="262" font-size="10" fill="#374151">· 每个空间位置不是 1 个数，是 C 个数(通道向量)</text>
+  <text x="488" y="284" font-size="10" fill="#374151">· 输入层：C=3 = R/G/B 三种颜色</text>
+  <text x="488" y="306" font-size="10" fill="#374151">· 深层：每通道=一个特征探测器的响应图</text>
+  <text x="504" y="326" font-size="9.3" fill="#64748b">(第5通道遇横边亮 / 第50通道遇车轮花样亮…)</text>
+  <text x="488" y="348" font-size="10" fill="#6d28d9">· 动通道的操作：1×1 卷积（跨通道加权组合）</text>
+  <text x="488" y="370" font-size="9" fill="#64748b">例：56×56×64 里的 "64" 就是通道</text>
+
+  <!-- 底部：回到 MobileNet -->
+  <rect x="20" y="392" width="920" height="240" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="480" y="414" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#b45309">回到 MobileNet：两个词一分，depthwise / pointwise 立刻清楚</text>
+  <!-- depthwise -->
+  <rect x="36" y="428" width="440" height="120" rx="6" fill="#fff" stroke="#16a34a"/>
+  <text x="256" y="450" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">Depthwise = 只在【空间】上动</text>
+  <text x="52" y="474" font-size="9.8" fill="#374151">每张胶片各自在自己片内看 k×k 邻域滤波，</text>
+  <text x="52" y="492" font-size="9.8" fill="#374151"><tspan font-weight="bold">不跨胶片(不混通道)</tspan>，通道数不变</text>
+  <text x="52" y="514" font-size="9.8" fill="#15803d">→ 只滤空间、丢掉 C_out 因子 = k²·C_in</text>
+  <text x="52" y="534" font-size="9" fill="#64748b">"在每张片子里看周围长什么样"</text>
+  <!-- pointwise -->
+  <rect x="484" y="428" width="440" height="120" rx="6" fill="#fff" stroke="#8b5cf6"/>
+  <text x="704" y="450" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">Pointwise 1×1 = 只在【通道】上动</text>
+  <text x="500" y="474" font-size="9.8" fill="#374151">固定某一个空间位置(一根针)，把穿过的 C 个</text>
+  <text x="500" y="492" font-size="9.8" fill="#374151">通道值加权组合成 C_out 个，<tspan font-weight="bold">不看周围格子</tspan></text>
+  <text x="500" y="514" font-size="9.8" fill="#6d28d9">→ 只混通道、丢掉 k² 因子 = C_in·C_out</text>
+  <text x="500" y="534" font-size="9" fill="#64748b">"在同一位置把各种特征重新组合"</text>
+  <!-- standard -->
+  <text x="480" y="572" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">标准卷积 = 同一个厚核【空间 k×k】和【通道 C_in】同时动 → 两件事捆一起 = 三因子连乘(贵)</text>
+  <text x="480" y="596" text-anchor="middle" font-size="10" fill="#374151">深度可分离把它拆成"先只动空间(depthwise) + 再只动通道(pointwise)"两个便宜步骤 → 两项相加(省)</text>
+  <text x="480" y="618" text-anchor="middle" font-size="9.5" fill="#92400e">一句话：空间=H×W 平面的"在哪"；通道=C 方向的"是什么"。卷积滑窗动空间、1×1 动通道；标准卷积两个一起动。</text>
+
+  <!-- 一句话条 -->
+  <rect x="20" y="650" width="920" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="674" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">记忆钩子：特征图是一摞 C 张 H×W 胶片 —— 空间 = 单张胶片内的位置(在哪)，通道 = 第几张胶片(是什么特征)。</text>
+  <text x="480" y="693" text-anchor="middle" font-size="9.5" fill="#374151">depthwise 在每张片内滤空间(不跨片)、pointwise 在一个位置跨片混通道(不看邻域)、标准卷积两者同时做。</text>
+</svg>

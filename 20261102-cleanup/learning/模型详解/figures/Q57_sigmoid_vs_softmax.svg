@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 420" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="780" height="420" fill="#fff"/>
+  <text x="390" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Sigmoid（逐元素独立门控）vs Softmax（整组竞争、和=1）</text>
+  <text x="390" y="44" text-anchor="middle" font-size="11" fill="#6b7280">同一组 logit [1.88, 3.75, 1.25]，两种处理结果完全不同</text>
+
+  <!-- input logits -->
+  <text x="390" y="74" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#374151">输入 logit：[1.88, 3.75, 1.25]</text>
+
+  <!-- Sigmoid side -->
+  <rect x="30" y="92" width="350" height="290" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="205" y="114" text-anchor="middle" font-size="13" font-weight="bold" fill="#1d4ed8">Sigmoid：σ(x)=1/(1+e⁻ˣ)</text>
+  <text x="205" y="133" text-anchor="middle" font-size="10" fill="#6b7280">对每个数【分别】算，互不影响</text>
+  <g font-size="11" text-anchor="middle">
+    <text x="80" y="162">1.88</text><text x="125" y="162" fill="#9ca3af">→σ→</text><rect x="150" y="150" width="60" height="22" fill="#dbeafe" stroke="#3b82f6"/><text x="180" y="166">0.87</text>
+    <text x="80" y="196">3.75</text><text x="125" y="196" fill="#9ca3af">→σ→</text><rect x="150" y="184" width="60" height="22" fill="#dbeafe" stroke="#3b82f6"/><text x="180" y="200">0.98</text>
+    <text x="80" y="230">1.25</text><text x="125" y="230" fill="#9ca3af">→σ→</text><rect x="150" y="218" width="60" height="22" fill="#dbeafe" stroke="#3b82f6"/><text x="180" y="234">0.78</text>
+  </g>
+  <text x="205" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">和 = 0.87+0.98+0.78 = 2.63 ≠ 1</text>
+  <text x="50" y="298" font-size="10.5" fill="#374151">· 每个∈(0,1)，但总和任意</text>
+  <text x="50" y="318" font-size="10.5" fill="#374151">· 语义：独立“开关/门控”——</text>
+  <text x="62" y="336" font-size="10.5" fill="#374151">每个通道各自决定保留多少</text>
+  <text x="50" y="358" font-size="10.5" fill="#1d4ed8">· 可同时都重要(全≈1)或都不重要(全≈0)</text>
+  <text x="50" y="376" font-size="10" fill="#6b7280">→ SE/CBAM 通道权重 Mc、LSTM 门用它</text>
+
+  <!-- Softmax side -->
+  <rect x="400" y="92" width="350" height="290" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="575" y="114" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">Softmax：eˣⁱ/Σⱼeˣʲ</text>
+  <text x="575" y="133" text-anchor="middle" font-size="10" fill="#6b7280">分母是【整组的和】，互相竞争</text>
+  <g font-size="11" text-anchor="middle">
+    <text x="450" y="162">1.88</text><text x="495" y="162" fill="#9ca3af">→</text><text x="540" y="162" font-size="10" fill="#6b7280">e=6.55</text>
+    <text x="450" y="196">3.75</text><text x="495" y="196" fill="#9ca3af">→</text><text x="540" y="196" font-size="10" fill="#6b7280">e=42.5</text>
+    <text x="450" y="230">1.25</text><text x="495" y="230" fill="#9ca3af">→</text><text x="540" y="230" font-size="10" fill="#6b7280">e=3.49</text>
+    <text x="595" y="196" fill="#9ca3af">÷52.5→</text>
+    <rect x="650" y="150" width="58" height="22" fill="#dcfce7" stroke="#16a34a"/><text x="679" y="166">0.125</text>
+    <rect x="650" y="184" width="58" height="22" fill="#dcfce7" stroke="#16a34a"/><text x="679" y="200">0.809</text>
+    <rect x="650" y="218" width="58" height="22" fill="#dcfce7" stroke="#16a34a"/><text x="679" y="234">0.066</text>
+  </g>
+  <text x="575" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">和 = 0.125+0.809+0.066 = 1.00 ✓</text>
+  <text x="420" y="298" font-size="10.5" fill="#374151">· 各∈(0,1) 且总和=1（概率分布）</text>
+  <text x="420" y="318" font-size="10.5" fill="#374151">· 语义：竞争“分配/选谁”——</text>
+  <text x="432" y="336" font-size="10.5" fill="#374151">一个大了，别的必然变小</text>
+  <text x="420" y="358" font-size="10.5" fill="#15803d">· 用于“在一组里选”：分类、注意力权重</text>
+  <text x="420" y="376" font-size="10" fill="#6b7280">→ Transformer 注意力、分类输出用它</text>
+
+  <text x="390" y="406" text-anchor="middle" font-size="11" fill="#b45309">口诀：独立保留 → Sigmoid（和≠1）；竞争选择 → Softmax（和=1）</text>
+</svg>

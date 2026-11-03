@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="800" height="460" fill="#fff"/>
+  <text x="400" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">"混成 64 维"是什么意思：每个输出 = 所有输入维度的一次加权求和</text>
+  <text x="400" y="46" text-anchor="middle" font-size="11" fill="#6b7280">用 4 维 → 2 维 的迷你例子（真实是 512 → 64，同理）</text>
+
+  <!-- token x -->
+  <text x="80" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#0369a1">token x（4 维）</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="50" y="92" width="60" height="26" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="80" y="110">x₁=2</text>
+    <rect x="50" y="124" width="60" height="26" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="80" y="142">x₂=1</text>
+    <rect x="50" y="156" width="60" height="26" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="80" y="174">x₃=3</text>
+    <rect x="50" y="188" width="60" height="26" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="80" y="206">x₄=0</text>
+  </g>
+
+  <!-- head1 -->
+  <text x="300" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">头1 的投影 W¹ → 视角 [3, 3]</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="250" y="108" width="120" height="30" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="310" y="127">q₁ = x₁+x₂ = 3</text>
+    <rect x="250" y="168" width="120" height="30" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="310" y="187">q₂ = x₃+x₄ = 3</text>
+  </g>
+  <!-- lines all x to q1/q2 (head1) -->
+  <g stroke="#86efac" stroke-width="1">
+    <line x1="110" y1="105" x2="248" y2="120"/><line x1="110" y1="137" x2="248" y2="124"/>
+    <line x1="110" y1="169" x2="248" y2="128" stroke="#d1fae5"/><line x1="110" y1="201" x2="248" y2="132" stroke="#d1fae5"/>
+    <line x1="110" y1="105" x2="248" y2="180" stroke="#d1fae5"/><line x1="110" y1="137" x2="248" y2="184" stroke="#d1fae5"/>
+    <line x1="110" y1="169" x2="248" y2="188"/><line x1="110" y1="201" x2="248" y2="192"/>
+  </g>
+  <text x="310" y="214" text-anchor="middle" font-size="8" fill="#6b7280">权重(1,1,0,0)和(0,0,1,1)</text>
+
+  <!-- head2 -->
+  <text x="580" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#7c3aed">头2 的投影 W² → 视角 [5, 1]</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="530" y="108" width="120" height="30" rx="5" fill="#ede9fe" stroke="#7c3aed"/><text x="590" y="127">q₁ = x₁+x₃ = 5</text>
+    <rect x="530" y="168" width="120" height="30" rx="5" fill="#ede9fe" stroke="#7c3aed"/><text x="590" y="187">q₂ = x₂+x₄ = 1</text>
+  </g>
+  <g stroke="#c4b5fd" stroke-width="1">
+    <line x1="110" y1="105" x2="528" y2="120"/><line x1="110" y1="169" x2="528" y2="124"/>
+    <line x1="110" y1="137" x2="528" y2="184"/><line x1="110" y1="201" x2="528" y2="188"/>
+  </g>
+  <text x="590" y="214" text-anchor="middle" font-size="8" fill="#6b7280">权重(1,0,1,0)和(0,1,0,1)</text>
+
+  <text x="400" y="242" text-anchor="middle" font-size="11" fill="#b91c1c">同一个 token x，两个不同的 W → 两个不同的"摘要/视角"（[3,3] vs [5,1]）。这就是"不同子空间"。</text>
+
+  <!-- 三点解释 -->
+  <rect x="40" y="258" width="360" height="92" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="56" y="278" font-size="10.5" font-weight="bold" fill="#1d4ed8">① "混"= 加权求和（不是挑一段）</text>
+  <text x="56" y="296" font-size="9.5" fill="#374151">每个输出数 = 全部输入维度各乘一个权重再相加</text>
+  <text x="56" y="311" font-size="9.5" fill="#374151">qⱼ = w₁ⱼx₁ + w₂ⱼx₂ + … + w₅₁₂,ⱼ·x₅₁₂</text>
+  <text x="56" y="328" font-size="9.5" fill="#374151">64 个不同的权重组合 → 64 个输出数</text>
+  <text x="56" y="344" font-size="9" fill="#6b7280">真实里权重是训练学出来的小数，不是 0/1</text>
+
+  <rect x="416" y="258" width="360" height="92" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="432" y="278" font-size="10.5" font-weight="bold" fill="#15803d">② "不同子空间"= 不同的看法/影子</text>
+  <text x="432" y="296" font-size="9.5" fill="#374151">几何上：把 512 维向量"投影"到一个 64 维空间，</text>
+  <text x="432" y="311" font-size="9.5" fill="#374151">就像三维物体在某个方向打出的"影子"。</text>
+  <text x="432" y="328" font-size="9.5" fill="#374151">换个 W = 换个投影方向 = 换个角度看同一个 token，</text>
+  <text x="432" y="344" font-size="9.5" fill="#16a34a">保留下来的信息侧重点不同。</text>
+
+  <!-- 类比 -->
+  <rect x="40" y="362" width="736" height="86" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="56" y="382" font-size="10.5" font-weight="bold" fill="#a16207">类比帮助理解：</text>
+  <text x="56" y="400" font-size="10" fill="#374151">🔦 <tspan font-weight="bold">滤镜</tspan>：同一束白光（512 维信息）过红/绿/蓝不同滤镜，每个滤镜让"某种加权组合"通过 → 得到不同侧面。W 就是滤镜。</text>
+  <text x="56" y="418" font-size="10" fill="#374151">📋 <tspan font-weight="bold">摘要</tspan>：一个人有 512 项属性；HR 按"沟通能力"权重做个 64 项摘要，技术面按"编码能力"权重做另一个摘要——同一人、不同摘要。</text>
+  <text x="56" y="436" font-size="10" fill="#6b7280">关键：每个头都看了<tspan font-weight="bold">完整的 512 维</tspan>，只是用不同权重提炼出各自关心的 64 维——不是各分到 512 里的一段。</text>
+
+  <defs></defs>
+</svg>

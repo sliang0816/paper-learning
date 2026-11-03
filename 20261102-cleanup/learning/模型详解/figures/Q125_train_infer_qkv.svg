@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="600" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q125 训练并行 vs 推理自回归：Q/KV 分工训推一致，变的只是"前缀由谁提供"</text>
+
+  <!-- ① 校验 -->
+  <rect x="20" y="42" width="900" height="58" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">✓ 训练并行、推理自回归——对；✗ "编码作 KV、Q 是已翻译"只是交叉注意力，且训推都这样、非推理独有</text>
+  <text x="470" y="86" text-anchor="middle" font-size="9.5" fill="#374151">解码器每层有两次注意力：掩码自注意力 Q=K=V=目标前缀；交叉注意力 Q=前缀、K/V=编码器 memory</text>
+
+  <!-- ② 两种注意力表 -->
+  <rect x="20" y="112" width="440" height="180" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="240" y="134" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">解码器每层的两次注意力（训推一样）</text>
+  <g font-size="9.5">
+    <text x="40" y="162" font-weight="bold" fill="#374151">第一步 掩码自注意力：</text>
+    <text x="56" y="180" fill="#b45309">Q = K = V = 已生成的目标前缀（自己查自己）</text>
+    <text x="56" y="196" fill="#6b7280">把前缀内容融进当前位置（Q85），带因果掩码</text>
+    <text x="40" y="224" font-weight="bold" fill="#374151">第二步 交叉注意力：</text>
+    <text x="56" y="242" fill="#15803d">Q = 前缀（经自注意力融合后）</text>
+    <text x="56" y="258" fill="#15803d">K = V = 编码器 memory（源句编码）</text>
+    <text x="56" y="274" fill="#6b7280">回看原文取证据（Q79/Q81）——你的表述对的是这步</text>
+  </g>
+
+  <!-- ③ 训推唯一差别 -->
+  <rect x="480" y="112" width="440" height="180" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="700" y="134" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">训练 vs 推理：唯一差别 = 前缀由谁提供</text>
+  <g font-size="9.5">
+    <text x="496" y="162" font-weight="bold" fill="#15803d">训练（并行）：</text>
+    <text x="512" y="180" fill="#374151">前缀 = 真值（teacher forcing），整句已知</text>
+    <text x="512" y="196" fill="#374151">→ N 个位置靠因果掩码各看各的过去，一次前向全预测</text>
+    <text x="496" y="224" font-weight="bold" fill="#b91c1c">推理（自回归）：</text>
+    <text x="512" y="242" fill="#374151">前缀 = 自己上一步的输出</text>
+    <text x="512" y="258" fill="#374151">→ 第 t 步输入依赖第 t−1 步结果，依赖链断不开</text>
+    <text x="512" y="274" fill="#b91c1c">→ 串行不是因为 KV 换来源，是下一步输入还没生出来</text>
+  </g>
+
+  <!-- ④ 流程对照 -->
+  <rect x="20" y="304" width="900" height="180" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="326" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">流程对照（源句 "I love road" → "我爱路"）</text>
+  <g font-size="9" font-family="Consolas,monospace">
+    <text x="40" y="352" font-family="'Microsoft YaHei'" font-weight="bold" fill="#15803d">训练一次前向：</text>
+    <text x="60" y="372" fill="#374151">输入 [&lt;BOS&gt;, 我, 爱, 路]（真值右移）→ 4 个位置并行 → 预测 [我, 爱, 路, &lt;EOS&gt;] → 4 份损失一起反传</text>
+    <text x="40" y="400" font-family="'Microsoft YaHei'" font-weight="bold" fill="#b91c1c">推理三步串行：</text>
+    <text x="60" y="420" fill="#374151">步1 输入[&lt;BOS&gt;] → 出"我"；步2 输入[&lt;BOS&gt;,我] → 出"爱"；步3 输入[&lt;BOS&gt;,我,爱] → 出"路"…</text>
+  </g>
+  <text x="40" y="448" font-size="9" fill="#6b7280">两边每步/每位置都做同样的两次注意力：自注意力融前缀 + 交叉注意力读同一份 memory（编码器只跑一次、全程复用）</text>
+  <text x="40" y="466" font-size="9" fill="#6b7280">工程加速：推理给自注意力配 KV 缓存免重算前缀（Q80）——只加速、不改机制</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="496" width="900" height="56" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="518" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：训练喂真值前缀、因果掩码下 N 位置并行预测；推理前缀=自己的输出、依赖链逼出逐步自回归；</text>
+  <text x="470" y="538" text-anchor="middle" font-size="9" fill="#374151">Q/KV 分工训推一致——自注意力 Q=K=V=前缀、交叉注意力 Q=前缀 K/V=编码器 memory；变的只是前缀由谁提供。</text>
+</svg>

@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 400" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="400" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">DINO：自监督 ViT 蒸馏 — Student/Teacher + 多尺度裁剪</text>
+
+  <!-- Input image with crops -->
+  <rect x="20" y="50" width="80" height="60" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="60" y="78" text-anchor="middle" font-size="10">原图</text>
+  <text x="60" y="94" text-anchor="middle" font-size="8.5" fill="#6b7280">ImageNet</text>
+
+  <!-- Multiple crops arrows -->
+  <text x="120" y="56" font-size="8.5" fill="#3b82f6">全局裁剪 x₁</text>
+  <text x="120" y="70" font-size="8.5" fill="#3b82f6">全局裁剪 x₂</text>
+  <text x="120" y="86" font-size="8.5" fill="#ef4444">局部裁剪 x₃</text>
+  <text x="120" y="100" font-size="8.5" fill="#ef4444">局部裁剪 x₄…</text>
+
+  <g stroke="#374151" stroke-width="1" marker-end="url(#a)">
+    <line x1="100" y1="73" x2="118" y2="62"/>
+    <line x1="100" y1="78" x2="118" y2="74"/>
+    <line x1="100" y1="83" x2="118" y2="88"/>
+    <line x1="100" y1="88" x2="118" y2="100"/>
+  </g>
+
+  <!-- ===== STUDENT (bottom) ===== -->
+  <rect x="20" y="148" width="380" height="110" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="210" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">Student 网络（接受全部裁剪）</text>
+
+  <rect x="40" y="178" width="140" height="36" rx="4" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="110" y="194" text-anchor="middle" font-size="10.5">ViT Backbone</text>
+  <text x="110" y="208" text-anchor="middle" font-size="9.5" fill="#0369a1">（全局 + 局部裁剪都输入）</text>
+
+  <rect x="200" y="178" width="110" height="36" rx="4" fill="#bfdbfe" stroke="#3b82f6"/>
+  <text x="255" y="194" text-anchor="middle" font-size="10.5">投影头</text>
+  <text x="255" y="208" text-anchor="middle" font-size="9.5" fill="#1d4ed8">3层 MLP + L2 归一化</text>
+
+  <rect x="330" y="178" width="60" height="36" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="360" y="197" text-anchor="middle" font-size="10">输出</text>
+  <text x="360" y="211" text-anchor="middle" font-size="8.5" fill="#1d4ed8">ps(x)</text>
+
+  <g stroke="#374151" stroke-width="1.4" marker-end="url(#a)">
+    <line x1="180" y1="196" x2="198" y2="196"/>
+    <line x1="310" y1="196" x2="328" y2="196"/>
+  </g>
+
+  <!-- Training note -->
+  <text x="210" y="244" text-anchor="middle" font-size="10" fill="#6b7280">参数由梯度下降更新（BP）</text>
+
+  <!-- ===== TEACHER (top) ===== -->
+  <rect x="420" y="148" width="380" height="110" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="610" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">Teacher 网络（仅接受全局裁剪）</text>
+
+  <rect x="440" y="178" width="140" height="36" rx="4" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="510" y="194" text-anchor="middle" font-size="10.5">ViT Backbone</text>
+  <text x="510" y="208" text-anchor="middle" font-size="9.5" fill="#92400e">（仅全局裁剪 x₁, x₂）</text>
+
+  <rect x="600" y="178" width="110" height="36" rx="4" fill="#fde68a" stroke="#d97706"/>
+  <text x="655" y="194" text-anchor="middle" font-size="10.5">投影头</text>
+  <text x="655" y="208" text-anchor="middle" font-size="9.5" fill="#b45309">+ centering（减均值）</text>
+
+  <rect x="730" y="178" width="60" height="36" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="760" y="197" text-anchor="middle" font-size="10">输出</text>
+  <text x="760" y="211" text-anchor="middle" font-size="8.5" fill="#b45309">pt(x)</text>
+
+  <g stroke="#374151" stroke-width="1.4" marker-end="url(#a)">
+    <line x1="580" y1="196" x2="598" y2="196"/>
+    <line x1="710" y1="196" x2="728" y2="196"/>
+  </g>
+
+  <!-- Teacher update note -->
+  <text x="610" y="244" text-anchor="middle" font-size="10" fill="#6b7280">参数 = Student 的 EMA（不做 BP，Stop Gradient）</text>
+
+  <!-- Loss arrow (Student → Teacher cross-entropy) -->
+  <rect x="280" y="290" width="260" height="50" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="410" y="311" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">交叉熵损失（H）</text>
+  <text x="410" y="330" text-anchor="middle" font-size="10.5" fill="#15803d">H(pt(x), ps(x)) 对所有裁剪对求和</text>
+
+  <g stroke="#374151" stroke-width="1.5" marker-end="url(#a)">
+    <line x1="360" y1="258" x2="360" y2="288"/>
+    <line x1="760" y1="258" x2="760" y2="278"/>
+    <line x1="760" y1="278" x2="460" y2="288"/>
+  </g>
+
+  <!-- EMA update loop -->
+  <path d="M420,196 C400,140 210,140 210,178" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="6 3" marker-end="url(#av)"/>
+  <text x="315" y="136" text-anchor="middle" font-size="10" fill="#7c3aed">θ_t ← m·θ_t + (1−m)·θ_s　（EMA，m=0.996）</text>
+
+  <!-- DINO features note -->
+  <rect x="20" y="358" width="780" height="34" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="410" y="374" text-anchor="middle" font-size="10.5" fill="#166534">DINO 惊喜：ViT-S/8 的 [CLS] Token 注意力图 = 无监督语义分割（无任何标注就出现边缘/物体感知）</text>
+  <text x="410" y="390" text-anchor="middle" font-size="10" fill="#166534">→ DINO 特征被 GroundingDINO、SAM 的 ViT 骨干借鉴（见 [35 GroundingDINO](35_GroundingDINO.md)）</text>
+
+  <defs>
+    <marker id="a"  markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+    <marker id="av" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#7c3aed"/></marker>
+  </defs>
+</svg>

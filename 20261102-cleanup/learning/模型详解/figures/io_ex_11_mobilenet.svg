@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="250" fill="#fff"/>
+  <text x="420" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">11 MobileNet 输入输出实例（I/O 同 ResNet，但更轻）</text>
+  <text x="420" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">224×224×3 图进 → 深度可分离卷积 → 1000 类 / 特征；算量约为标准卷积的 1/8~1/9</text>
+
+  <rect x="24" y="70" width="118" height="80" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="83" y="92" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="83" y="112" text-anchor="middle" font-size="9.5" fill="#374151">224×224×3</text>
+  <text x="83" y="131" text-anchor="middle" font-size="8.3" fill="#6b7280">同 ResNet 的输入</text>
+
+  <line x1="142" y1="110" x2="176" y2="110" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="178" y="64" width="240" height="92" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="298" y="84" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">深度可分离卷积（核心）</text>
+  <text x="190" y="104" font-size="8.8" fill="#374151">标准 3×3 卷积 → 拆成两步：</text>
+  <text x="190" y="120" font-size="8.8" fill="#374151">① depthwise 3×3（逐通道，各管各的）</text>
+  <text x="190" y="135" font-size="8.8" fill="#374151">② pointwise 1×1（跨通道混合）</text>
+  <text x="190" y="150" font-size="8.3" fill="#b45309">算量 ≈ 标准卷积的 1/8~1/9</text>
+
+  <line x1="418" y1="110" x2="452" y2="110" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="454" y="78" width="180" height="64" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="544" y="98" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#15803d">输出（同 ResNet 两用）</text>
+  <text x="544" y="116" text-anchor="middle" font-size="9" fill="#374151">1000 类概率 / 特征图</text>
+  <text x="544" y="132" text-anchor="middle" font-size="8.3" fill="#6b7280">精度略降，速度大涨</text>
+
+  <line x1="634" y1="110" x2="666" y2="110" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="668" y="84" width="148" height="52" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="742" y="104" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">边缘部署友好</text>
+  <text x="742" y="122" text-anchor="middle" font-size="8.3" fill="#6b7280">参数 ~4M（VGG ~138M）</text>
+
+  <text x="420" y="186" text-anchor="middle" font-size="9.8" fill="#374151">对比一个数：把一层 3×3×256→256 的标准卷积换成深度可分离 → 乘加量从约 <tspan font-weight="bold">5.9 亿</tspan> 降到约 <tspan font-weight="bold" fill="#15803d">0.7 亿</tspan>。</text>
+  <text x="420" y="208" text-anchor="middle" font-size="9.3" fill="#6b7280">I/O 和 ResNet 一模一样（图进、类别/特征出），区别只在“怎么算更省”——本项目“轻量可部署”看中这点。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

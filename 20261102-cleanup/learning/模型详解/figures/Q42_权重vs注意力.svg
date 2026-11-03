@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="470" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">都是"加权求和"，区别在权重从哪来：写死的参数 vs 看输入现算</text>
+  <text x="410" y="46" text-anchor="middle" font-size="11" fill="#6b7280">这是注意力区别于普通线性层的灵魂——权重随输入而变（内容寻址）</text>
+
+  <!-- 左：感知机 固定权重 -->
+  <rect x="24" y="62" width="372" height="240" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="210" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#1d4ed8">① 单层感知机：权重是固定参数</text>
+  <text x="210" y="108" text-anchor="middle" font-size="11" fill="#374151">y = w₁x₁ + w₂x₂ + w₃x₃ + b</text>
+
+  <!-- inputs -->
+  <g font-size="11" text-anchor="middle">
+    <rect x="50" y="126" width="40" height="26" rx="4" fill="#dbeafe" stroke="#3b82f6"/><text x="70" y="144">x₁</text>
+    <rect x="50" y="160" width="40" height="26" rx="4" fill="#dbeafe" stroke="#3b82f6"/><text x="70" y="178">x₂</text>
+    <rect x="50" y="194" width="40" height="26" rx="4" fill="#dbeafe" stroke="#3b82f6"/><text x="70" y="212">x₃</text>
+    <circle cx="300" cy="173" r="26" fill="#dbeafe" stroke="#3b82f6"/><text x="300" y="178">Σ→y</text>
+  </g>
+  <!-- fixed weight edges -->
+  <g stroke="#ef4444" stroke-width="2">
+    <line x1="90" y1="139" x2="276" y2="166"/><line x1="90" y1="173" x2="274" y2="173"/><line x1="90" y1="207" x2="276" y2="180"/>
+  </g>
+  <text x="185" y="132" font-size="9" fill="#b91c1c">w₁=0.7（固定）</text>
+  <text x="185" y="168" font-size="9" fill="#b91c1c">w₂=−0.3（固定）</text>
+  <text x="185" y="222" font-size="9" fill="#b91c1c">w₃=0.5（固定）</text>
+  <rect x="44" y="244" width="332" height="48" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="210" y="263" text-anchor="middle" font-size="9.5" fill="#1d4ed8">训练完 w 就冻结：不管来哪个样本，</text>
+  <text x="210" y="281" text-anchor="middle" font-size="9.5" fill="#1d4ed8">都用同一套 w（静态"配方"）</text>
+
+  <!-- 右：注意力 动态权重 -->
+  <rect x="424" y="62" width="372" height="240" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="610" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">② 注意力：权重由当前输入算出</text>
+  <text x="610" y="108" text-anchor="middle" font-size="11" fill="#374151">输出 = a₁v₁ + a₂v₂ + a₃v₃</text>
+
+  <g font-size="11" text-anchor="middle">
+    <rect x="450" y="126" width="40" height="26" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="470" y="144">v₁</text>
+    <rect x="450" y="160" width="40" height="26" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="470" y="178">v₂</text>
+    <rect x="450" y="194" width="40" height="26" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="470" y="212">v₃</text>
+    <circle cx="700" cy="173" r="26" fill="#dcfce7" stroke="#16a34a"/><text x="700" y="178">Σ→</text>
+  </g>
+  <g stroke="#7c3aed" stroke-width="2">
+    <line x1="490" y1="139" x2="676" y2="166"/><line x1="490" y1="173" x2="674" y2="173"/><line x1="490" y1="207" x2="676" y2="180"/>
+  </g>
+  <text x="585" y="132" font-size="9" fill="#6d28d9">a₁=softmax(q·k₁)</text>
+  <text x="585" y="168" font-size="9" fill="#6d28d9">a₂=softmax(q·k₂)</text>
+  <text x="585" y="222" font-size="9" fill="#6d28d9">a₃=softmax(q·k₃)</text>
+  <rect x="444" y="244" width="332" height="48" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="610" y="263" text-anchor="middle" font-size="9.5" fill="#15803d">a 由 query·key 临时算出、softmax 归一：</text>
+  <text x="610" y="281" text-anchor="middle" font-size="9.5" fill="#15803d">每换一个输入，a 就重算一次（动态"分配"）</text>
+
+  <!-- 对照表 -->
+  <rect x="24" y="316" width="772" height="138" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="40" y="338" font-size="11" font-weight="bold" fill="#374151">一句话：感知机 = 权重写死的加权求和；注意力 = 权重由输入现算的加权求和。</text>
+  <text x="40" y="362" font-size="10.5" fill="#374151" font-family="monospace">                 感知机权重 w            注意力权重 a</text>
+  <text x="40" y="382" font-size="10.5" fill="#374151" font-family="monospace">  本质           训练学出的固定参数      由输入算出的临时激活值</text>
+  <text x="40" y="400" font-size="10.5" fill="#374151" font-family="monospace">  随输入变？     不变（所有样本同一套）  每个输入都不同（内容寻址）</text>
+  <text x="40" y="418" font-size="10.5" fill="#374151" font-family="monospace">  归一化         一般不归、可正可负      softmax 归一，和为1、非负</text>
+  <text x="40" y="440" font-size="10" fill="#16a34a">把固定权重换成"看输入临时生成的权重"，静态线性层就升级成注意力（CBAM 通道注意力同理，见 Q39⑤）。</text>
+</svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="620" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q79 数值走一遍：翻译 “I love road” → “我 爱 路”（d=512，目标词表 3 万）</text>
+
+  <!-- Encoder -->
+  <rect x="20" y="44" width="420" height="150" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="230" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#075985">① 编码器：源句 → memory（只算一次）</text>
+  <text x="34" y="84" font-size="9" fill="#374151">源 token → id：I=42, love=318, road=1205</text>
+  <text x="34" y="100" font-size="9" fill="#374151">查嵌入表 + 位置编码 → 3 个向量，各 512 维</text>
+  <text x="34" y="116" font-size="9" fill="#374151">过 6 层(自注意力+FFN) → memory = 3×512</text>
+  <rect x="34" y="126" width="390" height="56" rx="5" fill="#fff" stroke="#7dd3fc"/>
+  <text x="44" y="143" font-size="8.5" fill="#374151">m_I   = [0.21, −0.05, …, 0.12]  (512 维)</text>
+  <text x="44" y="159" font-size="8.5" fill="#374151">m_love= [−0.11, 0.33, …, 0.07]</text>
+  <text x="44" y="175" font-size="8.5" fill="#1e40af">m_road= [0.40, 0.02, …, −0.18]   ← 交叉注意力的 K/V</text>
+
+  <!-- Decoder masked self-attn -->
+  <rect x="460" y="44" width="440" height="230" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="680" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 掩码自注意力：目标看“已写出来的”</text>
+  <text x="474" y="84" font-size="9" fill="#374151">解码器输入(右移)：&lt;BOS&gt; 我 爱（预测 我 爱 路）</text>
+  <text x="474" y="100" font-size="9" fill="#374151">因果掩码矩阵（上三角设 −∞，softmax 后=0）：</text>
+
+  <!-- mask matrix -->
+  <g font-size="8.5">
+    <text x="556" y="118" fill="#6b7280">&lt;BOS&gt;</text><text x="606" y="118" fill="#6b7280">我</text><text x="646" y="118" fill="#6b7280">爱</text>
+    <text x="492" y="136" fill="#6b7280">&lt;BOS&gt;</text>
+    <rect x="540" y="126" width="40" height="16" fill="#dcfce7" stroke="#86efac"/><text x="560" y="138" text-anchor="middle" fill="#15803d">1.0</text>
+    <rect x="585" y="126" width="40" height="16" fill="#fee2e2" stroke="#fca5a5"/><text x="605" y="138" text-anchor="middle" fill="#b91c1c">0</text>
+    <rect x="630" y="126" width="40" height="16" fill="#fee2e2" stroke="#fca5a5"/><text x="650" y="138" text-anchor="middle" fill="#b91c1c">0</text>
+    <text x="503" y="154" fill="#6b7280">我</text>
+    <rect x="540" y="144" width="40" height="16" fill="#dcfce7" stroke="#86efac"/><text x="560" y="156" text-anchor="middle" fill="#15803d">0.5</text>
+    <rect x="585" y="144" width="40" height="16" fill="#dcfce7" stroke="#86efac"/><text x="605" y="156" text-anchor="middle" fill="#15803d">0.5</text>
+    <rect x="630" y="144" width="40" height="16" fill="#fee2e2" stroke="#fca5a5"/><text x="650" y="156" text-anchor="middle" fill="#b91c1c">0</text>
+    <text x="503" y="172" fill="#6b7280">爱</text>
+    <rect x="540" y="162" width="40" height="16" fill="#dcfce7" stroke="#86efac"/><text x="560" y="174" text-anchor="middle" fill="#15803d">0.3</text>
+    <rect x="585" y="162" width="40" height="16" fill="#dcfce7" stroke="#86efac"/><text x="605" y="174" text-anchor="middle" fill="#15803d">0.3</text>
+    <rect x="630" y="162" width="40" height="16" fill="#dcfce7" stroke="#86efac"/><text x="650" y="174" text-anchor="middle" fill="#15803d">0.4</text>
+  </g>
+  <text x="700" y="138" font-size="8" fill="#b91c1c">行“爱”看不到未来→</text>
+  <text x="474" y="196" font-size="8.5" fill="#374151">每行=该位置对“它及之前”的注意力权重（右边=未来，恒为 0）</text>
+  <text x="474" y="214" font-size="8.5" fill="#b91c1c">没掩码的话“爱”就会看到答案“路”→训练作弊</text>
+  <text x="474" y="236" font-size="8.5" fill="#374151">→ 得到融合了已写上下文的 3 个 512 维向量</text>
+  <text x="474" y="256" font-size="8.5" fill="#6b7280">训练：3 个位置并行算；推理：逐词，目前只有已生成的</text>
+
+  <!-- cross attention -->
+  <rect x="20" y="206" width="420" height="170" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="230" y="226" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">③ 交叉注意力：目标看原文（锚定输入）</text>
+  <text x="34" y="246" font-size="9" fill="#374151">Q=目标向量，K/V=编码器 memory（m_I,m_love,m_road）</text>
+  <text x="34" y="262" font-size="9" fill="#374151">要生成“路”的那个位置，Q·三个 K → softmax：</text>
+  <g font-size="9">
+    <rect x="40" y="272" width="120" height="22" fill="#fff" stroke="#93c5fd"/><text x="100" y="287" text-anchor="middle" fill="#374151">I : 0.05</text>
+    <rect x="165" y="272" width="120" height="22" fill="#fff" stroke="#93c5fd"/><text x="225" y="287" text-anchor="middle" fill="#374151">love : 0.15</text>
+    <rect x="290" y="272" width="130" height="22" fill="#bfdbfe" stroke="#3b82f6"/><text x="355" y="287" text-anchor="middle" font-weight="bold" fill="#1e40af">road : 0.80</text>
+  </g>
+  <text x="34" y="312" font-size="8.5" fill="#374151">→ 主要吸 m_road 的信息（“路”对齐到 “road”）</text>
+  <text x="34" y="332" font-size="8.5" fill="#374151">→ FFN 逐位置加工 → 输出投影 512→3 万 → softmax</text>
+  <rect x="34" y="342" width="390" height="26" rx="4" fill="#fff" stroke="#93c5fd"/>
+  <text x="44" y="359" font-size="8.5" fill="#374151">该位置词表分布：路 0.90，道 0.04，街 0.02, …→ argmax=“路”</text>
+
+  <!-- autoregressive -->
+  <rect x="460" y="290" width="440" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="680" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">④ 推理：自回归逐词（每步喂回上一步输出）</text>
+  <text x="474" y="330" font-size="9" fill="#374151">步1：输入 &lt;BOS&gt;　　　　　→ 我 (0.88)</text>
+  <text x="474" y="348" font-size="9" fill="#374151">步2：输入 &lt;BOS&gt; 我　　　　→ 爱 (0.81)</text>
+  <text x="474" y="366" font-size="9" fill="#374151">步3：输入 &lt;BOS&gt; 我 爱　　　→ 路 (0.90)</text>
+  <text x="474" y="384" font-size="9" fill="#374151">步4：输入 &lt;BOS&gt; 我 爱 路　　→ &lt;EOS&gt; 停</text>
+  <text x="474" y="402" font-size="8" fill="#6b7280">每步都重算掩码自注意力+交叉注意力(K/V 仍是同一 memory)</text>
+
+  <!-- bottom summary -->
+  <rect x="20" y="424" width="880" height="100" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="446" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">把抽象输入输出落到数值</text>
+  <text x="40" y="468" font-size="9.5" fill="#374151">· <tspan font-weight="bold">输入</tspan>：源 ids [42,318,1205]→编码器→memory 3×512；解码器另吃“已生成前缀”的 ids</text>
+  <text x="40" y="488" font-size="9.5" fill="#374151">· <tspan font-weight="bold">掩码自注意力</tspan>：3×3 下三角矩阵（未来=0）；<tspan font-weight="bold">交叉注意力</tspan>：路→road 权重 0.80</text>
+  <text x="40" y="508" font-size="9.5" fill="#374151">· <tspan font-weight="bold">输出</tspan>：每位置 512→3 万 的概率分布 → argmax 取词 → 自回归拼出“我 爱 路 &lt;EOS&gt;”</text>
+
+  <text x="460" y="548" text-anchor="middle" font-size="9" fill="#6b7280">数字为示意，便于看清形状与流程：memory 等长且只算一次；掩码挡未来；交叉注意力把目标词对齐到源词</text>
+  <text x="460" y="568" text-anchor="middle" font-size="9" fill="#6b7280">训练时第②③步对 3 个位置并行算、与真值“我 爱 路”逐位置算损失；推理时按④逐词生成</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

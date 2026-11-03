@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="460" fill="#fff"/>
+  <text x="480" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">PatchCore：记忆库 + 最近邻距离的工业异常检测</text>
+
+  <!-- 训练阶段 -->
+  <rect x="30" y="50" width="430" height="190" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="245" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">训练阶段（只用"正常"样本，无需异常标注）</text>
+  <rect x="50" y="90" width="110" height="46" rx="6" fill="#fff" stroke="#3b82f6"/>
+  <text x="105" y="118" text-anchor="middle" font-size="10">正常图像 xN</text>
+  <text x="170" y="118" text-anchor="middle" font-size="14">→</text>
+  <rect x="190" y="90" width="130" height="46" rx="6" fill="#fff" stroke="#3b82f6"/>
+  <text x="255" y="112" text-anchor="middle" font-size="9.5">ImageNet预训练网络φ</text>
+  <text x="255" y="126" text-anchor="middle" font-size="9">取中间层 j, j+1 特征</text>
+  <text x="330" y="118" text-anchor="middle" font-size="14">→</text>
+  <rect x="345" y="90" width="105" height="46" rx="6" fill="#fff" stroke="#3b82f6"/>
+  <text x="397" y="112" text-anchor="middle" font-size="9.5">邻域聚合</text>
+  <text x="397" y="126" text-anchor="middle" font-size="9">局部感知patch特征</text>
+  <text x="245" y="158" text-anchor="middle" font-size="10" fill="#1e40af">↓ 所有正常图的patch特征全部存入</text>
+  <rect x="90" y="168" width="310" height="42" rx="6" fill="#bfdbfe" stroke="#1e40af"/>
+  <text x="245" y="193" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">记忆库 M（海量patch级特征）</text>
+  <text x="245" y="222" text-anchor="middle" font-size="9.5" fill="#374151">greedy coreset 贪心核心集抽样 → 压缩到 1%~25%，兼顾覆盖度与推理速度</text>
+
+  <!-- 测试阶段 -->
+  <rect x="500" y="50" width="430" height="190" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="715" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">测试阶段（打异常分）</text>
+  <rect x="520" y="90" width="110" height="46" rx="6" fill="#fff" stroke="#ef4444"/>
+  <text x="575" y="118" text-anchor="middle" font-size="10">测试图像 xtest</text>
+  <text x="640" y="118" text-anchor="middle" font-size="14">→</text>
+  <rect x="655" y="90" width="130" height="46" rx="6" fill="#fff" stroke="#ef4444"/>
+  <text x="720" y="112" text-anchor="middle" font-size="9.5">同一网络提取</text>
+  <text x="720" y="126" text-anchor="middle" font-size="9">每个patch特征</text>
+  <text x="800" y="118" text-anchor="middle" font-size="14">→</text>
+  <rect x="815" y="90" width="100" height="46" rx="6" fill="#fff" stroke="#ef4444"/>
+  <text x="865" y="112" text-anchor="middle" font-size="9.5">最近邻搜索</text>
+  <text x="865" y="126" text-anchor="middle" font-size="9">查记忆库M</text>
+  <rect x="560" y="168" width="310" height="42" rx="6" fill="#fecaca" stroke="#b91c1c"/>
+  <text x="715" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">s = 到最近邻的距离(加权)</text>
+  <text x="715" y="202" text-anchor="middle" font-size="9">只要有一个patch异常→整图判异常；</text>
+  <text x="715" y="222" text-anchor="middle" font-size="9.5" fill="#374151">距离越远=越不像见过的"正常"=越异常；逐patch打分可直接拼成分割图</text>
+
+  <!-- 关键设计 -->
+  <rect x="30" y="256" width="900" height="150" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="480" y="280" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">三个关键设计</text>
+  <text x="60" y="306" font-size="10" font-weight="bold" fill="#6d28d9">① 用中间层特征，不用最后一层</text>
+  <text x="60" y="324" font-size="9.3" fill="#374151">最后一层太抽象、太偏向ImageNet分类任务；中间层(j,j+1)保留更多局部细节，偏见更小</text>
+  <text x="380" y="306" font-size="10" font-weight="bold" fill="#6d28d9">② 邻域聚合(局部感知)</text>
+  <text x="380" y="324" font-size="9.3" fill="#374151">用小范围内平均池化扩大感受野，兼顾细节保留和上下文，不用像CNN那样继续下采样</text>
+  <text x="660" y="306" font-size="10" font-weight="bold" fill="#6d28d9">③ 贪心coreset子采样</text>
+  <text x="660" y="324" font-size="9.3" fill="#374151">记忆库太大搜索慢；贪心选出最能代表整体分布覆盖度的子集，压缩到1%仍几乎不掉点</text>
+  <text x="480" y="356" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#374151">无需任何异常样本训练("cold-start")——只学"正常长什么样"，用距离衡量"有多不像正常"</text>
+  <text x="480" y="382" text-anchor="middle" font-size="9.5" fill="#6b7280">MVTec AD基准：image-level AUROC最高99.6%，比第二名的误差再腰斩</text>
+</svg>

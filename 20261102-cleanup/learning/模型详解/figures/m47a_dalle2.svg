@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 350" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="350" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">DALL-E 2：CLIP 先验 + 级联 DDPM 解码器（OpenAI，2022）</text>
+
+  <!-- ===== LEFT: Generation Pipeline ===== -->
+  <text x="214" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">生成流水线</text>
+  <rect x="20" y="56" width="388" height="270" rx="8" fill="#f9fafb" stroke="#e2e8f0"/>
+
+  <!-- Text input -->
+  <rect x="64" y="68" width="300" height="26" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="214" y="85" text-anchor="middle" font-size="10">文本描述："a cat sitting by the sea at sunset"</text>
+
+  <line x1="214" y1="94" x2="214" y2="108" stroke="#374151" stroke-width="1.5" marker-end="url(#d2)"/>
+
+  <!-- CLIP text encoder -->
+  <rect x="64" y="108" width="300" height="34" rx="4" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
+  <text x="214" y="123" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">CLIP 文本编码器（冻结 ViT-L/14）</text>
+  <text x="214" y="136" text-anchor="middle" font-size="8.5" fill="#374151">输出：yc ∈ R^768（文本语义嵌入）</text>
+
+  <line x1="214" y1="142" x2="214" y2="156" stroke="#374151" stroke-width="1.5" marker-end="url(#d2)"/>
+
+  <!-- Prior - the key innovation box -->
+  <rect x="40" y="156" width="348" height="52" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="214" y="173" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">Prior 先验网络  pθ(zi | yc)</text>
+  <text x="214" y="188" text-anchor="middle" font-size="9.5" fill="#374151">DDPM：文本嵌入 yc → CLIP 图像嵌入 zi ∈ R^768</text>
+  <text x="214" y="201" text-anchor="middle" font-size="9" fill="#6b7280">多次采样 zi → 同一语义、不同视觉风格（多样性来源）</text>
+
+  <!-- Key label -->
+  <rect x="22" y="167" width="16" height="28" rx="3" fill="#d97706"/>
+  <text x="30" y="185" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold" writing-mode="tb">核心</text>
+
+  <line x1="214" y1="208" x2="214" y2="222" stroke="#374151" stroke-width="1.5" marker-end="url(#d2)"/>
+
+  <!-- CLIP image embedding -->
+  <rect x="100" y="222" width="228" height="26" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="214" y="237" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">CLIP 图像嵌入 zi（语义坐标）</text>
+  <text x="214" y="250" text-anchor="middle" font-size="8.5" fill="#6b7280">携带"什么内容"，不携带"具体像素"</text>
+
+  <line x1="214" y1="252" x2="214" y2="266" stroke="#374151" stroke-width="1.5" marker-end="url(#d2)"/>
+
+  <!-- Decoder -->
+  <rect x="64" y="266" width="300" height="34" rx="4" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.6"/>
+  <text x="214" y="281" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">DDPM 解码器（以 zi 为条件）</text>
+  <text x="214" y="294" text-anchor="middle" font-size="9" fill="#374151">语义坐标 zi → 64×64 基础像素图</text>
+
+  <line x1="214" y1="300" x2="214" y2="314" stroke="#374151" stroke-width="1.5" marker-end="url(#d2)"/>
+
+  <!-- Upsampler -->
+  <rect x="64" y="314" width="300" height="24" rx="4" fill="#e0f2fe" stroke="#0ea5e9"/>
+  <text x="214" y="330" text-anchor="middle" font-size="10" font-weight="bold" fill="#0369a1">级联超分：64×64 → 256×256 → 1024×1024</text>
+
+  <!-- ===== RIGHT: Capabilities + Comparison ===== -->
+  <text x="634" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">能力与对比</text>
+  <rect x="420" y="56" width="380" height="270" rx="8" fill="#f9fafb" stroke="#e2e8f0"/>
+
+  <!-- Capabilities -->
+  <rect x="432" y="68" width="356" height="102" rx="6" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="610" y="85" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#065f46">CLIP 语义空间带来的三大能力</text>
+  <text x="444" y="103" font-size="9.5" fill="#374151">① 图像变体（Variations）：固定 zi，多次解码 → 语义相同、视觉各异的图像</text>
+  <text x="444" y="120" font-size="9.5" fill="#374151">② 图像插值（Interpolation）：SLERP(zi₁, zi₂, λ) → 语义渐变动画帧</text>
+  <text x="444" y="137" font-size="9.5" fill="#374151">③ 图像编辑（Inpainting）：mask + DDPM 条件去噪 → 语义一致的局部修复</text>
+  <text x="444" y="155" font-size="9" fill="#6b7280">  以上依赖 CLIP 空间可线性运算 + Decoder 支持条件生成；不需要重新训练</text>
+
+  <!-- Comparison table -->
+  <rect x="432" y="180" width="356" height="134" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="610" y="197" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1d4ed8">同期主要模型对比（2022）</text>
+
+  <!-- Table -->
+  <line x1="436" y1="204" x2="782" y2="204" stroke="#d1d5db"/>
+  <g font-size="9" font-weight="bold" fill="#374151">
+    <text x="445" y="215">维度</text>
+    <text x="518" y="215">DALL-E 2</text>
+    <text x="590" y="215">Imagen</text>
+    <text x="660" y="215">SD v1</text>
+    <text x="722" y="215">DALL-E 1</text>
+  </g>
+  <line x1="436" y1="218" x2="782" y2="218" stroke="#d1d5db"/>
+  <g font-size="8.5" fill="#374151">
+    <text x="445" y="231">文本编码</text>       <text x="518" y="231" fill="#7c3aed">CLIP L/14</text>  <text x="590" y="231">T5-XXL</text>    <text x="660" y="231">CLIP L/14</text> <text x="722" y="231">BPE</text>
+    <text x="445" y="247">图像潜空间</text>     <text x="518" y="247">无（像素）</text>             <text x="590" y="247">无（像素）</text> <text x="660" y="247" fill="#16a34a">VAE 压缩</text> <text x="722" y="247">dVAE</text>
+    <text x="445" y="263">CLIP 图像先验</text>  <text x="518" y="263" fill="#16a34a" font-weight="bold">✓ 核心</text>     <text x="590" y="263">✗</text>         <text x="660" y="263">✗</text>        <text x="722" y="263">✗</text>
+    <text x="445" y="279">最高分辨率</text>     <text x="518" y="279">1024px</text>                  <text x="590" y="279">1024px</text>    <text x="660" y="279">1024px</text>   <text x="722" y="279">256px</text>
+    <text x="445" y="295">开源</text>           <text x="518" y="295" fill="#ef4444">否</text>          <text x="590" y="295" fill="#ef4444">否</text>  <text x="660" y="295" fill="#16a34a" font-weight="bold">是</text>      <text x="722" y="295" fill="#ef4444">否</text>
+    <text x="445" y="311">特色优势</text>       <text x="518" y="311">变体/插值/编辑</text>           <text x="590" y="311">文本理解强</text> <text x="660" y="311">速度/生态</text><text x="722" y="311">首个高质量</text>
+  </g>
+
+  <!-- Bottom note -->
+  <rect x="20" y="334" width="780" height="12" rx="3" fill="#fafafa" stroke="#e2e8f0"/>
+  <text x="410" y="343" text-anchor="middle" font-size="8.5" fill="#374151">Prior 将"文本→像素"拆为"文本→CLIP语义坐标"＋"语义坐标→像素"：语义推理与视觉渲染解耦 → 多样性 + 可编辑性；同年 Stable Diffusion 开源后社区生态被迅速主导</text>
+
+  <defs>
+    <marker id="d2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+  </defs>
+</svg>

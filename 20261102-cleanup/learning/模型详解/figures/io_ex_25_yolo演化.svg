@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="250" fill="#fff"/>
+  <text x="420" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">25 YOLO 各代 I/O 演化（一直“图进、框出”，变的是内部表示）</text>
+  <text x="420" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">输入永远是一张图、输出永远是“框+类别”；演进体现在输出张量怎么组织、要不要 anchor / NMS</text>
+
+  <line x1="40" y1="150" x2="800" y2="150" stroke="#cbd5e1" stroke-width="2"/>
+
+  <g text-anchor="middle">
+    <circle cx="110" cy="150" r="5" fill="#0284c7"/>
+    <rect x="48" y="74" width="124" height="62" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="110" y="92" font-size="9.5" font-weight="bold" fill="#075985">v1（2016）</text>
+    <text x="110" y="108" font-size="8" fill="#374151">448² → 7×7×30 张量</text>
+    <text x="110" y="122" font-size="7.6" fill="#6b7280">网格直接回归，无 anchor</text>
+    <text x="110" y="170" font-size="8.4" fill="#075985">单尺度</text>
+
+    <circle cx="265" cy="150" r="5" fill="#3b82f6"/>
+    <rect x="200" y="74" width="130" height="62" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="265" y="92" font-size="9.5" font-weight="bold" fill="#1e40af">v2/v3（2017-18）</text>
+    <text x="265" y="108" font-size="8" fill="#374151">416² → 3 尺度 + anchor</text>
+    <text x="265" y="122" font-size="7.6" fill="#6b7280">k-means 聚类先验框</text>
+    <text x="265" y="170" font-size="8.4" fill="#1e40af">加 anchor / 多尺度</text>
+
+    <circle cx="420" cy="150" r="5" fill="#8b5cf6"/>
+    <rect x="356" y="74" width="128" height="62" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="420" y="92" font-size="9.5" font-weight="bold" fill="#6d28d9">v4/v5（2020）</text>
+    <text x="420" y="108" font-size="8" fill="#374151">640² → 3 尺度 anchor</text>
+    <text x="420" y="122" font-size="7.6" fill="#6b7280">CSP+PAN+Mosaic 工程化</text>
+    <text x="420" y="170" font-size="8.4" fill="#6d28d9">工程集大成</text>
+
+    <circle cx="575" cy="150" r="5" fill="#16a34a"/>
+    <rect x="510" y="74" width="130" height="62" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="575" y="92" font-size="9.5" font-weight="bold" fill="#15803d">v8（2023）⭐</text>
+    <text x="575" y="108" font-size="8" fill="#374151">640² → 8400 预测</text>
+    <text x="575" y="122" font-size="7.6" fill="#6b7280">anchor-free + 解耦头 + DFL</text>
+    <text x="575" y="170" font-size="8.4" fill="#15803d">去 anchor（本项目基线）</text>
+
+    <circle cx="730" cy="150" r="5" fill="#d97706"/>
+    <rect x="668" y="74" width="124" height="62" rx="6" fill="#fef3c7" stroke="#d97706"/>
+    <text x="730" y="92" font-size="9.5" font-weight="bold" fill="#b45309">v10/v11（2024）</text>
+    <text x="730" y="108" font-size="8" fill="#374151">640² → 框+类别</text>
+    <text x="730" y="122" font-size="7.6" fill="#6b7280">v10 一对一标签 → 去 NMS</text>
+    <text x="730" y="170" font-size="8.4" fill="#b45309">端到端、免 NMS</text>
+  </g>
+
+  <text x="420" y="208" text-anchor="middle" font-size="9.8" fill="#374151">主线：<tspan font-weight="bold" fill="#0369a1">无 anchor（v1）→ 加 anchor+多尺度（v2/3）→ 工程强化（v4/5）→ 去 anchor（v8）→ 去 NMS（v10）</tspan>。</text>
+  <text x="420" y="230" text-anchor="middle" font-size="9.3" fill="#6b7280">本项目用 v8 当基线（详细 I/O 见 25d）；v11 作对比参考。各代 I/O 都是“640²图 → 框+类别”，只是越来越简洁。</text>
+</svg>

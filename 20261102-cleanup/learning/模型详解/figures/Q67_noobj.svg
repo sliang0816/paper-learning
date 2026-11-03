@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 530" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="850" height="530" fill="#fff"/>
+  <text x="425" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">为什么 YOLOv1 损失必须计入 noobj（无目标置信度）项</text>
+  <text x="425" y="44" text-anchor="middle" font-size="11" fill="#6b7280">它是网络唯一的“负样本信号”——不教“这里没东西”，背景框就会乱输出高置信度，假阳性泛滥</text>
+
+  <!-- center: confidence learns two directions -->
+  <rect x="305" y="60" width="240" height="118" rx="8" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="425" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#4338ca">confidence 要学两个方向</text>
+  <text x="425" y="103" text-anchor="middle" font-size="10" fill="#374151">目标 = Pr(物体) × IoU</text>
+  <rect x="320" y="114" width="100" height="50" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="370" y="132" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">有物体</text>
+  <text x="370" y="148" text-anchor="middle" font-size="9" fill="#374151">→ 趋近 IoU</text>
+  <text x="370" y="160" text-anchor="middle" font-size="8.5" fill="#6b7280">obj 项</text>
+  <rect x="430" y="114" width="100" height="50" rx="5" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="480" y="132" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b91c1c">没物体</text>
+  <text x="480" y="148" text-anchor="middle" font-size="9" fill="#374151">→ 趋近 0</text>
+  <text x="480" y="160" text-anchor="middle" font-size="8.5" fill="#6b7280">noobj 项 ← 本问</text>
+
+  <!-- left: without noobj -->
+  <rect x="24" y="196" width="395" height="150" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="40" y="218" font-size="12.5" font-weight="bold" fill="#b91c1c">✗ 去掉 noobj 项会怎样</text>
+  <text x="40" y="240" font-size="10" fill="#374151">confidence 只在正样本上被“往高 IoU 推”，</text>
+  <text x="40" y="256" font-size="10" fill="#374151">背景框<tspan font-weight="bold">从没收到“该输出 0”的梯度</tspan>。</text>
+  <text x="40" y="278" font-size="10" fill="#374151">→ 推理时一张图 98 个框、绝大多数是背景，</text>
+  <text x="40" y="294" font-size="10" fill="#374151">　 却都吐出<tspan font-weight="bold" fill="#b91c1c">高置信度</tspan> → 假阳性泛滥。</text>
+  <text x="40" y="316" font-size="10" fill="#374151">→ NMS 也救不了：假框分数高，压不掉。</text>
+  <text x="40" y="336" font-size="9.5" fill="#6b7280">confidence 失去“判别物体 vs 背景”的能力。</text>
+
+  <!-- right: why classification can't cover it -->
+  <rect x="431" y="196" width="395" height="150" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="447" y="218" font-size="12.5" font-weight="bold" fill="#15803d">为什么分类项兜不住背景</text>
+  <text x="447" y="240" font-size="10" fill="#374151">YOLOv1 的类别概率是<tspan font-weight="bold">条件概率</tspan> P(class | 物体)，</text>
+  <text x="447" y="256" font-size="10" fill="#374151"><tspan font-weight="bold">只在“有物体”的格子上才监督</tspan>，</text>
+  <text x="447" y="272" font-size="10" fill="#374151">根本不为背景格打分——没有“背景类”。</text>
+  <text x="447" y="294" font-size="10" fill="#374151">所以“这里有没有物体”这件事，</text>
+  <text x="447" y="310" font-size="10" fill="#374151">　 <tspan font-weight="bold" fill="#15803d">全靠 confidence 的 noobj 项</tspan>来教。</text>
+  <text x="447" y="332" font-size="9.5" fill="#6b7280">noobj 不能省，否则模型没人教它“什么是空”。</text>
+
+  <!-- analogy -->
+  <rect x="24" y="360" width="802" height="44" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="425" y="382" text-anchor="middle" font-size="11" fill="#374151"><tspan font-weight="bold" fill="#6d28d9">本质＝负样本监督</tspan>：只给正例训练的分类器，会把一切都判成正类。检测＝在“满屏背景”里找物体，必须教模型认识背景。</text>
+  <text x="425" y="397" text-anchor="middle" font-size="9.5" fill="#6b7280">noobj 项就是 YOLOv1 的负样本——“责任框”吃 obj 项，其余 ~96 个框全部吃 noobj 项。</text>
+
+  <!-- logic chain -->
+  <rect x="24" y="418" width="802" height="92" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="425" y="440" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">逻辑链：先“必须有”，再“量太大”，最后“降权”</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="60" y="452" width="200" height="44" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="160" y="471" font-weight="bold" fill="#1e40af">① 必须计入 noobj</text>
+    <text x="160" y="487" fill="#6b7280">否则背景无监督（本问）</text>
+    <text x="300" y="478" font-size="18" fill="#9ca3af">→</text>
+    <rect x="330" y="452" width="200" height="44" rx="6" fill="#fef3c7" stroke="#d97706"/>
+    <text x="430" y="471" font-weight="bold" fill="#b45309">② 但 noobj 框数量巨大</text>
+    <text x="430" y="487" fill="#6b7280">98 框多为背景 → 淹没正样本</text>
+    <text x="570" y="478" font-size="18" fill="#9ca3af">→</text>
+    <rect x="600" y="452" width="200" height="44" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="700" y="471" font-weight="bold" fill="#15803d">③ 所以降权 λ_noobj=0.5</text>
+    <text x="700" y="487" fill="#6b7280">不是去掉，是压制（Q27）</text>
+  </g>
+</svg>

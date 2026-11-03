@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="520" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">早期 VLP·区域特征时代：目标检测抽"区域框特征" + Transformer 图文预训练（重、需区域标注）</text>
+
+  <!-- 视觉端 -->
+  <rect x="20" y="42" width="900" height="96" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">视觉端（瓶颈所在）：先跑目标检测器抽区域特征</text>
+  <rect x="40" y="76" width="90" height="46" fill="#e5e7eb" stroke="#9ca3af"/><text x="85" y="103" text-anchor="middle" font-size="9" fill="#374151">输入图</text>
+  <text x="140" y="102" font-size="13" fill="#9ca3af">→</text>
+  <rect x="165" y="76" width="150" height="46" rx="4" fill="#fecaca" stroke="#ef4444"/>
+  <text x="240" y="96" text-anchor="middle" font-size="9" fill="#b91c1c">Faster R-CNN 检测器</text>
+  <text x="240" y="112" text-anchor="middle" font-size="8" fill="#6b7280">（预训练、冻结）慢</text>
+  <text x="325" y="102" font-size="13" fill="#9ca3af">→</text>
+  <rect x="350" y="76" width="200" height="46" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="450" y="94" text-anchor="middle" font-size="9" fill="#b45309">~36 个区域框 + ROI 特征</text>
+  <text x="450" y="110" text-anchor="middle" font-size="8" fill="#374151">当作"视觉词"(visual words)</text>
+  <text x="600" y="100" font-size="9" fill="#b91c1c">瓶颈：检测器占大部分算力</text>
+  <text x="600" y="116" font-size="9" fill="#6b7280">还需区域级标注做检测预训练</text>
+
+  <!-- 两种融合结构 -->
+  <text x="470" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#111827">两种图文融合结构</text>
+
+  <!-- dual stream -->
+  <rect x="30" y="172" width="430" height="180" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="245" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">双流（dual-stream）ViLBERT / LXMERT</text>
+  <rect x="55" y="206" width="150" height="30" rx="4" fill="#bfdbfe" stroke="#3b82f6"/><text x="130" y="225" text-anchor="middle" font-size="8.5" fill="#1e40af">图像 Transformer</text>
+  <rect x="285" y="206" width="150" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="360" y="225" text-anchor="middle" font-size="8.5" fill="#15803d">文本 Transformer</text>
+  <line x1="205" y1="221" x2="285" y2="221" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 2"/>
+  <text x="245" y="256" text-anchor="middle" font-size="9" fill="#6d28d9">中间用交叉/协同注意力(co-attention)连接</text>
+  <text x="245" y="276" text-anchor="middle" font-size="8.5" fill="#374151">图、文各有自己的塔，只在特定层交互</text>
+  <text x="245" y="300" text-anchor="middle" font-size="8.5" fill="#6b7280">ViLBERT: 共注意力层</text>
+  <text x="245" y="318" text-anchor="middle" font-size="8.5" fill="#6b7280">LXMERT: 各自编码后再跨模态编码器</text>
+  <text x="245" y="340" text-anchor="middle" font-size="8" fill="#374151">适合：两模态先各自建模再对齐</text>
+
+  <!-- single stream -->
+  <rect x="480" y="172" width="430" height="180" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="695" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">单流（single-stream）UNITER / VisualBERT</text>
+  <rect x="510" y="212" width="370" height="30" rx="4" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="695" y="231" text-anchor="middle" font-size="8.5" fill="#15803d">[区域特征 token] + [文本 token] → 同一个 Transformer</text>
+  <text x="695" y="264" text-anchor="middle" font-size="9" fill="#374151">图文拼一起，从第 1 层就自注意力交互</text>
+  <text x="695" y="284" text-anchor="middle" font-size="8.5" fill="#6b7280">结构更简单，参数共享</text>
+  <text x="695" y="308" text-anchor="middle" font-size="8.5" fill="#374151">UNITER：单流 + 词-区域对齐(WRA)</text>
+  <text x="695" y="330" text-anchor="middle" font-size="8" fill="#6b7280">→ ViLT 后来把"区域特征"换成"线性patch"，思路同源</text>
+
+  <!-- 预训练任务 -->
+  <rect x="30" y="364" width="880" height="66" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="384" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">共同的预训练任务（自监督，图文对上做）</text>
+  <text x="50" y="406" font-size="9" fill="#374151">· MLM 掩码语言建模（遮词，靠图+上下文猜）　· MRM/MRC 掩码区域建模（遮区域，猜其类别/特征）</text>
+  <text x="50" y="424" font-size="9" fill="#374151">· ITM 图文匹配（这对图文配吗）　·（LXMERT 还加 VQA）→ 确立"预训练+微调"的 VLP 范式</text>
+
+  <!-- 一句话 -->
+  <rect x="30" y="442" width="880" height="64" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="464" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话：用目标检测抽"区域特征"当视觉输入 + Transformer 做图文预训练，确立 VLP 范式；</text>
+  <text x="470" y="484" text-anchor="middle" font-size="9.5" fill="#374151">强于 VQA/检索，但视觉端太重（检测器是瓶颈、需区域标注）——正是 CLIP/ViLT 后来要砍掉的部分。</text>
+  <text x="470" y="500" text-anchor="middle" font-size="8" fill="#6b7280">ViLBERT/LXMERT (NeurIPS/EMNLP 2019) · UNITER (ECCV 2020) · VisualBERT (2019)</text>
+</svg>

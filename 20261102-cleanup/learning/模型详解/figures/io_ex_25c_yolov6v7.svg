@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="200" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">25c YOLOv6/v7 输入输出实例（用结构换效率）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">640×640 图 → 重参数化骨干 / E-ELAN → 三尺度 anchor 预测 → 框+类别（I/O 不变，更快）</text>
+
+  <rect x="24" y="68" width="108" height="74" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="78" y="90" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="78" y="109" text-anchor="middle" font-size="9" fill="#374151">640×640×3</text>
+
+  <line x1="132" y1="105" x2="162" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="164" y="60" width="240" height="90" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="284" y="79" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#1e40af">高效骨干重构</text>
+  <text x="284" y="97" text-anchor="middle" font-size="8.3" fill="#374151">v6 重参数化：训练多分支、推理融合成单分支</text>
+  <text x="284" y="112" text-anchor="middle" font-size="8.3" fill="#374151">v7 E-ELAN：高效层聚合，梯度路径更优</text>
+  <text x="284" y="128" text-anchor="middle" font-size="8" fill="#15803d">三段式范式不变，只改“怎么搭骨干”</text>
+  <text x="284" y="142" text-anchor="middle" font-size="7.6" fill="#6b7280">同精度下提速</text>
+
+  <line x1="404" y1="105" x2="434" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="436" y="72" width="180" height="66" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="526" y="92" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">三尺度框 + 类别</text>
+  <text x="526" y="110" text-anchor="middle" font-size="8.3" fill="#374151">anchor-based → NMS</text>
+  <text x="526" y="126" text-anchor="middle" font-size="8" fill="#6b7280">输出格式同 v4/v5</text>
+
+  <line x1="616" y1="105" x2="646" y2="105" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="648" y="82" width="144" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="720" y="103" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">更快的检测</text>
+  <text x="720" y="119" text-anchor="middle" font-size="7.6" fill="#6b7280">工业部署友好</text>
+
+  <text x="410" y="174" text-anchor="middle" font-size="9.6" fill="#374151">I/O 和 v4/v5 一模一样，签名是<tspan font-weight="bold" fill="#0369a1">用结构技巧（重参数化 / E-ELAN）在同精度下提速</tspan>——“效率工程”两代。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

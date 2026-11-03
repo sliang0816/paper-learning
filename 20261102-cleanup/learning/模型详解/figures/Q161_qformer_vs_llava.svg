@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 860" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="860" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q161 32-query 真正为了什么？+ BLIP-2 已能多轮问答，为何还要 LLaVA</text>
+
+  <!-- ① 多轮问答已可行 -->
+  <rect x="20" y="42" width="940" height="120" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 先确认：BLIP-2 靠 LLM 自回归天然支持多轮问答（视觉软token=固定前缀，挂在上下文最前）</text>
+  <text x="40" y="88" font-size="9.8" font-family="Consolas,monospace" fill="#374151">[32个视觉软token]+Q1→A1 ； [32个视觉软token]+Q1+A1+Q2→A2 ；……(LLM因果注意力回看整段前缀)</text>
+  <text x="40" y="110" font-size="9.5" fill="#374151">多轮能力＝直接白嫖冻结LLM自带的对话能力，不需要额外训练——LLaVA要解决的不是这件事</text>
+  <text x="40" y="132" font-size="9.5" fill="#b91c1c">原版Q-Former是"问题无关"的：不管问什么，32个query都是同一份，第一次编码时就已定型（细节局限见下）</text>
+
+  <!-- ② 32-query真正动机 -->
+  <rect x="20" y="174" width="940" height="220" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 32-query 的真正动机：信息瓶颈"逼准"，省算力只是附带好处</text>
+  <rect x="36" y="210" width="440" height="170" rx="5" fill="#fff" stroke="#94a3b8"/>
+  <text x="256" y="230" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#334155">如果只为省算力……</text>
+  <text x="52" y="252" font-size="9.5" fill="#374151">最直接做法：平均池化/降采样，把576个</text>
+  <text x="52" y="270" font-size="9.5" fill="#374151">patch特征随便压成32个，压缩比按算力调</text>
+  <text x="52" y="294" font-size="9.5" fill="#b91c1c">但Q-Former没这么做——它用可学习query</text>
+  <text x="52" y="312" font-size="9.5" fill="#b91c1c">+交叉注意力+专门两阶段训练(ITC/ITM/ITG)</text>
+  <text x="52" y="334" font-size="9.5" fill="#b91c1c" font-weight="bold">这么大动干戈≠只为"变小"</text>
+  <text x="52" y="358" font-size="9.5" fill="#6b7280">说明压缩是副产品，不是最终目的</text>
+  <rect x="504" y="210" width="440" height="170" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="724" y="230" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">真正目的：信息瓶颈逼"变准"</text>
+  <text x="520" y="252" font-size="9.5" fill="#374151">ITC+ITM+ITG训练32个query"只抓取与语言</text>
+  <text x="520" y="270" font-size="9.5" fill="#374151">相关的视觉信息，丢掉无关噪声"</text>
+  <text x="520" y="294" font-size="9.5" fill="#15803d" font-weight="bold">数量少(32个)=逼迫筛选发生的手段</text>
+  <text x="520" y="312" font-size="9.5" fill="#374151">若给576个位置随便放，没有动力筛选</text>
+  <text x="520" y="336" font-size="9.5" fill="#374151">同源：DETR object query(Q72)、Perceiver式</text>
+  <text x="520" y="354" font-size="9.5" fill="#374151">"少量可学习query蒸馏任意大小输入"</text>
+  <text x="520" y="372" font-size="9" fill="#6b7280">核心卖点从来是"逼准"，非"省算力"</text>
+
+  <!-- ③ 反证 -->
+  <rect x="20" y="406" width="940" height="130" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="490" y="428" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">③ 最有力反证：LLaVA 证明"压缩到32"根本不是必需的</text>
+  <text x="40" y="452" font-size="9.8" fill="#374151">若"计算量太大"是唯一理由→LLaVA应该做不到；但LLaVA干脆<tspan font-weight="bold">不压缩</tspan>，576个patch token原样喂给LLM，一样能跑、细节还更多</text>
+  <text x="40" y="474" font-size="9.8" fill="#374151">说明"压缩"不是流程可行的必要条件，只是BLIP-2主动选择的设计——用"牺牲细粒度信息"换"更小的桥+更省LLM上下文预算"</text>
+  <text x="40" y="500" font-size="9.5" fill="#b91c1c" font-weight="bold">若纯为省算力，压缩比可在32~576间任选；选"32+可学习query+专门训练"这套复杂机制，恰恰是为了让瓶颈"学会"筛选，而非简单降采样</text>
+
+  <!-- ④ BLIP-2 vs LLaVA对比表 -->
+  <rect x="20" y="550" width="940" height="180" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="572" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 为何仍需要 LLaVA：解决的是另外两个问题，不是"能否多轮"</text>
+  <g font-size="9.5" font-family="Consolas,monospace" fill="#374151">
+    <text x="40" y="596" font-weight="bold" fill="#1e40af">维度</text><text x="280" y="596" font-weight="bold" fill="#1e40af">BLIP-2 Q-Former</text><text x="620" y="596" font-weight="bold" fill="#6d28d9">LLaVA 投影层</text>
+    <line x1="30" y1="606" x2="950" y2="606" stroke="#c4b5fd"/>
+    <text x="40" y="626">视觉token数</text><text x="280" y="626">固定32个(压缩)</text><text x="620" y="626">~576个(全保留)</text>
+    <text x="40" y="648">细粒度信息</text><text x="280" y="648">易丢(数东西/小字/局部纹理)</text><text x="620" y="648">保留更多，LLM按需attend</text>
+    <text x="40" y="670">连接器训练</text><text x="280" y="670">单独两阶段预训练(ITC+ITM+ITG)</text><text x="620" y="670">一步线性对齐+指令微调，简单</text>
+    <text x="40" y="692">LLM是否更新</text><text x="280" y="692">全程冻结</text><text x="620" y="692">指令微调阶段参与训练</text>
+    <text x="40" y="714">训练数据核心</text><text x="280" y="714">标准VQA/captioning式</text><text x="620" y="714">GPT-4生成的多轮视觉指令数据</text>
+  </g>
+
+  <!-- 一句话 -->
+  <rect x="20" y="744" width="940" height="100" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="768" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：32-query的核心是"信息瓶颈逼模型只留语言相关内容"(表示学习目标)，省算力只是附带好处；</text>
+  <text x="490" y="790" text-anchor="middle" font-size="9.5" fill="#374151">LLaVA不是为了"能多轮问答"(BLIP-2已具备)，而是用"不压缩+简单连接器+GPT-4指令数据+端到端微调"</text>
+  <text x="490" y="812" text-anchor="middle" font-size="9.5" fill="#374151">换取更多细粒度视觉信息保留、更简单的训练流程、更像助手的对话行为——这是同一类"桥接压缩程度"设计权衡的又一次体现(呼应Q155/Q159)。</text>
+</svg>

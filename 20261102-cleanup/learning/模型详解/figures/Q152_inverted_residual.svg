@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="640" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q152 MobileNetV2 倒残差：把 ResNet 瓶颈的「宽窄」反过来（两头窄、中间宽）</text>
+
+  <!-- 左：ResNet瓶颈 -->
+  <rect x="20" y="44" width="440" height="340" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="240" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">普通 ResNet 瓶颈：两头宽、中间窄</text>
+  <!-- shapes: wide-narrow-wide -->
+  <rect x="150" y="86" width="180" height="30" fill="#fca5a5" stroke="#b91c1c"/><text x="240" y="106" text-anchor="middle" font-size="10" fill="#7f1d1d">输入 宽(256)</text>
+  <text x="345" y="105" font-size="9" fill="#6b7280">← 残差连宽端</text>
+  <rect x="200" y="128" width="80" height="26" fill="#fecaca" stroke="#b91c1c"/><text x="240" y="145" text-anchor="middle" font-size="9" fill="#7f1d1d">1×1 降维→窄(64)</text>
+  <rect x="200" y="166" width="80" height="26" fill="#fecaca" stroke="#b91c1c"/><text x="240" y="183" text-anchor="middle" font-size="9" fill="#7f1d1d">3×3 (在窄上)</text>
+  <rect x="150" y="204" width="180" height="30" fill="#fca5a5" stroke="#b91c1c"/><text x="240" y="224" text-anchor="middle" font-size="10" fill="#7f1d1d">1×1 升维→宽(256)</text>
+  <path d="M355,101 Q400,160 355,219" fill="none" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="240" y="262" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">形状：宽 → 窄 → 宽（菱形反过来=沙漏）</text>
+  <text x="40" y="288" font-size="9.5" fill="#374151">目的：先 1×1 压薄，把贵的 3×3 保护在低通道上省算力</text>
+  <text x="40" y="308" font-size="9.5" fill="#374151">（对照 Q140）。残差连在「宽」的两端。</text>
+  <text x="40" y="332" font-size="9.5" fill="#6b7280">3×3 是标准卷积（跨通道），在窄通道上做</text>
+  <text x="40" y="356" font-size="9.5" fill="#6b7280">记忆：ResNet「先压后扩省算力」</text>
+
+  <!-- 右：V2倒残差 -->
+  <rect x="480" y="44" width="440" height="340" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">V2 倒残差：两头窄、中间宽</text>
+  <rect x="640" y="86" width="120" height="28" fill="#bbf7d0" stroke="#15803d"/><text x="700" y="105" text-anchor="middle" font-size="10" fill="#14532d">输入 窄(24)</text>
+  <text x="775" y="104" font-size="9" fill="#6b7280">← 残差连窄端</text>
+  <rect x="600" y="126" width="200" height="28" fill="#86efac" stroke="#15803d"/><text x="700" y="145" text-anchor="middle" font-size="9.5" fill="#14532d">1×1 升维→宽(144，×6)</text>
+  <rect x="600" y="166" width="200" height="28" fill="#86efac" stroke="#15803d"/><text x="700" y="185" text-anchor="middle" font-size="9.5" fill="#14532d">depthwise 3×3 (在宽上做)</text>
+  <rect x="640" y="206" width="120" height="28" fill="#bbf7d0" stroke="#15803d"/><text x="700" y="225" text-anchor="middle" font-size="9.5" fill="#14532d">1×1 降维→窄(24) 线性!</text>
+  <path d="M785,100 Q835,163 785,220" fill="none" stroke="#15803d" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="700" y="262" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">形状：窄 → 宽 → 窄（纺锤/菱形）</text>
+  <text x="500" y="288" font-size="9.5" fill="#374151">先 1×1 升维到高维，在高维上做 depthwise</text>
+  <text x="500" y="308" font-size="9.5" fill="#374151">（通道多、提空间特征更充分且仍便宜），再降回窄。</text>
+  <text x="500" y="332" font-size="9.5" fill="#374151">残差连在「窄」两端（通道少，相加省内存带宽）。</text>
+  <text x="500" y="356" font-size="9.5" fill="#6b7280">记忆：V2「先扩后压保信息」（与左镜像）</text>
+
+  <!-- 线性瓶颈 + ReLU6 -->
+  <rect x="20" y="396" width="900" height="150" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="418" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">两个配套设计</text>
+  <text x="40" y="444" font-size="10.5" fill="#374151"><tspan font-weight="bold" fill="#6d28d9">① 线性瓶颈(Linear Bottleneck)</tspan>：降维那个 1×1 输出<tspan font-weight="bold">不加 ReLU</tspan>（保持线性）</text>
+  <text x="56" y="466" font-size="9.8" fill="#374151">为什么：ReLU 把负值拍成 0，在<tspan font-weight="bold">低维</tspan>空间破坏信息严重（高维时还有别的通道能"绕过去"，低维绕不过）</text>
+  <text x="56" y="486" font-size="9.8" fill="#6b7280">→ 在窄通道处去掉激活，避免把刚压缩好的信息又砍掉。这是 V2 最反常识、最该记的一点。</text>
+  <text x="40" y="514" font-size="10.5" fill="#374151"><tspan font-weight="bold" fill="#6d28d9">② ReLU6</tspan>：激活用 min(max(x,0),6)，输出范围有界 → 对低比特<tspan font-weight="bold">定点量化</tspan>友好（移动端 int8 部署误差小）</text>
+  <text x="40" y="536" font-size="9" fill="#6b7280">整块：1×1升维(ReLU6) → depthwise 3×3(ReLU6) → 1×1降维(线性)；输入输出同形时加残差捷径</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="558" width="900" height="66" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="582" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：倒残差=把 ResNet「两头宽中间窄」倒成「两头窄中间宽」——先 1×1 升维、在高维做 depthwise、再 1×1 降回，残差连窄端。</text>
+  <text x="470" y="604" text-anchor="middle" font-size="9.5" fill="#374151">配线性瓶颈（降维末端去 ReLU 保低维信息）+ ReLU6（量化友好）。记忆：ResNet 先压后扩省算力、V2 先扩后压保信息，形状镜像。</text>
+</svg>

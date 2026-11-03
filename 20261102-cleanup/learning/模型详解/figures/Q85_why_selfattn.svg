@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 580" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="580" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q85 既然每步都算交叉注意力，为什么还需要掩码自注意力？</text>
+  <text x="470" y="44" text-anchor="middle" font-size="11" fill="#6b7280">关键：交叉注意力用的 query，正是掩码自注意力产出的 → “query 一直在变”就是自注意力造成的</text>
+
+  <!-- pipeline: order matters -->
+  <rect x="20" y="62" width="900" height="150" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="470" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">解码器一层的顺序：掩码自注意力 → 交叉注意力（前者的输出 = 后者的 query）</text>
+
+  <!-- self attn -->
+  <rect x="40" y="96" width="260" height="100" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="170" y="116" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">① 掩码自注意力</text>
+  <text x="170" y="135" text-anchor="middle" font-size="9" fill="#374151">K/V = 已生成目标前缀 [&lt;BOS&gt; 我 爱]</text>
+  <text x="170" y="151" text-anchor="middle" font-size="9" fill="#374151">→ 把“已写出 我 爱”揉进当前位置</text>
+  <text x="170" y="169" text-anchor="middle" font-size="8.5" fill="#b45309">管：我已经写到哪、写了什么（目标侧）</text>
+  <text x="170" y="186" text-anchor="middle" font-size="8" fill="#6b7280">输出 = 带前缀信息的当前表示</text>
+
+  <!-- arrow becomes query -->
+  <line x1="300" y1="146" x2="360" y2="146" stroke="#16a34a" stroke-width="2.4" marker-end="url(#a)"/>
+  <text x="330" y="138" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#15803d">当 query</text>
+
+  <!-- cross attn -->
+  <rect x="362" y="96" width="260" height="100" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="492" y="116" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">② 交叉注意力</text>
+  <text x="492" y="135" text-anchor="middle" font-size="9" fill="#374151">Q = 上一步的输出（带前缀）</text>
+  <text x="492" y="151" text-anchor="middle" font-size="9" fill="#374151">K/V = 源 memory（I love road）</text>
+  <text x="492" y="169" text-anchor="middle" font-size="8.5" fill="#1e40af">管：原文该挑哪个词（源侧）</text>
+  <text x="492" y="186" text-anchor="middle" font-size="8" fill="#6b7280">焦点滑动靠这个带前缀的 query</text>
+
+  <line x1="622" y1="146" x2="660" y2="146" stroke="#9ca3af" stroke-width="1.6" marker-end="url(#a2)"/>
+  <rect x="662" y="120" width="240" height="52" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="782" y="140" text-anchor="middle" font-size="9.5" fill="#15803d">→ FFN → 输出下一个词</text>
+  <text x="782" y="158" text-anchor="middle" font-size="8.5" fill="#6b7280">（Q84 的焦点转移在这里发生）</text>
+
+  <!-- two sources -->
+  <rect x="20" y="226" width="440" height="120" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="240" y="246" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">它俩读的是两个不同来源，各补一半</text>
+  <text x="36" y="268" font-size="9.5" fill="#374151">· <tspan font-weight="bold">自注意力</tspan>：读<tspan font-weight="bold">目标前缀</tspan> →“我已经写了什么”</text>
+  <text x="36" y="288" font-size="9.5" fill="#374151">· <tspan font-weight="bold">交叉注意力</tspan>：读<tspan font-weight="bold">源 memory</tspan> →“原文是什么”</text>
+  <text x="36" y="312" font-size="9" fill="#b91c1c">· 交叉注意力看不到目标前缀（K/V 是源句）</text>
+  <text x="36" y="330" font-size="9" fill="#b91c1c">· 自注意力看不到源 → 谁也替代不了谁</text>
+
+  <!-- remove self -->
+  <rect x="480" y="226" width="440" height="120" rx="8" fill="#fef2f2" stroke="#f87171"/>
+  <text x="700" y="246" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">去掉自注意力会怎样？</text>
+  <text x="496" y="268" font-size="9.5" fill="#374151">当前位置只剩“自己这一个 token + 位置”</text>
+  <text x="496" y="288" font-size="9.5" fill="#374151">→ query 不带“已写什么”信息</text>
+  <text x="496" y="308" font-size="9.5" fill="#b91c1c">→ 不知译到哪 → 交叉注意力焦点滑不动（Q84 失基础）</text>
+  <text x="496" y="328" font-size="9.5" fill="#b91c1c">→ 目标侧语法/语序/避免重复/何时停 全乱</text>
+
+  <!-- why target side needed -->
+  <rect x="20" y="360" width="900" height="78" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="380" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">为什么必须有目标侧信息（光看原文不够）</text>
+  <text x="40" y="402" font-size="9.5" fill="#374151">· 下一个词也取决于<tspan font-weight="bold">已写出的译文</tspan>：语法/语序/搭配/避免重复/何时停 &lt;EOS&gt; —“我 爱 ___”该接宾语，这约束来自目标前缀，源句给不了</text>
+  <text x="40" y="422" font-size="9.5" fill="#374151">· <tspan font-weight="bold">该译哪个源词，取决于已译到哪</tspan>：已译 I、love → 才轮到 road；“已译 I love”这信息正是自注意力从目标前缀读到的 → 交叉注意力焦点转移其实<tspan font-weight="bold">依赖</tspan>它</text>
+
+  <!-- GPT sidebar + conclusion -->
+  <rect x="20" y="452" width="430" height="110" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="235" y="472" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#075985">旁证：GPT 没有交叉注意力，却一定有掩码自注意力</text>
+  <text x="36" y="494" font-size="9.5" fill="#374151">decoder-only 砍掉 cross（无独立编码器），</text>
+  <text x="36" y="512" font-size="9.5" fill="#374151">但保留掩码自注意力 →</text>
+  <text x="36" y="532" font-size="9.5" fill="#0284c7">自注意力是更根本的“看上下文”机制；</text>
+  <text x="36" y="550" font-size="9.5" fill="#0284c7">能砍 cross、不能砍 self</text>
+
+  <rect x="462" y="452" width="458" height="110" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="691" y="472" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">一句话：不是重复，是接力</text>
+  <text x="478" y="496" font-size="9.5" fill="#374151"><tspan font-weight="bold">交叉注意力</tspan>管“看原文该挑哪个词”</text>
+  <text x="478" y="516" font-size="9.5" fill="#374151"><tspan font-weight="bold">掩码自注意力</tspan>管“我已经写到哪、写了什么”</text>
+  <text x="478" y="540" font-size="9.5" fill="#15803d">交叉要挑对词，前提是自注意力先把“译到哪了”</text>
+  <text x="478" y="556" font-size="9.5" fill="#15803d">喂进它的 query</text>
+
+  <defs>
+    <marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#16a34a"/></marker>
+    <marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker>
+  </defs>
+</svg>

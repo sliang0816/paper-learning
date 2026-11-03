@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="900" height="560" fill="#fff"/>
+  <text x="450" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q75 框损失为何 L1 + GIoU 一起用——不重复，而是互补补硬伤</text>
+  <text x="450" y="44" text-anchor="middle" font-size="11" fill="#6b7280">L1 量“每个坐标差多少”；GIoU 量“整框重不重叠”。一个管坐标精准、一个管整体对齐评测指标</text>
+
+  <!-- ===== Scene 1: same L1, different IoU ===== -->
+  <rect x="20" y="60" width="430" height="220" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="235" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">硬伤①(L1)：同样 L1，IoU 可天差地别</text>
+
+  <!-- big box -->
+  <text x="120" y="100" text-anchor="middle" font-size="9" fill="#374151">大框：差 10px</text>
+  <rect x="55" y="106" width="130" height="100" fill="none" stroke="#16a34a" stroke-width="2"/>
+  <rect x="63" y="114" width="130" height="100" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="120" y="228" text-anchor="middle" font-size="9" fill="#15803d">IoU ≈ 80% 还行</text>
+
+  <!-- small box -->
+  <text x="350" y="100" text-anchor="middle" font-size="9" fill="#374151">小框：也差 10px</text>
+  <rect x="320" y="140" width="38" height="34" fill="none" stroke="#16a34a" stroke-width="2"/>
+  <rect x="334" y="152" width="38" height="34" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="350" y="228" text-anchor="middle" font-size="9" fill="#b91c1c">IoU ≈ 10% 几乎错位</text>
+
+  <text x="235" y="252" text-anchor="middle" font-size="9.5" fill="#374151">L1 给两者<tspan font-weight="bold">相同惩罚</tspan>，分不出好坏；大框还主导损失</text>
+  <text x="235" y="270" text-anchor="middle" font-size="9" fill="#b45309">→ L1 尺度敏感、不懂整框重叠 → 需 GIoU（尺度不变、对齐 IoU 评测）</text>
+
+  <!-- ===== Scene 2: disjoint, IoU=0 no grad ===== -->
+  <rect x="470" y="60" width="410" height="220" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="675" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">硬伤②(纯IoU)：不重叠时 IoU=0，没梯度</text>
+
+  <rect x="520" y="110" width="80" height="64" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="560" y="100" text-anchor="middle" font-size="9" fill="#b91c1c">预测</text>
+  <rect x="700" y="150" width="80" height="64" fill="none" stroke="#16a34a" stroke-width="2"/>
+  <text x="740" y="232" text-anchor="middle" font-size="9" fill="#15803d">真值</text>
+  <!-- enclosing box -->
+  <rect x="520" y="110" width="260" height="104" fill="none" stroke="#8b5cf6" stroke-width="1.3" stroke-dasharray="2 2"/>
+  <text x="650" y="126" text-anchor="middle" font-size="8" fill="#6d28d9">GIoU 的最小外接框</text>
+
+  <text x="675" y="252" text-anchor="middle" font-size="9.5" fill="#374151">纯 IoU=0 → 不知往哪挪；GIoU 靠外接框给方向</text>
+  <text x="675" y="270" text-anchor="middle" font-size="9" fill="#1e40af">但 IoU 系微调梯度偏弱 → 仍需 L1 把坐标稳稳拉准</text>
+
+  <!-- ===== complementary table ===== -->
+  <rect x="20" y="296" width="860" height="180" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="450" y="318" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">分工互补：一个管坐标精准、一个管整体重叠</text>
+
+  <line x1="450" y1="332" x2="450" y2="456" stroke="#86efac"/>
+  <text x="235" y="348" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">L1（逐坐标绝对差）</text>
+  <text x="40" y="370" font-size="9.5" fill="#374151">✔ 梯度稳、定位精细</text>
+  <text x="40" y="388" font-size="9.5" fill="#374151">✔ 不重叠时也拉得动坐标</text>
+  <text x="40" y="406" font-size="9.5" fill="#b91c1c">✘ 尺度敏感（大框主导）</text>
+  <text x="40" y="424" font-size="9.5" fill="#b91c1c">✘ 四坐标各管各，不懂整框重叠</text>
+  <text x="235" y="448" text-anchor="middle" font-size="8.5" fill="#6b7280">管“每个数字差多少”</text>
+
+  <text x="665" y="348" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">GIoU（整框重叠/IoU 系）</text>
+  <text x="466" y="370" font-size="9.5" fill="#374151">✔ 尺度不变、对齐 IoU/mAP 评测</text>
+  <text x="466" y="388" font-size="9.5" fill="#374151">✔ 懂长宽比/整体几何</text>
+  <text x="466" y="406" font-size="9.5" fill="#374151">✔ 不重叠也有梯度（外接框补 IoU 的洞）</text>
+  <text x="466" y="424" font-size="9.5" fill="#b91c1c">✘ 微调梯度弱、单用收敛慢</text>
+  <text x="665" y="448" text-anchor="middle" font-size="8.5" fill="#6b7280">管“整框对不对得上”</text>
+
+  <rect x="120" y="500" width="660" height="42" rx="8" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="450" y="520" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">L1 + GIoU 线性相加：GIoU 保整体重叠好(对齐评测)、L1 保坐标数值准(梯度稳)</text>
+  <text x="450" y="536" text-anchor="middle" font-size="9" fill="#374151">DETR 论文原话：L1 对大小框尺度不同 → 加“尺度不变的 GIoU”来弥补，故两者线性组合</text>
+</svg>

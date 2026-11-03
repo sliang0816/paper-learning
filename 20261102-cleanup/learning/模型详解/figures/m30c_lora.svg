@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="460" fill="#fff"/>
+  <text x="490" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">LoRA：冻结原权重，只训一对低秩矩阵</text>
+
+  <!-- 结构图 -->
+  <rect x="30" y="48" width="460" height="230" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="260" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">前向传播：h = W₀x + BAx</text>
+  <rect x="70" y="90" width="160" height="60" rx="6" fill="#93c5fd" stroke="#1e40af"/>
+  <text x="150" y="115" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">W₀（预训练权重）</text>
+  <text x="150" y="135" text-anchor="middle" font-size="9.5" fill="#1e3a8a">d×d，冻结🔒不参与训练</text>
+  <text x="255" y="125" text-anchor="middle" font-size="16" fill="#374151">+</text>
+  <rect x="290" y="90" width="70" height="60" rx="6" fill="#fff" stroke="#3b82f6"/>
+  <text x="325" y="115" text-anchor="middle" font-size="10" font-weight="bold">B</text>
+  <text x="325" y="130" text-anchor="middle" font-size="8.5">d×r，初始化=0</text>
+  <text x="375" y="125" text-anchor="middle" font-size="14">×</text>
+  <rect x="390" y="90" width="70" height="60" rx="6" fill="#fff" stroke="#3b82f6"/>
+  <text x="425" y="115" text-anchor="middle" font-size="10" font-weight="bold">A</text>
+  <text x="425" y="130" text-anchor="middle" font-size="8.5">r×d，初始化~N(0,σ²)</text>
+  <text x="260" y="172" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">r ≪ d（秩远小于原维度，如 r=4 vs d=12288）</text>
+  <text x="260" y="196" text-anchor="middle" font-size="10" fill="#374151">训练只更新 A、B 这一小对矩阵，W₀梯度/优化器状态都不用算不用存</text>
+  <text x="260" y="220" text-anchor="middle" font-size="10" fill="#374151">B初始化为0 → 训练刚开始 ΔW=BA=0，等价于原模型，平滑起步</text>
+  <text x="260" y="248" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">部署时可以直接合并 W=W₀+BA，推理零额外延迟</text>
+  <text x="260" y="266" text-anchor="middle" font-size="9.5" fill="#6b7280">切换任务只需换一对A/B，不用重新加载整个大模型</text>
+
+  <!-- 数字对比 -->
+  <rect x="510" y="48" width="440" height="230" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">GPT-3 175B 实测数字（论文原始数据）</text>
+  <g font-size="10" fill="#374151">
+    <text x="530" y="98" font-weight="bold">指标</text><text x="700" y="98" font-weight="bold">全量微调</text><text x="850" y="98" font-weight="bold">LoRA</text>
+    <line x1="520" y1="106" x2="940" y2="106" stroke="#86efac"/>
+    <text x="530" y="130">可训练参数量</text><text x="700" y="130">175B(100%)</text><text x="850" y="130" font-weight="bold" fill="#15803d">减少约1万倍</text>
+    <text x="530" y="154">训练显存(VRAM)</text><text x="700" y="154">1.2TB</text><text x="850" y="154" font-weight="bold" fill="#15803d">350GB</text>
+    <text x="530" y="178">checkpoint大小(r=4)</text><text x="700" y="178">350GB</text><text x="850" y="178" font-weight="bold" fill="#15803d">≈35MB</text>
+    <text x="530" y="202">训练速度</text><text x="700" y="202">基准</text><text x="850" y="202" font-weight="bold" fill="#15803d">提速约25%</text>
+  </g>
+  <text x="730" y="234" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">下游任务效果：与全量微调持平甚至更好</text>
+  <text x="730" y="256" text-anchor="middle" font-size="9.5" fill="#374151">(RoBERTa/DeBERTa/GPT-2/GPT-3多个基准验证)</text>
+
+  <!-- 应用范围 -->
+  <rect x="30" y="296" width="920" height="70" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="320" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">通常只对Transformer自注意力里的 Wq、Wv 这两个投影矩阵加LoRA</text>
+  <text x="490" y="344" text-anchor="middle" font-size="10" fill="#374151">冻结MLP层不动，兼顾效果和参数效率；也可以套用到LLaVA等VLM的视觉-语言对接层微调</text>
+
+  <!-- 一句话 -->
+  <rect x="30" y="378" width="920" height="70" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="404" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">一句话：假设"权重的变化量"本身秩很低——不直接学一个和原矩阵一样大的更新，</text>
+  <text x="490" y="426" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">而是学一对小的低秩矩阵去近似这个更新，用极少参数实现接近全量微调的效果。</text>
+</svg>

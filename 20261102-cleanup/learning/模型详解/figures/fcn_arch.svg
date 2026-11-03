@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="470" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">FCN：把全连接换成卷积 → 逐像素稠密预测；转置卷积上采样 + 跳跃融合(粗到细)</text>
+
+  <!-- 主流程 -->
+  <rect x="20" y="42" width="900" height="130" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">核心改动：分类网(VGG)末端的全连接 → 1×1 卷积 → 输出"每像素一个类别分数图"</text>
+  <rect x="40" y="80" width="80" height="60" fill="#e5e7eb" stroke="#9ca3af"/><text x="80" y="156" text-anchor="middle" font-size="8" fill="#374151">输入图 H×W</text>
+  <text x="128" y="112" font-size="12" fill="#9ca3af">→</text>
+  <rect x="150" y="88" width="180" height="46" rx="4" fill="#bfdbfe" stroke="#3b82f6"/><text x="240" y="108" text-anchor="middle" font-size="9" fill="#1e40af">卷积骨干(下采样)</text><text x="240" y="124" text-anchor="middle" font-size="8" fill="#6b7280">特征图变小、通道变多</text>
+  <text x="338" y="112" font-size="12" fill="#9ca3af">→</text>
+  <rect x="360" y="88" width="150" height="46" rx="4" fill="#fef3c7" stroke="#d97706"/><text x="435" y="106" text-anchor="middle" font-size="9" fill="#b45309">1×1 卷积代替 FC</text><text x="435" y="122" text-anchor="middle" font-size="8" fill="#374151">出 C 类的小分数图</text>
+  <text x="518" y="112" font-size="12" fill="#9ca3af">→</text>
+  <rect x="540" y="88" width="160" height="46" rx="4" fill="#ede9fe" stroke="#8b5cf6"/><text x="620" y="106" text-anchor="middle" font-size="9" fill="#6d28d9">转置卷积上采样</text><text x="620" y="122" text-anchor="middle" font-size="8" fill="#6b7280">放大回 H×W</text>
+  <text x="708" y="112" font-size="12" fill="#9ca3af">→</text>
+  <rect x="730" y="88" width="170" height="46" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="815" y="106" text-anchor="middle" font-size="9" fill="#15803d">每像素 argmax</text><text x="815" y="122" text-anchor="middle" font-size="8" fill="#374151">→ 分割图 H×W</text>
+
+  <!-- 跳跃融合 -->
+  <rect x="20" y="186" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="206" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">跳跃融合：把深层"粗但语义强"和浅层"细但语义弱"相加 → 由粗到细 32s→16s→8s</text>
+  <!-- pyramid -->
+  <rect x="60" y="224" width="40" height="40" fill="#93c5fd" stroke="#3b82f6"/><text x="80" y="278" text-anchor="middle" font-size="8" fill="#374151">深层 1/32</text>
+  <rect x="140" y="224" width="60" height="60" fill="#bfdbfe" stroke="#3b82f6"/><text x="170" y="298" text-anchor="middle" font-size="8" fill="#374151">中层 1/16</text>
+  <rect x="240" y="224" width="80" height="80" fill="#dbeafe" stroke="#3b82f6"/><text x="280" y="318" text-anchor="middle" font-size="8" fill="#374151">浅层 1/8</text>
+  <text x="360" y="264" font-size="9" fill="#374151">· FCN-32s：只用深层 → 上采样 32 倍，边界糊</text>
+  <text x="360" y="284" font-size="9" fill="#374151">· FCN-16s：深层上采样 2 倍 + 中层相加 → 再上采样</text>
+  <text x="360" y="304" font-size="9" fill="#15803d">· FCN-8s：再融浅层 → 边界最清晰（常用）</text>
+  <text x="360" y="326" font-size="8.5" fill="#6b7280">道理：深层知道"是什么"，浅层知道"在哪、边界在哪"，两者相加最好</text>
+
+  <!-- 意义 + 一句话 -->
+  <rect x="20" y="350" width="900" height="106" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="372" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">意义与一句话</text>
+  <text x="40" y="394" font-size="9.5" fill="#374151">· 分割开山：第一次让 CNN 端到端逐像素输出——把"图像分类"升级成"每个像素分类"</text>
+  <text x="40" y="412" font-size="9.5" fill="#374151">· 三个关键件：① 全连接→卷积（可吃任意尺寸、出空间图）② 转置卷积上采样 ③ 跳跃融合补细节</text>
+  <text x="40" y="432" font-size="9.5" fill="#15803d">· 后人沿着"怎么把分辨率补回来"继续：U-Net(编解码+跳跃)、DeepLab(空洞卷积不下采样)</text>
+  <text x="470" y="450" text-anchor="middle" font-size="8" fill="#6b7280">Long J, Shelhamer E, Darrell T. Fully Convolutional Networks for Semantic Segmentation. CVPR 2015.</text>
+</svg>

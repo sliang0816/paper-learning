@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q128 生成式预训练与微调："生成式"=下一词预测目标，"微"在幅度与数据量不在范围（原则上全参数都动）</text>
+
+  <!-- ① 生成式预训练 -->
+  <rect x="20" y="42" width="900" height="140" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 生成式预训练（Generative Pre-Training = GPT 名字本身）</text>
+  <text x="40" y="90" font-size="9.5" fill="#374151">· <tspan font-weight="bold">生成式</tspan> = 训练目标是"预测下一个词"（自回归语言建模）——对照 BERT 的 MLM 完形填空（理解式，Q93/Q95）</text>
+  <text x="40" y="112" font-size="9.5" fill="#374151">· <tspan font-weight="bold">预训练</tspan> = 在海量无标注文本上先学一遍通用能力；标签免费：文本自己右移一位就是标签（自监督，Q127）</text>
+  <text x="40" y="134" font-size="9.5" fill="#15803d">· 为什么下一词预测能学出通用能力：要猜准下一个词，被迫学会语法、事实、常识、推理——"预测即压缩理解"</text>
+  <text x="40" y="156" font-size="9.5" fill="#6b7280">· 产物 = 一套通用权重（基座模型）：会续写、还不会"听话干活"——后者靠微调/RLHF（Q129）</text>
+
+  <!-- ② 微调微调哪里 -->
+  <rect x="20" y="194" width="900" height="200" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="216" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 微调具体微调的是哪里：经典=全参数都动，"微"在三处</text>
+  <text x="40" y="242" font-size="9.5" fill="#374151">· <tspan font-weight="bold">范围：原则上全部参数</tspan>——嵌入矩阵、每层 W_QKV/W_O、FFN、LayerNorm、输出头，全都继续被梯度更新，没有"只动某一层"的默认限制</text>
+  <text x="40" y="266" font-size="9.5" fill="#374151">· <tspan font-weight="bold">"微"在哪</tspan>：(a) 学习率小 1~2 个数量级　(b) 数据量小（万级 vs 预训练的万亿 token）　(c) 训练轮数少——只"轻推"不"重学"</text>
+  <text x="40" y="290" font-size="9.5" fill="#374151">· <tspan font-weight="bold">头部可能换</tspan>：分类任务→丢词表输出头、接新的分类头（同 BERT [CLS]+小头，Q95）；生成任务→输出头不换，继续下一词训练</text>
+  <text x="40" y="314" font-size="9.5" fill="#15803d">· <tspan font-weight="bold">SFT 指令微调</tspan>（现代 LLM 主流）：把"指令+示范回答"整理成文本继续下一词训练——目标函数没变、变的是数据分布（学会"听话"）</text>
+  <text x="40" y="342" font-size="9.5" fill="#6d28d9">· <tspan font-weight="bold">参数高效微调 PEFT</tspan>：冻结全部原权重，只训小增量——LoRA（在 W_QKV/FFN 旁挂低秩增量矩阵 ΔW=BA，训练量&lt;1%）、Adapter、Prompt tuning</text>
+  <text x="40" y="366" font-size="9" fill="#6b7280">→ 此时"微调的是哪里"有了字面答案：只动挂上去的小矩阵，原模型一个数都不改，推理时 W+ΔW 合并零开销</text>
+
+  <!-- ③ 范式同源 -->
+  <rect x="20" y="406" width="900" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="428" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 预训练→微调是一个通用范式（跨模型/跨模态同源）</text>
+  <g font-size="9.5">
+    <text x="40" y="454" fill="#374151">· GPT：下一词预训练 → SFT/任务微调</text>
+    <text x="40" y="476" fill="#374151">· BERT：MLM 完形填空预训练 → [CLS]+小头微调（Q95）</text>
+    <text x="40" y="498" fill="#374151">· CLIP：4 亿图文对比预训练 → 零样本直接用/线性探针</text>
+    <text x="500" y="454" fill="#15803d" font-weight="bold">· 本项目同款：YOLOv8 用 COCO 预训练权重</text>
+    <text x="516" y="476" fill="#15803d">在抛洒物数据上微调 = 视觉版同一范式</text>
+    <text x="500" y="498" fill="#6b7280">共同逻辑：大数据学通用表示 + 小数据适配具体任务</text>
+  </g>
+  <text x="40" y="524" font-size="9" fill="#6b7280">GPT-1 论文标题就是 "Improving Language Understanding by Generative Pre-Training"——先生成式预训练、再逐任务微调</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="548" width="900" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="568" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：生成式预训练=拿"预测下一词"当目标在海量无标注文本上自监督学通用能力；微调=全部参数用小学习率小数据轻推</text>
+  <text x="470" y="588" text-anchor="middle" font-size="9" fill="#374151">（分类可换头；SFT 只换数据分布；LoRA 等 PEFT 则冻结原权重只训挂上去的低秩小矩阵）。</text>
+</svg>

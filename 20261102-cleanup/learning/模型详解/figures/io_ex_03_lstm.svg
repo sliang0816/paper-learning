@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 280" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="280" fill="#fff"/>
+  <text x="420" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">03 LSTM 输入输出实例（I/O 同 RNN，多了细胞状态 c 当“传送带”）</text>
+  <text x="420" y="43" text-anchor="middle" font-size="10.5" fill="#6b7280">变长序列进 → 门控 + 细胞状态 c 长程传记忆 → h_T / 每步 y_t 出</text>
+
+  <!-- input -->
+  <text x="56" y="74" font-size="10" font-weight="bold" fill="#075985">输入：长序列 “The cats … were”（主谓相隔很远）</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="40" y="84" width="86" height="36" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="83" y="106" fill="#075985">x₁ “The”</text>
+    <rect x="170" y="84" width="86" height="36" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="213" y="106" fill="#075985">x₂ “cats”</text>
+    <rect x="300" y="84" width="86" height="36" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="343" y="106" fill="#6b7280">… 很多词 …</text>
+    <rect x="430" y="84" width="86" height="36" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="473" y="106" fill="#075985">x_T “?”</text>
+  </g>
+
+  <!-- LSTM cells with c line -->
+  <g font-size="8.5" text-anchor="middle">
+    <rect x="40" y="150" width="86" height="46" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="83" y="168" fill="#1e40af" font-weight="bold">LSTM</text>
+    <text x="83" y="184" fill="#6b7280">3 门</text>
+    <rect x="170" y="150" width="86" height="46" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="213" y="168" fill="#1e40af" font-weight="bold">LSTM</text>
+    <text x="213" y="184" fill="#6b7280">记住“复数”</text>
+    <rect x="300" y="150" width="86" height="46" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="343" y="172" fill="#1e40af" font-weight="bold">LSTM …</text>
+    <rect x="430" y="150" width="86" height="46" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="473" y="168" fill="#1e40af" font-weight="bold">LSTM</text>
+    <text x="473" y="184" fill="#374151">h_T</text>
+  </g>
+  <line x1="83" y1="120" x2="83" y2="148" stroke="#9ca3af" stroke-width="1.2" marker-end="url(#a)"/>
+  <line x1="213" y1="120" x2="213" y2="148" stroke="#9ca3af" stroke-width="1.2" marker-end="url(#a)"/>
+  <line x1="473" y1="120" x2="473" y2="148" stroke="#9ca3af" stroke-width="1.2" marker-end="url(#a)"/>
+  <!-- cell state conveyor -->
+  <line x1="126" y1="158" x2="430" y2="158" stroke="#d97706" stroke-width="2.2" marker-end="url(#c)"/>
+  <text x="278" y="152" text-anchor="middle" font-size="8.5" fill="#b45309" font-weight="bold">细胞状态 c：传送带，一路记住“主语是复数”不丢</text>
+  <!-- h flow -->
+  <line x1="126" y1="186" x2="168" y2="186" stroke="#3b82f6" stroke-width="1.3" marker-end="url(#b)"/>
+  <line x1="256" y1="186" x2="298" y2="186" stroke="#3b82f6" stroke-width="1.3" marker-end="url(#b)"/>
+  <line x1="386" y1="186" x2="428" y2="186" stroke="#3b82f6" stroke-width="1.3" marker-end="url(#b)"/>
+
+  <!-- output -->
+  <line x1="516" y1="173" x2="552" y2="173" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="554" y="150" width="130" height="46" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="619" y="169" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">预测下一个词</text>
+  <text x="619" y="186" text-anchor="middle" font-size="9" fill="#374151">were 0.85 / was 0.15</text>
+
+  <line x1="684" y1="173" x2="716" y2="173" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="718" y="154" width="98" height="40" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="767" y="178" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出 “were”</text>
+
+  <text x="420" y="232" text-anchor="middle" font-size="10" fill="#374151">一句话：I/O 和 RNN <tspan font-weight="bold">完全一样</tspan>，但多了 <tspan font-weight="bold" fill="#b45309">细胞状态 c</tspan> 这条“传送带”，把“主语复数”一路带到句尾 → 正确选 <tspan font-weight="bold" fill="#15803d">were</tspan>。</text>
+  <text x="420" y="254" text-anchor="middle" font-size="9.3" fill="#6b7280">纯 RNN 走到句尾常把前面的“cats”忘了，可能错选 was；LSTM 的门控让 c 不被冲掉，这就是它的价值。</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker>
+    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3b82f6"/></marker>
+    <marker id="c" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#d97706"/></marker>
+  </defs>
+</svg>

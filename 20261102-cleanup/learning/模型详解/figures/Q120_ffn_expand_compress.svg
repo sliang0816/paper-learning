@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="560" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q120 FFN 如何"扩维再压回"：W₁(512→2048) → ReLU 筛选 → W₂(2048→512)，逐 token 独立</text>
+
+  <!-- ① 三步流程 -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 三步：FFN(x) = W₂ · ReLU(W₁x + b₁) + b₂（对每个 token 单独做）</text>
+  <!-- x -->
+  <rect x="50" y="90" width="36" height="76" rx="3" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="68" y="182" text-anchor="middle" font-size="8.5" fill="#374151">x [512]</text>
+  <text x="102" y="128" font-size="12" fill="#9ca3af">→</text>
+  <!-- W1 -->
+  <rect x="122" y="104" width="86" height="46" rx="4" fill="#bfdbfe" stroke="#3b82f6"/>
+  <text x="165" y="123" text-anchor="middle" font-size="8.5" fill="#1e40af">W₁ [2048×512]</text>
+  <text x="165" y="139" text-anchor="middle" font-size="8" fill="#6b7280">扩维 ×4</text>
+  <text x="222" y="128" font-size="12" fill="#9ca3af">→</text>
+  <!-- h -->
+  <rect x="244" y="70" width="36" height="116" rx="3" fill="#fde68a" stroke="#d97706"/>
+  <text x="262" y="200" text-anchor="middle" font-size="8.5" fill="#b45309">h [2048]</text>
+  <text x="296" y="128" font-size="12" fill="#9ca3af">→</text>
+  <!-- ReLU -->
+  <rect x="318" y="104" width="80" height="46" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="358" y="123" text-anchor="middle" font-size="9" fill="#b91c1c">ReLU</text>
+  <text x="358" y="139" text-anchor="middle" font-size="7.5" fill="#6b7280">负值全归零</text>
+  <text x="412" y="128" font-size="12" fill="#9ca3af">→</text>
+  <!-- a -->
+  <rect x="434" y="70" width="36" height="116" rx="3" fill="#fef3c7" stroke="#d97706"/>
+  <g fill="#f59e0b"><rect x="437" y="80" width="30" height="8"/><rect x="437" y="112" width="30" height="8"/><rect x="437" y="158" width="30" height="8"/></g>
+  <text x="452" y="200" text-anchor="middle" font-size="8.5" fill="#b45309">a：稀疏激活</text>
+  <text x="486" y="128" font-size="12" fill="#9ca3af">→</text>
+  <!-- W2 -->
+  <rect x="508" y="104" width="86" height="46" rx="4" fill="#ddd6fe" stroke="#8b5cf6"/>
+  <text x="551" y="123" text-anchor="middle" font-size="8.5" fill="#6d28d9">W₂ [512×2048]</text>
+  <text x="551" y="139" text-anchor="middle" font-size="8" fill="#6b7280">压回 ÷4</text>
+  <text x="608" y="128" font-size="12" fill="#9ca3af">→</text>
+  <!-- y -->
+  <rect x="630" y="90" width="36" height="76" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="648" y="182" text-anchor="middle" font-size="8.5" fill="#15803d">y [512]</text>
+  <text x="700" y="110" font-size="9" fill="#374151">进 512 出 512：</text>
+  <text x="700" y="126" font-size="9" fill="#15803d">残差 x+FFN(x) 要求同维</text>
+  <text x="700" y="146" font-size="9" fill="#6b7280">position-wise：逐 token</text>
+  <text x="700" y="160" font-size="9" fill="#6b7280">各算各的、不跨 token</text>
+
+  <!-- ② 直觉 -->
+  <rect x="20" y="204" width="900" height="160" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 直觉：2048 个"特征探测器 + 记忆槽"（key-value 记忆库）</text>
+  <text x="40" y="248" font-size="9.5" fill="#374151">· <tspan font-weight="bold">扩维 = 2048 次匹配检测</tspan>：h 第 i 维 = W₁ 第 i 行 · x = "这个 token 像不像我负责的模式？"（W₁ 每行 = 一把钥匙）</text>
+  <text x="40" y="270" font-size="9.5" fill="#374151">· <tspan font-weight="bold">ReLU = 挑中被激活的少数</tspan>：不像的（负分）归零 → 稀疏激活，只点亮少数探测器</text>
+  <text x="40" y="292" font-size="9.5" fill="#374151">· <tspan font-weight="bold">压回 = 把点亮探测器的"输出内容"加权求和</tspan>：y = Σ aᵢ·(W₂ 第 i 列)（W₂ 每列 = 对应的值/知识）</text>
+  <text x="40" y="318" font-size="9.5" fill="#6d28d9">→ FFN ≈ 静态 key-value 记忆库：W₁=2048 把钥匙(检测什么)、W₂=2048 个值(命中后写回什么)</text>
+  <text x="40" y="340" font-size="9" fill="#6b7280">与注意力 QKV 检索(Q117)结构同构——差别：FFN 的键值是学死的参数，注意力的 K/V 是当前输入动态算的</text>
+
+  <!-- ③ 为什么先扩再压 -->
+  <rect x="20" y="376" width="900" height="110" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="396" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 为什么非要"先扩再压"，不直接 512→512</text>
+  <text x="40" y="420" font-size="9.5" fill="#374151">① <tspan font-weight="bold">给非线性腾空间</tspan>：512 维里只有 512 个切分方向；扩到 2048 就有 2048 个特征检测方向——高维做非线性、低维传结果</text>
+  <text x="40" y="442" font-size="9.5" fill="#374151">② <tspan font-weight="bold">稀疏特征分工清晰</tspan>：维度冗余 + ReLU → 每个 token 只激活少数探测器，互不打架</text>
+  <text x="40" y="464" font-size="9.5" fill="#374151">③ <tspan font-weight="bold">必须压回 512</tspan>：残差连接 x+FFN(x) 要求同维（Q115 的等维接口），下一层才能无缝接上</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="498" width="900" height="48" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="518" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：一次矩阵乘扩上去(W₁ ×4) → ReLU 筛出被激活的少数探测器 → 一次矩阵乘压回来(W₂)；</text>
+  <text x="470" y="536" text-anchor="middle" font-size="9" fill="#374151">FFN 参数 ≈ 210万/层 &gt; 注意力 ≈ 105万，是 Transformer 参数大头；4 倍扩维是原论文经验默认值。</text>
+</svg>

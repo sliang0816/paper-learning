@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="220" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">22 YOLOv1 输入输出实例（单阶段实时，一次看完）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">448×448 图 → 24 卷积+2 FC → 7×7×30 张量 → 解码每格的框+置信度+类别 → NMS</text>
+
+  <rect x="22" y="70" width="110" height="74" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="77" y="92" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="77" y="111" text-anchor="middle" font-size="9.2" fill="#374151">448×448×3</text>
+  <text x="77" y="128" text-anchor="middle" font-size="8" fill="#6b7280">划成 7×7 网格</text>
+
+  <line x1="132" y1="107" x2="160" y2="107" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="162" y="64" width="150" height="86" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="237" y="84" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#1e40af">一个 CNN 一次前向</text>
+  <text x="237" y="102" text-anchor="middle" font-size="8.4" fill="#374151">24 卷积 + 2 全连接</text>
+  <text x="237" y="118" text-anchor="middle" font-size="8.4" fill="#374151">不分阶段、无候选框</text>
+  <text x="237" y="135" text-anchor="middle" font-size="8" fill="#6b7280">45 fps（真正实时）</text>
+
+  <line x1="312" y1="107" x2="340" y2="107" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="342" y="64" width="170" height="86" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="427" y="83" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#6d28d9">输出张量 7×7×30</text>
+  <text x="427" y="101" text-anchor="middle" font-size="8.2" fill="#374151">每格：2 框×(4坐标+1置信) = 10</text>
+  <text x="427" y="116" text-anchor="middle" font-size="8.2" fill="#374151">+ 20 类概率 = 30</text>
+  <text x="427" y="133" text-anchor="middle" font-size="7.8" fill="#6b7280">30 = 5×B + C（C=20 由数据集定，Q28）</text>
+
+  <line x1="512" y1="107" x2="540" y2="107" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="542" y="72" width="152" height="70" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="618" y="91" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">解码 + NMS</text>
+  <text x="618" y="109" text-anchor="middle" font-size="8.3" fill="#374151">网格坐标→原图框</text>
+  <text x="618" y="125" text-anchor="middle" font-size="8" fill="#6b7280">置信度×类别概率排序去重</text>
+
+  <line x1="694" y1="107" x2="722" y2="107" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="724" y="84" width="68" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="758" y="105" text-anchor="middle" font-size="8.8" font-weight="bold" fill="#15803d">框+类别</text>
+  <text x="758" y="121" text-anchor="middle" font-size="7.2" fill="#6b7280">实时输出</text>
+
+  <text x="410" y="186" text-anchor="middle" font-size="9.6" fill="#374151">和两阶段最大区别：<tspan font-weight="bold" fill="#0369a1">不先生成候选框</tspan>，整张图一次回归出一个张量，直接解码成框——YOLOv8 是这条线的后代。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

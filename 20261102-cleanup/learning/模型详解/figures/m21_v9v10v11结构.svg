@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="340" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">YOLOv9 / v10 / v11（2024）　对照 v8：各打一个补丁</text>
+
+  <!-- v9 -->
+  <text x="40" y="58" font-size="12.5" font-weight="bold" fill="#1d4ed8">v9：信息/梯度保留</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="36" y="68" width="84" height="38" rx="6" fill="#dbeafe" stroke="#ef4444" stroke-width="2"/><text x="78" y="84" fill="#dc2626">🔴 GELAN</text><text x="78" y="98" font-size="8" fill="#6b7280">广义高效层聚合</text>
+    <rect x="132" y="68" width="84" height="38" rx="6" fill="#ede9fe" stroke="#7c3aed"/><text x="174" y="90">PAN 颈部</text>
+    <rect x="228" y="68" width="80" height="38" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="268" y="90">解耦头</text>
+    <rect x="320" y="68" width="76" height="38" rx="6" fill="#fce7f3" stroke="#db2777"/><text x="358" y="90">输出</text>
+  </g>
+  <rect x="410" y="66" width="332" height="42" rx="6" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="424" y="84" font-size="9.5" fill="#dc2626">🔴 PGI 可编程梯度信息（仅训练时的辅助可逆分支）</text>
+  <text x="424" y="100" font-size="9" fill="#374151">解决深层网络前向时信息丢失 → 梯度更可靠（又一次"给梯度修高速路"）</text>
+  <g stroke="#374151" stroke-width="1.2"><line x1="120" y1="87" x2="130" y2="87" marker-end="url(#a)"/><line x1="216" y1="87" x2="226" y2="87" marker-end="url(#a)"/><line x1="308" y1="87" x2="318" y2="87" marker-end="url(#a)"/></g>
+
+  <line x1="36" y1="120" x2="724" y2="120" stroke="#e5e7eb"/>
+
+  <!-- v10 -->
+  <text x="40" y="146" font-size="12.5" font-weight="bold" fill="#b45309">v10（清华）：去 NMS、端到端</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="36" y="156" width="84" height="38" rx="6" fill="#dbeafe" stroke="#64748b"/><text x="78" y="173">骨干</text>
+    <rect x="132" y="156" width="84" height="38" rx="6" fill="#ede9fe" stroke="#7c3aed"/><text x="174" y="178">PAN 颈部</text>
+    <rect x="228" y="156" width="120" height="38" rx="6" fill="#dcfce7" stroke="#ef4444" stroke-width="2"/><text x="288" y="172" fill="#dc2626">🔴 一对一 + 一对多</text><text x="288" y="186" font-size="8" fill="#6b7280">一致双分配双头</text>
+    <rect x="360" y="156" width="92" height="38" rx="6" fill="#fce7f3" stroke="#ef4444" stroke-width="2"/><text x="406" y="172" fill="#dc2626">🔴 去 NMS</text><text x="406" y="186" font-size="8" fill="#6b7280">直接出框</text>
+  </g>
+  <rect x="466" y="154" width="276" height="42" rx="6" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="480" y="172" font-size="9.5" fill="#374151">训练时双标签分配让网络自己学会"一个目标一个框"</text>
+  <text x="480" y="188" font-size="9.5" fill="#374151">→ 推理免去 NMS 后处理 → 真端到端、更低延迟</text>
+  <g stroke="#374151" stroke-width="1.2"><line x1="120" y1="175" x2="130" y2="175" marker-end="url(#a)"/><line x1="216" y1="175" x2="226" y2="175" marker-end="url(#a)"/><line x1="348" y1="175" x2="358" y2="175" marker-end="url(#a)"/></g>
+
+  <line x1="36" y1="208" x2="724" y2="208" stroke="#e5e7eb"/>
+
+  <!-- v11 -->
+  <text x="40" y="234" font-size="12.5" font-weight="bold" fill="#6d28d9">v11（Ultralytics）：本项目对比参考</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="36" y="244" width="92" height="38" rx="6" fill="#dbeafe" stroke="#ef4444" stroke-width="2"/><text x="82" y="260" fill="#dc2626">🔴 C3k2 骨干</text><text x="82" y="274" font-size="8" fill="#6b7280">C2f 的更轻量变体</text>
+    <rect x="140" y="244" width="120" height="38" rx="6" fill="#ede9fe" stroke="#ef4444" stroke-width="2"/><text x="200" y="260" fill="#dc2626">🔴 C2PSA</text><text x="200" y="274" font-size="8" fill="#6b7280">颈部加自注意力</text>
+    <rect x="272" y="244" width="84" height="38" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="314" y="266">解耦头</text>
+    <rect x="368" y="244" width="76" height="38" rx="6" fill="#fce7f3" stroke="#db2777"/><text x="406" y="266">输出</text>
+  </g>
+  <rect x="458" y="242" width="284" height="42" rx="6" fill="#f5f3ff" stroke="#a78bfa"/>
+  <text x="472" y="260" font-size="9.5" fill="#374151">沿用 v8 anchor-free + 解耦头框架，骨干/颈部更</text>
+  <text x="472" y="276" font-size="9.5" fill="#374151">轻量并引入注意力 → 同精度更少参数。本项目作参考对比。</text>
+  <g stroke="#374151" stroke-width="1.2"><line x1="128" y1="263" x2="138" y2="263" marker-end="url(#a)"/><line x1="260" y1="263" x2="270" y2="263" marker-end="url(#a)"/><line x1="356" y1="263" x2="366" y2="263" marker-end="url(#a)"/></g>
+
+  <rect x="20" y="298" width="722" height="36" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="36" y="320" font-size="10.5" fill="#374151">🔴 三者都保留 v8 的"anchor-free + 解耦头 + PAN"主干，各加一项：v9 改梯度信息流、v10 去 NMS、v11 加注意力+轻量化。</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

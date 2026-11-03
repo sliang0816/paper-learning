@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="640" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q114 Grounding DINO：三处紧密融合(文本贯穿全程) + 按文本输出(query·文本token对比相似度)</text>
+
+  <!-- 双主干 -->
+  <rect x="20" y="42" width="900" height="60" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="470" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">两主干各自编码</text>
+  <rect x="60" y="72" width="380" height="22" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="87" text-anchor="middle" font-size="9" fill="#1e40af">图像 → Swin Transformer → 多尺度图像特征</text>
+  <rect x="500" y="72" width="380" height="22" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="690" y="87" text-anchor="middle" font-size="9" fill="#15803d">文本"person. car. glass." → BERT → 文本 token 特征</text>
+
+  <!-- 三处融合 -->
+  <rect x="20" y="114" width="900" height="290" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="134" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">跨模态融合发生在三处（tight fusion，文本贯穿全程；vs GLIP 松散融合）</text>
+  <!-- ① Feature Enhancer -->
+  <rect x="40" y="148" width="860" height="80" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="56" y="168" font-size="10.5" font-weight="bold" fill="#b45309">① Feature Enhancer（特征增强器/颈部）——双向交叉注意力</text>
+  <text x="70" y="188" font-size="9" fill="#374151">· image→text 交叉注意力：图像特征"看"文本 → 变得文本感知(text-aware)</text>
+  <text x="70" y="204" font-size="9" fill="#374151">· text→image 交叉注意力：文本 token"看"图像 → 变得图像感知　（各自再加自注意力，堆叠多层）</text>
+  <text x="70" y="220" font-size="9" fill="#b91c1c">→ 出来的图像/文本特征已互相"知道"对方</text>
+  <!-- ② Query Selection -->
+  <rect x="40" y="234" width="860" height="70" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="56" y="254" font-size="10.5" font-weight="bold" fill="#b45309">② 语言引导的 query 选择（= Q71）</text>
+  <text x="70" y="274" font-size="9" fill="#374151">从已融合的图像特征里，按"与文本相似度"挑 top-N 最相关位置当解码器初始 query / anchor</text>
+  <text x="70" y="290" font-size="9" fill="#b91c1c">→ 让文本告诉解码器"重点看这些地方"（DETR object query 的文本驱动版）</text>
+  <!-- ③ Decoder -->
+  <rect x="40" y="310" width="860" height="86" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="56" y="330" font-size="10.5" font-weight="bold" fill="#b45309">③ 跨模态解码器——每个 query 每层做三件事</text>
+  <text x="70" y="350" font-size="9" fill="#374151">· 自注意力（query 间分工去重，呼应 Q111）</text>
+  <text x="70" y="366" font-size="9" fill="#374151">· 图像交叉注意力（Q=query, K/V=图像特征，吸取目标区域）</text>
+  <text x="70" y="382" font-size="9" fill="#374151">· 文本交叉注意力（Q=query, K/V=文本特征，把语义绑进来）　→ query 逐层被图像+文本共同精修</text>
+
+  <!-- 按文本输出 -->
+  <rect x="20" y="416" width="900" height="150" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="436" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">最后如何"按文本输出"——没有固定类别分类器！</text>
+  <rect x="40" y="448" width="410" height="102" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="245" y="468" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">框(box)</text>
+  <text x="56" y="488" font-size="9" fill="#374151">框头回归坐标（初始参考框 + 预测偏移）</text>
+  <text x="56" y="506" font-size="9" fill="#374151">和 DETR/DINO 一样，4 个数</text>
+  <text x="56" y="530" font-size="8.5" fill="#6b7280">参考框被解码器一层层推到目标上</text>
+  <rect x="470" y="448" width="430" height="102" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="685" y="468" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">标签(label)：query·文本token 对比相似度</text>
+  <text x="486" y="488" font-size="9" font-family="monospace" fill="#374151">query_i 输出向量 · 文本各 token 向量</text>
+  <text x="486" y="504" font-size="9" font-family="monospace" fill="#15803d">→ 与 "glass" token 相似度最高</text>
+  <text x="486" y="520" font-size="9" font-family="monospace" fill="#15803d">→ 这个框标签 = "glass"</text>
+  <text x="486" y="540" font-size="8.5" fill="#b91c1c">相似度最高的词/短语 = 类别；输出=框+对应文本短语</text>
+  <text x="470" y="562" text-anchor="middle" font-size="9" fill="#6d28d9">训练：query↔text token 对比损失 + L1/GIoU + 匈牙利一对一匹配（也免 NMS，呼应 Q112）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="578" width="900" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="598" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">开放词汇的来源：类别不写死在网络里，而写在输入文本里 → 换一句文本就能检测新类，不用重训</text>
+  <text x="470" y="618" text-anchor="middle" font-size="9" fill="#374151">（像 CLIP 零样本，但端到端做进检测器）。本项目是"YOLO+CLIP 两阶段"，它是"文本引导一阶段"，相关工作正好对照。</text>
+</svg>

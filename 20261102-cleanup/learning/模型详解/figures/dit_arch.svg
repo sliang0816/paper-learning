@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 440" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="440" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">DiT：把扩散的去噪骨干从 U-Net 换成 Transformer（在潜 patch 上），扩展性更好 → Sora 基础</text>
+
+  <!-- U-Net vs DiT -->
+  <rect x="20" y="42" width="440" height="120" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="240" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">原来：U-Net 去噪骨干</text>
+  <text x="40" y="84" font-size="9" fill="#374151">· 卷积编解码 + 跳跃连接，带很强的图像归纳偏置</text>
+  <text x="40" y="104" font-size="9" fill="#374151">· 好用，但结构专用、放大到超大规模不如 Transformer 顺</text>
+  <text x="40" y="126" font-size="9" fill="#6b7280">· Stable Diffusion 等用的就是 U-Net</text>
+  <text x="40" y="146" font-size="8.5" fill="#374151">(见 38 U-Net、47 Stable Diffusion)</text>
+
+  <rect x="480" y="42" width="440" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">DiT：Transformer 去噪骨干</text>
+  <text x="500" y="84" font-size="9" fill="#374151">· 潜特征切 patch → 当 token → 标准 Transformer 块</text>
+  <text x="500" y="104" font-size="9" fill="#374151">· 条件(时间步 t、类别/文本)通过 AdaLN 等注入每个块</text>
+  <text x="500" y="126" font-size="9" fill="#15803d">· 扩展性好：模型越大、算力越多，效果稳定提升(Scaling)</text>
+  <text x="500" y="146" font-size="8.5" fill="#6b7280">· 沿用潜空间扩散(47)：只是把 U-Net 换成 Transformer</text>
+
+  <!-- DiT 流程 -->
+  <rect x="20" y="176" width="900" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">DiT 去噪一步的流程</text>
+  <rect x="40" y="214" width="90" height="40" rx="4" fill="#fde68a" stroke="#d97706"/><text x="85" y="230" text-anchor="middle" font-size="8" fill="#b45309">带噪潜特征</text><text x="85" y="244" text-anchor="middle" font-size="7.5" fill="#6b7280">(VAE潜空间)</text>
+  <text x="135" y="238" font-size="11" fill="#9ca3af">→</text>
+  <rect x="155" y="214" width="80" height="40" rx="4" fill="#c7d2fe" stroke="#6366f1"/><text x="195" y="232" text-anchor="middle" font-size="8" fill="#4338ca">切 patch</text><text x="195" y="246" text-anchor="middle" font-size="7.5" fill="#6b7280">→token序列</text>
+  <text x="240" y="238" font-size="11" fill="#9ca3af">→</text>
+  <rect x="260" y="208" width="200" height="52" rx="4" fill="#ede9fe" stroke="#8b5cf6"/><text x="360" y="228" text-anchor="middle" font-size="8.5" fill="#6d28d9">N × Transformer 块</text><text x="360" y="242" text-anchor="middle" font-size="7.5" fill="#374151">自注意力+FFN；条件(t,类别)经AdaLN注入</text><text x="360" y="254" text-anchor="middle" font-size="7" fill="#6b7280">与 ViT 同款块</text>
+  <text x="465" y="238" font-size="11" fill="#9ca3af">→</text>
+  <rect x="485" y="214" width="110" height="40" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="540" y="230" text-anchor="middle" font-size="8" fill="#15803d">预测噪声</text><text x="540" y="244" text-anchor="middle" font-size="7.5" fill="#6b7280">(拼回patch)</text>
+  <text x="600" y="238" font-size="11" fill="#9ca3af">→</text>
+  <rect x="620" y="214" width="120" height="40" rx="4" fill="#fde68a" stroke="#d97706"/><text x="680" y="230" text-anchor="middle" font-size="8" fill="#b45309">去噪一步</text><text x="680" y="244" text-anchor="middle" font-size="7.5" fill="#6b7280">重复(DDIM)</text>
+  <text x="470" y="288" text-anchor="middle" font-size="8.5" fill="#6b7280">和 DDPM/DDIM 的训练目标一样(预测噪声MSE)，只是把去噪网络从 U-Net 换成 Transformer</text>
+
+  <!-- 一句话 + Sora -->
+  <rect x="20" y="320" width="900" height="106" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="342" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：DiT 把扩散的去噪骨干从 U-Net 换成 Transformer(在潜 patch 上)，训练目标不变、扩展性更好。</text>
+  <text x="470" y="364" text-anchor="middle" font-size="9.5" fill="#374151">意义：证明"扩散不一定要 U-Net"，且 Transformer 的 Scaling 规律同样适用于生成 → 越大越强。</text>
+  <text x="40" y="388" font-size="9" fill="#15803d">· Sora(2024) 正是基于 DiT 思路：把图像 patch 扩成"时空 patch"生成视频（见 49）</text>
+  <text x="40" y="406" font-size="8.5" fill="#6b7280">· 也呼应一条大趋势：CNN(U-Net)专用骨干 → Transformer 通用骨干，检测/分割/生成都在发生</text>
+  <text x="470" y="422" text-anchor="middle" font-size="8" fill="#6b7280">Peebles W, Xie S. Scalable Diffusion Models with Transformers (DiT). ICCV 2023.</text>
+</svg>

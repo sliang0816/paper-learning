@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 190" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="190" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">30b LoRA 输入/输出实例</text>
+
+  <rect x="20" y="46" width="210" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="125" y="72" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">输入：预训练大模型+下游任务数据</text>
+  <text x="125" y="92" text-anchor="middle" font-size="9.5" fill="#374151">如GPT-3+摘要/问答任务标注</text>
+
+  <text x="245" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="265" y="46" width="220" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="375" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">训练：冻结W₀，只训A/B</text>
+  <text x="375" y="88" text-anchor="middle" font-size="9.5" fill="#374151">插在Wq/Wv等注意力投影层</text>
+  <text x="375" y="102" text-anchor="middle" font-size="9.5" fill="#374151">秩r通常取4~64</text>
+
+  <text x="500" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="520" y="46" width="200" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="620" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">部署：合并W=W₀+BA</text>
+  <text x="620" y="88" text-anchor="middle" font-size="9.5" fill="#374151">或按需切换不同任务的A/B</text>
+  <text x="620" y="102" text-anchor="middle" font-size="9.5" fill="#374151">零额外推理延迟</text>
+
+  <text x="735" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="755" y="46" width="185" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="847" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">输出：小体积任务适配器</text>
+  <text x="847" y="88" text-anchor="middle" font-size="9.5" fill="#374151">几MB~几十MB</text>
+  <text x="847" y="102" text-anchor="middle" font-size="9.5" fill="#374151">可任意插拔切换</text>
+
+  <rect x="20" y="132" width="920" height="45" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="159" text-anchor="middle" font-size="10.5" fill="#374151">与本项目的关系：若未来对CLIP文本/图像编码器做零样本识别之外的进一步微调，LoRA是比全量微调更省显存、更适合小数据集的备选方案，避免灾难性遗忘CLIP原有的零样本能力</text>
+</svg>

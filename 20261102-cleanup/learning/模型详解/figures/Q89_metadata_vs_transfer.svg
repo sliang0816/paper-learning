@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="540" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q89 再加“当前位置”也不行：位置类信息=贴标签，不搬运内容</text>
+  <text x="460" y="44" text-anchor="middle" font-size="11" fill="#6b7280">位置/序号/计数/当前位置 = 标注“我在哪(WHERE)”；把前面词的内容搬进来 = 另一类操作(WHAT)，只有自注意力做</text>
+
+  <!-- left: metadata family -->
+  <rect x="20" y="62" width="270" height="200" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="155" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">“位置类”全是同一族：元数据/标签</text>
+  <text x="36" y="106" font-size="9.5" fill="#374151">· 位置编码 PE：我在第几位</text>
+  <text x="36" y="126" font-size="9.5" fill="#374151">· 当前位置标记：哪个是当前</text>
+  <text x="36" y="146" font-size="9.5" fill="#374151">· 计数：已经第几个</text>
+  <text x="36" y="166" font-size="9.5" fill="#374151">· 指针：指向源词 #3</text>
+  <rect x="36" y="180" width="238" height="68" rx="5" fill="#fff" stroke="#c4b5fd"/>
+  <text x="155" y="200" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b91c1c">共同点：贴在每个词上</text>
+  <text x="155" y="218" text-anchor="middle" font-size="9" fill="#374151">回答“我在哪(WHERE/WHICH)”</text>
+  <text x="155" y="236" text-anchor="middle" font-size="9" fill="#b91c1c">永远不把 A 的内容搬进 C</text>
+
+  <!-- middle: current vector decomposition -->
+  <rect x="310" y="62" width="290" height="200" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="455" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">把“当前位置向量”拆开看</text>
+  <text x="455" y="106" text-anchor="middle" font-size="9.5" fill="#374151">要在 [&lt;BOS&gt; 我 爱] 后接词，当前=“爱”</text>
+  <rect x="326" y="118" width="258" height="70" rx="5" fill="#fff" stroke="#fcd34d"/>
+  <text x="455" y="138" text-anchor="middle" font-size="9.5" fill="#374151">当前向量 = embed(爱)</text>
+  <text x="455" y="156" text-anchor="middle" font-size="9.5" fill="#374151">　　　　＋ PE(位置2)</text>
+  <text x="455" y="174" text-anchor="middle" font-size="9.5" fill="#374151">　　　　＋ [当前位置标记]</text>
+  <text x="455" y="208" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b91c1c">全是“关于自己”的分量</text>
+  <text x="455" y="228" text-anchor="middle" font-size="9" fill="#374151">没有一个分量来自 token0/1 的内容</text>
+  <text x="455" y="246" text-anchor="middle" font-size="9" fill="#6b7280">→ 向量里根本没有“我 爱”这两个词</text>
+
+  <!-- right: cross-token transfer -->
+  <rect x="620" y="62" width="280" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="760" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">要让“我 爱”进当前向量</text>
+  <text x="636" y="106" font-size="9.5" fill="#374151">= 跨 token 搬运内容：</text>
+  <text x="636" y="126" font-size="9.5" fill="#374151">读取 token0/1 的 value</text>
+  <text x="636" y="146" font-size="9.5" fill="#374151">→ 按权重求和进当前位置</text>
+  <rect x="636" y="158" width="248" height="44" rx="5" fill="#fff" stroke="#93c5fd"/>
+  <text x="760" y="178" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1e40af">这步 = 自注意力（③）</text>
+  <text x="760" y="195" text-anchor="middle" font-size="8.5" fill="#6b7280">不是 PE 能做、不是 embed 能做</text>
+  <text x="760" y="224" text-anchor="middle" font-size="9" fill="#374151">回答“前面写了什么(WHAT)”</text>
+  <text x="760" y="244" text-anchor="middle" font-size="9" fill="#15803d">把别处的内容真正搬过来</text>
+
+  <!-- two operations -->
+  <rect x="20" y="282" width="880" height="120" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="460" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">两类操作，别混：标注 ≠ 搬运</text>
+  <line x1="460" y1="312" x2="460" y2="392" stroke="#cbd5e1"/>
+  <text x="240" y="328" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">标注（位置/序号/当前位置/指针）</text>
+  <text x="40" y="350" font-size="9.5" fill="#374151">· 给每个词贴“我在哪”的标签</text>
+  <text x="40" y="368" font-size="9.5" fill="#374151">· 加再多，也只是标签更全</text>
+  <text x="40" y="386" font-size="9.5" fill="#b91c1c">· 不会把别的词的内容搬进当前向量</text>
+
+  <text x="680" y="328" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">搬运（自注意力）</text>
+  <text x="480" y="350" font-size="9.5" fill="#374151">· 读取前面词的 value、加权求和</text>
+  <text x="480" y="368" font-size="9.5" fill="#374151">· 把“前面写了什么”装进当前向量</text>
+  <text x="480" y="386" font-size="9.5" fill="#15803d">· 这才让当前位置“知道译到哪了”</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="414" width="880" height="110" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="436" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">直接回答：还是不行</text>
+  <text x="40" y="458" font-size="9.5" fill="#374151">内容(①)+位置(②)+当前位置标记，加到头都是“给每个词贴标签 + 标清谁是当前”——</text>
+  <text x="40" y="476" font-size="9.5" fill="#b91c1c">没有任何一步把前面词的内容搬进当前位置。要“知道译到哪了”，当前向量里必须含有前缀内容。</text>
+  <text x="40" y="498" font-size="9.5" fill="#374151">把内容搬进来 = ③ = 自注意力（或更差的替代）。缺③就不行，与你加多少位置/标记无关。</text>
+  <text x="460" y="517" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#6d28d9">贴再多标签 ≠ 把内容搬过来——这是两类操作，后者绕不开</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q113 Q-Former 如何对齐：32 个可学习 query 当桥，两阶段——阶段1对齐文本、阶段2对齐 LLM</text>
+
+  <!-- 总览桥 -->
+  <rect x="20" y="42" width="900" height="96" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">总览：两头冻结，只训中间小桥（Q-Former ~188M）</text>
+  <rect x="40" y="76" width="150" height="46" rx="5" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="115" y="96" text-anchor="middle" font-size="9.5" fill="#374151">冻结 ViT（图像编码器）</text>
+  <text x="115" y="112" text-anchor="middle" font-size="8.5" fill="#6b7280">出几百个 patch 向量</text>
+  <text x="200" y="102" font-size="13" fill="#9ca3af">→</text>
+  <rect x="225" y="72" width="200" height="54" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="325" y="90" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">Q-Former：32 个可学习 query</text>
+  <text x="325" y="106" text-anchor="middle" font-size="8.5" fill="#374151">交叉注意力从图像特征"抽取"信息</text>
+  <text x="325" y="120" text-anchor="middle" font-size="8.5" fill="#b91c1c">只 32 个 = 信息瓶颈，只留语言相关</text>
+  <text x="435" y="102" font-size="13" fill="#9ca3af">→</text>
+  <rect x="460" y="76" width="140" height="46" rx="5" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="530" y="96" text-anchor="middle" font-size="9.5" fill="#374151">冻结 LLM</text>
+  <text x="530" y="112" text-anchor="middle" font-size="8.5" fill="#6b7280">生成文本/答案</text>
+  <text x="700" y="94" font-size="9" fill="#6b7280">两头冻结、只训小桥：</text>
+  <text x="700" y="110" font-size="9" fill="#6b7280">省算力、不破坏预训练</text>
+  <text x="700" y="126" font-size="9" fill="#6d28d9">Q-Former = Q110 说的"连接器"</text>
+
+  <!-- 阶段1 -->
+  <rect x="20" y="150" width="900" height="230" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">阶段 1：表示学习——让 32 个 query 对齐【文本语义】（三目标联合，切换注意力掩码）</text>
+  <!-- three columns -->
+  <rect x="40" y="184" width="280" height="150" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="180" y="204" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">ITC 图文对比</text>
+  <text x="56" y="224" font-size="8.8" fill="#374151">query 表示 ↔ 文本表示</text>
+  <text x="56" y="240" font-size="8.8" fill="#374151">拉近配对、推远不配对（像 CLIP）</text>
+  <text x="56" y="262" font-size="8.8" fill="#b45309">掩码：query 与文本互不可见</text>
+  <text x="56" y="284" font-size="8.8" fill="#15803d">作用：粗粒度对齐</text>
+  <rect x="330" y="184" width="280" height="150" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="470" y="204" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">ITM 图文匹配</text>
+  <text x="346" y="224" font-size="8.8" fill="#374151">二分类：这对图文匹配吗？</text>
+  <text x="346" y="240" font-size="8.8" fill="#374151">（含难负样本挖掘）</text>
+  <text x="346" y="262" font-size="8.8" fill="#b45309">掩码：query 与文本互相可见</text>
+  <text x="346" y="284" font-size="8.8" fill="#15803d">作用：细粒度对齐</text>
+  <rect x="620" y="184" width="280" height="150" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="760" y="204" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">ITG 图生文</text>
+  <text x="636" y="224" font-size="8.8" fill="#374151">用 query 里的视觉信息</text>
+  <text x="636" y="240" font-size="8.8" fill="#374151">生成描述文本</text>
+  <text x="636" y="262" font-size="8.8" fill="#b45309">掩码：文本因果掩码</text>
+  <text x="636" y="284" font-size="8.8" fill="#15803d">作用：逼 query 抽出"讲得出图"的信息</text>
+  <text x="470" y="356" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">结果：32 个 query 变成"压缩过、且与语言语义对齐"的图像表示</text>
+  <text x="470" y="374" text-anchor="middle" font-size="8.5" fill="#6b7280">三个任务都逼 query 学会"提取与文本最相关的视觉信息"</text>
+
+  <!-- 阶段2 -->
+  <rect x="20" y="392" width="900" height="120" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="412" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">阶段 2：生成学习——让 query 对齐【LLM 输入空间】</text>
+  <text x="40" y="436" font-size="9.5" fill="#374151">· 把阶段1训好的 Q-Former 输出的 32 个 query 向量，过一个投影层(FC) → 映射进 LLM 词嵌入空间</text>
+  <text x="40" y="456" font-size="9.5" fill="#374151">· 当"软视觉提示(soft visual prompt)"接在文本 prompt 前 → 训练让冻结 LLM 基于它生成正确文本</text>
+  <text x="40" y="476" font-size="9.5" fill="#374151">· 只训 Q-Former + 投影层，ViT 和 LLM 全程冻结</text>
+  <text x="40" y="498" font-size="9.5" font-weight="bold" fill="#15803d">结果：32 个 query 被对齐到"LLM 能读懂"的向量空间</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="524" width="900" height="82" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="546" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">对齐 = 两层含义</text>
+  <text x="470" y="568" text-anchor="middle" font-size="9.5" fill="#374151">① 语义对齐（阶段1 ITC+ITM+ITG）：query ↔ 文本，让 query 携带与语言对应的视觉语义；</text>
+  <text x="470" y="588" text-anchor="middle" font-size="9.5" fill="#374151">② 空间对齐（阶段2 投影+生成训练）：query → LLM，让 LLM 把 query 当能懂的输入来读。</text>
+  <text x="470" y="604" text-anchor="middle" font-size="8.5" fill="#6b7280">"固定 32 个 query"是逼它只留语言相关信息的信息瓶颈；LLaVA 用简单 MLP，BLIP-2 用这个学出来的瓶颈</text>
+</svg>

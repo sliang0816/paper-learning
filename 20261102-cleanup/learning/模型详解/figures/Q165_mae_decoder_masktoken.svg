@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="640" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q165 MAE解码器 vs 翻译解码器；为什么要补回mask token</text>
+
+  <!-- ① 对比表 -->
+  <rect x="20" y="42" width="940" height="210" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 名字都叫"decoder"，机制不同——MAE解码器更像Transformer编码器block</text>
+  <g font-size="10" fill="#374151">
+    <text x="40" y="90" font-weight="bold">对比维度</text><text x="360" y="90" font-weight="bold">翻译(seq2seq)解码器</text><text x="680" y="90" font-weight="bold">MAE解码器</text>
+    <line x1="30" y1="98" x2="950" y2="98" stroke="#93c5fd"/>
+    <text x="40" y="120">生成方式</text><text x="360" y="120" fill="#b91c1c">自回归，一个词一个词生成</text><text x="680" y="120" fill="#15803d" font-weight="bold">并行，一次性重建全部像素</text>
+    <text x="40" y="144">看encoder的方式</text><text x="360" y="144" fill="#b91c1c">单独cross-attention子层去查</text><text x="680" y="144" fill="#15803d" font-weight="bold">可见token直接拼进同一序列，普通自注意力</text>
+    <text x="40" y="168">自注意力是否causal</text><text x="360" y="168" fill="#b91c1c">causal mask(看不到未来)</text><text x="680" y="168" fill="#15803d" font-weight="bold">双向，无mask</text>
+    <text x="40" y="192">结构本质</text><text x="360" y="192">自注意力+cross-attention两段式</text><text x="680" y="192" fill="#15803d" font-weight="bold">≈标准Transformer编码器block</text>
+    <line x1="30" y1="204" x2="950" y2="204" stroke="#93c5fd"/>
+    <text x="40" y="228" font-weight="bold">命名依据</text><text x="360" y="228">seq2seq 的 encoder-decoder</text><text x="680" y="228" fill="#15803d" font-weight="bold">(去噪)自编码器 autoencoder 的 encoder-decoder——不同家族</text>
+  </g>
+
+  <!-- ② mask token 作用 -->
+  <rect x="20" y="266" width="460" height="220" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="250" y="288" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 为什么要补回mask token——两个作用</text>
+  <text x="40" y="314" font-size="10" font-weight="bold" fill="#15803d">1) 占位</text>
+  <text x="40" y="332" font-size="9.5" fill="#374151">自注意力要在每个"输出位置"都有token</text>
+  <text x="40" y="348" font-size="9.5" fill="#374151">才能承接预测结果；被遮位置不放东西，</text>
+  <text x="40" y="364" font-size="9.5" fill="#374151">序列里根本没有槽位可以输出</text>
+  <text x="40" y="392" font-size="10" font-weight="bold" fill="#15803d">2) 报位置</text>
+  <text x="40" y="410" font-size="9.5" fill="#374151">mask token是同一个共享可学习向量</text>
+  <text x="40" y="426" font-size="9.5" fill="#374151">(所有被遮位置用同一份参数)，靠额外加的</text>
+  <text x="40" y="442" font-size="9.5" fill="#374151">位置编码，才让每个副本知道"我对应</text>
+  <text x="40" y="458" font-size="9.5" fill="#374151">图像里第几行第几列"</text>
+  <text x="40" y="478" font-size="9" fill="#6b7280">思路类比DETR的object query：空白可学习向量靠注意力查上下文精修</text>
+
+  <!-- ③ 回扣消融 -->
+  <rect x="500" y="266" width="460" height="220" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="730" y="288" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ 呼应Table 1c：mask token只放解码器</text>
+  <text x="516" y="314" font-size="9.5" fill="#374151">编码器若也塞mask token(错误设计)：</text>
+  <text x="516" y="332" font-size="9.5" fill="#374151">ft=84.2%、lin=59.6%、训练慢3.3倍</text>
+  <text x="516" y="356" font-size="9.5" fill="#374151">编码器只吃可见25%(实际设计，mask token</text>
+  <text x="516" y="372" font-size="9.5" fill="#374151">只在解码器补回)：ft=84.9%、lin=73.5%、1×</text>
+  <text x="516" y="398" font-size="9.5" font-weight="bold" fill="#b45309">原因：预训练若让编码器见mask token占位符，</text>
+  <text x="516" y="416" font-size="9.5" font-weight="bold" fill="#b45309">但下游真实推理输入完整图、无此token——</text>
+  <text x="516" y="434" font-size="9.5" font-weight="bold" fill="#b45309">训练与部署输入分布不一致，会掉点变慢</text>
+  <text x="516" y="460" font-size="9" fill="#6b7280">见paper_notes_mae.md Table 1c 完整数据</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="504" width="940" height="112" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="530" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：MAE解码器叫"decoder"是按自编码器的重建角色命名，架构上更接近标准Transformer编码器block——</text>
+  <text x="490" y="552" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">并行非自回归、无独立cross-attention子层。补mask token是为了给每个被遮位置占一个输出槽位，</text>
+  <text x="490" y="574" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">再靠位置编码告诉它该重建哪个空间位置——且这个token只出现在解码器，绝不进编码器。</text>
+</svg>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 700" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="700" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q185 YOLOv4/v5 的 CSP 骨干是什么？——把特征按通道劈两半，一半过卷积块、一半直连旁路，最后拼接</text>
+
+  <!-- 是什么 -->
+  <rect x="20" y="42" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">CSP = Cross Stage Partial（跨阶段局部）：不是一个全新骨干，而是一种"改造骨干"的结构，套到Darknet-53上就成CSPDarknet53</text>
+
+  <!-- 普通块 vs CSP块 -->
+  <rect x="20" y="78" width="450" height="290" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="245" y="100" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b91c1c">普通做法：整块特征全部过一串卷积块</text>
+  <rect x="180" y="116" width="130" height="26" rx="4" fill="#fecaca" stroke="#ef4444"/>
+  <text x="245" y="133" text-anchor="middle" font-size="9.5" fill="#374151">输入特征 H×W×C</text>
+  <line x1="245" y1="142" x2="245" y2="160" stroke="#ef4444"/>
+  <rect x="155" y="160" width="180" height="120" rx="6" fill="#fca5a5" stroke="#b91c1c"/>
+  <text x="245" y="184" text-anchor="middle" font-size="9.5" fill="#374151">一大串卷积块(残差/密集堆叠)</text>
+  <text x="245" y="206" text-anchor="middle" font-size="9.5" fill="#374151">全部C个通道都参与</text>
+  <text x="245" y="228" text-anchor="middle" font-size="9.5" fill="#374151">算力全花在这一整摞上</text>
+  <text x="245" y="252" text-anchor="middle" font-size="9" fill="#6b7280">密集连接里梯度会重复(不同层学到</text>
+  <text x="245" y="268" text-anchor="middle" font-size="9" fill="#6b7280">重复的梯度信息)→算力浪费</text>
+  <line x1="245" y1="280" x2="245" y2="298" stroke="#ef4444"/>
+  <rect x="180" y="298" width="130" height="26" rx="4" fill="#fecaca" stroke="#ef4444"/>
+  <text x="245" y="315" text-anchor="middle" font-size="9.5" fill="#374151">输出</text>
+  <text x="245" y="348" text-anchor="middle" font-size="9" fill="#b91c1c">问题：算力大 + 梯度重复冗余</text>
+
+  <!-- CSP块 -->
+  <rect x="510" y="78" width="450" height="290" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="735" y="100" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">CSP做法：劈两半，只一半过卷积块</text>
+  <rect x="670" y="116" width="130" height="26" rx="4" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="735" y="133" text-anchor="middle" font-size="9.5" fill="#374151">输入特征 H×W×C</text>
+  <text x="735" y="158" text-anchor="middle" font-size="9" fill="#15803d">按通道劈成两半</text>
+  <!-- 左半 过块 -->
+  <line x1="700" y1="142" x2="620" y2="170" stroke="#16a34a"/>
+  <rect x="555" y="172" width="130" height="110" rx="6" fill="#86efac" stroke="#15803d"/>
+  <text x="620" y="196" text-anchor="middle" font-size="9.3" fill="#374151">part1 (C/2)</text>
+  <text x="620" y="216" text-anchor="middle" font-size="9.3" fill="#374151">过卷积块</text>
+  <text x="620" y="236" text-anchor="middle" font-size="9.3" fill="#374151">(残差堆叠)</text>
+  <text x="620" y="258" text-anchor="middle" font-size="8.6" fill="#6b7280">只有一半通道</text>
+  <text x="620" y="272" text-anchor="middle" font-size="8.6" fill="#6b7280">参与→算力减半</text>
+  <!-- 右半 直连 -->
+  <line x1="770" y1="142" x2="840" y2="170" stroke="#16a34a"/>
+  <rect x="775" y="172" width="130" height="110" rx="6" fill="#d9f99d" stroke="#65a30d"/>
+  <text x="840" y="205" text-anchor="middle" font-size="9.3" fill="#374151">part2 (C/2)</text>
+  <text x="840" y="227" text-anchor="middle" font-size="9.3" fill="#374151">直连/旁路</text>
+  <text x="840" y="249" text-anchor="middle" font-size="8.6" fill="#6b7280">几乎不算</text>
+  <text x="840" y="265" text-anchor="middle" font-size="8.6" fill="#6b7280">保留原始特征</text>
+  <!-- concat -->
+  <line x1="620" y1="282" x2="700" y2="300" stroke="#16a34a"/>
+  <line x1="840" y1="282" x2="770" y2="300" stroke="#16a34a"/>
+  <rect x="665" y="300" width="140" height="26" rx="4" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="735" y="317" text-anchor="middle" font-size="9.3" fill="#374151">concat 拼接 + 1×1融合</text>
+  <text x="735" y="348" text-anchor="middle" font-size="9" fill="#15803d">好处：算力↓ + 梯度路径分开不重复 + 精度不降</text>
+
+  <!-- 名字拆解 -->
+  <rect x="20" y="380" width="940" height="26" rx="6" fill="#6d28d9"/>
+  <text x="490" y="398" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">名字拆解 & 为什么有效</text>
+
+  <rect x="20" y="416" width="460" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="250" y="438" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">Cross Stage Partial 三个词</text>
+  <text x="40" y="462" font-size="9.4" fill="#374151">·Partial(局部)：只有"一部分"通道过卷积块，非全部</text>
+  <text x="40" y="482" font-size="9.4" fill="#374151">·Cross Stage(跨阶段)：直连那半跨过整个块、</text>
+  <text x="40" y="500" font-size="9.4" fill="#374151">　在阶段末尾才和过块那半汇合(concat)</text>
+  <text x="40" y="522" font-size="9" fill="#6b7280">CSPNet(2019)是通用设计，可套ResNet/DenseNet/Darknet</text>
+
+  <rect x="500" y="416" width="460" height="120" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="730" y="438" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f766e">两大好处</text>
+  <text x="520" y="462" font-size="9.4" fill="#374151">①省算力：只半数通道过重块 → 计算/参数约省20%</text>
+  <text x="520" y="484" font-size="9.4" fill="#374151">②梯度不重复：两半梯度路径不同，避免密集连接里</text>
+  <text x="520" y="502" font-size="9.4" fill="#374151">　"不同层学到重复梯度信息"的冗余 → 更高效</text>
+  <text x="520" y="524" font-size="9" fill="#6b7280">结果=更快更省，精度还不降甚至略升</text>
+
+  <!-- CSPDarknet + 谱系 -->
+  <rect x="20" y="548" width="940" height="70" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="570" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">CSPDarknet53 = Darknet-53(v3骨干) + 把每个stage改成CSP结构</text>
+  <text x="45" y="592" font-size="9.5" fill="#374151">YOLOv4/v5的骨干 = 拿YOLOv3的Darknet-53(Q180提到的加残差版)，把里面每个阶段的残差堆叠改造成"劈两半+一半过块+拼接"的CSP形式。</text>
+  <text x="45" y="610" font-size="9.5" fill="#374151">对比普通残差(ResNet是F(x)+x逐元素相加)：CSP是"按通道劈开→部分处理→concat拼接"，是另一种复用特征、优化梯度的思路。</text>
+
+  <!-- 一句话+谱系 -->
+  <rect x="20" y="626" width="940" height="66" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="648" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">一句话：CSP骨干=把特征按通道劈两半，一半过卷积块、一半直连旁路，末尾concat拼接；省算力(半数通道过重块)+避免梯度重复；</text>
+  <text x="490" y="666" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">套到Darknet-53上就是CSPDarknet53(YOLOv4/v5骨干)。它是YOLOv8 C3→C2f模块(Q43)的直系前身，本项目基线骨干正源于此。</text>
+  <text x="490" y="684" text-anchor="middle" font-size="8.8" fill="#6b7280">演化：CSPNet通用设计 → CSPDarknet53(v4/v5) → C3(v5后期) → C2f(v8，更多梯度分支)</text>
+</svg>

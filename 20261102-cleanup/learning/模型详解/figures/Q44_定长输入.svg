@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="470" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">为什么 MLP/CNN 要定长输入：哪里"给每个位置配了独立权重"，哪里就被钉死尺寸</text>
+  <text x="410" y="46" text-anchor="middle" font-size="11" fill="#6b7280">根因 = 权重共享 vs 不共享；卷积本身不挑尺寸，是末端全连接头要求定长</text>
+
+  <!-- MLP -->
+  <rect x="24" y="60" width="372" height="180" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="210" y="84" text-anchor="middle" font-size="13" font-weight="bold" fill="#1d4ed8">① MLP：必须定长（权重不共享）</text>
+  <text x="40" y="108" font-size="10.5" fill="#374151">第一层是固定权重矩阵 W：y = W·x</text>
+  <text x="40" y="126" font-size="10.5" fill="#374151">W 形状 = [输入维度 × 隐藏维度]，训练时就定死</text>
+  <text x="40" y="146" font-size="10.5" fill="#b91c1c">x 必须正好有"输入维度"个数 → 多一个少一个都乘不了</text>
+  <text x="40" y="170" font-size="10.5" fill="#374151">每个输入位置都有自己专属的一列权重（不共享）→</text>
+  <text x="40" y="188" font-size="10.5" fill="#1d4ed8">输入尺寸被"焊进"了参数量里，天生不能变长</text>
+  <rect x="40" y="202" width="336" height="28" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="208" y="221" text-anchor="middle" font-size="10" fill="#1d4ed8">结论：FC 全连接层 = 定长的根源</text>
+
+  <!-- CNN -->
+  <rect x="424" y="60" width="372" height="180" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="610" y="84" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">② CNN：卷积层其实不挑尺寸！</text>
+  <text x="440" y="108" font-size="10.5" fill="#374151">卷积核滑动、权重共享 → 任意 H×W 都能算</text>
+  <text x="440" y="126" font-size="10.5" fill="#374151">大图出大特征图、小图出小特征图，卷积部分无所谓</text>
+  <text x="440" y="146" font-size="10.5" fill="#b91c1c">真正要定长的是末端：把特征图拍平喂 FC 分类头</text>
+  <text x="440" y="164" font-size="10.5" fill="#374151">不同输入尺寸 → 特征图大小不同 → 拍平长度不同</text>
+  <text x="440" y="182" font-size="10.5" fill="#374151">→ 和固定的 FC 权重对不上 → 所以 LeNet/VGG 要 224²</text>
+  <rect x="440" y="200" width="336" height="32" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="608" y="220" text-anchor="middle" font-size="9.5" fill="#15803d">去掉 FC 头即可变长：全局平均池化GAP / 全卷积FCN / SPP</text>
+
+  <!-- principle -->
+  <rect x="24" y="252" width="772" height="86" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="40" y="274" font-size="11.5" font-weight="bold" fill="#a16207">一条总原理：一层是否需要定长，取决于它"是否给每个输入位置分配独立参数"</text>
+  <text x="40" y="298" font-size="10.5" fill="#374151">• <tspan font-weight="bold">不共享权重</tspan>（全连接）：每个位置一套专属权重 → 位置数固定 → <tspan fill="#b91c1c">必须定长</tspan></text>
+  <text x="40" y="318" font-size="10.5" fill="#374151">• <tspan font-weight="bold">共享权重</tspan>（卷积沿空间共享、RNN/Transformer 沿位置共享）：同一套权重滑过任意长度 → <tspan fill="#15803d">可变长</tspan></text>
+
+  <!-- sequence models -->
+  <rect x="24" y="350" width="772" height="104" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="40" y="372" font-size="11" font-weight="bold" fill="#374151">对比：为什么 RNN / Transformer 能吃变长序列</text>
+  <text x="40" y="394" font-size="10.5" fill="#374151">• <tspan font-weight="bold">RNN</tspan>：一个时间步一套共享权重，来多少 token 就循环多少步（[02 RNN]）。</text>
+  <text x="40" y="414" font-size="10.5" fill="#374151">• <tspan font-weight="bold">Transformer</tspan>：注意力对 n 个 token 用同一套投影 W_Q/W_K/W_V，n 任意（配位置编码补顺序）。</text>
+  <text x="40" y="434" font-size="10" fill="#6b7280">YOLOv8 推理把图 letterbox 到 640²，是为批处理与检测头方便，并非卷积本身的硬性要求。</text>
+</svg>

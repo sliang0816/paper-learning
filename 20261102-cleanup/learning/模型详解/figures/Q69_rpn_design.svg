@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="860" height="600" fill="#fff"/>
+  <text x="430" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">RPN 为什么这样设计：每个选择都在同时满足“快 + 可学 + 多尺度 + 共享骨干 + 只粗筛”</text>
+  <text x="430" y="44" text-anchor="middle" font-size="11" fill="#6b7280">把“为什么这样”读成“否则会怎样”——每行是一个设计选择 vs 它拒绝的替代方案</text>
+
+  <!-- design goals banner -->
+  <rect x="24" y="58" width="812" height="40" rx="8" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="40" y="83" font-size="11" fill="#374151"><tspan font-weight="bold" fill="#4338ca">5 个设计目标：</tspan>① 快（替代 2 秒的 SS）　② 可学（自适应数据）　③ 覆盖多尺度　④ 与骨干共享（不重算特征）　⑤ 只做粗筛、把分类留给第二阶段</text>
+
+  <!-- table header -->
+  <g font-size="11" font-weight="bold" fill="#334155">
+    <rect x="24" y="106" width="250" height="30" fill="#f1f5f9" stroke="#cbd5e1"/><text x="34" y="126">设计选择</text>
+    <rect x="274" y="106" width="290" height="30" fill="#dcfce7" stroke="#86efac"/><text x="284" y="126" fill="#15803d">解决什么 / 服务哪个目标</text>
+    <rect x="564" y="106" width="272" height="30" fill="#fef2f2" stroke="#fecaca"/><text x="574" y="126" fill="#b91c1c">若不这样（替代方案的后果）</text>
+  </g>
+
+  <!-- rows -->
+  <g font-size="9.3">
+    <!-- row1 -->
+    <rect x="24" y="136" width="250" height="62" fill="#fff" stroke="#e2e8f0"/>
+    <text x="34" y="156" font-weight="bold" fill="#1e40af">① 接在骨干共享特征图上</text>
+    <text x="34" y="172" fill="#6b7280">（不在原始像素上做）</text>
+    <text x="34" y="190" fill="#6b7280">大感受野 + 已编码语义</text>
+    <rect x="274" y="136" width="290" height="62" fill="#f7fef9" stroke="#e2e8f0"/>
+    <text x="284" y="156" fill="#374151">每个位置已“看到”原图一大片，</text>
+    <text x="284" y="172" fill="#374151">语义现成；与第二阶段<tspan font-weight="bold">共用一张图</tspan>，</text>
+    <text x="284" y="190" fill="#374151">候选生成几乎零额外卷积（目标①④）</text>
+    <rect x="564" y="136" width="272" height="62" fill="#fffafa" stroke="#e2e8f0"/>
+    <text x="574" y="156" fill="#374151">像 SS 在像素上重算 → 每图 ~2 秒、</text>
+    <text x="574" y="172" fill="#374151">CPU 串行、与骨干割裂，</text>
+    <text x="574" y="190" fill="#b91c1c">成为速度瓶颈</text>
+
+    <!-- row2 -->
+    <rect x="24" y="198" width="250" height="62" fill="#fff" stroke="#e2e8f0"/>
+    <text x="34" y="218" font-weight="bold" fill="#1e40af">② 3×3 滑窗 + 全卷积</text>
+    <text x="34" y="234" fill="#6b7280">权重逐位置共享</text>
+    <text x="34" y="252" fill="#6b7280">（不是每位置一个 FC）</text>
+    <rect x="274" y="198" width="290" height="62" fill="#f7fef9" stroke="#e2e8f0"/>
+    <text x="284" y="218" fill="#374151">同一个“找物体”检测器扫全图：</text>
+    <text x="284" y="234" fill="#374151">参数少、<tspan font-weight="bold">平移不变</tspan>、任意尺寸、</text>
+    <text x="284" y="252" fill="#374151">一次前向算完所有位置（目标①②）</text>
+    <rect x="564" y="198" width="272" height="62" fill="#fffafa" stroke="#e2e8f0"/>
+    <text x="574" y="218" fill="#374151">每个位置单独学一个 FC →</text>
+    <text x="574" y="234" fill="#b91c1c">参数爆炸、不平移不变、</text>
+    <text x="574" y="252" fill="#374151">换输入尺寸就失效</text>
+
+    <!-- row3 -->
+    <rect x="24" y="260" width="250" height="62" fill="#fff" stroke="#e2e8f0"/>
+    <text x="34" y="280" font-weight="bold" fill="#1e40af">③ 预设多尺度/比例 anchor</text>
+    <text x="34" y="296" fill="#6b7280">每位置 k=9 个参照框</text>
+    <text x="34" y="314" fill="#6b7280">（见 Q61）</text>
+    <rect x="274" y="260" width="290" height="62" fill="#f7fef9" stroke="#e2e8f0"/>
+    <text x="284" y="280" fill="#374151">把“连续找框”离散成“选参照+微调”，</text>
+    <text x="284" y="296" fill="#374151">一个位置可同时管多形状/重叠目标，</text>
+    <text x="284" y="314" fill="#374151">回归只需小幅修（目标③）</text>
+    <rect x="564" y="260" width="272" height="62" fill="#fffafa" stroke="#e2e8f0"/>
+    <text x="574" y="280" fill="#374151">单一定长特征凭空回归绝对框 →</text>
+    <text x="574" y="296" fill="#374151">尺度跨度太大、不稳定，</text>
+    <text x="574" y="314" fill="#b91c1c">大/小目标都难覆盖→漏检</text>
+
+    <!-- row4 -->
+    <rect x="24" y="322" width="250" height="62" fill="#fff" stroke="#e2e8f0"/>
+    <text x="34" y="342" font-weight="bold" fill="#1e40af">④ cls + reg 两个 1×1 头</text>
+    <text x="34" y="358" fill="#6b7280">分类 2k + 回归 4k</text>
+    <text x="34" y="376" fill="#6b7280">（见 Q60）</text>
+    <rect x="274" y="322" width="290" height="62" fill="#f7fef9" stroke="#e2e8f0"/>
+    <text x="284" y="342" fill="#374151">cls 判“有没有”给后续打分排序，</text>
+    <text x="284" y="358" fill="#374151">reg 把粗 anchor 修准；两任务分头、</text>
+    <text x="284" y="376" fill="#374151">都很轻（1×1 卷积）（目标①②）</text>
+    <rect x="564" y="322" width="272" height="62" fill="#fffafa" stroke="#e2e8f0"/>
+    <text x="574" y="342" fill="#374151">只 cls 不 reg：框卡在离散 anchor 上不准；</text>
+    <text x="574" y="358" fill="#374151">只 reg 不 cls：不知该留哪个框、</text>
+    <text x="574" y="376" fill="#b91c1c">没法排序筛选</text>
+
+    <!-- row5 -->
+    <rect x="24" y="384" width="250" height="68" fill="#fff" stroke="#e2e8f0"/>
+    <text x="34" y="404" font-weight="bold" fill="#1e40af">⑤ cls 只判前景/背景</text>
+    <text x="34" y="420" fill="#6b7280">类别无关，不直接出类别</text>
+    <text x="34" y="438" fill="#6b7280">（把“是什么”留给第二阶段）</text>
+    <rect x="274" y="384" width="290" height="68" fill="#f7fef9" stroke="#e2e8f0"/>
+    <text x="284" y="404" fill="#374151">RPN 轻量、与类别数解耦、可复用；</text>
+    <text x="284" y="420" fill="#374151">两阶段分工（粗筛→精分），</text>
+    <text x="284" y="438" fill="#374151">这正是两阶段高精度的根（目标⑤，见 Q68）</text>
+    <rect x="564" y="384" width="272" height="68" fill="#fffafa" stroke="#e2e8f0"/>
+    <text x="574" y="404" fill="#374151">让 RPN 直接出类别 →</text>
+    <text x="574" y="420" fill="#374151">就变成<tspan font-weight="bold">单阶段</tspan>检测器了，</text>
+    <text x="574" y="438" fill="#b91c1c">失去“粗筛+精修”的两阶段优势</text>
+
+    <!-- row6 -->
+    <rect x="24" y="452" width="250" height="62" fill="#fff" stroke="#e2e8f0"/>
+    <text x="34" y="472" font-weight="bold" fill="#1e40af">⑥ 与检测头共享骨干</text>
+    <text x="34" y="488" fill="#6b7280">近似联合训练、端到端</text>
+    <text x="34" y="506" fill="#6b7280">（见 Q14）</text>
+    <rect x="274" y="452" width="290" height="62" fill="#f7fef9" stroke="#e2e8f0"/>
+    <text x="284" y="472" fill="#374151">候选生成可学、随任务自适应；</text>
+    <text x="284" y="488" fill="#374151">特征一份两用，几乎零额外成本</text>
+    <text x="284" y="506" fill="#374151">（目标②④）</text>
+    <rect x="564" y="452" width="272" height="62" fill="#fffafa" stroke="#e2e8f0"/>
+    <text x="574" y="472" fill="#374151">像 Fast R-CNN 仍靠外部 SS →</text>
+    <text x="574" y="488" fill="#374151">不可学、不共享特征、</text>
+    <text x="574" y="506" fill="#b91c1c">候选质量不随数据优化</text>
+  </g>
+
+  <!-- bottom takeaway -->
+  <rect x="24" y="524" width="812" height="60" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="430" y="546" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#334155">一句话：RPN 的设计＝“在骨干特征图上、用一个共享的轻量全卷积、靠 anchor 把找框变成选参照+微调、只判有无不判类别”</text>
+  <text x="430" y="566" text-anchor="middle" font-size="10" fill="#6b7280">每个选择都是为同时满足“快/可学/多尺度/共享/粗筛”而做的取舍——任意一项换成替代方案，都会牺牲其中某个目标。</text>
+</svg>

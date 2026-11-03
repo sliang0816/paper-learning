@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="460" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">为什么"直接接固定 FC"解决不了变长：FC 的输入维度也是焊死的</text>
+  <text x="410" y="46" text-anchor="middle" font-size="11" fill="#6b7280">问题不在输出端（FC 输出本来就固定），在输入端：拍平长度变 → 和固定权重矩阵的列数对不上</text>
+
+  <!-- case A: 224 ok -->
+  <rect x="20" y="60" width="780" height="78" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <g font-size="10" text-anchor="middle">
+    <rect x="34" y="86" width="86" height="36" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="77" y="102">224×224 图</text><text x="77" y="116" font-size="8">设计时按它定的</text>
+    <rect x="150" y="86" width="96" height="36" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="198" y="102">特征图 7×7×512</text>
+    <rect x="276" y="86" width="96" height="36" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="324" y="102">拍平 25088 维</text>
+    <rect x="402" y="80" width="150" height="48" rx="4" fill="#bbf7d0" stroke="#15803d"/><text x="477" y="100">固定 FC</text><text x="477" y="116" font-size="8.5">权重 25088×1000</text>
+    <rect x="582" y="86" width="96" height="36" rx="4" fill="#bbf7d0" stroke="#15803d"/><text x="630" y="106">1000 类 ✓</text>
+  </g>
+  <g stroke="#16a34a" stroke-width="1.2" marker-end="url(#g)">
+    <line x1="120" y1="104" x2="148" y2="104"/><line x1="246" y1="104" x2="274" y2="104"/><line x1="372" y1="104" x2="400" y2="104"/><line x1="552" y1="104" x2="580" y2="104"/>
+  </g>
+  <text x="700" y="100" font-size="9.5" fill="#15803d" text-anchor="start">25088=25088</text>
+  <text x="700" y="114" font-size="9.5" fill="#15803d" text-anchor="start">对得上，能算</text>
+
+  <!-- case B: 256 fails -->
+  <rect x="20" y="148" width="780" height="86" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <g font-size="10" text-anchor="middle">
+    <rect x="34" y="174" width="86" height="36" rx="4" fill="#fee2e2" stroke="#ef4444"/><text x="77" y="190">256×256 图</text><text x="77" y="204" font-size="8">换了更大的输入</text>
+    <rect x="150" y="174" width="96" height="36" rx="4" fill="#fee2e2" stroke="#ef4444"/><text x="198" y="190">特征图 8×8×512</text>
+    <rect x="276" y="174" width="96" height="36" rx="4" fill="#fee2e2" stroke="#ef4444"/><text x="324" y="190">拍平 32768 维</text>
+    <rect x="402" y="168" width="150" height="48" rx="4" fill="#fecaca" stroke="#dc2626"/><text x="477" y="188">同一个固定 FC</text><text x="477" y="204" font-size="8.5">权重还是 25088×1000</text>
+    <rect x="582" y="174" width="120" height="36" rx="4" fill="#fca5a5" stroke="#dc2626"/><text x="642" y="194">维度不匹配 ✗</text>
+  </g>
+  <g stroke="#ef4444" stroke-width="1.2" marker-end="url(#r)">
+    <line x1="120" y1="192" x2="148" y2="192"/><line x1="246" y1="192" x2="274" y2="192"/><line x1="372" y1="192" x2="400" y2="192"/>
+  </g>
+  <line x1="552" y1="192" x2="580" y2="192" stroke="#dc2626" stroke-width="2" stroke-dasharray="3 2"/>
+  <text x="566" y="184" text-anchor="middle" font-size="13" fill="#dc2626">✗</text>
+  <text x="410" y="228" text-anchor="middle" font-size="10" fill="#b91c1c">32768 维向量 乘不了 25088×1000 的权重矩阵 —— FC 根本算不出来（不是输出错，是压根没法运算）</text>
+
+  <!-- key -->
+  <rect x="20" y="244" width="780" height="76" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="36" y="266" font-size="11.5" font-weight="bold" fill="#1d4ed8">关键：FC 输出固定 ≠ FC 能吃变长输入</text>
+  <text x="36" y="288" font-size="10.5" fill="#374151">FC 的权重矩阵是 [输入维度 × 输出维度]。输出维度固定（=1000），但<tspan font-weight="bold">输入维度同样被焊死</tspan>（=25088）。</text>
+  <text x="36" y="308" font-size="10.5" fill="#b91c1c">输入图变大 → 特征图变大 → 拍平变长 → 和这个固定列数对不上 → 乘法做不了。FC 正是"要求定长"的那一环（见 Q44）。</text>
+
+  <!-- solution -->
+  <rect x="20" y="328" width="780" height="118" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="36" y="350" font-size="11.5" font-weight="bold" fill="#a16207">正解：GAP/SPP 先把"变长特征图"压成"定长向量"，FC 才用得上</text>
+  <g font-size="9.5" text-anchor="middle">
+    <rect x="40" y="362" width="110" height="34" rx="4" fill="#fef3c7" stroke="#d97706"/><text x="95" y="378">8×8×512（变）</text><text x="95" y="390" font-size="8">或 7×7、10×10…</text>
+    <rect x="180" y="362" width="130" height="34" rx="4" fill="#fde68a" stroke="#ca8a04"/><text x="245" y="379">GAP→512 / SPP→21×512</text>
+    <rect x="340" y="362" width="120" height="34" rx="4" fill="#fcd34d" stroke="#b45309"/><text x="400" y="383">定长（与输入无关）</text>
+    <rect x="490" y="362" width="100" height="34" rx="4" fill="#bbf7d0" stroke="#15803d"/><text x="540" y="383">固定 FC ✓</text>
+    <rect x="620" y="362" width="90" height="34" rx="4" fill="#bbf7d0" stroke="#15803d"/><text x="665" y="383">类别</text>
+  </g>
+  <g stroke="#ca8a04" stroke-width="1.2" marker-end="url(#y)">
+    <line x1="150" y1="379" x2="178" y2="379"/><line x1="310" y1="379" x2="338" y2="379"/><line x1="460" y1="379" x2="488" y2="379"/><line x1="590" y1="379" x2="618" y2="379"/>
+  </g>
+  <text x="36" y="414" font-size="10" fill="#374151">所以 GAP/SPP 不是被固定 FC 替代，而是<tspan font-weight="bold">让固定 FC 能工作的前置桥梁</tspan>：先把任意大小→定长，FC 再接上。</text>
+  <text x="36" y="434" font-size="10" fill="#16a34a">另一条路 FCN：干脆不拍平、不用 FC，全卷积 → 每个空间位置各出一组结果（见 Q48/Q49）。</text>
+
+  <defs>
+    <marker id="g" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#16a34a"/></marker>
+    <marker id="r" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#ef4444"/></marker>
+    <marker id="y" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#ca8a04"/></marker>
+  </defs>
+</svg>

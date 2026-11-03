@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="700" height="320" fill="#fff"/>
+  <text x="350" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">Fast R-CNN：候选框坐标按总步长 s 投影到特征图</text>
+
+  <!-- 原图 -->
+  <rect x="60" y="56" width="160" height="160" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="140" y="50" text-anchor="middle" font-size="11" fill="#64748b">原图（设 s=16）</text>
+  <rect x="120" y="96" width="64" height="64" fill="none" stroke="#3b82f6" stroke-width="2"/>
+  <text x="152" y="92" text-anchor="middle" font-size="10" fill="#3b82f6">候选框 64×64</text>
+
+  <!-- 箭头 -->
+  <line x1="228" y1="136" x2="300" y2="136" stroke="#374151" stroke-width="2" marker-end="url(#aq13)"/>
+  <text x="264" y="124" text-anchor="middle" font-size="10.5" fill="#374151">CNN 整图×1</text>
+  <text x="264" y="152" text-anchor="middle" font-size="10.5" fill="#374151">下采样 1/16</text>
+
+  <!-- 特征图 -->
+  <g stroke="#cbd5e1" stroke-width="1">
+    <rect x="320" y="86" width="100" height="100" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+    <line x1="340" y1="86" x2="340" y2="186"/><line x1="360" y1="86" x2="360" y2="186"/><line x1="380" y1="86" x2="380" y2="186"/><line x1="400" y1="86" x2="400" y2="186"/>
+    <line x1="320" y1="106" x2="420" y2="106"/><line x1="320" y1="126" x2="420" y2="126"/><line x1="320" y1="146" x2="420" y2="146"/><line x1="320" y1="166" x2="420" y2="166"/>
+  </g>
+  <text x="370" y="80" text-anchor="middle" font-size="11" fill="#6366f1">特征图（1/16）</text>
+  <rect x="360" y="116" width="16" height="16" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+  <text x="368" y="200" text-anchor="middle" font-size="10" fill="#3b82f6">投影后 4×4</text>
+
+  <line x1="424" y1="136" x2="470" y2="136" stroke="#374151" stroke-width="2" marker-end="url(#aq13)"/>
+  <text x="447" y="126" text-anchor="middle" font-size="9.5" fill="#374151">RoI</text>
+  <text x="447" y="152" text-anchor="middle" font-size="9.5" fill="#374151">Pooling</text>
+  <rect x="474" y="110" width="52" height="52" fill="#dcfce7" stroke="#16a34a"/><text x="500" y="140" text-anchor="middle" font-size="10">固定7×7</text>
+
+  <text x="600" y="120" text-anchor="middle" font-size="11" fill="#374151">→ 全连接</text>
+  <text x="600" y="140" text-anchor="middle" font-size="11" fill="#374151">分类+回归</text>
+
+  <!-- 公式与原理 -->
+  <rect x="40" y="232" width="620" height="74" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="350" y="254" text-anchor="middle" font-size="12.5" fill="#111827">(x, y, w, h)原图 ──÷s──► (x/s, y/s, w/s, h/s)特征图</text>
+  <text x="350" y="278" text-anchor="middle" font-size="11" fill="#374151">为什么对：卷积/池化保留空间排布（平移等变），特征图是原图缩小版地图，位置一一对应</text>
+  <text x="350" y="297" text-anchor="middle" font-size="10.5" fill="#9ca3af">坐标 x/s 常非整数 → RoI Pooling 取整量化有轻微错位 → 后由 RoI Align 修正</text>
+  <defs><marker id="aq13" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

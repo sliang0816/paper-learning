@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="720" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">DETR 精修脉络：一层解码器内部（自注意力→交叉注意力→FFN）＋ L 层串联把框由粗到细</text>
+
+  <!-- 图像编码器一次 -->
+  <rect x="20" y="42" width="920" height="46" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="480" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#4338ca">图像编码器只跑一次 → memory（K/V）被全部 L 层共享、逐层永不变</text>
+  <text x="480" y="80" text-anchor="middle" font-size="9.5" fill="#6b7280">"精修"不是反复看不同的图，而是带着越来越准的问题反复问同一张图（Q77）</text>
+
+  <!-- 一层内部 -->
+  <rect x="20" y="100" width="600" height="330" rx="8" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="320" y="122" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">一层解码器内部：三步顺序执行</text>
+  <!-- input -->
+  <rect x="50" y="138" width="520" height="26" rx="4" fill="#fff" stroke="#94a3b8"/>
+  <text x="310" y="156" text-anchor="middle" font-size="10" fill="#374151">输入：上一层的 query_(l-1)（初始层=object query）</text>
+  <!-- self attn -->
+  <rect x="50" y="176" width="520" height="66" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="66" y="196" font-size="10.5" font-weight="bold" fill="#1e40af">① 自注意力（query↔query，同主体）＝分工去重</text>
+  <text x="66" y="214" font-size="9.5" fill="#374151">Q,K,V 全来自 query 自己 → 彼此通气"你盯那辆车、我换一个"</text>
+  <text x="66" y="232" font-size="9.5" fill="#6b7280">不直接定位，只做协商避让（免 NMS 的根）</text>
+  <!-- cross attn -->
+  <rect x="50" y="252" width="520" height="80" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="66" y="272" font-size="10.5" font-weight="bold" fill="#15803d">② 交叉注意力（query↔图像，不同主体）＝看得更准、吸得更准</text>
+  <text x="66" y="290" font-size="9.5" fill="#374151">Q=分完工的 query，K/V=图像 memory → 算相似度→物体那片"亮"</text>
+  <text x="66" y="308" font-size="9.5" fill="#374151">→ 按权重把那片区域特征加权吸进 query（真正灌入视觉信息）</text>
+  <text x="66" y="326" font-size="9" fill="#6b7280">这一步才定位/吸特征</text>
+  <!-- ffn -->
+  <rect x="50" y="342" width="520" height="46" rx="5" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="66" y="362" font-size="10.5" font-weight="bold" fill="#b45309">③ FFN + 残差 ＝ 更新成"更懂自己物体在哪"的新 query_l</text>
+  <text x="66" y="379" font-size="9" fill="#6b7280">非线性变换吸进来的信息，传给下一层</text>
+  <!-- output -->
+  <rect x="50" y="398" width="520" height="24" rx="4" fill="#fff" stroke="#16a34a"/>
+  <text x="310" y="415" text-anchor="middle" font-size="10" fill="#15803d">输出 query_l → 预测头（每层接辅助损失/深监督）→ box_l</text>
+
+  <!-- L层串联 -->
+  <rect x="636" y="100" width="304" height="330" rx="8" fill="#eef2ff" stroke="#818cf8"/>
+  <text x="788" y="122" text-anchor="middle" font-size="12" font-weight="bold" fill="#4338ca">L 层串联：框由粗到细</text>
+  <g font-size="9.5">
+    <rect x="656" y="138" width="264" height="42" rx="4" fill="#fff" stroke="#c7d2fe"/>
+    <text x="668" y="155" fill="#374151">L1：query 懵 → 注意力散、吸得杂</text>
+    <text x="668" y="172" fill="#b91c1c">→ 框粗</text>
+    <rect x="656" y="188" width="264" height="42" rx="4" fill="#fff" stroke="#c7d2fe"/>
+    <text x="668" y="205" fill="#374151">L2：更懂自己是谁 → 用更准 query 重新问图</text>
+    <text x="668" y="222" fill="#ca8a04">→ 注意力更聚焦、框收紧</text>
+    <rect x="656" y="238" width="264" height="34" rx="4" fill="#fff" stroke="#c7d2fe"/>
+    <text x="668" y="259" fill="#6b7280">…逐层重复（正反馈）…</text>
+    <rect x="656" y="280" width="264" height="42" rx="4" fill="#fff" stroke="#16a34a"/>
+    <text x="668" y="297" fill="#374151">L6：query 明确 → 注意力压在物体上</text>
+    <text x="668" y="314" fill="#15803d">→ 框贴合</text>
+  </g>
+  <text x="788" y="344" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#4338ca">关键闭环（精修的正反馈）</text>
+  <text x="652" y="364" font-size="8.8" fill="#374151">交叉注意力吸特征 → FFN 更新 query →</text>
+  <text x="652" y="380" font-size="8.8" fill="#374151">更准的 query 让下层交叉注意力落更准 →</text>
+  <text x="652" y="396" font-size="8.8" fill="#374151">再吸更相关特征……（Deformable/DINO：</text>
+  <text x="652" y="412" font-size="8.8" fill="#15803d">框_(l+1)=框_l+Δ_l 显式残差微调）</text>
+
+  <!-- 分工 -->
+  <rect x="20" y="442" width="460" height="120" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="463" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">自注意力 vs 交叉注意力：各管精修的一半</text>
+  <text x="36" y="486" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#1e40af">自注意力</tspan>：保证"不重复"——query 间分工，一物一 query</text>
+  <text x="36" y="506" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#15803d">交叉注意力</tspan>：保证"越看越准"——每层用更好的 query 重新</text>
+  <text x="52" y="524" font-size="9.5" fill="#374151">查图、吸更相关的区域特征</text>
+  <text x="36" y="546" font-size="9" fill="#6b7280">两者缺一不可：只分工不看图→框不准；只看图不分工→重复框</text>
+
+  <!-- 为什么会发生 -->
+  <rect x="500" y="442" width="440" height="120" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="720" y="463" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">为什么这会发生（不是推理时跑梯度）</text>
+  <text x="516" y="486" font-size="9.5" fill="#374151">推理时权重固定、只是前向；精修是"展开的迭代"。</text>
+  <text x="516" y="506" font-size="9.5" fill="#374151"><tspan font-weight="bold">训练</tspan>用匈牙利一对一匹配 + <tspan font-weight="bold">每层辅助损失(深监督)</tspan></text>
+  <text x="516" y="524" font-size="9.5" fill="#374151">把每层的"精修函数"学好 → 前向一遍就逐层把框推准</text>
+  <text x="516" y="546" font-size="9" fill="#6b7280">训练调权重(A)≠ L 层前向精修(B)，两者正交（Q74）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="574" width="920" height="60" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="598" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：每层 = 自注意力(分工去重) → 交叉注意力(带更准的问题重问同一张图、吸更相关特征) → FFN(更新 query)；</text>
+  <text x="480" y="620" text-anchor="middle" font-size="9.5" fill="#374151">图像 K/V 全程不变、query 逐层更新，形成"吸特征→更新→更准地再吸"的正反馈；训练(匈牙利+每层深监督)把精修函数学好，推理前向一遍逐层收紧。</text>
+
+  <!-- 导航提示 -->
+  <rect x="20" y="646" width="920" height="60" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="480" y="668" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#334155">DETR 答疑脉络：Q72 什么是 query/怎么 query 目标（地基）→ Q73 六问纵深 → Q74 两种迭代+为何不能省 L+④L层凭什么精修(原Q76)</text>
+  <text x="480" y="688" text-anchor="middle" font-size="9.5" fill="#334155">→ Q77 各层 Q/K/V 数据流 → Q111 一个 query 认领一块的理论根据(匈牙利) → Q112 一对一能否用于 YOLO 去 NMS</text>
+</svg>

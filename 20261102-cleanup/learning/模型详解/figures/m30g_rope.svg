@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 340" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="340" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">RoPE（旋转位置编码）：把位置信息编码进 Q/K，相对位置自然涌现</text>
+
+  <!-- Sinusoidal PE (left, comparison) -->
+  <text x="165" y="52" text-anchor="middle" font-size="11.5" fill="#6b7280">传统绝对位置编码（Transformer 原版）</text>
+  <rect x="20" y="62" width="290" height="100" rx="6" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="4 2"/>
+  <text x="165" y="86" text-anchor="middle" font-size="10" fill="#374151">x_m = x + PE(m)</text>
+  <text x="165" y="106" text-anchor="middle" font-size="9.5" fill="#6b7280">PE(m)_i = sin(m/10000^{2i/d})（偶数维）</text>
+  <text x="165" y="122" text-anchor="middle" font-size="9.5" fill="#6b7280">            cos(m/10000^{2i/d})（奇数维）</text>
+  <text x="165" y="142" text-anchor="middle" font-size="9.5" fill="#ef4444">❌ 绝对位置，难以外推到更长序列</text>
+  <text x="165" y="157" text-anchor="middle" font-size="9.5" fill="#ef4444">❌ 注意力分数不直接体现相对位置</text>
+
+  <!-- RoPE (right) -->
+  <text x="560" y="52" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#7c3aed">RoPE（Su et al. 2021，GPT/LLaMA 标准）</text>
+  <rect x="330" y="62" width="470" height="200" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.8"/>
+
+  <!-- Formula box -->
+  <rect x="344" y="74" width="440" height="62" rx="4" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="564" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">旋转矩阵乘以 Query/Key</text>
+  <text x="564" y="112" text-anchor="middle" font-size="10.5" fill="#6d28d9">f(x_m, m) = R_Θ^m · W_q · x_m  （对 Q）</text>
+  <text x="564" y="128" text-anchor="middle" font-size="10.5" fill="#6d28d9">f(x_n, n) = R_Θ^n · W_k · x_n  （对 K）</text>
+
+  <!-- 2D rotation -->
+  <text x="420" y="160" text-anchor="middle" font-size="10" fill="#374151">每对维度 (2i, 2i+1) 做二维旋转：</text>
+  <rect x="344" y="166" width="210" height="44" rx="4" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="449" y="182" text-anchor="middle" font-size="10" fill="#065f46">[q₂ᵢ, q₂ᵢ₊₁] · R(mθᵢ)</text>
+  <text x="449" y="198" text-anchor="middle" font-size="9.5" fill="#065f46">= [cos(mθᵢ)  −sin(mθᵢ)] [q₂ᵢ  ]</text>
+  <text x="449" y="213" text-anchor="middle" font-size="9.5" fill="#065f46">  [sin(mθᵢ)   cos(mθᵢ)] [q₂ᵢ₊₁]</text>
+
+  <!-- QK dot product -->
+  <rect x="562" y="166" width="226" height="44" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="675" y="183" text-anchor="middle" font-size="10" fill="#1d4ed8">qₘᵀkₙ = xₘᵀ Wqᵀ RΘᵀ⁽ᵐ⁻ⁿ⁾ Wk xₙ</text>
+  <text x="675" y="200" text-anchor="middle" font-size="9.5" fill="#1d4ed8">注意力分数只依赖相对位置 (m−n) ✓</text>
+  <text x="675" y="213" text-anchor="middle" font-size="9" fill="#6b7280">θᵢ = 1/10000^{2i/d}</text>
+
+  <!-- Key properties -->
+  <rect x="330" y="276" width="470" height="54" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="565" y="295" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">RoPE 的三个关键优势</text>
+  <text x="565" y="311" text-anchor="middle" font-size="10" fill="#374151">① 相对位置 (m−n) 自然涌现（无需显式相对编码）</text>
+  <text x="565" y="325" text-anchor="middle" font-size="10" fill="#374151">② 长度外推：可推广到训练时未见过的序列长度（YaRN/LongRoPE）　③ 无额外参数，不占模型容量</text>
+
+  <!-- Comparison note bottom -->
+  <rect x="20" y="276" width="295" height="54" rx="6" fill="#f9fafb" stroke="#e2e8f0"/>
+  <text x="165" y="296" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#374151">使用 RoPE 的模型</text>
+  <text x="165" y="312" text-anchor="middle" font-size="9.5" fill="#374151">LLaMA 1/2/3, GPT-NeoX</text>
+  <text x="165" y="326" text-anchor="middle" font-size="9.5" fill="#374151">Qwen 系列, InternLM, Mistral, Gemma</text>
+
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#374151"/></marker>
+  </defs>
+</svg>

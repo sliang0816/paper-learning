@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q121 为什么需要因果掩码：自回归分解 + 并行训练防泄漏 —— 分界线是"生成 vs 理解"，不是"翻译"</text>
+
+  <!-- ① 理论依据 -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 理论依据：链式法则 P(y|x) = ∏ P(y_t | y_&lt;t, x) —— 每个词只能由"已生成的过去"决定</text>
+  <text x="40" y="88" font-size="9.5" fill="#374151">· 生成 = 按概率链式法则逐词分解，数学定义里 y_t 的条件<tspan font-weight="bold">只有 y_&lt;t</tspan>（过去）和 x（原文），未来项根本不在条件里</text>
+  <text x="40" y="110" font-size="9.5" fill="#374151">· 训练用 teacher forcing <tspan font-weight="bold">整句并行</tspan>喂真值：位置 t 的任务 = 预测 y_{t+1}，而 y_{t+1} 就躺在同一句输入里</text>
+  <text x="40" y="132" font-size="9.5" fill="#b91c1c">· 不加掩码 → 位置 t 的自注意力直接看到 y_{t+1}（= 自己的标签）→ 抄答案，损失趋 0，学到"复制"而非条件分布</text>
+  <text x="40" y="154" font-size="9.5" fill="#374151">· 推理时未来<tspan font-weight="bold">根本不存在</tspan>（还没生成）→ 训练若依赖未来，推理分布不匹配 → 掩码保证<tspan font-weight="bold">训练-推理一致</tspan></text>
+  <text x="40" y="176" font-size="9" fill="#6b7280">· RNN 天然逐步、看不到未来所以不用掩码；Transformer 为了并行一次喂整句，须用掩码人工恢复"时间箭头"</text>
+
+  <!-- ② 掩码矩阵 -->
+  <rect x="20" y="204" width="440" height="190" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="240" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 实现：下三角掩码（未来打 −∞）</text>
+  <g font-size="9" text-anchor="middle">
+    <text x="120" y="248" fill="#6b7280">位置\看</text>
+    <text x="170" y="248" fill="#374151">y₁</text><text x="210" y="248" fill="#374151">y₂</text><text x="250" y="248" fill="#374151">y₃</text><text x="290" y="248" fill="#374151">y₄</text>
+    <text x="120" y="274" fill="#374151">y₁</text>
+    <rect x="155" y="260" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="170" y="274" fill="#15803d">✓</text>
+    <rect x="195" y="260" width="30" height="20" fill="#fecaca" stroke="#ef4444"/><text x="210" y="274" fill="#b91c1c">−∞</text>
+    <rect x="235" y="260" width="30" height="20" fill="#fecaca" stroke="#ef4444"/><text x="250" y="274" fill="#b91c1c">−∞</text>
+    <rect x="275" y="260" width="30" height="20" fill="#fecaca" stroke="#ef4444"/><text x="290" y="274" fill="#b91c1c">−∞</text>
+    <text x="120" y="300" fill="#374151">y₂</text>
+    <rect x="155" y="286" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="170" y="300" fill="#15803d">✓</text>
+    <rect x="195" y="286" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="210" y="300" fill="#15803d">✓</text>
+    <rect x="235" y="286" width="30" height="20" fill="#fecaca" stroke="#ef4444"/><text x="250" y="300" fill="#b91c1c">−∞</text>
+    <rect x="275" y="286" width="30" height="20" fill="#fecaca" stroke="#ef4444"/><text x="290" y="300" fill="#b91c1c">−∞</text>
+    <text x="120" y="326" fill="#374151">y₃</text>
+    <rect x="155" y="312" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="170" y="326" fill="#15803d">✓</text>
+    <rect x="195" y="312" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="210" y="326" fill="#15803d">✓</text>
+    <rect x="235" y="312" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="250" y="326" fill="#15803d">✓</text>
+    <rect x="275" y="312" width="30" height="20" fill="#fecaca" stroke="#ef4444"/><text x="290" y="326" fill="#b91c1c">−∞</text>
+    <text x="120" y="352" fill="#374151">y₄</text>
+    <rect x="155" y="338" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="170" y="352" fill="#15803d">✓</text>
+    <rect x="195" y="338" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="210" y="352" fill="#15803d">✓</text>
+    <rect x="235" y="338" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="250" y="352" fill="#15803d">✓</text>
+    <rect x="275" y="338" width="30" height="20" fill="#bbf7d0" stroke="#16a34a"/><text x="290" y="352" fill="#15803d">✓</text>
+  </g>
+  <text x="330" y="290" font-size="8.5" fill="#374151">softmax 前把未来位</text>
+  <text x="330" y="304" font-size="8.5" fill="#374151">打 −∞ → 权重变 0</text>
+  <text x="330" y="322" font-size="8.5" fill="#6b7280">原始 Transformer 里</text>
+  <text x="330" y="336" font-size="8.5" fill="#6b7280">只有 decoder 自注意力</text>
+  <text x="330" y="350" font-size="8.5" fill="#6b7280">用它，encoder 不用</text>
+  <text x="40" y="382" font-size="9" fill="#374151">→ 一次前向 = N 个位置各自"只看过去"并行算，等价 N 次逐步推理</text>
+
+  <!-- ③ 谁需要谁不需要 -->
+  <rect x="480" y="204" width="440" height="190" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="700" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 分界线：输出是否逐 token 生成（与"翻译"无关）</text>
+  <text x="496" y="250" font-size="9.5" font-weight="bold" fill="#b91c1c">需要因果掩码（自回归生成端）：</text>
+  <text x="510" y="268" font-size="9" fill="#374151">原始 Transformer 的 decoder（翻译只是例子之一）</text>
+  <text x="510" y="284" font-size="9" fill="#374151">GPT / LLaMA 全系（decoder-only 聊天生成）</text>
+  <text x="510" y="300" font-size="9" fill="#374151">图像描述、LLaVA 生成回答的 LLM 部分</text>
+  <text x="496" y="324" font-size="9.5" font-weight="bold" fill="#15803d">不需要因果掩码（理解/编码，双向）：</text>
+  <text x="510" y="342" font-size="9" fill="#374151">BERT、ViT、Swin、CLIP 双塔、SegFormer、SAM</text>
+  <text x="510" y="358" font-size="9" fill="#374151">DETR 的 decoder 也不带（集合预测无顺序，Q79）</text>
+  <text x="496" y="380" font-size="9" fill="#6d28d9">→ 编码器"偷看两边"是特性不是作弊：输入全部已知</text>
+
+  <!-- ④ 三种掩码区分 -->
+  <rect x="20" y="406" width="900" height="130" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="426" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">④ 三种"掩码"别混为一谈</text>
+  <text x="40" y="450" font-size="9.5" fill="#374151">· <tspan font-weight="bold">因果掩码（本题）</tspan>：注意力层面，下三角，防偷看未来 —— 只有自回归生成端需要</text>
+  <text x="40" y="472" font-size="9.5" fill="#374151">· <tspan font-weight="bold">Padding 掩码</tspan>：注意力层面，把批处理补零位打 −∞ —— 工程需要，编码器/解码器几乎都用，与因果无关</text>
+  <text x="40" y="494" font-size="9.5" fill="#374151">· <tspan font-weight="bold">BERT 的 [MASK]</tspan>：输入层面遮词（完形填空训练目标 MLM）—— 是训练任务设计，根本不是注意力掩码（Q93）</text>
+  <text x="40" y="518" font-size="9" fill="#6b7280">所以"BERT 也有 mask"和"decoder 的 mask"是两码事：前者遮输入词，后者遮注意力视野</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="548" width="900" height="56" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="570" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：因果掩码的理论依据 = 链式法则 P(y_t|y_&lt;t) 的条件里没有未来 + 并行训练时标签就在输入里、不遮就抄答案 + 推理时未来不存在须训推一致；</text>
+  <text x="470" y="590" text-anchor="middle" font-size="9" fill="#374151">需不需要看"是否自回归生成"而非"是否翻译"——GPT 聊天也要，BERT/ViT/CLIP 只理解就不要。</text>
+</svg>

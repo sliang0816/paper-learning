@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="470" fill="#fff"/>
+  <text x="420" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">GAP / FCN / SPP 的输出到底是什么：C=特征通道数（非类别），类别靠后面的 FC 或 K 核</text>
+  <text x="420" y="46" text-anchor="middle" font-size="11" fill="#6b7280">关键：C 是网络结构定的特征通道数；K = 类别数</text>
+
+  <!-- GAP -->
+  <rect x="20" y="62" width="800" height="118" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="36" y="84" font-size="13" font-weight="bold" fill="#15803d">① GAP：每通道求平均 → C 维向量（C=特征通道数，≠类别）</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="40" y="98" width="120" height="56" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="100" y="122">特征图 7×7×2048</text><text x="100" y="140" font-size="9">C=2048 通道</text>
+    <rect x="220" y="108" width="110" height="36" rx="5" fill="#bbf7d0" stroke="#15803d"/><text x="275" y="131">GAP → 2048 维</text>
+    <rect x="390" y="108" width="150" height="36" rx="5" fill="#fde68a" stroke="#ca8a04"/><text x="465" y="126">FC: 2048 → 1000</text><text x="465" y="139" font-size="8">这一步才出类别</text>
+    <rect x="600" y="108" width="110" height="36" rx="5" fill="#fef9c3" stroke="#a16207"/><text x="655" y="131">1000 类得分</text>
+  </g>
+  <g stroke="#16a34a" stroke-width="1.3" marker-end="url(#g)">
+    <line x1="160" y1="126" x2="218" y2="126"/><line x1="330" y1="126" x2="388" y2="126"/><line x1="540" y1="126" x2="598" y2="126"/>
+  </g>
+  <text x="36" y="172" font-size="9.5" fill="#b91c1c">例外：NiN 原始设计故意让最后卷积输出"恰好类别数"个通道，GAP 后直接是类别 → 那时 C=类别数（不接 FC）</text>
+
+  <!-- FCN -->
+  <rect x="20" y="190" width="800" height="118" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="36" y="212" font-size="13" font-weight="bold" fill="#1d4ed8">② FCN：1×1 卷积(K 个核) → 保留空间的 H'×W'×K 热力图（每个位置一组 K 类得分）</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="40" y="226" width="110" height="56" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="95" y="250">特征图 7×7×512</text><text x="95" y="268" font-size="9">C=512</text>
+    <rect x="210" y="236" width="130" height="36" rx="5" fill="#bfdbfe" stroke="#2563eb"/><text x="275" y="255">1×1卷积，K=21核</text>
+    <rect x="400" y="226" width="120" height="56" rx="5" fill="#93c5fd" stroke="#1d4ed8"/><text x="460" y="250">7×7×21</text><text x="460" y="268" font-size="8">每位置 21 类得分</text>
+    <rect x="580" y="236" width="220" height="36" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="690" y="255" font-size="9">每位置 argmax → 7×7 类别图 → 上采样到原图</text>
+  </g>
+  <g stroke="#3b82f6" stroke-width="1.3" marker-end="url(#b)">
+    <line x1="150" y1="254" x2="208" y2="254"/><line x1="340" y1="254" x2="398" y2="254"/><line x1="520" y1="254" x2="578" y2="254"/>
+  </g>
+  <text x="36" y="300" font-size="9.5" fill="#1d4ed8">"热力图"= 21 张图，每张对应一类：'车'那张在有车处亮、'路'那张在路面亮 → 逐像素分类=分割掩码</text>
+
+  <!-- SPP -->
+  <rect x="20" y="318" width="800" height="100" rx="8" fill="#fff7ed" stroke="#fdba74"/>
+  <text x="36" y="340" font-size="13" font-weight="bold" fill="#c2410c">③ SPP：多档池化拼成定长 (格子数×C) 向量（C 不变=特征通道；固定的是"格子数"）</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="40" y="354" width="120" height="48" rx="5" fill="#ffedd5" stroke="#f97316"/><text x="100" y="375">特征图 ?×?×256</text><text x="100" y="392" font-size="8">分辨率任意，C=256</text>
+    <rect x="220" y="360" width="150" height="36" rx="5" fill="#fed7aa" stroke="#ea580c"/><text x="295" y="379">4×4+2×2+1×1=21格</text>
+    <rect x="430" y="360" width="130" height="36" rx="5" fill="#fdba74" stroke="#c2410c"/><text x="495" y="383">21×256=5376 维</text>
+    <rect x="620" y="360" width="150" height="36" rx="5" fill="#fde68a" stroke="#ca8a04"/><text x="695" y="379">FC → 类别数</text><text x="695" y="392" font-size="8">这一步才出类别</text>
+  </g>
+  <g stroke="#ea580c" stroke-width="1.3" marker-end="url(#o)">
+    <line x1="160" y1="378" x2="218" y2="378"/><line x1="370" y1="378" x2="428" y2="378"/><line x1="560" y1="378" x2="618" y2="378"/>
+  </g>
+
+  <rect x="20" y="426" width="800" height="36" rx="6" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="420" y="449" text-anchor="middle" font-size="10.5" fill="#374151">统一记：GAP/SPP 的 C 是<tspan font-weight="bold">特征通道数</tspan>，类别靠后面 FC；FCN 直接把输出通道设成 <tspan font-weight="bold">K=类别数</tspan>，但保留空间 → 每个位置一个分类。</text>
+
+  <defs>
+    <marker id="g" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#16a34a"/></marker>
+    <marker id="b" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#3b82f6"/></marker>
+    <marker id="o" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#ea580c"/></marker>
+  </defs>
+</svg>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="640" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">1×1 卷积用来干嘛：在「通道维度」上做线性重组（换通道数 / 融合信息），不碰空间</text>
+
+  <!-- ① 具体例子 -->
+  <rect x="20" y="42" width="920" height="250" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="480" y="64" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#6d28d9">① 一个像素：把 4 个输入通道「重新配方」成 2 个输出通道（降维 + 特征重组）</text>
+  <!-- input -->
+  <text x="130" y="96" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#374151">该像素 4 个通道值 x</text>
+  <g font-size="10" font-family="Consolas,monospace">
+    <rect x="70" y="106" width="120" height="26" fill="#fff" stroke="#7c3aed"/><text x="130" y="123" text-anchor="middle" fill="#b91c1c">2</text>
+    <text x="130" y="148" text-anchor="middle" font-size="8.5" fill="#6b7280">横边缘</text>
+    <rect x="70" y="160" width="120" height="26" fill="#fff" stroke="#7c3aed"/><text x="130" y="177" text-anchor="middle" fill="#374151">0</text>
+    <text x="130" y="202" text-anchor="middle" font-size="8.5" fill="#6b7280">竖边缘</text>
+    <rect x="70" y="214" width="120" height="26" fill="#fff" stroke="#7c3aed"/><text x="130" y="231" text-anchor="middle" fill="#dc2626">3</text>
+    <text x="130" y="256" text-anchor="middle" font-size="8.5" fill="#6b7280">红色</text>
+    <rect x="70" y="268" width="120" height="20" fill="#fff" stroke="#7c3aed"/><text x="130" y="283" text-anchor="middle" fill="#374151">1  纹理</text>
+  </g>
+  <!-- filter A -->
+  <rect x="270" y="106" width="300" height="80" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="286" y="126" font-size="10" font-weight="bold" fill="#15803d">滤波器 A 权重 [1,1,0,0]（挑边缘）</text>
+  <text x="286" y="148" font-size="10" font-family="Consolas,monospace" fill="#374151">A = 1·2 + 1·0 + 0·3 + 0·1 = 2</text>
+  <text x="286" y="170" font-size="9" fill="#6b7280">→ 把两种"边缘"归并成一个"边缘类"通道</text>
+  <!-- filter B -->
+  <rect x="270" y="200" width="300" height="80" rx="5" fill="#fff" stroke="#8b5cf6"/>
+  <text x="286" y="220" font-size="10" font-weight="bold" fill="#6d28d9">滤波器 B 权重 [0,0,1,1]（挑外观）</text>
+  <text x="286" y="242" font-size="10" font-family="Consolas,monospace" fill="#374151">B = 0·2 + 0·0 + 1·3 + 1·1 = 4</text>
+  <text x="286" y="264" font-size="9" fill="#6b7280">→ 把"红色+纹理"归并成一个"外观类"通道</text>
+  <!-- output -->
+  <text x="700" y="96" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">输出 2 通道</text>
+  <g font-size="11" font-family="Consolas,monospace">
+    <rect x="660" y="120" width="80" height="30" fill="#dcfce7" stroke="#16a34a"/><text x="700" y="141" text-anchor="middle" font-weight="bold" fill="#15803d">A=2</text>
+    <rect x="660" y="210" width="80" height="30" fill="#ede9fe" stroke="#8b5cf6"/><text x="700" y="231" text-anchor="middle" font-weight="bold" fill="#6d28d9">B=4</text>
+  </g>
+  <text x="820" y="150" font-size="9" fill="#6b7280">4 通道 → 2 通道</text>
+  <text x="820" y="166" font-size="9" fill="#6b7280">"重新配方"</text>
+  <text x="820" y="225" font-size="9" fill="#6b7280">同一套权重</text>
+  <text x="820" y="241" font-size="9" fill="#6b7280">每个像素复用</text>
+  <line x1="196" y1="119" x2="264" y2="130" stroke="#16a34a" stroke-width="0.8"/><line x1="196" y1="173" x2="264" y2="145" stroke="#16a34a" stroke-width="0.8"/>
+  <line x1="196" y1="227" x2="264" y2="235" stroke="#8b5cf6" stroke-width="0.8"/><line x1="196" y1="278" x2="264" y2="250" stroke="#8b5cf6" stroke-width="0.8"/>
+  <line x1="576" y1="146" x2="654" y2="135" stroke="#16a34a" stroke-width="1"/><line x1="576" y1="240" x2="654" y2="225" stroke="#8b5cf6" stroke-width="1"/>
+
+  <!-- ② 四大用法 -->
+  <rect x="20" y="304" width="920" height="242" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="480" y="326" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e40af">② 1×1 在真实网络里的四大用法（都是"在通道维度上做手脚、不碰空间"）</text>
+  <g font-size="10">
+    <rect x="40" y="342" width="435" height="90" rx="5" fill="#fff" stroke="#60a5fa"/>
+    <text x="52" y="362" font-size="10.5" font-weight="bold" fill="#1d4ed8">A. 降维省算力（瓶颈）</text>
+    <text x="52" y="384" fill="#374151">ResNet/GoogLeNet：256→(1×1)→64→3×3→(1×1)→256</text>
+    <text x="52" y="404" fill="#374151">先把通道压薄，再做贵的 3×3，最后升回去</text>
+    <text x="52" y="423" font-size="9" fill="#6b7280">对照 Q52 / Q140</text>
+
+    <rect x="485" y="342" width="435" height="90" rx="5" fill="#fff" stroke="#60a5fa"/>
+    <text x="497" y="362" font-size="10.5" font-weight="bold" fill="#1d4ed8">B. 升维扩张</text>
+    <text x="497" y="384" fill="#374151">MobileNetV2 倒残差：24→(1×1)→144（×6）</text>
+    <text x="497" y="404" fill="#374151">先扩到高维，再在高维上做 depthwise</text>
+    <text x="497" y="423" font-size="9" fill="#6b7280">"两头窄中间宽"里的"宽"就是 1×1 升的</text>
+
+    <rect x="40" y="440" width="435" height="90" rx="5" fill="#fff" stroke="#60a5fa"/>
+    <text x="52" y="460" font-size="10.5" font-weight="bold" fill="#1d4ed8">C. depthwise 后混通道（本课重点）</text>
+    <text x="52" y="482" fill="#374151">MobileNet 逐点卷积：depthwise 只滤空间不混通道，</text>
+    <text x="52" y="502" fill="#374151">靠 1×1 把各通道重新"搅拌"补上跨通道交互</text>
+    <text x="52" y="521" font-size="9" fill="#6b7280">→ 这两步一分工 = 深度可分离卷积</text>
+
+    <rect x="485" y="440" width="435" height="90" rx="5" fill="#fff" stroke="#60a5fa"/>
+    <text x="497" y="460" font-size="10.5" font-weight="bold" fill="#1d4ed8">D. 通道对齐 / 注意力里的 FC</text>
+    <text x="497" y="482" fill="#374151">残差相加前把两路通道数配平；</text>
+    <text x="497" y="502" fill="#374151">SE 通道注意力里的全连接层也可看作 1×1</text>
+    <text x="497" y="521" font-size="9" fill="#6b7280">凡"只在通道间线性组合"的地方都能用 1×1</text>
+  </g>
+
+  <!-- 一句话 -->
+  <rect x="20" y="558" width="920" height="66" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="582" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：1×1 卷积 = 在通道维度上的全连接（线性重组），只混通道、不看空间邻域。</text>
+  <text x="480" y="604" text-anchor="middle" font-size="9.5" fill="#374151">用它换通道数（降维/升维）、融合跨通道信息；depthwise 只滤空间留下的"通道不通气"，正是靠 1×1 补齐 → 深度可分离。</text>
+  <text x="480" y="620" text-anchor="middle" font-size="8.5" fill="#6b7280">同一套 1×1 权重在所有 H×W 像素上复用，整张图=一次大矩阵乘 GEMM（见矩阵账图），所以又省又快。</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="470" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">DDPM：前向逐步加噪 → 反向学"逐步去噪"（网络预测每步噪声）；DDIM：同模型少步采样</text>
+
+  <!-- 前向 -->
+  <rect x="20" y="42" width="900" height="96" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">前向过程（固定、不学）：逐步加高斯噪声，T 步后变纯噪声</text>
+  <rect x="60" y="76" width="50" height="50" fill="#86efac" stroke="#16a34a"/><text x="85" y="140" text-anchor="middle" font-size="8" fill="#374151">x₀ 原图</text>
+  <text x="118" y="104" font-size="11" fill="#9ca3af">+噪→</text>
+  <rect x="150" y="76" width="50" height="50" fill="#a7f3d0" stroke="#16a34a"/><text x="175" y="140" text-anchor="middle" font-size="8" fill="#374151">x₁</text>
+  <text x="208" y="104" font-size="11" fill="#9ca3af">→</text>
+  <rect x="230" y="76" width="50" height="50" fill="#d1d5db" stroke="#9ca3af"/><text x="255" y="140" text-anchor="middle" font-size="8" fill="#374151">x_t</text>
+  <text x="288" y="104" font-size="11" fill="#9ca3af">→ … →</text>
+  <rect x="360" y="76" width="50" height="50" fill="#9ca3af" stroke="#6b7280"/><text x="385" y="140" text-anchor="middle" font-size="8" fill="#374151">x_T 纯噪声</text>
+  <text x="470" y="98" font-size="9" fill="#374151">· 每步按固定方案加一点高斯噪声</text>
+  <text x="470" y="116" font-size="9" fill="#15803d">· 有闭式：可一步直接从 x₀ 得到任意 x_t（训练用）</text>
+
+  <!-- 反向 -->
+  <rect x="20" y="150" width="900" height="120" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">反向过程（要学）：从纯噪声逐步去噪回图像</text>
+  <rect x="360" y="184" width="50" height="50" fill="#9ca3af" stroke="#6b7280"/><text x="385" y="248" text-anchor="middle" font-size="8" fill="#374151">x_T 噪声</text>
+  <text x="330" y="212" font-size="11" fill="#9ca3af">←去噪</text>
+  <rect x="230" y="184" width="50" height="50" fill="#d1d5db" stroke="#9ca3af"/><text x="255" y="248" text-anchor="middle" font-size="8" fill="#374151">x_t</text>
+  <text x="200" y="212" font-size="11" fill="#9ca3af">← … ←</text>
+  <rect x="150" y="184" width="50" height="50" fill="#a7f3d0" stroke="#16a34a"/><text x="175" y="248" text-anchor="middle" font-size="8" fill="#374151">x₁</text>
+  <text x="128" y="212" font-size="11" fill="#9ca3af">←</text>
+  <rect x="60" y="184" width="50" height="50" fill="#86efac" stroke="#16a34a"/><text x="85" y="248" text-anchor="middle" font-size="8" fill="#374151">x₀ 生成图</text>
+  <text x="470" y="200" font-size="9" fill="#374151">· 训练：随机取 t、给 x₀ 加噪得 x_t → 网络(U-Net)预测"加了什么噪声 ε"</text>
+  <text x="470" y="218" font-size="9" fill="#15803d">· 损失就一个：预测噪声 vs 真噪声的 MSE（简单、稳定）</text>
+  <text x="470" y="236" font-size="9" fill="#374151">· 采样：从噪声开始，每步用网络预测的噪声去掉一点 → 重复 T 次</text>
+  <text x="470" y="254" font-size="8.5" fill="#b91c1c">· 问题：T 常达 ~1000 步 → 生成很慢</text>
+
+  <!-- DDIM -->
+  <rect x="20" y="282" width="900" height="90" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">DDIM：同一个训练好的模型，改采样方式 → 几十步替代上千步</text>
+  <text x="40" y="324" font-size="9" fill="#374151">· DDPM 采样是随机(马尔可夫)、必须一步步走；DDIM 改成<tspan font-weight="bold">确定性、非马尔可夫</tspan>采样</text>
+  <text x="40" y="342" font-size="9" fill="#374151">· 可以"跳步"：20~50 步就出图，质量接近千步 → 扩散实用化的关键；确定性还让隐向量可插值/复现</text>
+  <text x="40" y="360" font-size="8.5" fill="#6b7280">· 不用重训，只换采样器 → 后来 DPM-Solver 等更快的采样器沿此思路</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="384" width="900" height="72" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="406" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：DDPM 把生成拆成"加噪→学逐步去噪"，训练只是"预测每步噪声的 MSE"，稳定又高质但慢(~1000步)；</text>
+  <text x="470" y="428" text-anchor="middle" font-size="9.5" fill="#374151">DDIM 用同模型的确定性少步采样(几十步)把它加速到实用。之后又有潜空间(47)、Transformer骨干(48)、少步(49)继续改。</text>
+  <text x="470" y="446" text-anchor="middle" font-size="8" fill="#6b7280">Ho et al., DDPM (NeurIPS 2020) · Song et al., DDIM (ICLR 2021)</text>
+</svg>

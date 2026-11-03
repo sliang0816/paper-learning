@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 660" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="660" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q172 Word2Vec 怎么训练出来（Skip-gram + 负采样）</text>
+
+  <!-- 第一步 滑窗产词对 -->
+  <rect x="20" y="42" width="460" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 滑动窗口产"词对"(免费标签,自监督)</text>
+  <text x="40" y="88" font-size="9.8" fill="#374151">语料："路面 上 有 一块 [玻璃] 碎片 需要 清理"</text>
+  <text x="40" y="108" font-size="9.8" fill="#374151">窗口C=2,中心词=玻璃 → 上下文={有,一块,碎片,需要}</text>
+  <text x="40" y="130" font-size="9.8" font-weight="bold" fill="#1e40af">正样本对：(玻璃,有)(玻璃,一块)(玻璃,碎片)(玻璃,需要)</text>
+  <text x="40" y="152" font-size="9.8" fill="#374151">负样本对：随机抽k个无关词(玻璃,天空)(玻璃,汽车)…</text>
+  <text x="40" y="174" font-size="9" fill="#6b7280">"窗口内相邻"就是标签，全程零人工标注</text>
+
+  <!-- 第二步 极简网络 -->
+  <rect x="500" y="42" width="460" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 极简网络(无隐藏层/无激活函数)</text>
+  <text x="520" y="88" font-size="9.8" fill="#374151">中心词one-hot(|V|=10万维)</text>
+  <text x="520" y="108" font-size="9.8" fill="#374151">→ 输入矩阵W(10万×300)：每行=一个词的向量v</text>
+  <text x="520" y="128" font-size="9.8" fill="#374151">→ 投影层(300维,直接就是词向量,不做激活)</text>
+  <text x="520" y="148" font-size="9.8" fill="#374151">→ 输出矩阵W'(300×10万)：每列=词的输出向量v'</text>
+  <text x="520" y="170" font-size="9" fill="#6b7280">砍掉NNLM的非线性隐藏层，是能训超大语料的关键</text>
+
+  <text x="490" y="210" text-anchor="middle" font-size="18">↓</text>
+
+  <!-- 第三步 负采样 -->
+  <rect x="20" y="222" width="460" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="250" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">③ 负采样：把"10万选1"改成k+1道二元判断</text>
+  <text x="40" y="268" font-size="9.8" fill="#374151">全词表softmax：每步10万×300次乘法 → 跑不动</text>
+  <text x="40" y="290" font-size="9.8" fill="#374151">负采样：正样本(玻璃→碎片)内积过sigmoid,盼→1</text>
+  <text x="40" y="312" font-size="9.8" fill="#374151">　　　　负样本(玻璃→天空…)k个内积sigmoid,盼→0</text>
+  <text x="40" y="334" font-size="9.8" font-weight="bold" fill="#b91c1c">每步只更新 k+1 个词向量,与词表大小几乎无关</text>
+  <text x="40" y="356" font-size="9" fill="#6b7280">另有:层次softmax(Huffman树O(logV))、高频词降采样</text>
+
+  <!-- 第四步 损失 反向传播 -->
+  <rect x="500" y="222" width="460" height="150" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="730" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 损失+反向传播：拉近真邻居,推远假邻居</text>
+  <text x="520" y="270" font-size="9.8" fill="#374151">L = −logσ(v'·v)正 − Σ logσ(−v'·v)负</text>
+  <text x="520" y="292" font-size="9.8" fill="#374151">正样本内积↑→损失↓(把真搭配的向量拉近)</text>
+  <text x="520" y="314" font-size="9.8" fill="#374151">负样本内积↑→损失↑(把无关词的向量推远)</text>
+  <text x="520" y="336" font-size="9.8" fill="#374151">链式法则算梯度,只更新中心词+正词+k个负词的向量</text>
+  <text x="520" y="358" font-size="9" fill="#6b7280">全语料反复扫过多轮,向量逐渐收敛</text>
+
+  <text x="490" y="390" text-anchor="middle" font-size="18">↓</text>
+
+  <!-- 第五步 扔网络留矩阵 -->
+  <rect x="20" y="402" width="940" height="110" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="424" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">⑤ 训练结束：扔掉网络,只留"副产品"——输入矩阵W就是词向量表</text>
+  <text x="40" y="448" font-size="9.8" fill="#374151">输出矩阵W' / softmax层 → 扔掉；　输入矩阵W → 留下,每行就是一个词的300维稠密向量</text>
+  <text x="40" y="470" font-size="9.8" fill="#374151">分类任务只是"借口(pretext task)",价值在反向传播逼出的权重,不在分类准确率本身</text>
+  <text x="40" y="492" font-size="9.8" font-weight="bold" fill="#b45309">这个"用自监督借口任务学表示、任务输出非目的"的思路,后被 BERT的MLM / MAE像素重建 反复沿用</text>
+
+  <!-- 结果 -->
+  <rect x="20" y="524" width="940" height="112" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="546" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">效果：语义相近的词在向量空间里彼此靠近,且涌现出线性代数结构(完全无监督)</text>
+  <text x="40" y="570" font-size="9.8" fill="#374151">vec(玻璃)与vec(碎片)余弦相似度≈0.85；　vec(玻璃)与vec(天空)≈0.03</text>
+  <text x="40" y="592" font-size="9.8" fill="#374151">vec(King)−vec(Man)+vec(Woman) ≈ vec(Queen)　(性别/首都-国家等关系≈向量空间的平移)</text>
+  <text x="490" y="618" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：滑窗产词对 → 极简双线性网络 → 负采样每步只改几个词 → 反向传播拉近真邻居推远假邻居 → 训完扔网络,留输入矩阵即词向量</text>
+</svg>

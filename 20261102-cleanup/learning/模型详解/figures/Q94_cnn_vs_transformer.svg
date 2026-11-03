@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="520" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q94 CNN+FFN → Transformer+FFN 只是"换个编码方法"吗？换的是"混合算子"</text>
+
+  <!-- unified view -->
+  <rect x="20" y="44" width="880" height="120" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="460" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">统一视角：编码器 = 跨位置混合 + 逐位置 FFN（FFN 共享，你换的是"混合"那块）</text>
+
+  <rect x="40" y="76" width="410" height="78" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="245" y="96" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">CNN</text>
+  <text x="245" y="116" text-anchor="middle" font-size="9.5" fill="#374151">卷积（空间混合，把邻近位置搬到一起）</text>
+  <text x="245" y="134" text-anchor="middle" font-size="9.5" fill="#374151">+ 1×1 卷积 / FFN（通道混合，逐位置）</text>
+  <text x="245" y="150" text-anchor="middle" font-size="8.5" fill="#6b7280">≈ 空间混合 + 通道混合</text>
+
+  <rect x="470" y="76" width="410" height="78" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="675" y="96" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">Transformer</text>
+  <text x="675" y="116" text-anchor="middle" font-size="9.5" fill="#374151">自注意力（token 混合，把任意位置搬到一起）</text>
+  <text x="675" y="134" text-anchor="middle" font-size="9.5" fill="#374151">+ FFN（通道混合，逐位置）</text>
+  <text x="675" y="150" text-anchor="middle" font-size="8.5" fill="#6b7280">≈ token 混合 + 通道混合</text>
+
+  <!-- but: how they mix differs -->
+  <rect x="20" y="178" width="880" height="196" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="198" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">但"只是换个编码方法"漏了关键——换的是"怎么混"，差别巨大</text>
+
+  <line x1="330" y1="212" x2="330" y2="360" stroke="#fcd34d"/>
+  <line x1="620" y1="212" x2="620" y2="360" stroke="#fcd34d"/>
+  <text x="175" y="228" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">对比项</text>
+  <text x="475" y="228" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">卷积（CNN）</text>
+  <text x="768" y="228" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">自注意力</text>
+
+  <text x="36" y="252" font-size="9.5" fill="#374151">混合范围</text>
+  <text x="475" y="252" text-anchor="middle" font-size="9.5" fill="#374151">局部（小窗 3×3）</text>
+  <text x="768" y="252" text-anchor="middle" font-size="9.5" fill="#374151">全局（任意两位置一步）</text>
+
+  <text x="36" y="278" font-size="9.5" fill="#374151">权重</text>
+  <text x="475" y="278" text-anchor="middle" font-size="9.5" fill="#374151">固定·权重共享·静态</text>
+  <text x="768" y="278" text-anchor="middle" font-size="9.5" fill="#374151">动态·按内容现算（每次不同）</text>
+
+  <text x="36" y="304" font-size="9.5" fill="#374151">归纳偏置</text>
+  <text x="475" y="304" text-anchor="middle" font-size="9.5" fill="#374151">强（局部性/平移等变）</text>
+  <text x="768" y="304" text-anchor="middle" font-size="9.5" fill="#374151">弱（几乎无先验）</text>
+
+  <text x="36" y="330" font-size="9.5" fill="#374151">代价</text>
+  <text x="475" y="330" text-anchor="middle" font-size="9.5" fill="#374151">高效；感受野靠堆层</text>
+  <text x="768" y="330" text-anchor="middle" font-size="9.5" fill="#374151">O(n²)、数据饥渴</text>
+
+  <text x="460" y="356" text-anchor="middle" font-size="9" fill="#b45309">FFN 那部分两边一样；差别全在"混合算子"：卷积局部固定 vs 注意力全局动态</text>
+
+  <!-- trade-off conclusion -->
+  <rect x="20" y="388" width="880" height="116" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="408" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">不是"等价替换"，是一笔交易</text>
+  <text x="460" y="430" text-anchor="middle" font-size="9.5" fill="#374151">用"局部 + 高效 + 自带先验" 换 "全局 + 自适应 + 数据饥渴"</text>
+  <text x="40" y="452" font-size="9.5" fill="#374151">· CNN 仍是<tspan font-weight="bold">视觉局部特征/效率</tspan>的好手 —— 本项目 YOLO 骨干就是它</text>
+  <text x="40" y="472" font-size="9.5" fill="#374151">· 注意力才撑得起 <tspan font-weight="bold">VLM/CLIP</tspan>（图文放同一注意力空间对齐）、长上下文 —— 卷积天生做不到</text>
+  <text x="460" y="494" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#6d28d9">换卷积→注意力 = 把"局部/固定权重"换成"全局/按内容动态"，换了能力与代价，不是换个名字</text>
+</svg>

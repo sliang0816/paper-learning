@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="200" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">03a Word2Vec 输入/输出实例</text>
+
+  <rect x="20" y="46" width="200" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="120" y="72" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">输入：海量无标注文本</text>
+  <text x="120" y="92" text-anchor="middle" font-size="9.5" fill="#374151">"猫 坐在 垫子 上"……</text>
+  <text x="120" y="106" text-anchor="middle" font-size="9.5" fill="#374151">(自监督，文本自带标签)</text>
+
+  <text x="235" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="255" y="46" width="220" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="365" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">训练：CBOW或Skip-gram</text>
+  <text x="365" y="88" text-anchor="middle" font-size="9.5" fill="#374151">用上下文猜中心词 / 用中心词猜上下文</text>
+  <text x="365" y="102" text-anchor="middle" font-size="9.5" fill="#374151">负采样加速，仅浅层网络无隐藏层非线性</text>
+
+  <text x="490" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="510" y="46" width="200" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="610" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">输出：每个词一个向量</text>
+  <text x="610" y="88" text-anchor="middle" font-size="9.5" fill="#374151">50~300维稠密向量</text>
+  <text x="610" y="102" text-anchor="middle" font-size="9.5" fill="#374151">(词表里每个词各一个，训完固定)</text>
+
+  <text x="725" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="745" y="46" width="195" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="842" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">用途：查表式词嵌入</text>
+  <text x="842" y="88" text-anchor="middle" font-size="9.5" fill="#374151">RNN/LSTM的输入层</text>
+  <text x="842" y="102" text-anchor="middle" font-size="9.5" fill="#374151">(BERT/GPT后改用上下文相关嵌入)</text>
+
+  <rect x="20" y="140" width="920" height="45" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="167" text-anchor="middle" font-size="10.5" fill="#374151">关键局限：每个词只有<tspan font-weight="bold">一个固定</tspan>向量，不看上下文——"苹果"(水果)和"苹果"(公司)向量相同，这正是BERT等上下文相关嵌入要解决的问题</text>
+</svg>

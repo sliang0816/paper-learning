@@ -1,0 +1,159 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "purpose",
+  "rubric_overlay",
+  "coverage",
+  "verdict",
+  "summary",
+  "strengths",
+  "findings"
+ ],
+ "properties": {
+  "purpose": {
+   "type": "string",
+   "description": "the deck's purpose as you were given it"
+  },
+  "rubric_overlay": {
+   "type": "string",
+   "description": "which per-purpose overlay in references/review-rubrics.md you actually applied — one of the nine below VERBATIM, or 'none — <reason>'. It is an enum, not free text: naming it is what makes 'I read the right rubric' checkable, and a near-miss like 'exec readout' is rejected on return. Nine: progress / lab meeting / work status update / academic conference talk / academic job talk / faculty interview / company / stakeholder presentation / product description / pitch / thesis / committee defense / teaching / instructional / conference / research poster"
+  },
+  "coverage": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "slides_opened",
+    "passes",
+    "stats_block_seen",
+    "contract_card_seen"
+   ],
+   "properties": {
+    "slides_opened": {
+     "type": "array",
+     "items": {
+      "type": "integer"
+     },
+     "description": "every slide you actually opened — the anti-skim field; the hand-off gate compares it to the deck's real count"
+    },
+    "scope": {
+     "type": "array",
+     "items": {
+      "type": "integer"
+     },
+     "description": "[first, last] for a per-SECTION critic; omit when reviewing the whole deck"
+    },
+    "passes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "which lens passes you ran"
+    },
+    "stats_block_seen": {
+     "type": "boolean"
+    },
+    "contract_card_seen": {
+     "description": "true|false, or 'none-declared' when no card was sent",
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "const": "none-declared"
+      }
+     ]
+    }
+   }
+  },
+  "verdict": {
+   "enum": [
+    "consent",
+    "revise"
+   ]
+  },
+  "summary": {
+   "type": "string"
+  },
+  "strengths": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "description": "a do-not-harm ledger for the author's next round"
+  },
+  "findings": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "slide",
+     "severity",
+     "dimension",
+     "issue",
+     "why",
+     "fix"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "stable handle, e.g. 's2-crop-1' — the arbiter cites it"
+     },
+     "slide": {
+      "description": "1-based slide number, or the string 'deck' for a deck-level finding",
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "const": "deck"
+       }
+      ]
+     },
+     "severity": {
+      "enum": [
+       "blocker",
+       "major",
+       "minor"
+      ]
+     },
+     "dimension": {
+      "type": "string",
+      "description": "which rubric axis this belongs to, e.g. figures / typography / fidelity / distinctiveness"
+     },
+     "issue": {
+      "type": "string",
+      "description": "what is wrong, in one line"
+     },
+     "why": {
+      "type": "string",
+      "description": "why it matters to THIS audience — a finding with no consequence is a preference"
+     },
+     "fix": {
+      "type": "string",
+      "description": "the concrete change to make"
+     },
+     "fix_risk": {
+      "enum": [
+       "low",
+       "medium",
+       "high"
+      ]
+     }
+    }
+   }
+  },
+  "ceiling": {
+   "type": "string",
+   "description": "on a full-deck consent: the one thing that would take this deck from good to excellent"
+  },
+  "plan_audit": {
+   "description": "the contract-card audit. 🔴 COUPLED to coverage.contract_card_seen: if that is true this MUST be a real audit — a review that received the card and audited none of it is exactly what the gate rejects. null is legal only when the card was absent (contract_card_seen false / 'none-declared'). A flat schema cannot express that coupling, so it is stated here and enforced on return; per-lens obligations are in agents/critic.md."
+  },
+  "probes": {
+   "description": "the per-lens probe block agents/critic.md specifies"
+  }
+ }
+}

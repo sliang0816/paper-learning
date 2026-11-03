@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="520" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q132 N 个 token 错成 N+1 个样本对吗：对——通用公式"预测对数 = 序列长 − 1"；规模化=信号数≈token 总数</text>
+
+  <!-- ① 公式 -->
+  <rect x="20" y="42" width="900" height="170" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">① 通用公式：长度 L 的序列 → L−1 个相邻预测对（每个位置预测右邻）</text>
+  <g font-size="10.5" font-family="Consolas,monospace" text-anchor="middle">
+    <text x="230" y="100" fill="#374151">&lt;BOS&gt;   我    爱    你   &lt;EOS&gt;</text>
+    <text x="230" y="124" fill="#15803d">  └→我   └→爱  └→你  └→&lt;EOS&gt;</text>
+  </g>
+  <text x="470" y="104" font-size="9.5" fill="#374151">序列含特殊符长 L = N+2 = 5</text>
+  <text x="470" y="124" font-size="9.5" fill="#15803d">预测对 = L−1 = N+1 = 4 ✓</text>
+  <text x="700" y="104" font-size="9.5" fill="#6b7280">你的 N+1 = 公式在</text>
+  <text x="700" y="124" font-size="9.5" fill="#6b7280">"N正文+BOS+EOS"下的特例</text>
+  <text x="40" y="160" font-size="9.5" fill="#374151">· 为什么是 L−1 不是 L：最后一个 token（&lt;EOS&gt;）只当标签、不再预测别人</text>
+  <text x="40" y="184" font-size="9.5" fill="#374151">· 每对相邻 token = 一条"前缀→下一词"监督信号（前一位置负责预测后一个）</text>
+
+  <!-- ② 规模化 -->
+  <rect x="20" y="224" width="900" height="130" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="246" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">② 规模化账本：训练信号数 ≈ token 总数（每个 token 被当一次预测标签）</text>
+  <text x="40" y="272" font-size="9.5" fill="#374151">· 真实预训练=长流切块（Q131）：每个定长块内照样"长度−1"条预测对，块边界差的常数在万亿量级可忽略</text>
+  <text x="40" y="296" font-size="9.5" fill="#15803d" font-weight="bold">· 工程口径：语料有多少 token ≈ 就有多少次"下一词预测"监督信号——2 万亿 token 语料 ≈ 2 万亿条信号，全部免费（自监督）</text>
+  <text x="40" y="320" font-size="9" fill="#6b7280">· 这就是"海量样本"的真正来源：不是标注了海量数据，是海量文本自己错一位生出海量监督</text>
+
+  <!-- ③ 措辞 -->
+  <rect x="20" y="366" width="900" height="90" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="470" y="388" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">③ "错成 N+1 个样本"的措辞校准：逻辑计数，不是物理拆分</text>
+  <text x="40" y="414" font-size="9.5" fill="#374151">· 不会真拆成 N+1 条数据——还是那一条序列，一次前向借因果掩码同时算 N+1 个位置的预测和 N+1 份交叉熵（Q126 全预测）</text>
+  <text x="40" y="438" font-size="9.5" fill="#6d28d9">· "N+1 个样本" = 损失项的逻辑计数；数据条数 = 1 条序列（或 1 个块）</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="468" width="900" height="40" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="485" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：对——公式=序列长−1：N 正文+BOS/EOS → (N+2)−1 = N+1 对；万亿语料≈万亿条免费监督信号（每 token 当一次标签），</text>
+  <text x="470" y="501" text-anchor="middle" font-size="9" fill="#374151">且 N+1 是同一次前向里的损失项计数、不是拆出 N+1 条数据。</text>
+</svg>

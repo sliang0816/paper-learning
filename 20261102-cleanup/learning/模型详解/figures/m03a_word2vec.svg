@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 480" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="480" fill="#fff"/>
+  <text x="490" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Word2Vec：CBOW 与 Skip-gram 两种架构</text>
+
+  <!-- CBOW -->
+  <rect x="30" y="50" width="440" height="220" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="74" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e40af">CBOW（Continuous Bag-of-Words）</text>
+  <text x="250" y="94" text-anchor="middle" font-size="10.5" fill="#374151">用上下文猜中间词："看周围，猜中心"</text>
+  <rect x="60" y="110" width="70" height="34" rx="5" fill="#fff" stroke="#3b82f6"/>
+  <text x="95" y="132" text-anchor="middle" font-size="9.5">w(t-2)</text>
+  <rect x="150" y="110" width="70" height="34" rx="5" fill="#fff" stroke="#3b82f6"/>
+  <text x="185" y="132" text-anchor="middle" font-size="9.5">w(t-1)</text>
+  <rect x="290" y="110" width="70" height="34" rx="5" fill="#fff" stroke="#3b82f6"/>
+  <text x="325" y="132" text-anchor="middle" font-size="9.5">w(t+1)</text>
+  <rect x="380" y="110" width="70" height="34" rx="5" fill="#fff" stroke="#3b82f6"/>
+  <text x="415" y="132" text-anchor="middle" font-size="9.5">w(t+2)</text>
+  <text x="250" y="132" text-anchor="middle" font-size="10" fill="#6b7280">…</text>
+  <text x="250" y="168" text-anchor="middle" font-size="11" fill="#1e40af">↓ 投影层：全部上下文词向量求平均(SUM/AVG)</text>
+  <rect x="180" y="182" width="140" height="30" rx="5" fill="#bfdbfe" stroke="#1e40af"/>
+  <text x="250" y="202" text-anchor="middle" font-size="10">平均后的上下文向量</text>
+  <text x="250" y="228" text-anchor="middle" font-size="11" fill="#1e40af">↓ 预测</text>
+  <rect x="195" y="238" width="110" height="30" rx="5" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="250" y="258" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">w(t) 中心词</text>
+
+  <!-- Skip-gram -->
+  <rect x="510" y="50" width="440" height="220" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="74" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">Skip-gram</text>
+  <text x="730" y="94" text-anchor="middle" font-size="10.5" fill="#374151">用中心词猜上下文："看中心，猜周围"（和CBOW反过来）</text>
+  <rect x="665" y="110" width="130" height="30" rx="5" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="730" y="130" text-anchor="middle" font-size="10" font-weight="bold" fill="#b91c1c">w(t) 中心词</text>
+  <text x="730" y="156" text-anchor="middle" font-size="11" fill="#15803d">↓ 预测(各自独立)</text>
+  <rect x="540" y="168" width="70" height="34" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="575" y="190" text-anchor="middle" font-size="9.5">w(t-2)</text>
+  <rect x="630" y="168" width="70" height="34" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="665" y="190" text-anchor="middle" font-size="9.5">w(t-1)</text>
+  <rect x="770" y="168" width="70" height="34" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="805" y="190" text-anchor="middle" font-size="9.5">w(t+1)</text>
+  <rect x="860" y="168" width="70" height="34" rx="5" fill="#fff" stroke="#16a34a"/>
+  <text x="895" y="190" text-anchor="middle" font-size="9.5">w(t+2)</text>
+  <text x="730" y="228" text-anchor="middle" font-size="10" fill="#6b7280">窗口大小 C 越大，训练样本越多、语义捕捉越丰富，代价是算力更高</text>
+  <text x="730" y="250" text-anchor="middle" font-size="9.5" fill="#6b7280">实测：Skip-gram 对低频词效果更好，CBOW 训练更快</text>
+
+  <!-- 训练加速 -->
+  <rect x="30" y="288" width="920" height="90" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="312" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">工程加速：为什么不用标准softmax（词表可能百万级）</text>
+  <text x="490" y="336" text-anchor="middle" font-size="10" fill="#374151">层次softmax(Huffman树，log₂V次计算替代V次) 或 负采样(Negative Sampling：只更新真实词+随机采k个"假"词，其余不动)</text>
+  <text x="490" y="358" text-anchor="middle" font-size="10" fill="#374151">负采样目标：log σ(v'_wO·v_wI) + Σ E[log σ(-v'_wi·v_wI)] —— 拉近真实搭配、推远随机负例，训练复杂度与词表大小无关</text>
+
+  <!-- 线性代数结构 -->
+  <rect x="30" y="392" width="920" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="416" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">意外发现：词向量空间里藏着线性代数结构</text>
+  <text x="490" y="438" text-anchor="middle" font-size="10" fill="#374151">vec(King) − vec(Man) + vec(Woman) ≈ vec(Queen)；vec(Madrid) − vec(Spain) + vec(France) ≈ vec(Paris)——语义/语法关系≈向量空间里的平移</text>
+</svg>

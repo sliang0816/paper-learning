@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="470" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">1×1 卷积数值例子：C_in=4 → C_out=2，同一套 W 扫每个像素</text>
+  <text x="410" y="46" text-anchor="middle" font-size="11" fill="#6b7280">2 个 1×1 核 = 2 行权重；每个输出 = 4 个通道值的加权求和</text>
+
+  <!-- 权重矩阵 W -->
+  <text x="135" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#7c3aed">权重 W（2×4）+ 偏置 b</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="40" y="86" width="190" height="30" rx="4" fill="#ede9fe" stroke="#7c3aed"/><text x="135" y="106">核1 W₁=[ 1, 0, −1, 2 ]  b₁=0</text>
+    <rect x="40" y="120" width="190" height="30" rx="4" fill="#ede9fe" stroke="#7c3aed"/><text x="135" y="140">核2 W₂=[ 0.5, 1, 0, −1 ] b₂=1</text>
+  </g>
+  <text x="135" y="170" text-anchor="middle" font-size="9.5" fill="#6b7280">这套 W 训练学出后固定，</text>
+  <text x="135" y="184" text-anchor="middle" font-size="9.5" fill="#6b7280">对图中每个像素都用同一套（权重共享）</text>
+
+  <!-- 像素A -->
+  <rect x="270" y="78" width="250" height="170" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="395" y="100" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#15803d">像素 A：x = [2, 0, 1, 3]</text>
+  <text x="286" y="124" font-size="10.5" fill="#374151">y₁ = 1·2 + 0·0 +(−1)·1 + 2·3 + 0</text>
+  <text x="286" y="142" font-size="10.5" fill="#16a34a">　 = 2 + 0 − 1 + 6 = <tspan font-weight="bold">7</tspan></text>
+  <text x="286" y="166" font-size="10.5" fill="#374151">y₂ = 0.5·2 + 1·0 + 0·1 +(−1)·3 + 1</text>
+  <text x="286" y="184" font-size="10.5" fill="#16a34a">　 = 1 + 0 + 0 − 3 + 1 = <tspan font-weight="bold">−1</tspan></text>
+  <rect x="286" y="200" width="218" height="34" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="395" y="222" text-anchor="middle" font-size="11" fill="#15803d">4 通道 [2,0,1,3] → 2 通道 <tspan font-weight="bold">[7, −1]</tspan></text>
+
+  <!-- 像素B -->
+  <rect x="540" y="78" width="250" height="170" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="665" y="100" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1d4ed8">像素 B：x = [0, 2, 2, 1]</text>
+  <text x="556" y="124" font-size="10.5" fill="#374151">y₁ = 1·0 + 0·2 +(−1)·2 + 2·1 + 0</text>
+  <text x="556" y="142" font-size="10.5" fill="#2563eb">　 = 0 + 0 − 2 + 2 = <tspan font-weight="bold">0</tspan></text>
+  <text x="556" y="166" font-size="10.5" fill="#374151">y₂ = 0.5·0 + 1·2 + 0·2 +(−1)·1 + 1</text>
+  <text x="556" y="184" font-size="10.5" fill="#2563eb">　 = 0 + 2 + 0 − 1 + 1 = <tspan font-weight="bold">2</tspan></text>
+  <rect x="556" y="200" width="218" height="34" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="665" y="222" text-anchor="middle" font-size="11" fill="#1d4ed8">4 通道 [0,2,2,1] → 2 通道 <tspan font-weight="bold">[0, 2]</tspan></text>
+
+  <!-- 矩阵形式 -->
+  <rect x="40" y="262" width="750" height="96" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="56" y="284" font-size="11" font-weight="bold" fill="#a16207">写成矩阵就是 y = W·x + b（像素 A）：</text>
+  <text x="56" y="312" font-size="12" fill="#374151" font-family="monospace">⎡ 1   0  −1   2 ⎤   ⎡2⎤   ⎡0⎤   ⎡ 7⎤</text>
+  <text x="56" y="330" font-size="12" fill="#374151" font-family="monospace">⎣0.5  1   0  −1 ⎦ · ⎢0⎥ + ⎣1⎦ = ⎣−1⎦</text>
+  <text x="56" y="348" font-size="10" fill="#6b7280">　　　 W (2×4)　　　　x(4×1)　 b　 y(2×1)　　每行 = 一个核 = 一种"通道加权配方"</text>
+
+  <!-- 结论 -->
+  <rect x="40" y="372" width="750" height="80" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="56" y="394" font-size="10.5" fill="#374151">• 每个输出数都用到了<tspan font-weight="bold">全部 4 个输入通道</tspan>（权重 0 表示该通道这次没被采纳，但仍"参与"了）。</text>
+  <text x="56" y="412" font-size="10.5" fill="#374151">• 像素 A、B 用的是<tspan font-weight="bold">同一套 W</tspan>，只是输入不同 → 输出不同（这就是"卷积核在整图上滑动 = 权重共享"）。</text>
+  <text x="56" y="430" font-size="10.5" fill="#16a34a">• 把"像素"换成"token"、把"4 通道"换成"512 维"，这套算式原封不动就是多头投影 W_Q（Q35④）。</text>
+  <text x="56" y="446" font-size="9.5" fill="#6b7280">（真实里 W 是训练学出的小数，这里取整数只为手算看清。）</text>
+</svg>

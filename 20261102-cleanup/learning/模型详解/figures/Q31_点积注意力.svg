@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 440" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="780" height="440" fill="#fff"/>
+  <text x="390" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">点积注意力：把"算相关性"变成一次矩阵乘 → 既算对又能并行</text>
+
+  <!-- 左：RNN 串行 -->
+  <text x="160" y="56" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#b45309">RNN：串行，必须一步等一步</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="40" y="74" width="48" height="34" rx="5" fill="#fef9c3" stroke="#ca8a04"/><text x="64" y="95">h₁</text>
+    <rect x="118" y="74" width="48" height="34" rx="5" fill="#fef9c3" stroke="#ca8a04"/><text x="142" y="95">h₂</text>
+    <rect x="196" y="74" width="48" height="34" rx="5" fill="#fef9c3" stroke="#ca8a04"/><text x="220" y="95">h₃</text>
+    <rect x="274" y="74" width="48" height="34" rx="5" fill="#fef9c3" stroke="#ca8a04"/><text x="298" y="95">h₄</text>
+  </g>
+  <g stroke="#ca8a04" stroke-width="1.5">
+    <line x1="88" y1="91" x2="116" y2="91" marker-end="url(#y)"/>
+    <line x1="166" y1="91" x2="194" y2="91" marker-end="url(#y)"/>
+    <line x1="244" y1="91" x2="272" y2="91" marker-end="url(#y)"/>
+  </g>
+  <text x="180" y="128" text-anchor="middle" font-size="9.5" fill="#b91c1c">hₜ 依赖 hₜ₋₁ → 无法并行，n 步顺序算</text>
+
+  <!-- 右：自注意力一次矩阵乘 -->
+  <text x="580" y="56" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1d4ed8">自注意力：所有位置同时算，无先后依赖</text>
+  <text x="580" y="74" text-anchor="middle" font-size="10" fill="#374151">每个位置投影出 Query / Key / Value 三个向量</text>
+
+  <line x1="360" y1="64" x2="360" y2="150" stroke="#e5e7eb"/>
+
+  <!-- ===== 矩阵乘过程 ===== -->
+  <text x="390" y="170" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#7c3aed">核心：Attention(Q,K,V) = softmax( Q·Kᵀ / √dₖ ) · V</text>
+
+  <!-- Q -->
+  <rect x="60" y="190" width="60" height="80" fill="#dbeafe" stroke="#3b82f6"/><text x="90" y="234" text-anchor="middle" font-size="12" fill="#1d4ed8">Q</text><text x="90" y="284" text-anchor="middle" font-size="8" fill="#6b7280">n×dₖ</text>
+  <text x="135" y="234" text-anchor="middle" font-size="14" fill="#374151">×</text>
+  <!-- K^T -->
+  <rect x="150" y="206" width="80" height="48" fill="#dcfce7" stroke="#16a34a"/><text x="190" y="234" text-anchor="middle" font-size="12" fill="#15803d">Kᵀ</text><text x="190" y="268" text-anchor="middle" font-size="8" fill="#6b7280">dₖ×n</text>
+  <text x="245" y="234" text-anchor="middle" font-size="14" fill="#374151">=</text>
+  <!-- score matrix -->
+  <rect x="262" y="190" width="80" height="80" fill="#fff7ed" stroke="#f59e0b"/>
+  <g stroke="#fde68a"><line x1="282" y1="190" x2="282" y2="270"/><line x1="302" y1="190" x2="302" y2="270"/><line x1="322" y1="190" x2="322" y2="270"/><line x1="262" y1="210" x2="342" y2="210"/><line x1="262" y1="230" x2="342" y2="230"/><line x1="262" y1="250" x2="342" y2="250"/></g>
+  <text x="302" y="285" text-anchor="middle" font-size="8.5" fill="#a16207">分数矩阵 n×n</text>
+  <text x="302" y="184" text-anchor="middle" font-size="8.5" fill="#a16207">Sᵢⱼ = qᵢ·kⱼ</text>
+
+  <text x="360" y="234" text-anchor="middle" font-size="13" fill="#374151">→</text>
+
+  <!-- softmax -->
+  <rect x="378" y="196" width="74" height="68" rx="6" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="415" y="222" text-anchor="middle" font-size="10" fill="#6d28d9">softmax</text>
+  <text x="415" y="238" text-anchor="middle" font-size="8" fill="#374151">每行归一化</text>
+  <text x="415" y="252" text-anchor="middle" font-size="8" fill="#374151">=注意力权重</text>
+
+  <text x="465" y="234" text-anchor="middle" font-size="14" fill="#374151">×</text>
+  <!-- V -->
+  <rect x="478" y="190" width="60" height="80" fill="#fce7f3" stroke="#db2777"/><text x="508" y="234" text-anchor="middle" font-size="12" fill="#be185d">V</text><text x="508" y="284" text-anchor="middle" font-size="8" fill="#6b7280">n×dᵥ</text>
+  <text x="553" y="234" text-anchor="middle" font-size="14" fill="#374151">=</text>
+  <rect x="566" y="190" width="60" height="80" fill="#dcfce7" stroke="#16a34a"/><text x="596" y="234" text-anchor="middle" font-size="11" fill="#15803d">输出</text><text x="596" y="284" text-anchor="middle" font-size="8" fill="#6b7280">加权和</text>
+
+  <text x="700" y="222" font-size="9.5" fill="#16a34a">每个位置 = 按相关</text>
+  <text x="700" y="236" font-size="9.5" fill="#16a34a">性加权汇总全序列</text>
+
+  <!-- 为什么点积衡量相关性 -->
+  <rect x="60" y="306" width="330" height="60" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="76" y="326" font-size="10.5" font-weight="bold" fill="#1d4ed8">为什么点积能衡量"相关性"？</text>
+  <text x="76" y="344" font-size="9.5" fill="#374151">q·k = |q||k|cosθ：方向越一致(越"对得上") → 值越大</text>
+  <text x="76" y="360" font-size="9.5" fill="#374151">→ 直接当"位置 i 该关注位置 j 多少"的分数，无需额外参数</text>
+
+  <!-- 为什么并行 -->
+  <rect x="406" y="306" width="320" height="60" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="422" y="326" font-size="10.5" font-weight="bold" fill="#b91c1c">为什么就并行了？</text>
+  <text x="422" y="344" font-size="9.5" fill="#374151">所有 pair 的分数 = 一次矩阵乘 QKᵀ，无时间先后依赖</text>
+  <text x="422" y="360" font-size="9.5" fill="#374151">而矩阵乘正是 GPU 最擅长的大规模并行运算</text>
+
+  <!-- 底注 -->
+  <rect x="60" y="378" width="666" height="54" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="76" y="398" font-size="10.5" fill="#374151">一句话：点积把"算相关性"化简成<tspan font-weight="bold">无参数的乘加</tspan>，全序列相关性 = <tspan font-weight="bold" fill="#7c3aed">两次矩阵乘 + softmax</tspan>，没有循环依赖 →</text>
+  <text x="76" y="416" font-size="10.5" fill="#374151">① 算得对（cosθ 即相关性）② 并行（GPU 擅长 matmul，取代 RNN 串行）③ 任意两位置一步直连，路径 O(1) 无长程衰减。</text>
+  <text x="76" y="430" font-size="8.5" fill="#6b7280">注：÷√dₖ 是为防止维度大时点积过大、softmax 饱和梯度消失（缩放点积注意力）。</text>
+
+  <defs>
+    <marker id="y" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#ca8a04"/></marker>
+  </defs>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="640" height="420" fill="#fff"/>
+  <text x="320" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">FPN：自顶向下（深→浅），P5→P4→P3→P2</text>
+  <text x="150" y="50" text-anchor="middle" font-size="12" fill="#3b82f6">骨干自底向上</text>
+  <text x="470" y="50" text-anchor="middle" font-size="12" fill="#16a34a">FPN 自顶向下</text>
+
+  <!-- C column (bottom-up) -->
+  <g font-size="11" text-anchor="middle">
+    <rect x="110" y="62"  width="80" height="28" fill="#dbeafe" stroke="#3b82f6"/><text x="150" y="81">C5 (s32)</text>
+    <rect x="104" y="108" width="92" height="30" fill="#dbeafe" stroke="#3b82f6"/><text x="150" y="128">C4 (s16)</text>
+    <rect x="96"  y="156" width="108" height="34" fill="#dbeafe" stroke="#3b82f6"/><text x="150" y="178">C3 (s8)</text>
+    <rect x="84"  y="208" width="132" height="40" fill="#dbeafe" stroke="#3b82f6"/><text x="150" y="232">C2 (s4)</text>
+    <rect x="66"  y="266" width="168" height="48" fill="#f3f4f6" stroke="#9ca3af" stroke-dasharray="5 4"/><text x="150" y="288">C1 (s2)</text><text x="150" y="305" font-size="9" fill="#ef4444">✗ 不纳入</text>
+  </g>
+  <text x="150" y="332" text-anchor="middle" font-size="9.5" fill="#6b7280">分辨率↑、语义↓（往下）</text>
+
+  <!-- P column -->
+  <g font-size="11" text-anchor="middle">
+    <rect x="430" y="62"  width="80" height="28" fill="#d1fae5" stroke="#16a34a"/><text x="470" y="81">P5</text>
+    <rect x="424" y="108" width="92" height="30" fill="#d1fae5" stroke="#16a34a"/><text x="470" y="128">P4</text>
+    <rect x="416" y="156" width="108" height="34" fill="#d1fae5" stroke="#16a34a"/><text x="470" y="178">P3</text>
+    <rect x="404" y="208" width="132" height="40" fill="#d1fae5" stroke="#16a34a"/><text x="470" y="232">P2</text>
+  </g>
+
+  <!-- lateral 1x1 -->
+  <g stroke="#9ca3af" stroke-width="1.4" stroke-dasharray="4 3">
+    <line x1="190" y1="76"  x2="430" y2="76"  marker-end="url(#fp)"/>
+    <line x1="196" y1="123" x2="424" y2="123" marker-end="url(#fp)"/>
+    <line x1="204" y1="173" x2="416" y2="173" marker-end="url(#fp)"/>
+    <line x1="216" y1="228" x2="404" y2="228" marker-end="url(#fp)"/>
+  </g>
+  <text x="310" y="70" text-anchor="middle" font-size="9" fill="#9ca3af">1×1 横向</text>
+
+  <!-- top-down chain (green, emphasized) -->
+  <g stroke="#16a34a" stroke-width="2.4">
+    <line x1="470" y1="90"  x2="470" y2="106" marker-end="url(#fpg)"/>
+    <line x1="470" y1="138" x2="470" y2="154" marker-end="url(#fpg)"/>
+    <line x1="470" y1="190" x2="470" y2="206" marker-end="url(#fpg)"/>
+  </g>
+  <text x="556" y="150" text-anchor="middle" font-size="10" fill="#16a34a">深层语义</text>
+  <text x="556" y="166" text-anchor="middle" font-size="10" fill="#16a34a">逐级下灌</text>
+
+  <!-- bottom notes -->
+  <rect x="40" y="348" width="560" height="60" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="58" y="368" font-size="11" fill="#374151">每级 Pl = 1×1(Cl) + 上采样(P_{l+1})；只融合紧邻上一级，但 P5 语义经链条到达 P2。</text>
+  <text x="58" y="386" font-size="11" fill="#374151">P5=1×1(C5) 无上层注入。方向是 P5→P4→P3→P2（深→浅），不是 P2 往上注入。</text>
+  <text x="58" y="403" font-size="10.5" fill="#b45309">无 P1：C1(s2) 面积是 P2 的 4 倍→显存大、语义太低级；金字塔从 C2(s4) 起。</text>
+  <defs>
+    <marker id="fp" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker>
+    <marker id="fpg" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+</svg>

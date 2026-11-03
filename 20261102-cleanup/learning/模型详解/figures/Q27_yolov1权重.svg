@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="720" height="340" fill="#fff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">YOLOv1 为何 λ_coord=5、λ_noobj=0.5：放大稀少要紧项，压制海量背景项</text>
+
+  <!-- 损失五项 -->
+  <text x="360" y="52" text-anchor="middle" font-size="11" fill="#6b7280">YOLOv1 损失 = 定位 + 有目标置信度 + 无目标置信度 + 分类（同一平方和损失里加权）</text>
+
+  <!-- 定位项 放大 -->
+  <rect x="40" y="70" width="300" height="64" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="56" y="92" font-size="11" font-weight="bold" fill="#1d4ed8">① 定位损失（坐标 x,y,w,h）</text>
+  <text x="56" y="111" font-size="10" fill="#374151">问题：只有"负责"的格子才有，数量少</text>
+  <text x="56" y="127" font-size="11" fill="#dc2626">×λ_coord = 5（放大 5 倍，强调把框定准）</text>
+
+  <!-- 无目标置信 压低 -->
+  <rect x="380" y="70" width="300" height="64" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="396" y="92" font-size="11" font-weight="bold" fill="#b91c1c">③ 无目标置信度损失</text>
+  <text x="396" y="111" font-size="10" fill="#374151">问题：7×7×2=98 框，绝大多数无目标</text>
+  <text x="396" y="127" font-size="11" fill="#dc2626">×λ_noobj = 0.5（压到一半，别淹没正样本）</text>
+
+  <!-- 中间两项 默认 -->
+  <rect x="40" y="146" width="300" height="40" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="190" y="170" text-anchor="middle" font-size="10" fill="#374151">② 有目标置信度损失　×1（默认）</text>
+  <rect x="380" y="146" width="300" height="40" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="530" y="170" text-anchor="middle" font-size="10" fill="#374151">④ 分类损失　×1（默认）</text>
+
+  <!-- 天平示意 -->
+  <text x="360" y="212" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">不加权会怎样：海量"无目标"项压垮"定位/有目标"项 → 模型偏向背景（Q25）</text>
+  <line x1="120" y1="246" x2="600" y2="246" stroke="#9ca3af" stroke-width="2"/>
+  <polygon points="360,246 350,266 370,266" fill="#9ca3af"/>
+  <rect x="150" y="226" width="90" height="20" rx="3" fill="#dbeafe" stroke="#3b82f6"/><text x="195" y="241" text-anchor="middle" font-size="9" fill="#1d4ed8">定位/有目标(少)</text>
+  <rect x="470" y="216" width="120" height="30" rx="3" fill="#fee2e2" stroke="#ef4444"/><text x="530" y="235" text-anchor="middle" font-size="9" fill="#b91c1c">无目标背景(海量)</text>
+  <text x="360" y="262" text-anchor="middle" font-size="9" fill="#6b7280">λ 就是给天平两端配的砝码：左端 ×5 加重、右端 ×0.5 减重</text>
+
+  <!-- 底注 -->
+  <rect x="40" y="282" width="640" height="50" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="56" y="303" font-size="11" fill="#374151">⚠️ 5 和 0.5 是论文<tspan font-weight="bold">试出来的经验超参</tspan>，非理论推导。要记的是<tspan fill="#dc2626">"非对称加权"</tspan>的思想：放大稀少而重要的定位、压制海量背景置信度。</text>
+  <text x="56" y="323" font-size="10.5" fill="#6b7280">这是"手动版"的正负平衡；后来 RetinaNet 的 Focal Loss 用自动降权更优雅地替代了这套手调权重。</text>
+</svg>

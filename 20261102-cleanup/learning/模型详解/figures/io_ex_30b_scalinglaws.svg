@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 190" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="190" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">30a Scaling Laws 输入/输出实例</text>
+
+  <rect x="20" y="46" width="220" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="130" y="72" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">输入：一系列不同规模的实验</text>
+  <text x="130" y="92" text-anchor="middle" font-size="9.5" fill="#374151">参数量N、数据量D、算力C</text>
+  <text x="130" y="106" text-anchor="middle" font-size="9.5" fill="#374151">各自跨越多个数量级训练</text>
+
+  <text x="255" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="275" y="46" width="220" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="385" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">拟合：测试损失 vs 规模</text>
+  <text x="385" y="88" text-anchor="middle" font-size="9.5" fill="#374151">log-log坐标下画出近似直线</text>
+  <text x="385" y="102" text-anchor="middle" font-size="9.5" fill="#374151">即幂律关系</text>
+
+  <text x="510" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="530" y="46" width="200" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="630" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">输出：可预测的幂律公式</text>
+  <text x="630" y="88" text-anchor="middle" font-size="9.5" fill="#374151">Loss ∝ N^(-α)等</text>
+  <text x="630" y="102" text-anchor="middle" font-size="9.5" fill="#374151">给定预算即可算最优配置</text>
+
+  <text x="745" y="86" text-anchor="middle" font-size="18">→</text>
+
+  <rect x="765" y="46" width="175" height="70" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="852" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">用途：指导后续大模型设计</text>
+  <text x="852" y="88" text-anchor="middle" font-size="9.5" fill="#374151">GPT-3等"做大"路线</text>
+  <text x="852" y="102" text-anchor="middle" font-size="9.5" fill="#374151">的直接理论依据</text>
+
+  <rect x="20" y="132" width="920" height="45" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="159" text-anchor="middle" font-size="10.5" fill="#374151">和本项目的落差：本文规律建立在"参数量可跨7个数量级、语料几乎无限"的LLM预训练场景，本项目模型量级/数据量远小，不能直接套用具体幂指数，但"规模增加带来可预测收益"的方法论仍值得参考</text>
+</svg>

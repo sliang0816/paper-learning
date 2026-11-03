@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="220" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">28 Transformer 输入输出实例（自注意力，一切的底座）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">token 向量序列(+位置编码) → 多头自注意力+FFN ×L → 同长“上下文化”token 序列</text>
+
+  <rect x="22" y="66" width="150" height="86" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="97" y="85" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#075985">输入：token 序列</text>
+  <text x="97" y="103" text-anchor="middle" font-size="8.4" fill="#374151">“I love road”</text>
+  <text x="97" y="118" text-anchor="middle" font-size="8.4" fill="#374151">3 个 token，各 512 维</text>
+  <text x="97" y="134" text-anchor="middle" font-size="8" fill="#6b7280">+ 位置编码（标顺序）</text>
+  <text x="97" y="147" text-anchor="middle" font-size="7.6" fill="#6b7280">文字先 embedding 成向量</text>
+
+  <line x1="172" y1="109" x2="202" y2="109" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="204" y="64" width="200" height="90" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="304" y="83" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#1e40af">多头自注意力 + FFN（×L 层）</text>
+  <text x="304" y="101" text-anchor="middle" font-size="8.3" fill="#374151">每个 token 看序列里所有 token</text>
+  <text x="304" y="116" text-anchor="middle" font-size="8.3" fill="#374151">→ 吸收上下文、并行计算</text>
+  <text x="304" y="133" text-anchor="middle" font-size="8" fill="#6b7280">“road” 融入 “on the” 的语境</text>
+  <text x="304" y="146" text-anchor="middle" font-size="7.6" fill="#6b7280">多头 = 多个子空间各看一种关系</text>
+
+  <line x1="404" y1="109" x2="434" y2="109" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="436" y="72" width="180" height="72" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="526" y="91" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">输出：同长序列</text>
+  <text x="526" y="109" text-anchor="middle" font-size="8.3" fill="#374151">3 个上下文化 token（各 512 维）</text>
+  <text x="526" y="125" text-anchor="middle" font-size="8" fill="#6b7280">个数不变，含义更丰富</text>
+
+  <line x1="616" y1="109" x2="646" y2="109" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="648" y="84" width="144" height="50" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="720" y="103" text-anchor="middle" font-size="8.8" font-weight="bold" fill="#15803d">翻译 → “我 爱 路”</text>
+  <text x="720" y="120" text-anchor="middle" font-size="7.4" fill="#6b7280">或接分类/检测头</text>
+
+  <text x="410" y="184" text-anchor="middle" font-size="9.6" fill="#374151">关键：<tspan font-weight="bold" fill="#0369a1">序列进、同长序列出</tspan>，每个 token 都“看过全局”后被重新表示；翻译任务则用解码器自回归生成译文（Q46）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

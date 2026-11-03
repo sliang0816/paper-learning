@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="520" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q101 Swin：层交替 vs 金字塔——金字塔靠下采样(Patch Merging)，不是靠不同大小窗口</text>
+
+  <!-- Q1: alternation -->
+  <rect x="20" y="44" width="430" height="210" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="235" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 层交替（对几层≈交换几次，基本对）</text>
+  <g font-size="9.5">
+    <rect x="40" y="78" width="390" height="22" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="50" y="94" fill="#15803d">Layer1  W-MSA（规整窗口，各自为政）</text>
+    <rect x="40" y="104" width="390" height="22" rx="4" fill="#fef3c7" stroke="#d97706"/><text x="50" y="120" fill="#b45309">Layer2  SW-MSA（平移半窗，跨窗口混合）</text>
+    <rect x="40" y="130" width="390" height="22" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="50" y="146" fill="#15803d">Layer3  W-MSA</text>
+    <rect x="40" y="156" width="390" height="22" rx="4" fill="#fef3c7" stroke="#d97706"/><text x="50" y="172" fill="#b45309">Layer4  SW-MSA …</text>
+  </g>
+  <text x="36" y="196" font-size="9" fill="#374151">· 一层一层交替（每隔一层平移一次；两层一对=一个 Swin 块）</text>
+  <text x="36" y="214" font-size="9" fill="#374151">· 层越多 → 跨窗口混合轮数越多 → 感受野越大 ✅</text>
+  <text x="36" y="232" font-size="9" fill="#b91c1c">· 但平移量恒定 M/2（非越后越大）；靠重复扩散，同 CNN 堆同尺寸卷积核</text>
+
+  <!-- Q2: pyramid -->
+  <rect x="470" y="44" width="430" height="210" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="685" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 金字塔 → 靠 Patch Merging 下采样（不是窗口大小）</text>
+  <!-- stages -->
+  <rect x="486" y="80" width="60" height="60" fill="#e0f2fe" stroke="#0284c7"/><text x="516" y="152" text-anchor="middle" font-size="8" fill="#374151">Stage1 H/4</text>
+  <text x="556" y="112" font-size="12" fill="#9ca3af">→</text>
+  <rect x="572" y="90" width="40" height="40" fill="#bfdbfe" stroke="#3b82f6"/><text x="592" y="152" text-anchor="middle" font-size="8" fill="#374151">H/8 ×2通道</text>
+  <text x="620" y="112" font-size="12" fill="#9ca3af">→</text>
+  <rect x="636" y="98" width="26" height="26" fill="#93c5fd" stroke="#3b82f6"/><text x="649" y="152" text-anchor="middle" font-size="8" fill="#374151">H/16</text>
+  <text x="670" y="112" font-size="12" fill="#9ca3af">→</text>
+  <rect x="686" y="102" width="16" height="16" fill="#60a5fa" stroke="#3b82f6"/><text x="694" y="152" text-anchor="middle" font-size="8" fill="#374151">H/32</text>
+  <text x="800" y="112" text-anchor="middle" font-size="8.5" fill="#6b7280">4 个 stage：</text>
+  <text x="800" y="126" text-anchor="middle" font-size="8.5" fill="#6b7280">分辨率 1/4→1/8</text>
+  <text x="800" y="139" text-anchor="middle" font-size="8.5" fill="#6b7280">→1/16→1/32</text>
+  <text x="486" y="176" font-size="9" fill="#374151">· 每 stage 用 <tspan font-weight="bold">Patch Merging</tspan>：把 2×2 相邻 patch 合成 1 个</text>
+  <text x="500" y="192" font-size="9" fill="#374151">→ 分辨率减半、通道翻倍（= CNN 下采样同思想）</text>
+  <text x="486" y="212" font-size="9" fill="#b91c1c">· 窗口大小固定（如 7×7 patch）不随层变！只管局部注意力+跨窗口</text>
+  <text x="486" y="230" font-size="9" fill="#374151">· 深层因下采样，同样窗口覆盖原图更大区域（看更宏观），但 patch 数不变</text>
+
+  <!-- correspondence table -->
+  <rect x="20" y="268" width="880" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="288" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">对应关系：金字塔两者都靠"下采样"，不是靠"不同大小的核/窗口"</text>
+  <line x1="300" y1="298" x2="300" y2="378" stroke="#c4b5fd"/>
+  <line x1="600" y1="298" x2="600" y2="378" stroke="#c4b5fd"/>
+  <text x="160" y="316" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">　</text>
+  <text x="450" y="316" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">建金字塔（多尺度）</text>
+  <text x="750" y="316" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">局部混合</text>
+  <text x="160" y="340" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">CNN</text>
+  <text x="450" y="340" text-anchor="middle" font-size="9.5" fill="#374151">下采样（池化 / 步长卷积）</text>
+  <text x="750" y="340" text-anchor="middle" font-size="9.5" fill="#374151">卷积（固定 3×3）</text>
+  <text x="160" y="366" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">Swin</text>
+  <text x="450" y="366" text-anchor="middle" font-size="9.5" fill="#374151">Patch Merging（下采样）</text>
+  <text x="750" y="366" text-anchor="middle" font-size="9.5" fill="#374151">窗口注意力 W/SW-MSA（固定窗口）</text>
+  <text x="460" y="384" text-anchor="middle" font-size="9" fill="#6d28d9">Patch Merging ↔ 池化；窗口注意力 ↔ 卷积</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="400" width="880" height="104" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="422" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">一句话</text>
+  <text x="460" y="444" text-anchor="middle" font-size="9.5" fill="#374151">交替 = 每隔一层平移一次、平移量恒定 M/2、靠重复扩感受野（层越多混合轮数越多）；</text>
+  <text x="460" y="464" text-anchor="middle" font-size="9.5" fill="#15803d">金字塔 = 靠 Patch Merging 下采样（同 CNN），窗口大小固定、只管局部注意力+跨窗口通信。</text>
+  <text x="460" y="486" text-anchor="middle" font-size="9" fill="#6b7280">正因 Swin 有金字塔（多尺度特征），它才能当检测/分割骨干（配 FPN），而原版 ViT 单一分辨率不行。</text>
+</svg>

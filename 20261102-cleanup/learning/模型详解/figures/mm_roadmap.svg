@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="620" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">多模态（视觉-语言）论文脉络：入门 → 最新</text>
+  <text x="480" y="46" text-anchor="middle" font-size="10" fill="#6b7280">核心主线：视觉端越做越轻、图文融合越做越深、最后与大语言模型统一（✅=本库已有doc）</text>
+
+  <!-- 时间轴 -->
+  <line x1="60" y1="70" x2="60" y2="590" stroke="#cbd5e1" stroke-width="2"/>
+
+  <!-- 阶段0 -->
+  <circle cx="60" cy="92" r="5" fill="#64748b"/>
+  <rect x="80" y="76" width="860" height="34" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="92" y="90" font-size="10" font-weight="bold" fill="#334155">阶段0 基础前置</text>
+  <text x="92" y="104" font-size="8.5" fill="#374151">Transformer(2017)✅ · ViT(2021)✅ · BERT(2018)✅ · GPT✅ —— 多模态的积木</text>
+
+  <!-- 阶段1 -->
+  <circle cx="60" cy="140" r="5" fill="#ef4444"/>
+  <rect x="80" y="122" width="860" height="40" rx="5" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="92" y="137" font-size="10" font-weight="bold" fill="#b91c1c">阶段1 早期VLP·区域特征时代（2019–20）</text>
+  <text x="92" y="152" font-size="8.5" fill="#374151">ViLBERT / LXMERT / UNITER —— Faster R-CNN 抽"区域框特征"+Transformer；重、需区域标注（瓶颈=检测器）　⟵ 32a</text>
+
+  <!-- 阶段2 -->
+  <circle cx="60" cy="190" r="5" fill="#3b82f6"/>
+  <rect x="80" y="172" width="860" height="40" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="92" y="187" font-size="10" font-weight="bold" fill="#1e40af">阶段2 对比对齐（2021）</text>
+  <text x="92" y="202" font-size="8.5" fill="#374151">CLIP✅(双塔对比·零样本) · ALIGN(噪声数据规模化) · ALBEF(align-before-fuse,先对齐再融合)　⟵ 33 / 33b</text>
+
+  <!-- 阶段3 -->
+  <circle cx="60" cy="238" r="5" fill="#16a34a"/>
+  <rect x="80" y="222" width="860" height="34" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="92" y="236" font-size="10" font-weight="bold" fill="#15803d">阶段3 极简融合（2021）</text>
+  <text x="92" y="250" font-size="8.5" fill="#374151">ViLT✅ —— 图像只做线性 patch 投影、图文单流深度融合；视觉端砍到最轻　⟵ 33a</text>
+
+  <!-- 阶段4 -->
+  <circle cx="60" cy="282" r="5" fill="#d97706"/>
+  <rect x="80" y="266" width="860" height="34" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="92" y="280" font-size="10" font-weight="bold" fill="#b45309">阶段4 统一理解+生成（2022）</text>
+  <text x="92" y="294" font-size="8.5" fill="#374151">BLIP✅(CapFilt去噪·理解+生成统一) · CoCa(对比+caption 一个模型两个损失)　⟵ 34 / 34a</text>
+
+  <!-- 阶段5 -->
+  <circle cx="60" cy="326" r="5" fill="#8b5cf6"/>
+  <rect x="80" y="310" width="860" height="34" rx="5" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="92" y="324" font-size="10" font-weight="bold" fill="#6d28d9">阶段5 冻结大模型桥接·少样本（2022–23）</text>
+  <text x="92" y="338" font-size="8.5" fill="#374151">Flamingo(Perceiver Resampler+门控交叉注意力·少样本) · BLIP-2✅(Q-Former)　⟵ 34b / 34·Q113</text>
+
+  <!-- 阶段6 -->
+  <circle cx="60" cy="370" r="5" fill="#0891b2"/>
+  <rect x="80" y="354" width="860" height="34" rx="5" fill="#cffafe" stroke="#0891b2"/>
+  <text x="92" y="368" font-size="10" font-weight="bold" fill="#0e7490">阶段6 开放词汇检测/分割（2023）</text>
+  <text x="92" y="382" font-size="8.5" fill="#374151">Grounding DINO✅(文本引导检测) · SAM✅(可提示分割) —— 把图文对齐用到"定位/分割"　⟵ 35 / 36</text>
+
+  <!-- 阶段7 -->
+  <circle cx="60" cy="414" r="5" fill="#db2777"/>
+  <rect x="80" y="398" width="860" height="34" rx="5" fill="#fce7f3" stroke="#db2777"/>
+  <text x="92" y="412" font-size="10" font-weight="bold" fill="#be185d">阶段7 多模态大模型·指令对话（2023–）</text>
+  <text x="92" y="426" font-size="8.5" fill="#374151">LLaVA / InternVL✅ · Qwen-VL · GPT-4V —— 视觉 token 接进 LLM，看图对话推理　⟵ 37</text>
+
+  <!-- 阶段8 -->
+  <circle cx="60" cy="458" r="5" fill="#111827"/>
+  <rect x="80" y="442" width="860" height="34" rx="5" fill="#e5e7eb" stroke="#374151"/>
+  <text x="92" y="456" font-size="10" font-weight="bold" fill="#111827">阶段8 最新·原生多模态统一（2024–）</text>
+  <text x="92" y="470" font-size="8.5" fill="#374151">Chameleon(图像离散token、图文统一自回归) · Qwen2-VL / InternVL2 —— 早融合、原生多模态　⟵ 37a</text>
+
+  <!-- 主线总结 -->
+  <rect x="60" y="492" width="880" height="112" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="500" y="512" text-anchor="middle" font-size="12" font-weight="bold" fill="#a16207">三条贯穿始终的主线</text>
+  <text x="80" y="534" font-size="9.5" fill="#374151">① 视觉端越来越轻：区域特征(检测器) → 网格(CNN) → 线性 patch(ViT/ViLT) → 直接 token 化(Chameleon)</text>
+  <text x="80" y="554" font-size="9.5" fill="#374151">② 图文融合越来越深：双塔点积(CLIP) → 先对齐再融合(ALBEF) → 单流早融合(ViLT) → 交叉注意力进 LLM(Flamingo/LLaVA)</text>
+  <text x="80" y="574" font-size="9.5" fill="#374151">③ 与语言模型越来越统一：独立VLM → 冻结LLM+桥接(BLIP-2/Flamingo) → 视觉token喂LLM(LLaVA) → 原生统一(Chameleon)</text>
+  <text x="80" y="594" font-size="9" fill="#6b7280">读法：先读阶段0基础 → 2 CLIP（对齐）→ 3 ViLT（融合）→ 4/5（统一+桥接）→ 7/8（多模态大模型）。检测线 6 可单独读。</text>
+</svg>

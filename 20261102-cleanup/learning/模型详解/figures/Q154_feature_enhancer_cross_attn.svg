@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="720" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q154 特征增强器：图文双向交叉注意力具体怎么算（一方出 Query、另一方出 K/V，共享一张亲和矩阵）</text>
+
+  <!-- 顶：自注意力vs交叉注意力 -->
+  <rect x="20" y="42" width="920" height="60" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="40" y="66" font-size="10.5" fill="#374151"><tspan font-weight="bold" fill="#334155">先钉死区别（接 Q125）</tspan>：自注意力 Q=K=V 同源（自己看自己）；<tspan font-weight="bold" fill="#b91c1c">交叉注意力=Q 来自一方、K/V 来自另一方</tspan>（一方拿问题去查另一方）。</text>
+  <text x="40" y="90" font-size="9.5" fill="#6b7280">特征增强器每层 4 件事：图像可变形自注意力 + 文本自注意力 + image→text 交叉 + text→image 交叉，堆叠约 6 层。下面只讲两个交叉。</text>
+
+  <!-- 输入 -->
+  <rect x="20" y="114" width="440" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="240" y="136" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">图像特征 I（很多 token）</text>
+  <text x="240" y="158" text-anchor="middle" font-size="9.5" fill="#374151">N_img 个（Swin 多尺度拉平，可能上千），每个 d 维</text>
+  <text x="240" y="176" text-anchor="middle" font-size="9" fill="#6b7280">例：4 个图像 token（下面小例子用）</text>
+  <rect x="500" y="114" width="440" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="720" y="136" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">文本特征 T（很少 token）</text>
+  <text x="720" y="158" text-anchor="middle" font-size="9.5" fill="#374151">N_txt 个（BERT 编 "person. car. glass."），每个 d 维</text>
+  <text x="720" y="176" text-anchor="middle" font-size="9" fill="#6b7280">例：3 个词 [person, car, glass]</text>
+
+  <!-- 方向一 image->text -->
+  <rect x="20" y="196" width="440" height="220" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="240" y="218" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e40af">方向一 image→text（图像变"文本感知"）</text>
+  <text x="36" y="242" font-size="10" font-family="Consolas,monospace" fill="#1d4ed8">Q = I·Wq   （图像出 Query）</text>
+  <text x="36" y="262" font-size="10" font-family="Consolas,monospace" fill="#15803d">K = T·Wk, V = T·Wv （文本出 K/V）</text>
+  <text x="36" y="286" font-size="10" font-family="Consolas,monospace" fill="#374151">S = QKᵀ/√d  → [N_img × N_txt]</text>
+  <text x="36" y="304" font-size="9" fill="#6b7280">每个图像 token 对每个文本词的相似度</text>
+  <text x="36" y="326" font-size="10" font-family="Consolas,monospace" fill="#374151">沿【文本维】softmax → 加权取 V</text>
+  <text x="36" y="344" font-size="10" font-family="Consolas,monospace" fill="#374151">输出 [N_img×d]，残差加回图像</text>
+  <text x="36" y="372" font-size="9.5" fill="#1e40af">效果：像玻璃的那块图像 token 吸收了</text>
+  <text x="36" y="388" font-size="9.5" fill="#1e40af">"glass" 词的语义 → 图像变 text-aware</text>
+  <text x="36" y="408" font-size="8.5" fill="#6b7280">小例：玻璃 token 行 softmax≈[0.1,0.1,0.8]→主要取 V_glass</text>
+
+  <!-- 方向二 text->image -->
+  <rect x="500" y="196" width="440" height="220" rx="8" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="720" y="218" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">方向二 text→image（文本变"图像感知"）</text>
+  <text x="516" y="242" font-size="10" font-family="Consolas,monospace" fill="#15803d">Q = T·Wq'  （文本出 Query）</text>
+  <text x="516" y="262" font-size="10" font-family="Consolas,monospace" fill="#1d4ed8">K = I·Wk', V = I·Wv' （图像出 K/V）</text>
+  <text x="516" y="286" font-size="10" font-family="Consolas,monospace" fill="#374151">S' = QKᵀ/√d → [N_txt × N_img]</text>
+  <text x="516" y="304" font-size="9" fill="#6b7280">每个文本词对每个图像 token 的相似度</text>
+  <text x="516" y="326" font-size="10" font-family="Consolas,monospace" fill="#374151">沿【图像维】softmax → 加权取 V</text>
+  <text x="516" y="344" font-size="10" font-family="Consolas,monospace" fill="#374151">输出 [N_txt×d]，残差加回文本</text>
+  <text x="516" y="372" font-size="9.5" fill="#15803d">效果："glass" 这个词知道图里哪些</text>
+  <text x="516" y="388" font-size="9.5" fill="#15803d">区域像玻璃 → 文本变 image-aware</text>
+  <text x="516" y="408" font-size="8.5" fill="#6b7280">小例：glass 行(1×4)在 4 块图上 softmax→压在玻璃块</text>
+
+  <!-- 中间关键：共享亲和矩阵 -->
+  <rect x="20" y="428" width="920" height="150" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="480" y="450" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">关键洞见：两个方向共享同一张「图文亲和矩阵」（这就是"双向 bi-directional"的含义）</text>
+  <!-- matrix -->
+  <g font-size="9" font-family="Consolas,monospace">
+    <text x="360" y="480" text-anchor="middle" fill="#92400e">亲和矩阵 S  (行=图像 token，列=文本词)</text>
+    <rect x="300" y="488" width="180" height="72" fill="#fff" stroke="#f59e0b"/>
+    <text x="330" y="484" font-size="8" fill="#6b7280">person car glass</text>
+    <text x="270" y="506" font-size="8" fill="#6b7280">img1</text><text x="330" y="506" fill="#374151">.7  .2  .1</text>
+    <text x="270" y="524" font-size="8" fill="#6b7280">img2</text><text x="330" y="524" fill="#374151">.2  .7  .1</text>
+    <text x="270" y="542" font-size="8" fill="#6b7280">img3</text><text x="330" y="542" fill="#b91c1c">.1  .1  .8</text>
+    <text x="270" y="558" font-size="8" fill="#6b7280">img4</text><text x="330" y="558" fill="#374151">.3  .3  .4</text>
+  </g>
+  <text x="520" y="500" font-size="10" fill="#374151">· image→text：沿<tspan font-weight="bold" fill="#1e40af">每一行（文本维）</tspan>softmax → 图像取文本</text>
+  <text x="520" y="522" font-size="10" fill="#374151">· text→image：沿<tspan font-weight="bold" fill="#15803d">每一列（图像维）</tspan>softmax（=读转置 Sᵀ）→ 文本取图像</text>
+  <text x="520" y="546" font-size="10" fill="#b45309">同一张"哪块图↔哪个词"对齐矩阵，正反读两遍</text>
+  <text x="520" y="568" font-size="9" fill="#6b7280">img3 那块（玻璃）与 glass 值 0.8 最高 → 双向都把二者绑定</text>
+
+  <!-- 底：意义 -->
+  <rect x="20" y="590" width="920" height="60" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="480" y="612" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">堆叠约 6 层后：图像已"文本感知"、文本已"图像感知"，两者被拉进同一对齐空间</text>
+  <text x="480" y="634" text-anchor="middle" font-size="9.5" fill="#374151">→ 这张对齐矩阵正是后续"语言引导 query 选择(Q71)"和"区域-词相似度输出(Q114)"的基础，也是开放词汇的根。</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="662" width="920" height="48" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="684" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话：交叉注意力=一方出 Query、另一方出 K/V，算出图文亲和矩阵后加权取对方信息；</text>
+  <text x="480" y="702" text-anchor="middle" font-size="9.5" fill="#374151">image→text 让图像变文本感知、text→image 让文本变图像感知，两向共享同一张对齐矩阵（沿行/沿列 softmax），堆层后图文互相"知道"对方。</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="290" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">YOLOv2 / YOLO9000（2017）　对照 v1：引入 Anchor + BN + Darknet-19</text>
+
+  <rect x="24" y="92" width="56" height="56" rx="4" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="52" y="116" text-anchor="middle" font-size="11" fill="#0369a1">输入</text>
+  <text x="52" y="132" text-anchor="middle" font-size="9" fill="#6b7280">416×416</text>
+
+  <!-- Backbone changed -->
+  <rect x="104" y="80" width="186" height="80" rx="6" fill="#dbeafe" stroke="#ef4444" stroke-width="2"/>
+  <text x="197" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">骨干 Backbone</text>
+  <text x="197" y="120" text-anchor="middle" font-size="11" fill="#dc2626">🔴 Darknet-19</text>
+  <text x="197" y="137" text-anchor="middle" font-size="10" fill="#dc2626">🔴 每层加 BatchNorm</text>
+  <text x="197" y="153" text-anchor="middle" font-size="9" fill="#6b7280">+passthrough 细粒度拼接</text>
+
+  <rect x="312" y="92" width="120" height="56" rx="6" fill="#f3f4f6" stroke="#9ca3af" stroke-dasharray="5 3"/>
+  <text x="372" y="116" text-anchor="middle" font-size="11" fill="#9ca3af">仍无 Neck</text>
+  <text x="372" y="134" text-anchor="middle" font-size="9" fill="#9ca3af">单尺度 13×13</text>
+
+  <!-- Head changed: anchor -->
+  <rect x="454" y="80" width="150" height="80" rx="6" fill="#dcfce7" stroke="#ef4444" stroke-width="2"/>
+  <text x="529" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">检测头 Head</text>
+  <text x="529" y="120" text-anchor="middle" font-size="11" fill="#dc2626">🔴 去掉 FC</text>
+  <text x="529" y="137" text-anchor="middle" font-size="11" fill="#dc2626">🔴 全卷积 + Anchor</text>
+  <text x="529" y="153" text-anchor="middle" font-size="9" fill="#6b7280">k-means 聚类先验框</text>
+
+  <rect x="626" y="92" width="110" height="56" rx="4" fill="#fce7f3" stroke="#db2777"/>
+  <text x="681" y="114" text-anchor="middle" font-size="10.5" fill="#be185d">13×13×5×(5+C)</text>
+  <text x="681" y="132" text-anchor="middle" font-size="9" fill="#6b7280">每格 5 个 anchor</text>
+
+  <g stroke="#374151" stroke-width="1.5">
+    <line x1="80" y1="120" x2="102" y2="120" marker-end="url(#a)"/>
+    <line x1="290" y1="120" x2="310" y2="120" marker-end="url(#a)"/>
+    <line x1="432" y1="120" x2="452" y2="120" marker-end="url(#a)"/>
+    <line x1="604" y1="120" x2="624" y2="120" marker-end="url(#a)"/>
+  </g>
+
+  <rect x="24" y="176" width="712" height="96" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="40" y="198" font-size="11.5" font-weight="bold" fill="#b91c1c">🔴 相对 v1 的改进点（红框处）：</text>
+  <text x="40" y="218" font-size="11" fill="#374151">① Anchor：用 k-means 在数据集真值框上聚类得先验框，把"凭空回归"变成"相对先验框微调" → 召回↑、定位准。</text>
+  <text x="40" y="236" font-size="11" fill="#374151">② BatchNorm：每个卷积层后加 BN，稳定训练、起正则作用，单此一项 mAP +2%。</text>
+  <text x="40" y="254" font-size="11" fill="#374151">③ Darknet-19 + 高分辨率微调 + 多尺度训练；passthrough 把浅层细节拼到深层 → 略改善小目标（仍单尺度，是短板）。</text>
+  <text x="40" y="270" font-size="10" fill="#b45309">遗留：仍是单尺度预测，小目标 / 密集目标依旧弱 → v3 用多尺度解决。</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

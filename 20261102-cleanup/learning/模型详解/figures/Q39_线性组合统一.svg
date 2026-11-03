@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="470" fill="#fff"/>
+  <text x="410" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">同一个数学动作：y = W·x（对所有输入做加权求和 = 线性组合）</text>
+  <text x="410" y="46" text-anchor="middle" font-size="11" fill="#6b7280">1×1 卷积 / 多头投影 / 全连接 —— 名字不同，骨架是同一个线性变换</text>
+
+  <!-- 中心公式 -->
+  <rect x="280" y="62" width="260" height="48" rx="8" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="410" y="84" text-anchor="middle" font-size="13" font-weight="bold" fill="#4338ca">yⱼ = Σᵢ Wᵢⱼ · xᵢ  （+ bⱼ）</text>
+  <text x="410" y="102" text-anchor="middle" font-size="9.5" fill="#6366f1">每个输出 = 全部输入各乘一个权重再相加</text>
+
+  <!-- 三列 -->
+  <!-- 1×1 conv -->
+  <rect x="24" y="132" width="248" height="200" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="148" y="156" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">① 1×1 卷积（Q7）</text>
+  <text x="40" y="180" font-size="10" fill="#374151">输入：每个像素有 C_in 个通道值</text>
+  <text x="40" y="198" font-size="10" fill="#374151">动作：在该像素位置，把 C_in 个</text>
+  <text x="40" y="214" font-size="10" fill="#374151">　　　通道值加权求和成 C_out 个</text>
+  <text x="40" y="234" font-size="10" fill="#374151">混的是：<tspan font-weight="bold">通道维（深度）</tspan></text>
+  <text x="40" y="252" font-size="10" fill="#374151">W 形状：C_in × C_out</text>
+  <text x="40" y="270" font-size="9.5" fill="#16a34a">所有像素共享同一套权重 W</text>
+  <rect x="40" y="284" width="216" height="38" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="148" y="300" text-anchor="middle" font-size="9.5" fill="#15803d">28×28×256 →(64核)→ 28×28×64</text>
+  <text x="148" y="315" text-anchor="middle" font-size="9.5" fill="#15803d">逐像素的跨通道全连接</text>
+
+  <!-- multi-head projection -->
+  <rect x="286" y="132" width="248" height="200" rx="10" fill="#ede9fe" stroke="#c4b5fd"/>
+  <text x="410" y="156" text-anchor="middle" font-size="13" font-weight="bold" fill="#7c3aed">② 多头投影 W_Q（Q35④）</text>
+  <text x="302" y="180" font-size="10" fill="#374151">输入：一个 token 的 512 维向量</text>
+  <text x="302" y="198" font-size="10" fill="#374151">动作：把 512 个数加权求和成</text>
+  <text x="302" y="214" font-size="10" fill="#374151">　　　64 个数（每头一套权重）</text>
+  <text x="302" y="234" font-size="10" fill="#374151">混的是：<tspan font-weight="bold">特征维（嵌入维度）</tspan></text>
+  <text x="302" y="252" font-size="10" fill="#374151">W 形状：512 × 64</text>
+  <text x="302" y="270" font-size="9.5" fill="#7c3aed">所有 token 共享同一套权重 W</text>
+  <rect x="302" y="284" width="216" height="38" rx="6" fill="#f3e8ff" stroke="#7c3aed"/>
+  <text x="410" y="300" text-anchor="middle" font-size="9.5" fill="#6d28d9">512 维 →(W_Q)→ 64 维子空间</text>
+  <text x="410" y="315" text-anchor="middle" font-size="9.5" fill="#6d28d9">把整向量投影到一个视角</text>
+
+  <!-- FC -->
+  <rect x="548" y="132" width="248" height="200" rx="10" fill="#fff7ed" stroke="#fdba74"/>
+  <text x="672" y="156" text-anchor="middle" font-size="13" font-weight="bold" fill="#c2410c">③ 全连接层 FC</text>
+  <text x="564" y="180" font-size="10" fill="#374151">输入：拍平后的 N 维向量</text>
+  <text x="564" y="198" font-size="10" fill="#374151">动作：把 N 个数加权求和成</text>
+  <text x="564" y="214" font-size="10" fill="#374151">　　　M 个输出（如类别得分）</text>
+  <text x="564" y="234" font-size="10" fill="#374151">混的是：<tspan font-weight="bold">整个向量的每一维</tspan></text>
+  <text x="564" y="252" font-size="10" fill="#374151">W 形状：N × M</text>
+  <text x="564" y="270" font-size="9.5" fill="#c2410c">最"原始"的线性层形态</text>
+  <rect x="564" y="284" width="216" height="38" rx="6" fill="#ffedd5" stroke="#f97316"/>
+  <text x="672" y="300" text-anchor="middle" font-size="9.5" fill="#9a3412">4096 维 →(W)→ 1000 类得分</text>
+  <text x="672" y="315" text-anchor="middle" font-size="9.5" fill="#9a3412">VGG/LeNet 末端的分类头</text>
+
+  <!-- 底注 -->
+  <rect x="24" y="346" width="772" height="108" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="40" y="368" font-size="11" font-weight="bold" fill="#374151">一句话统一：</text>
+  <text x="40" y="388" font-size="10.5" fill="#374151">• 三者都是 <tspan font-weight="bold">y = Wx</tspan>：每个输出都是"全部输入维度的一次加权求和"，只是<tspan font-weight="bold">把权重共享在哪个轴</tspan>上不同。</text>
+  <text x="40" y="406" font-size="10.5" fill="#374151">• 1×1 卷积 = "权重在空间上共享"的全连接（每个像素用同一个 W）；多头投影 = "权重在 token 上共享"的全连接。</text>
+  <text x="40" y="424" font-size="10.5" fill="#16a34a">• 所以"加权求和混通道""投影到子空间""线性组合"说的是同一件事——理解一个，三个全通。</text>
+  <text x="40" y="442" font-size="10" fill="#6b7280">注：单独看都是线性，靠后面的 ReLU / Softmax 等非线性才有表达力（见 Q6 两次 ReLU）。</text>
+</svg>

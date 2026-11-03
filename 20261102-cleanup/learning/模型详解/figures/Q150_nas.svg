@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="640" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q150 NAS 神经架构搜索：让算法自动搜网络结构（替代人手工设计）</text>
+
+  <!-- 三要素 -->
+  <rect x="20" y="42" width="900" height="250" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e40af">NAS 三要素</text>
+  <!-- space -->
+  <rect x="36" y="78" width="286" height="196" rx="6" fill="#fff" stroke="#60a5fa"/>
+  <text x="179" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">① 搜索空间（搜什么）</text>
+  <text x="50" y="124" font-size="9.5" fill="#374151">定义每层可选项，组合成巨大候选集：</text>
+  <text x="58" y="146" font-size="9.5" fill="#374151">· 3×3 还是 5×5 卷积？</text>
+  <text x="58" y="166" font-size="9.5" fill="#374151">· 要不要 SE 注意力？</text>
+  <text x="58" y="186" font-size="9.5" fill="#374151">· 通道数多少？</text>
+  <text x="58" y="206" font-size="9.5" fill="#374151">· expand 倍数 t=3/6？</text>
+  <text x="50" y="234" font-size="9" fill="#6b7280">→ 候选网络数量爆炸（上亿）</text>
+  <text x="50" y="252" font-size="9" fill="#6b7280">空间设计好坏直接决定上限</text>
+  <!-- strategy -->
+  <rect x="332" y="78" width="286" height="196" rx="6" fill="#fff" stroke="#60a5fa"/>
+  <text x="475" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">② 搜索策略（怎么找）</text>
+  <text x="346" y="124" font-size="9.5" fill="#374151">· <tspan font-weight="bold">强化学习</tspan>：控制器(RNN)采样结构</text>
+  <text x="358" y="142" font-size="9.5" fill="#374151">→ 训练 → 精度当奖励 → 更新</text>
+  <text x="358" y="160" font-size="9" fill="#6b7280">NASNet / MnasNet</text>
+  <text x="346" y="184" font-size="9.5" fill="#374151">· <tspan font-weight="bold">进化算法</tspan>：一群结构变异淘汰</text>
+  <text x="346" y="212" font-size="9.5" fill="#374151">· <tspan font-weight="bold">可微 NAS(DARTS)</tspan>：把"选哪个</text>
+  <text x="358" y="230" font-size="9.5" fill="#374151">操作"松弛成连续权重，用梯度</text>
+  <text x="358" y="248" font-size="9.5" fill="#374151">直接优化 → 快很多</text>
+  <!-- eval -->
+  <rect x="628" y="78" width="278" height="196" rx="6" fill="#fff" stroke="#60a5fa"/>
+  <text x="767" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">③ 性能评估（好不好）</text>
+  <text x="642" y="124" font-size="9.5" fill="#374151">每个候选都全量训练 → 太贵</text>
+  <text x="642" y="144" font-size="9.5" fill="#374151">用「代理」加速：</text>
+  <text x="650" y="166" font-size="9.5" fill="#374151">· 小数据 / 少 epoch</text>
+  <text x="650" y="186" font-size="9.5" fill="#374151">· 权重共享超网络(one-shot)</text>
+  <text x="650" y="206" font-size="9.5" fill="#374151">· 精度预测器</text>
+  <text x="642" y="238" font-size="9" fill="#6b7280">让"评估上万个结构"变得可行</text>
+
+  <!-- V3 平台感知 -->
+  <rect x="20" y="304" width="900" height="200" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="326" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#15803d">MobileNetV3 用的是「平台感知 NAS」（MnasNet 式）——精髓：把「实测延迟」放进奖励</text>
+  <text x="470" y="360" text-anchor="middle" font-size="13" font-family="Consolas,monospace" fill="#15803d">reward = 精度 × [ 实测延迟 / 目标延迟 ] ^ w</text>
+  <text x="470" y="384" text-anchor="middle" font-size="9.5" fill="#6b7280">不只看精度、不只看 FLOPs，而是「在目标硬件上真的多快」（呼应 Q149：FLOPs 低≠快）</text>
+  <text x="40" y="416" font-size="10.5" fill="#374151">· 搜出主体结构后，再用 <tspan font-weight="bold">NetAdapt</tspan> 逐层微调通道数（精修）</text>
+  <text x="40" y="440" font-size="10.5" fill="#374151">· 人工再重设计头尾（首卷积 32→16、分类头前的层改小）</text>
+  <text x="40" y="464" font-size="10.5" fill="#15803d">· 所以 V3 = 「机器搜主体 + 人工修头尾」，不是纯手搓、也不是纯自动</text>
+  <text x="40" y="488" font-size="9" fill="#6b7280">同类：NASNet、MnasNet、EfficientNet（NAS 搜出 B0 基线再复合缩放，见 Q151）、DARTS</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="516" width="900" height="104" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="540" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：NAS = 定义一个"能选什么"的搜索空间，用策略（RL/进化/梯度）在里面找结构，靠代理评估快速判好坏。</text>
+  <text x="470" y="562" text-anchor="middle" font-size="9.5" fill="#374151">MobileNetV3 的关键创新是「平台感知」：把目标硬件的实测延迟写进奖励，搜出对部署真正快的结构。</text>
+  <text x="470" y="584" text-anchor="middle" font-size="9.5" fill="#374151">本项目一般直接用成熟骨干（YOLOv8/MobileNet），NAS 作了解——知道 V3/EfficientNet 的结构是"搜"出来的即可。</text>
+  <text x="470" y="606" text-anchor="middle" font-size="9" fill="#6b7280">代价：搜索本身极耗算力（早期 NASNet 数千 GPU 天），可微 NAS/权重共享大幅降低了这个成本。</text>
+</svg>

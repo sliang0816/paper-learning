@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 660" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="660" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q167 "遮住→训练→预测"就是生成式模型吗？——MAE 不算</text>
+
+  <!-- ① 定义 -->
+  <rect x="20" y="42" width="940" height="90" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">① 生成式模型的准确定义</text>
+  <text x="490" y="88" text-anchor="middle" font-size="10.5" fill="#374151">对数据分布 p(x) 建模，能从中<tspan font-weight="bold">采样出全新、有多样性的样本</tspan>——同一输入/噪声，能给出不同但都合理的多种输出</text>
+  <text x="490" y="112" text-anchor="middle" font-size="9.5" fill="#6b7280">符合的例子：GAN、VAE、扩散模型、GPT(自回归采样)</text>
+
+  <!-- ② 三条理由 -->
+  <rect x="20" y="146" width="940" height="260" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="490" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">② MAE 为什么不算——三条理由</text>
+  <text x="40" y="196" font-size="10" font-weight="bold" fill="#b91c1c">1) 解码器是确定性的，不是采样</text>
+  <text x="40" y="216" font-size="9.6" fill="#374151">MSE回归到唯一真实像素值；同一张被遮图喂两次，解码器每次输出一模一样的重建，无随机性/无多样性</text>
+  <text x="40" y="246" font-size="10" font-weight="bold" fill="#b91c1c">2) MSE训练的副作用——"模糊平均"</text>
+  <text x="40" y="266" font-size="9.6" fill="#374151">MSE最优解=条件期望(所有可能真值的加权平均)，不是从真实条件分布里采一个样本——这正是MAE重建patch看起来模糊粗糙的原因</text>
+  <text x="40" y="296" font-size="10" font-weight="bold" fill="#b91c1c">3) 练完就丢解码器——最直接证据</text>
+  <text x="40" y="316" font-size="9.6" fill="#374151">若目的真是"生成"，不会把干生成活的解码器扔掉、只留编码器做分类/检测/分割等判别式任务</text>
+  <text x="40" y="350" font-size="10" font-weight="bold" fill="#374151">结论：重建从头到尾只是"练习题"(pretext task)，不是目的本身</text>
+  <text x="40" y="378" font-size="9" fill="#6b7280">同理BERT的MLM也不叫生成式模型——道理一样，掩码预测是学表示的练习题，不是拿来生成文本的</text>
+
+  <!-- ③ 对比GPT -->
+  <rect x="20" y="420" width="940" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="442" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 对比：GPT 才是真正的生成式模型</text>
+  <text x="490" y="466" text-anchor="middle" font-size="10" fill="#374151">任务形式也很像"挡住下一个词→训练→预测"，但GPT是生成式模型：</text>
+  <text x="490" y="488" text-anchor="middle" font-size="10" fill="#374151">①自回归采样，真能生成从未见过的全新句子、每次采样结果可以不同</text>
+  <text x="490" y="510" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">②核心产出就是生成能力本身，不会被丢弃——这是和MAE最本质的区别</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="556" width="940" height="90" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="580" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：判断是不是生成式模型，别看"是不是在预测被挡住的部分"，要看①输出有没有随机性/多样性</text>
+  <text x="490" y="602" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">②模型最终留下来用的是不是"生成"这个能力本身。MAE两条都不满足——它是判别式表示学习，</text>
+  <text x="490" y="624" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">重建只是逼编码器学好表示的手段，练完只要"做题的脑子"(编码器)，不要"写答案的手"(解码器)。</text>
+</svg>

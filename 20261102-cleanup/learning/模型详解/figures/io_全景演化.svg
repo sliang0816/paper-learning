@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="360" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">I/O 形态演化全景：输入 → 网络 → 输出</text>
+  <text x="380" y="45" text-anchor="middle" font-size="11" fill="#6b7280">同一类模型 I/O 形态一致；跨类别看，正是一部深度学习演化史</text>
+
+  <!-- column headers -->
+  <text x="120" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#0284c7">输入</text>
+  <text x="370" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#6b7280">网络（范围）</text>
+  <text x="640" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#16a34a">输出</text>
+
+  <g font-size="11" text-anchor="middle">
+    <!-- rows -->
+    <!-- 1 classify -->
+    <rect x="30" y="78" width="180" height="30" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="97">图像 / 定长向量</text>
+    <rect x="280" y="78" width="180" height="30" rx="4" fill="#f3f4f6" stroke="#6b7280"/><text x="370" y="97">分类骨干（01–13）</text>
+    <rect x="530" y="78" width="200" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="630" y="97">类别 / 特征向量</text>
+    <!-- 2 module -->
+    <rect x="30" y="114" width="180" height="30" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="133">特征图 H×W×C</text>
+    <rect x="280" y="114" width="180" height="30" rx="4" fill="#f3f4f6" stroke="#6b7280"/><text x="370" y="133">即插即用模块（14–17）</text>
+    <rect x="530" y="114" width="200" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="630" y="133">同形状特征图</text>
+    <!-- 3 detection -->
+    <rect x="30" y="150" width="180" height="30" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="169">图像</text>
+    <rect x="280" y="150" width="180" height="30" rx="4" fill="#f3f4f6" stroke="#6b7280"/><text x="370" y="169">检测器（18–26）</text>
+    <rect x="530" y="150" width="200" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="630" y="169">框 + 类别</text>
+    <!-- 4 seq -->
+    <rect x="30" y="186" width="180" height="30" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="205">token 向量序列</text>
+    <rect x="280" y="186" width="180" height="30" rx="4" fill="#f3f4f6" stroke="#6b7280"/><text x="370" y="205">RNN/注意力(02–03,27–30)</text>
+    <rect x="530" y="186" width="200" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="630" y="205">token 表示 / 下词概率</text>
+    <!-- 5 vit -->
+    <rect x="30" y="222" width="180" height="30" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="241">图像(切 patch)</text>
+    <rect x="280" y="222" width="180" height="30" rx="4" fill="#f3f4f6" stroke="#6b7280"/><text x="370" y="241">视觉 Transformer(31–32,35)</text>
+    <rect x="530" y="222" width="200" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="630" y="241">类别 / 特征 / 框</text>
+    <!-- 6 vlm -->
+    <rect x="30" y="258" width="180" height="30" rx="4" fill="#ede9fe" stroke="#7c3aed"/><text x="120" y="277">图像 + 文本</text>
+    <rect x="280" y="258" width="180" height="30" rx="4" fill="#f3f4f6" stroke="#6b7280"/><text x="370" y="277">视觉语言模型（33–37）</text>
+    <rect x="530" y="258" width="200" height="30" rx="4" fill="#fef3c7" stroke="#d97706"/><text x="630" y="277">相似度/文本/框/掩码</text>
+    <!-- 7 gen -->
+    <rect x="30" y="294" width="180" height="30" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="120" y="313">噪声(+条件)</text>
+    <rect x="280" y="294" width="180" height="30" rx="4" fill="#f3f4f6" stroke="#6b7280"/><text x="370" y="313">生成模型（38–39）</text>
+    <rect x="530" y="294" width="200" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="630" y="313">图像</text>
+  </g>
+  <!-- arrows between columns -->
+  <g stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#a)">
+    <line x1="212" y1="93" x2="278" y2="93"/><line x1="462" y1="93" x2="528" y2="93"/>
+    <line x1="212" y1="129" x2="278" y2="129"/><line x1="462" y1="129" x2="528" y2="129"/>
+    <line x1="212" y1="165" x2="278" y2="165"/><line x1="462" y1="165" x2="528" y2="165"/>
+    <line x1="212" y1="201" x2="278" y2="201"/><line x1="462" y1="201" x2="528" y2="201"/>
+    <line x1="212" y1="237" x2="278" y2="237"/><line x1="462" y1="237" x2="528" y2="237"/>
+    <line x1="212" y1="273" x2="278" y2="273"/><line x1="462" y1="273" x2="528" y2="273"/>
+    <line x1="212" y1="309" x2="278" y2="309"/><line x1="462" y1="309" x2="528" y2="309"/>
+  </g>
+  <text x="380" y="348" text-anchor="middle" font-size="10.5" fill="#b45309">本项目三条线：YOLOv8 图→框+类别 · CLIP 图+文→相似度 · ControlNet 条件→合成样本</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#cbd5e1"/></marker></defs>
+</svg>

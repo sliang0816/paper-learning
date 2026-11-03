@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="200" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">05 LeNet-5 输入输出实例（第一个成功的 CNN，手写数字）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">32×32×1 灰度数字图 → 卷积+池化+全连接 → 10 类概率</text>
+
+  <rect x="30" y="66" width="130" height="72" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="95" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入：手写 “7”</text>
+  <text x="95" y="105" text-anchor="middle" font-size="9.3" fill="#374151">32×32×1 灰度</text>
+  <text x="95" y="123" text-anchor="middle" font-size="8" fill="#6b7280">单通道（黑白）</text>
+
+  <line x1="160" y1="102" x2="192" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="194" y="62" width="220" height="80" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="304" y="82" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">C1→S2→C3→S4→C5→F6</text>
+  <text x="304" y="100" text-anchor="middle" font-size="8.5" fill="#374151">2 组（卷积 5×5 + 池化）+ 全连接</text>
+  <text x="304" y="116" text-anchor="middle" font-size="8.5" fill="#374151">通道 6 → 16，空间 32→5</text>
+  <text x="304" y="132" text-anchor="middle" font-size="8" fill="#6b7280">约 6 万参数（极小）</text>
+
+  <line x1="414" y1="102" x2="446" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="448" y="70" width="170" height="64" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="533" y="90" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">10 类概率</text>
+  <text x="533" y="108" text-anchor="middle" font-size="8.7" fill="#374151">[0,…,0.97(7),…,0]</text>
+  <text x="533" y="124" text-anchor="middle" font-size="8" fill="#6b7280">softmax 出每个数字</text>
+
+  <line x1="618" y1="102" x2="650" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="652" y="78" width="138" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="721" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">识别 = 数字 7</text>
+  <text x="721" y="116" text-anchor="middle" font-size="7.8" fill="#6b7280">邮政编码/支票</text>
+
+  <text x="410" y="172" text-anchor="middle" font-size="9.6" fill="#374151">奠定范式：<tspan font-weight="bold" fill="#0369a1">卷积提局部特征 → 池化降采样 → 全连接分类</tspan>，后续 AlexNet/VGG… 都沿用这套骨架放大。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

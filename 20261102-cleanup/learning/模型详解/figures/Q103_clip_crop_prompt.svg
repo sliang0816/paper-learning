@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="620" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q103 两阶段 YOLO→CLIP：没识别怎么裁剪？裁剪后 "on the road" 丢了吗？</text>
+
+  <!-- ① 定位≠分类 -->
+  <rect x="20" y="44" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 检测 = 定位 + 分类，是两件事 → 裁剪只用"坐标"，不需要先知道"是什么"</text>
+  <!-- image with box -->
+  <rect x="40" y="78" width="150" height="100" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="115" y="192" text-anchor="middle" font-size="8.5" fill="#6b7280">原图（路面帧）</text>
+  <rect x="95" y="108" width="46" height="34" fill="none" stroke="#dc2626" stroke-width="2"/>
+  <text x="118" y="103" text-anchor="middle" font-size="7.5" fill="#b91c1c">框(x1,y1,x2,y2)</text>
+  <text x="210" y="120" font-size="13" fill="#9ca3af">→</text>
+  <rect x="235" y="100" width="130" height="60" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="300" y="122" text-anchor="middle" font-size="9" fill="#15803d">YOLO objectness：</text>
+  <text x="300" y="138" text-anchor="middle" font-size="9" fill="#15803d">"这儿有个东西"(定位✓)</text>
+  <text x="300" y="152" text-anchor="middle" font-size="8.5" fill="#6b7280">类别未知/低置信(OT)</text>
+  <text x="378" y="132" font-size="13" fill="#9ca3af">→</text>
+  <rect x="398" y="100" width="150" height="60" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="473" y="122" text-anchor="middle" font-size="9" fill="#b45309">裁剪 = 数组切片</text>
+  <text x="473" y="138" text-anchor="middle" font-size="8.5" fill="#374151">crop=img[y1:y2, x1:x2]</text>
+  <text x="473" y="152" text-anchor="middle" font-size="8.5" fill="#b91c1c">和"是什么"无关</text>
+  <text x="560" y="132" font-size="13" fill="#9ca3af">→</text>
+  <rect x="580" y="100" width="150" height="60" rx="4" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="655" y="122" text-anchor="middle" font-size="9" fill="#6d28d9">CLIP 认："是玻璃"</text>
+  <text x="655" y="138" text-anchor="middle" font-size="8.5" fill="#374151">(分类✓)</text>
+  <text x="655" y="152" text-anchor="middle" font-size="8.5" fill="#6b7280">YOLO定位, CLIP分类</text>
+  <rect x="745" y="96" width="160" height="70" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="825" y="114" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#b91c1c">⚠ 前提/局限</text>
+  <text x="825" y="130" text-anchor="middle" font-size="8" fill="#374151">未见类得先被 objectness</text>
+  <text x="825" y="144" text-anchor="middle" font-size="8" fill="#374151">框出来，否则CLIP无从下手</text>
+  <text x="825" y="158" text-anchor="middle" font-size="8" fill="#6b7280">(两阶段固有短板)</text>
+
+  <!-- ② prompt on the road -->
+  <rect x="20" y="204" width="900" height="196" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 裁剪后 crop 里没路面，"on the road" 还有用吗？——三层</text>
+  <text x="40" y="248" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#b91c1c">你观察对：</tspan>紧裁剪确实丢了路面背景，"on the road" 在视觉上没对应物。</text>
+  <text x="40" y="270" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#1e40af">但① 它的作用是"对齐 CLIP 训练分布"，不是描述背景：</tspan>CLIP 学的都是自然句子，把类名包进一句</text>
+  <text x="55" y="286" font-size="9.5" fill="#374151">模板让文本落进它熟悉的语言分布 → 匹配更准（prompt engineering，和 crop 里有没有路无关）。</text>
+  <text x="40" y="310" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#15803d">② 关键：同一模板套所有类 → "on the road" 是所有类共有的常数，比较时基本抵消：</tspan></text>
+  <g font-size="9" font-family="monospace">
+    <text x="60" y="330" fill="#374151">sim(crop, "a photo of <tspan fill="#dc2626" font-weight="bold">plastic</tspan> on the road") = 0.31  ← 变的是这个词</text>
+    <text x="60" y="346" fill="#374151">sim(crop, "a photo of <tspan fill="#dc2626" font-weight="bold">metal</tspan>   on the road") = 0.12</text>
+    <text x="60" y="362" fill="#374151">sim(crop, "a photo of <tspan fill="#dc2626" font-weight="bold">glass</tspan>   on the road") = 0.27  → argmax = plastic</text>
+  </g>
+  <text x="60" y="382" font-size="9" fill="#6b7280">"a photo of … on the road" 每类都一样 = 同一偏移量，约掉；决定胜负的是类名词。</text>
+  <text x="60" y="396" font-size="9" fill="#6d28d9">→ 即使 crop 里没路面，也不太影响 top-1 选哪个类。</text>
+
+  <!-- ③ 三条可操作结论 -->
+  <rect x="20" y="410" width="900" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="430" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 三条可操作结论</text>
+  <text x="40" y="454" font-size="9.5" fill="#374151"><tspan font-weight="bold">要背景 → 裁剪留边距(padding)：</tspan>框向外扩 10–20% 再裁，crop 带一圈路面，"on the road" 才有视觉依据</text>
+  <text x="40" y="476" font-size="9.5" fill="#374151"><tspan font-weight="bold">不要背景 → 用 "a photo of a {class}"：</tspan>去掉 on the road（crop 是物体中心）；哪个模板好=超参，验证集上试</text>
+  <text x="40" y="498" font-size="9.5" fill="#374151"><tspan font-weight="bold">Prompt ensembling：</tspan>多个模板各算相似度求平均，更稳（CLIP 原论文推荐）</text>
+  <text x="40" y="520" font-size="9" fill="#b91c1c">注：上面"抵消"针对 top-1 相对比较；OOD 用余弦绝对值配阈值时，模板措辞会影响绝对分，阈值要单独校准。</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="540" width="900" height="66" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="562" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">一句话</text>
+  <text x="470" y="582" text-anchor="middle" font-size="9.5" fill="#374151">裁剪只用框坐标、和类别无关（YOLO 定位 / CLIP 分类）；"on the road" 是对齐语言分布的常数，比较时约掉，</text>
+  <text x="470" y="600" text-anchor="middle" font-size="9.5" fill="#15803d">想保留背景就带 padding 裁剪，模板本身是可调超参 + prompt ensembling。</text>
+</svg>

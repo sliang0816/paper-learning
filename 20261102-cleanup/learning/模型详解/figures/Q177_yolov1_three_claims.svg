@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="720" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q177 三个判断逐条核对：YOLOv1 的坐标/分类、S/B/C、"网格=anchor"？</text>
+
+  <!-- 判断1 -->
+  <rect x="20" y="42" width="940" height="26" rx="6" fill="#f59e0b"/>
+  <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">判断① "坐标和分类混在一起，然后再NMS" —— 半对，但"混"的确切含义要澄清</text>
+
+  <rect x="20" y="78" width="460" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="250" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">对的部分</text>
+  <text x="40" y="124" font-size="9.5" fill="#374151">·同一个输出张量7×7×30打包了坐标+置信度+类别</text>
+  <text x="40" y="144" font-size="9.5" fill="#374151">·一个FC耦合头(coupled head)一次全吐出来</text>
+  <text x="40" y="164" font-size="9.5" fill="#374151">·最后确实统一过阈值+NMS去重</text>
+  <text x="40" y="188" font-size="9" fill="#6b7280">对比后来YOLOX/v8的"解耦头"分类回归分开算</text>
+  <text x="40" y="210" font-size="9" fill="#6b7280">30 = 2框×(4坐标+1置信度) + 20类 = 10+20</text>
+
+  <rect x="500" y="78" width="460" height="150" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="730" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">要精修：类别是"每格共享一份"，非每框一份</text>
+  <text x="520" y="124" font-size="9.5" fill="#374151">那20个类别概率属于整个cell，2个框共用同一套</text>
+  <text x="520" y="144" font-size="9.5" fill="#374151">→ 一个格子只能判成一个类(v1著名局限)</text>
+  <text x="520" y="164" font-size="9.5" fill="#374151">坐标/置信度是"框级"，类别是"格级"，层级不同</text>
+  <text x="520" y="184" font-size="9.5" font-weight="bold" fill="#b91c1c">最终类别分 = 格级类别概率 × 框级置信度(相乘)</text>
+  <text x="520" y="206" font-size="9" fill="#6b7280">从v2起改成每个anchor各自带一套类别，不再共享</text>
+
+  <!-- 判断2 -->
+  <rect x="20" y="240" width="940" height="26" rx="6" fill="#8b5cf6"/>
+  <text x="490" y="258" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">判断② "S、B、C都是超参数" —— 三者性质不同，不能一概而论</text>
+
+  <rect x="20" y="276" width="306" height="112" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="173" y="298" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">S=7 网格数</text>
+  <text x="35" y="320" font-size="9.2" fill="#374151">架构绑定：=输入÷总步长</text>
+  <text x="35" y="338" font-size="9.2" fill="#374151">448÷64≈7，改它要改网络</text>
+  <text x="35" y="356" font-size="9.2" fill="#374151">是设计选择，但受结构约束</text>
+  <text x="35" y="376" font-size="9" fill="#6b7280">不像B那样能随手调</text>
+
+  <rect x="337" y="276" width="306" height="112" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="298" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">B=2 每格框数</text>
+  <text x="352" y="320" font-size="9.2" fill="#374151">✔真·自由超参数</text>
+  <text x="352" y="338" font-size="9.2" fill="#374151">想设几个设几个(越多越贵)</text>
+  <text x="352" y="356" font-size="9.2" fill="#374151">纯粹为性能/速度权衡调</text>
+  <text x="352" y="376" font-size="9" fill="#6b7280">你说的"超参数"只有它最贴切</text>
+
+  <rect x="654" y="276" width="306" height="112" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="807" y="298" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">C=20 类别数</text>
+  <text x="669" y="320" font-size="9.2" fill="#374151">✘不是可调超参，数据集决定</text>
+  <text x="669" y="338" font-size="9.2" fill="#374151">VOC=20/COCO=80/本项目=6</text>
+  <text x="669" y="356" font-size="9.2" fill="#374151">你不会"为涨点去调C"(见Q28)</text>
+  <text x="669" y="376" font-size="9" fill="#6b7280">换数据集才变，是数据的属性</text>
+
+  <!-- 判断3 -->
+  <rect x="20" y="400" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="418" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">判断③ "那个网格其实就是anchor了" —— 抓到一半！网格=anchor点(位置)，但≠anchor框(形状先验)</text>
+
+  <rect x="20" y="436" width="460" height="140" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="458" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">网格cell给的：空间"锚点"(anchor point)</text>
+  <text x="40" y="482" font-size="9.5" fill="#374151">·把图分成S×S格，每格负责一块区域</text>
+  <text x="40" y="502" font-size="9.5" fill="#374151">·"目标中心落哪格，哪格负责"=空间锚定</text>
+  <text x="40" y="522" font-size="9.5" font-weight="bold" fill="#1e40af">这一面你说对了：格子确实起"位置先验"作用</text>
+  <text x="40" y="544" font-size="9.5" fill="#374151">但格子只给"位置"，不给"该长什么形状"</text>
+  <text x="40" y="566" font-size="9" fill="#6b7280">B个框从零直接回归(x,y,w,h)，无预设形状</text>
+
+  <rect x="500" y="436" width="460" height="140" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="730" y="458" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">真anchor(v2+)多给的：形状/尺寸"模板"(anchor box)</text>
+  <text x="520" y="482" font-size="9.5" fill="#374151">·每格预设K个有具体宽高/长宽比的先验框</text>
+  <text x="520" y="502" font-size="9.5" fill="#374151">·网络学"相对这个模板缩放/偏移多少"</text>
+  <text x="520" y="522" font-size="9.5" font-weight="bold" fill="#b45309">YOLOv1没有这层形状先验→被归类为anchor-free</text>
+  <text x="520" y="544" font-size="9.5" fill="#374151">v1的2个框靠训练自然分化(一横一纵)非预设</text>
+  <text x="520" y="566" font-size="9" fill="#6b7280">见Q23：YOLOv1无anchor，靠网格回归实现一阶段</text>
+
+  <!-- 演化弧线 -->
+  <rect x="20" y="588" width="940" height="70" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="490" y="610" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f766e">漂亮的演化弧线：anchor点 → anchor框 → 又回到anchor点</text>
+  <text x="40" y="633" font-size="9.5" fill="#374151">YOLOv1：网格=anchor点，框自由回归(无形状先验) = anchor-free　→　v2~v7：网格+K个预设anchor框(加形状先验) = anchor-based</text>
+  <text x="40" y="652" font-size="9.5" fill="#374151">→　YOLOv8/FCOS：又回anchor-free = 网格点+直接回归到四边距离l/t/r/b。你的直觉"网格≈anchor"抓的正是"anchor点"这一面</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="670" width="940" height="40" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="688" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">一句话：①坐标+类别同张量但类别是"格级共享"、最终=类别概率×框置信度再NMS；②只有B是自由超参，S架构绑定、C数据决定；</text>
+  <text x="490" y="704" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">③网格=anchor"点"(位置先验，你对了)但≠anchor"框"(无形状先验)，所以YOLOv1其实是anchor-free，真anchor从v2才加形状模板。</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 370" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="880" height="370" fill="#fff"/>
+  <text x="440" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Fast R-CNN：整图一次 CNN + RoI Pooling → 双输出头</text>
+
+  <!-- Selective Search (dashed, above CNN) -->
+  <rect x="140" y="52" width="128" height="44" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-dasharray="4 2.5"/>
+  <text x="204" y="70" text-anchor="middle" font-size="10.5">Selective Search（CPU）</text>
+  <text x="204" y="87" text-anchor="middle" font-size="9.5" fill="#92400e">~2000 候选框，坐标映射到特征图</text>
+
+  <!-- Main flow row y=120-174 -->
+  <rect x="20" y="120" width="80" height="54" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="60" y="151" text-anchor="middle" font-size="11">输入图像</text>
+
+  <rect x="140" y="120" width="128" height="54" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="204" y="140" text-anchor="middle" font-size="11">CNN Backbone</text>
+  <text x="204" y="156" text-anchor="middle" font-size="10.5" fill="#1d4ed8">整图一次前向</text>
+  <text x="204" y="170" text-anchor="middle" font-size="9" fill="#6b7280">H/16×W/16×512</text>
+
+  <rect x="308" y="120" width="106" height="54" rx="4" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="361" y="140" text-anchor="middle" font-size="11">特征图</text>
+  <text x="361" y="156" text-anchor="middle" font-size="10.5" fill="#6d28d9">候选框坐标÷stride</text>
+  <text x="361" y="170" text-anchor="middle" font-size="9" fill="#6b7280">映射至特征图子区域</text>
+
+  <rect x="454" y="120" width="114" height="54" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+  <text x="511" y="140" text-anchor="middle" font-size="11">RoI Pooling</text>
+  <text x="511" y="156" text-anchor="middle" font-size="10.5" fill="#065f46">固定 7×7 输出</text>
+  <text x="511" y="170" text-anchor="middle" font-size="9" fill="#6b7280">展平→25088维</text>
+
+  <rect x="616" y="120" width="138" height="54" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="685" y="140" text-anchor="middle" font-size="11">FC 4096 → FC 4096</text>
+  <text x="685" y="156" text-anchor="middle" font-size="10" fill="#92400e">共享全连接层</text>
+  <text x="685" y="170" text-anchor="middle" font-size="9" fill="#6b7280">每候选框独立过</text>
+
+  <!-- Heads y=234-278 -->
+  <rect x="574" y="234" width="110" height="44" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="629" y="254" text-anchor="middle" font-size="11">分类头</text>
+  <text x="629" y="271" text-anchor="middle" font-size="10.5" fill="#15803d">Softmax(N+1类)</text>
+
+  <rect x="720" y="234" width="110" height="44" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="775" y="254" text-anchor="middle" font-size="11">回归头</text>
+  <text x="775" y="271" text-anchor="middle" font-size="10.5" fill="#b91c1c">BBox Δ×4</text>
+
+  <!-- Multi-task loss y=312-352 -->
+  <rect x="548" y="312" width="288" height="44" rx="6" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="692" y="332" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">多任务损失（端到端训练）</text>
+  <text x="692" y="350" text-anchor="middle" font-size="10" fill="#92400e">L = L_cls(Softmax) + λ·L_loc(Smooth L1) → NMS</text>
+
+  <!-- Arrows main flow -->
+  <g stroke="#374151" stroke-width="1.8" marker-end="url(#a)">
+    <line x1="100" y1="147" x2="138" y2="147"/>
+    <line x1="268" y1="147" x2="306" y2="147"/>
+    <line x1="414" y1="147" x2="452" y2="147"/>
+    <line x1="568" y1="147" x2="614" y2="147"/>
+  </g>
+  <!-- FC → heads -->
+  <line x1="659" y1="174" x2="637" y2="232" stroke="#374151" stroke-width="1.6" marker-end="url(#a)"/>
+  <line x1="711" y1="174" x2="753" y2="232" stroke="#374151" stroke-width="1.6" marker-end="url(#a)"/>
+  <!-- Heads → loss -->
+  <line x1="629" y1="278" x2="642" y2="310" stroke="#16a34a" stroke-width="1.4" marker-end="url(#ag)"/>
+  <line x1="775" y1="278" x2="750" y2="310" stroke="#ef4444" stroke-width="1.4" marker-end="url(#ar)"/>
+  <!-- SS → Feature Map (dashed) -->
+  <line x1="268" y1="74" x2="342" y2="118" stroke="#ca8a04" stroke-width="1.4" stroke-dasharray="4 2.5" marker-end="url(#ay)"/>
+
+  <defs>
+    <marker id="a"  markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker>
+    <marker id="ag" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#ef4444"/></marker>
+    <marker id="ay" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#ca8a04"/></marker>
+  </defs>
+</svg>

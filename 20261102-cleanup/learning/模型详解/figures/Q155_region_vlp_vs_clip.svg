@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="720" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q155 区域特征 VLP 为什么用检测框而非整图？和 CLIP 的本质分野在哪</text>
+
+  <!-- ① 纠误解 -->
+  <rect x="20" y="42" width="920" height="86" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="480" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">① 先纠误解：不是"一个物体配一句文本"</text>
+  <text x="40" y="88" font-size="10" fill="#374151">整句 caption 仍描述<tspan font-weight="bold">整张图（所有区域）</tspan>；变的只是"图像的表示形式"：从 1 个全局向量 → <tspan font-weight="bold">N 个区域 token 的集合</tspan>（Faster R-CNN 抽~36 框）。</text>
+  <text x="40" y="110" font-size="10" fill="#b91c1c">这 N 个区域 token + M 个词 token <tspan font-weight="bold">一起进一个跨模态 Transformer</tspan>，让词与区域互相对齐 —— 是"多区域+多词一起细粒度对齐"，不是配对。</text>
+
+  <!-- ② 为什么区域 -->
+  <rect x="20" y="140" width="920" height="110" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="480" y="162" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 为什么要区域而不是整图：语言按"物体/属性/关系"组织，要细粒度 grounding</text>
+  <text x="40" y="186" font-size="10" fill="#374151">"穿红衣服的男人牵着一匹马" → 要把 男人↔男人块、马↔马块、红↔衣服区域、牵着↔空间关系 <tspan font-weight="bold">一一对上</tspan>。</text>
+  <text x="40" y="208" font-size="10" fill="#374151">整张图一个向量 = 把所有物体<tspan font-weight="bold">糊成一坨</tspan>，没法把单个词落到单个物体 → 丢了细粒度 grounding。</text>
+  <text x="40" y="230" font-size="10" fill="#15803d">区域特征给"物体级离散单元(视觉单词)"，Transformer 才能像对齐词↔词那样对齐 <tspan font-weight="bold">词↔区域</tspan>。整图只够粗粒度检索/分类。</text>
+
+  <!-- ③ 和CLIP的分野 -->
+  <rect x="20" y="262" width="920" height="330" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="480" y="284" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">③ 和 CLIP 的本质分野：不只"区域 vs 整图"，更是"融合方式"（单塔跨模态注意力 vs 双塔对比）</text>
+  <!-- 左 VLP -->
+  <rect x="36" y="298" width="440" height="230" rx="6" fill="#fff" stroke="#16a34a"/>
+  <text x="256" y="318" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">区域 VLP（ViLBERT/UNITER/Oscar）</text>
+  <text x="52" y="340" font-size="9.5" fill="#374151">图像=N 个区域 token　文本=M 个词 token</text>
+  <text x="52" y="362" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#15803d">单塔/早融合</tspan>：区域+词一起进 Transformer</text>
+  <text x="64" y="380" font-size="9.5" fill="#374151">→ 深度跨模态注意力，图文<tspan font-weight="bold">互相看</tspan></text>
+  <text x="52" y="402" font-size="9.5" fill="#374151">目标：MLM 掩码词 + MRM 掩码区域 + ITM 匹配</text>
+  <text x="52" y="424" font-size="9.5" fill="#374151">对齐：<tspan font-weight="bold">细粒度</tspan>（词↔区域）</text>
+  <text x="52" y="446" font-size="9.5" fill="#b91c1c">依赖检测器(重/慢/瓶颈)、难扩、零样本弱</text>
+  <text x="52" y="468" font-size="9.5" fill="#b91c1c">慢：每对图文都要过一遍跨模态 Transformer</text>
+  <text x="52" y="492" font-size="9.5" fill="#15803d">强项：VQA / caption / 细粒度推理</text>
+  <text x="52" y="514" font-size="8.5" fill="#6b7280">为"深度理解"而生</text>
+  <!-- 右 CLIP -->
+  <rect x="484" y="298" width="440" height="230" rx="6" fill="#fff" stroke="#3b82f6"/>
+  <text x="704" y="318" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">CLIP（双塔对比）</text>
+  <text x="500" y="340" font-size="9.5" fill="#374151">图像=整张图 1 个全局向量　文本=1 句向量</text>
+  <text x="500" y="362" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#1e40af">双塔/晚融合</tspan>：图、文各自独立编码</text>
+  <text x="512" y="380" font-size="9.5" fill="#b91c1c">→ 图文<tspan font-weight="bold">从不互相注意</tspan>，最后才算一次点积</text>
+  <text x="500" y="402" font-size="9.5" fill="#374151">目标：<tspan font-weight="bold">对比学习</tspan>（配对拉近、非配对推远）</text>
+  <text x="500" y="424" font-size="9.5" fill="#374151">对齐：<tspan font-weight="bold">粗粒度</tspan>（整图↔整句）</text>
+  <text x="500" y="446" font-size="9.5" fill="#15803d">无检测器、端到端、易扩到 4 亿对、零样本强</text>
+  <text x="500" y="468" font-size="9.5" fill="#15803d">快：图/文可预先各自编码→建索引、只算点积</text>
+  <text x="500" y="492" font-size="9.5" fill="#1e40af">强项：检索 / 零样本分类</text>
+  <text x="500" y="514" font-size="8.5" fill="#6b7280">为"快速匹配+可扩+零样本"而生</text>
+  <!-- 中间箭头 -->
+  <text x="480" y="552" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">关键：CLIP 图文永不互相注意（双塔），VLP 图文在 Transformer 里深度互相注意（单塔）</text>
+  <text x="480" y="574" text-anchor="middle" font-size="9" fill="#6b7280">这才是最本质差别；"区域 vs 整图"只是其一。CLIP 用大数据+对比换来快/可扩/零样本，代价是只懂整体、不懂细节。</text>
+
+  <!-- ④ 结局 + 项目 -->
+  <rect x="20" y="604" width="920" height="106" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="626" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">④ 历史结局：区域 VLP 因"依赖检测器"被淘汰 → ViLT 换线性 patch、CLIP 双塔对比、ALBEF/BLIP 缝合两路（先对比粗对齐+再跨模态细融合）</text>
+  <text x="480" y="650" text-anchor="middle" font-size="9.5" fill="#374151">一句话：区域 VLP=单塔+跨模态注意力+区域（细粒度、理解深，但重/慢/难扩/零样本弱）；CLIP=双塔+对比+整图（粗粒度，但快/可扩/零样本强）。</text>
+  <text x="480" y="672" text-anchor="middle" font-size="9.5" fill="#374151">"整图即可"对粗粒度检索/分类成立（CLIP 证明），对细粒度 VQA/caption 不够 → 才要区域。</text>
+  <text x="480" y="694" text-anchor="middle" font-size="9" fill="#6b7280">与本项目：你用 CLIP 双塔整图路线（轻/零样本/易部署），理解区域 VLP 能说清为何不选"背一个重检测器"的老路（第二章 VLP 演进脉络）。</text>
+</svg>

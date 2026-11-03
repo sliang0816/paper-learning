@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 620" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="620" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q181 YOLOv2 是"单尺寸"吗？——"输入分辨率"和"预测尺度"是两回事，别混</text>
+
+  <!-- 核心区分 -->
+  <rect x="20" y="42" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">"尺度/尺寸"有两个完全不同的轴，YOLOv2 在这两个轴上一个"灵活"、一个"单一"</text>
+
+  <!-- 轴1 输入分辨率 -->
+  <rect x="20" y="78" width="460" height="200" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="250" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">轴① 输入分辨率（喂进去的图多大）</text>
+  <text x="250" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">YOLOv2：✔ 灵活/多尺寸</text>
+  <text x="40" y="146" font-size="9.5" fill="#374151">删了FC改全卷积后，输入尺寸自由(Q176)</text>
+  <text x="40" y="166" font-size="9.5" fill="#374151">多尺度训练：每10个batch随机换</text>
+  <text x="40" y="186" font-size="9.5" fill="#374151">{320,352,…,608} 任意32倍数</text>
+  <text x="40" y="208" font-size="9.5" fill="#374151">推理还能按需换分辨率挑速度/精度档</text>
+  <text x="40" y="232" font-size="9.5" font-weight="bold" fill="#15803d">→ 在这个轴上，YOLOv2 绝不是"单一分辨率"</text>
+  <text x="40" y="256" font-size="9" fill="#6b7280">这是Q176讲的"多尺寸训练"，是v2的优点</text>
+
+  <!-- 轴2 预测尺度 -->
+  <rect x="500" y="78" width="460" height="200" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="730" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">轴② 预测尺度（在几个特征图上出框）</text>
+  <text x="730" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#b91c1c">YOLOv2：✘ 单一/单尺度预测</text>
+  <text x="520" y="146" font-size="9.5" fill="#374151">不管输入多大，只在最后一个特征图上预测</text>
+  <text x="520" y="166" font-size="9.5" fill="#374151">(如416输入→只在13×13这一层出框)</text>
+  <text x="520" y="186" font-size="9.5" fill="#374151">没有FPN金字塔、没有多层输出</text>
+  <text x="520" y="208" font-size="9.5" font-weight="bold" fill="#b91c1c">→ 在这个轴上，YOLOv2 确实是"单尺度"</text>
+  <text x="520" y="230" font-size="9.5" fill="#374151">后果：小目标/密集目标依然弱</text>
+  <text x="520" y="252" font-size="9" fill="#6b7280">这就是本文§二"遗留：仍是单尺度预测"</text>
+
+  <!-- 关键澄清 -->
+  <rect x="20" y="290" width="940" height="70" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="312" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">你说"YOLOv2仍然是单尺寸"——对的是轴②，不是轴①</text>
+  <text x="45" y="336" font-size="9.6" fill="#374151">·若指"预测尺度"：对！YOLOv2只在一个特征图(13×13)上预测，是单尺度——这正是v3要解决的缺陷。</text>
+  <text x="45" y="356" font-size="9.6" fill="#374151">·若指"输入分辨率"：不对。YOLOv2支持多种输入分辨率(多尺度训练Q176)，不是只能吃单一分辨率。</text>
+
+  <!-- 一图看两轴独立 -->
+  <rect x="20" y="372" width="940" height="26" rx="6" fill="#6d28d9"/>
+  <text x="490" y="390" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">两个轴是独立的：v2在轴①灵活、轴②单一；v3把轴②也升级成多尺度</text>
+
+  <!-- 对比表 -->
+  <rect x="20" y="408" width="940" height="130" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <line x1="360" y1="408" x2="360" y2="538" stroke="#0f766e" stroke-width="1"/>
+  <line x1="660" y1="408" x2="660" y2="538" stroke="#0f766e" stroke-width="1"/>
+  <line x1="20" y1="440" x2="960" y2="440" stroke="#0f766e" stroke-width="1"/>
+  <text x="190" y="430" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">　</text>
+  <text x="510" y="430" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">轴① 输入分辨率</text>
+  <text x="810" y="430" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">轴② 预测尺度</text>
+
+  <text x="190" y="466" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">YOLOv1</text>
+  <text x="510" y="466" text-anchor="middle" font-size="9.4" fill="#b91c1c">单一(FC焊死448)</text>
+  <text x="810" y="466" text-anchor="middle" font-size="9.4" fill="#b91c1c">单尺度(7×7一层)</text>
+
+  <text x="190" y="498" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">YOLOv2</text>
+  <text x="510" y="498" text-anchor="middle" font-size="9.4" fill="#15803d">✔多尺寸(320~608)</text>
+  <text x="810" y="498" text-anchor="middle" font-size="9.4" fill="#b91c1c">✘单尺度(13×13一层)</text>
+
+  <text x="190" y="528" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">YOLOv3</text>
+  <text x="510" y="528" text-anchor="middle" font-size="9.4" fill="#15803d">✔多尺寸</text>
+  <text x="810" y="528" text-anchor="middle" font-size="9.4" fill="#15803d">✔多尺度(52/26/13三层)</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="550" width="940" height="60" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="572" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">一句话：YOLOv2 在"输入分辨率"上是灵活的(多尺寸训练，能吃320~608)，但在"预测尺度"上是单一的(只在13×13一个特征图出框)。</text>
+  <text x="490" y="590" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">你说的"单尺寸"若指后者=对，这正是v3用三尺度金字塔(52/26/13)要补的洞；若指前者=不对，v2输入分辨率并不单一。</text>
+  <text x="490" y="606" text-anchor="middle" font-size="8.8" fill="#6b7280">注意：多尺度"训练"是让一个模型适应多种输入分辨率；多尺度"预测"是同一次前向在多个分辨率特征图上各出一套框——两者不是一回事。</text>
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 480" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="480" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">DeepLab：空洞(膨胀)卷积扩感受野不丢分辨率 + ASPP 并行多尺度</text>
+
+  <!-- 空洞卷积 -->
+  <rect x="20" y="42" width="440" height="196" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="240" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 空洞卷积（atrous / dilated）</text>
+  <text x="36" y="84" font-size="9" fill="#374151">矛盾：想要大感受野 → 传统靠下采样，但下采样丢分辨率（分割最怕）</text>
+  <text x="36" y="100" font-size="9" fill="#15803d">解法：卷积核采样点之间"插空"（膨胀率 r），感受野变大、但不下采样</text>
+  <!-- 普通 3x3 -->
+  <text x="110" y="122" text-anchor="middle" font-size="8.5" fill="#374151">普通 3×3 (r=1)</text>
+  <g fill="#3b82f6">
+    <rect x="70" y="130" width="12" height="12"/><rect x="104" y="130" width="12" height="12"/><rect x="138" y="130" width="12" height="12"/>
+    <rect x="70" y="164" width="12" height="12"/><rect x="104" y="164" width="12" height="12"/><rect x="138" y="164" width="12" height="12"/>
+    <rect x="70" y="198" width="12" height="12"/><rect x="104" y="198" width="12" height="12"/><rect x="138" y="198" width="12" height="12"/>
+  </g>
+  <text x="110" y="228" text-anchor="middle" font-size="8" fill="#6b7280">9点紧挨，感受野3×3</text>
+  <!-- 空洞 r=2 -->
+  <text x="320" y="122" text-anchor="middle" font-size="8.5" fill="#374151">空洞 3×3 (r=2)</text>
+  <g fill="#16a34a">
+    <rect x="250" y="130" width="12" height="12"/><rect x="316" y="130" width="12" height="12"/><rect x="382" y="130" width="12" height="12"/>
+    <rect x="250" y="164" width="12" height="12"/><rect x="316" y="164" width="12" height="12"/><rect x="382" y="164" width="12" height="12"/>
+    <rect x="250" y="198" width="12" height="12"/><rect x="316" y="198" width="12" height="12"/><rect x="382" y="198" width="12" height="12"/>
+  </g>
+  <text x="320" y="228" text-anchor="middle" font-size="8" fill="#6b7280">同样9点撑开，感受野5×5，参数不变</text>
+
+  <!-- ASPP -->
+  <rect x="480" y="42" width="440" height="196" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="700" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② ASPP 空洞空间金字塔池化</text>
+  <text x="496" y="84" font-size="9" fill="#374151">同一特征图并行几路不同膨胀率的空洞卷积 + 全局池化</text>
+  <rect x="500" y="96" width="120" height="20" rx="3" fill="#fed7aa" stroke="#d97706"/><text x="560" y="110" text-anchor="middle" font-size="8" fill="#b45309">1×1 卷积</text>
+  <rect x="500" y="120" width="120" height="20" rx="3" fill="#fed7aa" stroke="#d97706"/><text x="560" y="134" text-anchor="middle" font-size="8" fill="#b45309">空洞 3×3 r=6</text>
+  <rect x="500" y="144" width="120" height="20" rx="3" fill="#fed7aa" stroke="#d97706"/><text x="560" y="158" text-anchor="middle" font-size="8" fill="#b45309">空洞 3×3 r=12</text>
+  <rect x="500" y="168" width="120" height="20" rx="3" fill="#fed7aa" stroke="#d97706"/><text x="560" y="182" text-anchor="middle" font-size="8" fill="#b45309">空洞 3×3 r=18</text>
+  <rect x="500" y="192" width="120" height="20" rx="3" fill="#fde68a" stroke="#d97706"/><text x="560" y="206" text-anchor="middle" font-size="8" fill="#b45309">全局平均池化</text>
+  <text x="628" y="150" font-size="12" fill="#9ca3af">→</text>
+  <rect x="648" y="120" width="90" height="70" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="693" y="150" text-anchor="middle" font-size="8.5" fill="#15803d">concat</text><text x="693" y="165" text-anchor="middle" font-size="8" fill="#374151">→1×1融合</text>
+  <text x="700" y="226" text-anchor="middle" font-size="8" fill="#6b7280">一层里同时看多个尺度（小物体、大物体都抓）</text>
+
+  <!-- 版本演进 -->
+  <rect x="20" y="252" width="900" height="118" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="272" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">版本演进</text>
+  <text x="40" y="294" font-size="9" fill="#374151">· <tspan font-weight="bold">v1(2015)</tspan>：空洞卷积保分辨率 + CRF 后处理修边界</text>
+  <text x="40" y="312" font-size="9" fill="#374151">· <tspan font-weight="bold">v2(2017)</tspan>：提出 ASPP（多膨胀率并行）抓多尺度</text>
+  <text x="40" y="330" font-size="9" fill="#374151">· <tspan font-weight="bold">v3(2017)</tspan>：改进 ASPP + 加全局图像级特征，去掉 CRF（端到端更干净）</text>
+  <text x="40" y="348" font-size="9" fill="#15803d">· <tspan font-weight="bold">v3+(2018)</tspan>：加一个解码器模块修细节边界、用 Xception 骨干 → 分割 SOTA</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="384" width="900" height="86" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="406" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：DeepLab 用"空洞卷积"化解分割的核心矛盾——不靠大量下采样也能有大感受野、保住分辨率；</text>
+  <text x="470" y="428" text-anchor="middle" font-size="9.5" fill="#374151">再用 ASPP 在一层里并行多个膨胀率抓多尺度。是语义分割最有影响力的家族之一。</text>
+  <text x="470" y="448" text-anchor="middle" font-size="9" fill="#6b7280">与 FCN/U-Net 的区别：它们靠"下采样再上采样补回来"，DeepLab 靠"干脆少下采样(空洞卷积)"</text>
+  <text x="470" y="464" text-anchor="middle" font-size="8" fill="#6b7280">Chen L-C, et al. DeepLab (v1–v3+). 2015–2018.</text>
+</svg>

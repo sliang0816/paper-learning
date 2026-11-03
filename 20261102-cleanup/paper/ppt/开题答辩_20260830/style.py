@@ -1,0 +1,29 @@
+from pptx.dml.color import RGBColor
+
+W, H = 13.333, 7.5
+JU_RED = RGBColor(0xD7, 0x01, 0x0E)
+JU_RED_DARK = RGBColor(0xA8, 0x00, 0x0B)
+BLUSH = RGBColor(0xFC, 0xED, 0xEE)
+BLUSH_2 = RGBColor(0xF9, 0xDD, 0xE0)
+INK = RGBColor(0x2C, 0x34, 0x3B)
+SLATE = RGBColor(0x44, 0x54, 0x6A)
+MUTE = RGBColor(0x7B, 0x83, 0x8C)
+LIGHT = RGBColor(0xF2, 0xF4, 0xF7)
+WHITE = RGBColor(0xFF, 0xFF, 0xFF)
+EVID_BLUE = RGBColor(0x2B, 0x46, 0x99)
+EVID_BLUE_LIGHT = RGBColor(0xEA, 0xF0, 0xFF)
+SUPPORT_TEAL = RGBColor(0x17, 0x65, 0x5F)
+SUPPORT_TEAL_LIGHT = RGBColor(0xE6, 0xF4, 0xF1)
+CAUTION = RGBColor(0x7A, 0x44, 0x00)
+CAUTION_LIGHT = RGBColor(0xFC, 0xDE, 0x99)
+GRID = RGBColor(0xD9, 0xDE, 0xE5)
+
+# Build-time fonts available on the experiment workstation.  Using installed
+# fonts keeps deckkit's text measurements aligned with LibreOffice rendering.
+FONT_CN = "Noto Sans CJK JP"
+FONT_EN = "Liberation Sans"
+DISPLAY = 52
+SECTION = 36
+TITLE = 28
+BODY = 18
+CAPTION = 12.5

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="200" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">13 ConvNeXt 输入输出实例（现代化纯 CNN，追平 Transformer）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">224×224×3 图 → 现代化卷积块（大核 7×7 + LN + GELU…）→ 1000 类 / 特征</text>
+
+  <rect x="30" y="66" width="118" height="72" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="89" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="89" y="105" text-anchor="middle" font-size="9.3" fill="#374151">224×224×3</text>
+
+  <line x1="148" y1="102" x2="180" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="182" y="62" width="238" height="80" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="301" y="82" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">现代化卷积块</text>
+  <text x="301" y="100" text-anchor="middle" font-size="8.5" fill="#374151">7×7 深度卷积 + LayerNorm + GELU</text>
+  <text x="301" y="116" text-anchor="middle" font-size="8.5" fill="#374151">借 Transformer 的训练配方改造纯 CNN</text>
+  <text x="301" y="132" text-anchor="middle" font-size="8" fill="#6b7280">无注意力，仍达 ViT/Swin 同级精度</text>
+
+  <line x1="420" y1="102" x2="452" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="454" y="70" width="164" height="64" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="536" y="90" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">1000 类 / 特征</text>
+  <text x="536" y="108" text-anchor="middle" font-size="8.7" fill="#374151">top-1 0.87+</text>
+  <text x="536" y="124" text-anchor="middle" font-size="8" fill="#6b7280">也可当检测骨干</text>
+
+  <line x1="618" y1="102" x2="650" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="652" y="78" width="140" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="722" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">类别 / 特征</text>
+  <text x="722" y="116" text-anchor="middle" font-size="7.8" fill="#6b7280">CNN 不落后</text>
+
+  <text x="410" y="172" text-anchor="middle" font-size="9.6" fill="#374151">I/O 同其他骨干，签名在“<tspan font-weight="bold" fill="#0369a1">用 Transformer 的现代配方反向武装纯卷积</tspan>”，证明结构之争不是关键、配方才是。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

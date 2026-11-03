@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="880" height="600" fill="#fff"/>
+  <text x="440" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">DETR：N 个 object query 是什么 + 怎么靠交叉注意力 query 目标</text>
+  <text x="440" y="44" text-anchor="middle" font-size="11" fill="#6b7280">query = 可学习向量（“检测名额/提问者”），不绑位置；解码器里①自注意力分工 ②交叉注意力去图像找物体</text>
+
+  <!-- left: what is a query -->
+  <rect x="20" y="60" width="250" height="180" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="145" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">N 个 object query 是什么</text>
+  <text x="34" y="100" font-size="9" fill="#374151">· N 个可学习向量（如 N=100）</text>
+  <text x="34" y="116" font-size="9" fill="#374151">· 是模型参数，随机初始化、训练后固定</text>
+  <text x="34" y="132" font-size="9" fill="#374151">· 不是框/anchor、不绑任何图像位置</text>
+  <text x="34" y="148" font-size="9" fill="#374151">· 每张图都用同一组 N 个 query</text>
+  <text x="34" y="166" font-size="9" fill="#b91c1c">· 每个 = 一个“检测名额/提问者”</text>
+  <text x="34" y="182" font-size="9" fill="#374151">　“我去认领一个物体，是哪个？”</text>
+  <text x="34" y="200" font-size="9" fill="#374151">· 专精是学出来的（#5 常看左下小物…）</text>
+  <text x="34" y="216" font-size="8.5" fill="#6b7280">· N = 预算上限：图里物体数须 &lt; N</text>
+  <text x="34" y="231" font-size="8.5" fill="#6b7280">　多余 query 学成 ∅（无物体）</text>
+
+  <!-- queries as slots -->
+  <rect x="20" y="256" width="250" height="56" rx="6" fill="#fff" stroke="#c4b5fd"/>
+  <text x="145" y="274" text-anchor="middle" font-size="9" fill="#6b7280">N 个 query 向量（空白名额）</text>
+  <rect x="34" y="282" width="26" height="20" rx="3" fill="#ddd6fe"/><text x="47" y="296" text-anchor="middle" font-size="8" fill="#6d28d9">q1</text>
+  <rect x="66" y="282" width="26" height="20" rx="3" fill="#ddd6fe"/><text x="79" y="296" text-anchor="middle" font-size="8" fill="#6d28d9">q2</text>
+  <rect x="98" y="282" width="26" height="20" rx="3" fill="#ddd6fe"/><text x="111" y="296" text-anchor="middle" font-size="8" fill="#6d28d9">q3</text>
+  <text x="140" y="296" font-size="9" fill="#6b7280">……</text>
+  <rect x="220" y="282" width="40" height="20" rx="3" fill="#ddd6fe"/><text x="240" y="296" text-anchor="middle" font-size="8" fill="#6d28d9">qN</text>
+
+  <!-- arrow to decoder -->
+  <line x1="270" y1="284" x2="320" y2="284" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- decoder layer -->
+  <rect x="322" y="62" width="540" height="300" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="592" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">解码器（每层重复 L 次）</text>
+
+  <!-- self-attn -->
+  <rect x="342" y="96" width="500" height="76" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="592" y="116" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">① query 之间的自注意力（分工去重）</text>
+  <text x="358" y="136" font-size="9" fill="#374151">N 个 query 互相通气：“你认领了那辆车，我就去找别的”</text>
+  <text x="358" y="153" font-size="9" fill="#374151">→ 从训练起就一物体配一 query、不重叠</text>
+  <text x="358" y="167" font-size="8.5" fill="#b91c1c">这正是 DETR 能去掉 NMS 的根源</text>
+
+  <line x1="592" y1="172" x2="592" y2="196" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- cross-attn -->
+  <rect x="342" y="198" width="500" height="146" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="592" y="218" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">② 交叉注意力：query 去“问”图像（核心）</text>
+  <text x="358" y="238" font-size="9" fill="#374151"><tspan font-weight="bold">Q（查询）</tspan> = query 向量　　<tspan font-weight="bold">K、V</tspan> = 编码器输出的图像特征</text>
+  <text x="358" y="252" font-size="8.5" fill="#6b7280">（每个图像特征 = 一个空间位置的特征 + 位置编码）</text>
+  <text x="358" y="270" font-size="9" fill="#374151">· query 和<tspan font-weight="bold">所有图像位置</tspan>算相似度 → 一组注意力权重</text>
+  <text x="358" y="286" font-size="9" fill="#374151">· 它负责的物体所在区域会“<tspan font-weight="bold" fill="#1e40af">亮</tspan>”起来（高权重）</text>
+  <text x="358" y="302" font-size="9" fill="#374151">· 按权重对 V 加权求和 → 把那块区域特征“吸”进自己</text>
+  <text x="358" y="320" font-size="9" fill="#b91c1c">一句话：query 朝整张图喊“我的物体在哪？”</text>
+  <text x="358" y="335" font-size="9" fill="#b91c1c">　　　　注意力权重就是答案——高权重处即目标</text>
+
+  <!-- image feature map mini -->
+  <rect x="690" y="252" width="140" height="84" rx="4" fill="#fff" stroke="#93c5fd"/>
+  <text x="760" y="266" text-anchor="middle" font-size="8" fill="#6b7280">编码器图像特征（K,V）</text>
+  <rect x="700" y="272" width="120" height="56" fill="#eff6ff"/>
+  <rect x="748" y="288" width="26" height="22" fill="#3b82f6" opacity="0.7"/>
+  <text x="761" y="303" text-anchor="middle" font-size="7" fill="#fff">亮</text>
+
+  <line x1="592" y1="362" x2="592" y2="392" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- output -->
+  <rect x="262" y="394" width="660" height="62" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="592" y="414" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">L 层后：每个 query → FFN → (类别 或 ∅, 框)</text>
+  <text x="592" y="434" text-anchor="middle" font-size="9" fill="#374151">q1→车@(..)、q2→∅、q3→人@(..) …… 共 N 个预测；去掉 ∅ 即最终框</text>
+  <text x="592" y="449" text-anchor="middle" font-size="8.5" fill="#b91c1c">训练用匈牙利二分匹配让“一物体配一 query” → 推理天然不重复 → 无需 NMS</text>
+
+  <!-- bottom contrast -->
+  <rect x="20" y="476" width="840" height="100" rx="8" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="440" y="496" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">对照 Grounding DINO（Q71）：query 从哪来不同</text>
+  <text x="40" y="518" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#6d28d9">DETR</tspan>：query 是<tspan font-weight="bold">纯学习、与文本无关</tspan>的固定一组——凭空学出来的 N 个“名额”。</text>
+  <text x="40" y="538" font-size="9.5" fill="#374151"><tspan font-weight="bold" fill="#b45309">Grounding DINO</tspan>：query 是<tspan font-weight="bold">被文本从图像 token 里选出来</tspan>的（按文本相关度 top-N）——DETR query 的“文本驱动版”。</text>
+  <text x="40" y="560" font-size="9" fill="#6b7280">两者解码器都靠“交叉注意力让 query 去图里找目标 + 逐层精修”，区别只在 query 的来源（凭空学 vs 文本选）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

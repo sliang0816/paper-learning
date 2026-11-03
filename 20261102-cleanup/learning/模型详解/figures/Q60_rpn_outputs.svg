@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="800" height="450" fill="#fff"/>
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">RPN 每个 anchor：2（前景/背景）+ 4（一组框偏移），不是 2×4</text>
+  <text x="400" y="44" text-anchor="middle" font-size="11" fill="#6b7280">那个“2”是“有没有物体”，不是 2 个物体类别；回归与类别无关，只 1 组 4 值</text>
+
+  <!-- per-anchor outputs -->
+  <rect x="40" y="64" width="360" height="150" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="220" y="86" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1d4ed8">RPN 每个 anchor 的输出 = 2 + 4 = 6</text>
+  <g font-size="11">
+    <rect x="60" y="100" width="150" height="44" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="135" y="120" text-anchor="middle">分类 2 个</text><text x="135" y="137" text-anchor="middle" font-size="9.5" fill="#6b7280">前景 / 背景（objectness）</text>
+    <rect x="230" y="100" width="150" height="44" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="305" y="120" text-anchor="middle">回归 4 个</text><text x="305" y="137" text-anchor="middle" font-size="9.5" fill="#6b7280">(t_x, t_y, t_w, t_h) 一组</text>
+  </g>
+  <text x="60" y="168" font-size="10" fill="#374151">k 个 anchor/位置 → cls 头 2k、reg 头 4k（图上 1×1 卷积）。</text>
+  <text x="60" y="188" font-size="10" fill="#374151">回归是<tspan font-weight="bold">类别无关</tspan>的：只把 anchor 往“附近那个物体”挪，</text>
+  <text x="60" y="204" font-size="10" fill="#374151">不管它是猫是车 → 所以只需 1 组 4 值。</text>
+
+  <!-- why not 8 -->
+  <rect x="420" y="64" width="340" height="150" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="590" y="86" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#b91c1c">✗ 为什么不是 2×4=8</text>
+  <text x="436" y="110" font-size="10.5" fill="#374151">· “2” = {物体, 背景}，<tspan font-weight="bold">不是 2 个类别</tspan>。</text>
+  <text x="436" y="132" font-size="10.5" fill="#374151">· <tspan font-weight="bold">背景没有框可回归</tspan>（背景不是物体，</text>
+  <text x="448" y="148" font-size="10.5" fill="#374151">谈不上“把框修到哪”）→ 不给它 4 值。</text>
+  <text x="436" y="172" font-size="10.5" fill="#374151">· 就算按“每类一组”，也只有前景 1 类有框</text>
+  <text x="448" y="188" font-size="10.5" fill="#374151">→ 4×1 = 4，仍不是 8。</text>
+  <text x="436" y="206" font-size="9.5" fill="#6b7280">RPN 是类别无关的“候选框生成器”。</text>
+
+  <!-- contrast with Fast R-CNN stage-2 -->
+  <rect x="40" y="232" width="720" height="120" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="56" y="254" font-size="12.5" font-weight="bold" fill="#15803d">对比：到了第二阶段（Fast R-CNN 检测头，Q58）才“按类”</text>
+  <g font-size="10.5" fill="#374151">
+    <text x="56" y="278">· 那里分类是 <tspan font-weight="bold">K+1</tspan>（K 个真实类 + 背景），回归是 <tspan font-weight="bold">4(K+1)</tspan>——<tspan font-weight="bold">类别专属</tspan>（猫框/车框各学一组）。</text>
+    <text x="56" y="300">· 原因：第二阶段要分清“具体哪一类”，且“怎么精修框”因类而异 → 每类各 4 个。</text>
+    <text x="56" y="322">· RPN 只回答“这儿有没有东西、大致在哪”，把“哪一类 + 精修框”留给第二阶段。</text>
+    <text x="56" y="342" fill="#15803d" font-weight="bold">两阶段分工：RPN 类别无关(2+4) → 检测头 类别专属(K+1 与 4(K+1))。</text>
+  </g>
+
+  <!-- summary -->
+  <text x="400" y="378" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">一句话：RPN 的回归与“分类的 2”无关，是 1 组类别无关的框偏移，所以 4 不是 8。</text>
+
+  <!-- mini formula -->
+  <g font-size="11" text-anchor="middle" fill="#374151">
+    <rect x="150" y="396" width="220" height="34" rx="5" fill="#eff6ff" stroke="#bfdbfe"/><text x="260" y="418">RPN/anchor：2(cls) + 4(reg)</text>
+    <rect x="430" y="396" width="260" height="34" rx="5" fill="#f0fdf4" stroke="#86efac"/><text x="560" y="418">检测头：(K+1)(cls) + 4(K+1)(reg)</text>
+  </g>
+</svg>

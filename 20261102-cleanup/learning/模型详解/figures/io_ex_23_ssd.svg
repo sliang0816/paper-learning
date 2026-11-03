@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="220" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">23 SSD 输入输出实例（单阶段 + 多尺度特征图）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">300×300 图 → 6 个不同尺度特征图各预测 → 共 8732 个 default box → NMS → 框+类别</text>
+
+  <rect x="22" y="72" width="108" height="74" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="76" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="76" y="113" text-anchor="middle" font-size="9.2" fill="#374151">300×300×3</text>
+  <text x="76" y="130" text-anchor="middle" font-size="8" fill="#6b7280">（或 512²）</text>
+
+  <line x1="130" y1="109" x2="158" y2="109" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="160" y="64" width="200" height="92" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="260" y="83" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#1e40af">VGG + 额外卷积层</text>
+  <text x="260" y="101" text-anchor="middle" font-size="8.3" fill="#374151">抽 6 个尺度特征图：</text>
+  <text x="260" y="116" text-anchor="middle" font-size="8.3" fill="#374151">38² / 19² / 10² / 5² / 3² / 1²</text>
+  <text x="260" y="132" text-anchor="middle" font-size="8" fill="#15803d">大特征图测小目标、小特征图测大目标</text>
+  <text x="260" y="146" text-anchor="middle" font-size="7.6" fill="#6b7280">每层每位置铺多个 default box</text>
+
+  <line x1="360" y1="109" x2="388" y2="109" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="390" y="72" width="170" height="74" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="475" y="91" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#6d28d9">共 8732 个框</text>
+  <text x="475" y="109" text-anchor="middle" font-size="8.3" fill="#374151">每框：类别 + 框偏移</text>
+  <text x="475" y="125" text-anchor="middle" font-size="8" fill="#6b7280">6 层预测汇总到一起</text>
+
+  <line x1="560" y1="109" x2="588" y2="109" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="574" y="101" text-anchor="middle" font-size="7.4" fill="#6b7280">NMS</text>
+  <rect x="590" y="80" width="120" height="58" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="650" y="100" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">框 + 类别</text>
+  <text x="650" y="118" text-anchor="middle" font-size="8" fill="#6b7280">去重后的结果</text>
+
+  <line x1="710" y1="109" x2="738" y2="109" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="740" y="86" width="60" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="770" y="108" text-anchor="middle" font-size="8.6" font-weight="bold" fill="#15803d">59fps</text>
+  <text x="770" y="124" text-anchor="middle" font-size="7" fill="#6b7280">又快又准</text>
+
+  <text x="410" y="186" text-anchor="middle" font-size="9.6" fill="#374151">和 YOLOv1 同期：签名是<tspan font-weight="bold" fill="#0369a1">在多个尺度的特征图上分别检测</tspan>，比单尺度的 YOLOv1 更会处理大小目标（FPN 的前身思想）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 680" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="680" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q184 CNN"权重共享"是指什么？——不是"训练完不变"，而是"同一个卷积核在所有空间位置上复用"</text>
+
+  <!-- 误区 vs 正解 -->
+  <rect x="20" y="42" width="460" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="250" y="64" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b91c1c">✘ 误区：以为"共享"=训练完参数固定不变</text>
+  <text x="40" y="88" font-size="9.5" fill="#374151">"训练完参数不变"是任何网络(MLP/RNN/CNN)</text>
+  <text x="40" y="106" font-size="9.5" fill="#374151">在推理时的共同状态，叫"权重冻结/固定"</text>
+  <text x="40" y="126" font-size="9.5" fill="#374151">和"共享"没关系，也不是CNN独有</text>
+  <text x="40" y="148" font-size="9.5" fill="#374151">而且训练过程中权重其实一直在变(被更新)</text>
+  <text x="40" y="172" font-size="9" fill="#6b7280">"共享"讲的不是时间(训练前后)，是空间(位置之间)</text>
+
+  <rect x="500" y="42" width="460" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="64" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">✔ 正解：同一个核在所有位置用同一套权重</text>
+  <text x="520" y="88" font-size="9.5" fill="#374151">一个卷积核(如3×3×C)只有一套权重</text>
+  <text x="520" y="106" font-size="9.5" fill="#374151">它在整张图上滑动，每个位置都用这同一套</text>
+  <text x="520" y="126" font-size="9.5" fill="#374151">位置(0,0)和位置(100,100)用的是完全一样的权重</text>
+  <text x="520" y="148" font-size="9.5" font-weight="bold" fill="#15803d">"共享"=被所有空间位置共用同一套权重</text>
+  <text x="520" y="172" font-size="9" fill="#6b7280">这是同一次前向里、跨空间位置的共享</text>
+
+  <!-- 对比FC -->
+  <rect x="20" y="204" width="460" height="180" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="226" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">对比：全连接FC 没有权重共享</text>
+  <text x="40" y="250" font-size="9.4" fill="#374151">FC：每个输出神经元都有自己独立的一套权重</text>
+  <text x="40" y="270" font-size="9.4" fill="#374151">连到每个输入，位置之间不复用 → 参数巨多</text>
+  <text x="40" y="292" font-size="9.4" fill="#374151">1000×1000图接FC：每个输出要100万个权重</text>
+  <text x="40" y="316" font-size="9.4" fill="#374151">卷积：一个3×3核=9个权重(×通道)扫全图</text>
+  <text x="40" y="336" font-size="9.4" fill="#374151">全图共用这9个 → 参数量骤减(几十亿→几十)</text>
+  <text x="40" y="360" font-size="9" fill="#6b7280">这是CNN能处理大图、还不爆参数的关键</text>
+  <text x="40" y="378" font-size="9" fill="#6b7280">(FC是"每处各一套"、Conv是"全图同一套")</text>
+
+  <!-- 滑窗示意 -->
+  <rect x="500" y="204" width="460" height="180" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="730" y="226" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">图示：同一个3×3核滑过全图</text>
+  <!-- 特征图网格 -->
+  <g stroke="#a78bfa" stroke-width="1" fill="none">
+    <rect x="560" y="244" width="150" height="120"/>
+    <line x1="560" y1="274" x2="710" y2="274"/><line x1="560" y1="304" x2="710" y2="304"/><line x1="560" y1="334" x2="710" y2="334"/>
+    <line x1="590" y1="244" x2="590" y2="364"/><line x1="620" y1="244" x2="620" y2="364"/><line x1="650" y1="244" x2="650" y2="364"/><line x1="680" y1="244" x2="680" y2="364"/>
+  </g>
+  <rect x="560" y="244" width="60" height="60" fill="#c4b5fd" fill-opacity="0.5" stroke="#7c3aed" stroke-width="2"/>
+  <rect x="650" y="304" width="60" height="60" fill="#c4b5fd" fill-opacity="0.5" stroke="#7c3aed" stroke-width="2"/>
+  <text x="750" y="270" font-size="9.4" fill="#374151">同一套权重 W</text>
+  <text x="750" y="288" font-size="9.4" fill="#374151">(左上位置用它)</text>
+  <text x="750" y="330" font-size="9.4" fill="#374151">还是同一套权重 W</text>
+  <text x="750" y="348" font-size="9.4" fill="#374151">(右下位置也用它)</text>
+  <text x="520" y="380" font-size="9" fill="#6b7280">核滑到哪，就用同一套W算那个位置的输出</text>
+
+  <!-- 两大好处 -->
+  <rect x="20" y="396" width="940" height="26" rx="6" fill="#b45309"/>
+  <text x="490" y="414" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">为什么要共享：两大好处</text>
+
+  <rect x="20" y="432" width="460" height="90" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="250" y="454" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">① 参数量大减</text>
+  <text x="40" y="476" font-size="9.4" fill="#374151">不用每个像素位置各配一套权重</text>
+  <text x="40" y="494" font-size="9.4" fill="#374151">一个小核覆盖全图 → 参数少、好训、不易过拟合</text>
+  <text x="40" y="514" font-size="9" fill="#6b7280">也是能处理任意大小图的基础(Q176/Q44)</text>
+
+  <rect x="500" y="432" width="460" height="90" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="730" y="454" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f766e">② 平移不变性</text>
+  <text x="520" y="476" font-size="9.4" fill="#374151">同一个"检测器"扫遍全图</text>
+  <text x="520" y="494" font-size="9.4" fill="#374151">→ 一个特征(边缘/猫)出现在哪都能被同样检测到</text>
+  <text x="520" y="514" font-size="9" fill="#6b7280">目标可能出现在图像任意位置，正需要这个性质</text>
+
+  <!-- 训练时共享 -->
+  <rect x="20" y="534" width="940" height="70" rx="8" fill="#faf5ff" stroke="#8b5cf6"/>
+  <text x="490" y="556" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">关键澄清：训练时权重也在共享，且一直在变</text>
+  <text x="45" y="578" font-size="9.5" fill="#374151">共享贯穿训练和推理(每次前向，核都在所有位置复用同一套)。训练中这套共享权重会被更新——某个共享权重的梯度=它在所有位置产生的梯度之和，</text>
+  <text x="45" y="596" font-size="9.5" fill="#374151">用这个总梯度更新它。所以"共享"是空间维度的复用(始终成立)，"不变"只是训练结束后推理时的状态(所有网络都这样)，两者是不同的事。</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="614" width="940" height="54" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="636" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">一句话：CNN"权重共享"=同一个卷积核在整张图的所有空间位置上复用同一套权重(跨空间共享)，不是"训练完不变"(那是任何网络推理时的冻结状态)；</text>
+  <text x="490" y="654" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#a16207">好处=参数量大减+平移不变性；训练时这套共享权重仍在被更新(梯度=所有位置的梯度之和)。</text>
+</svg>

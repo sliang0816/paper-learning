@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 760" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="760" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q164 ConvNeXt 的创新点是"训练技巧"吗？—— 账目拆开看，架构改动贡献更多</text>
+
+  <!-- ① 五步路线图账目 -->
+  <rect x="20" y="42" width="940" height="230" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 五步改造路线图：训练技巧只是第①步，后面四步全是架构改动</text>
+  <g font-size="10" fill="#374151">
+    <text x="40" y="90" font-weight="bold">步骤</text><text x="240" y="90" font-weight="bold">改的是什么</text><text x="560" y="90" font-weight="bold">类别</text><text x="700" y="90" font-weight="bold">涨幅</text>
+    <line x1="30" y1="98" x2="950" y2="98" stroke="#93c5fd"/>
+    <text x="40" y="120">① 训练配方现代化</text><text x="240" y="120">AdamW/更长训练/Mixup·CutMix</text><text x="560" y="120" fill="#1e40af" font-weight="bold">训练技巧</text><text x="700" y="120" font-weight="bold" fill="#1e40af">76.1→78.8 (+2.7)</text>
+    <text x="40" y="144">② 宏观结构</text><text x="240" y="144">stage层数比例仿Swin</text><text x="560" y="144" fill="#b91c1c" font-weight="bold">架构</text><text x="700" y="144">↑</text>
+    <text x="40" y="168">③ 深度可分离+倒残差</text><text x="240" y="168">仿MobileNet/Transformer FFN</text><text x="560" y="168" fill="#b91c1c" font-weight="bold">架构</text><text x="700" y="168">↑</text>
+    <text x="40" y="192">④ 7×7大卷积核</text><text x="240" y="192">模仿注意力大感受野</text><text x="560" y="192" fill="#b91c1c" font-weight="bold">架构</text><text x="700" y="192">↑</text>
+    <text x="40" y="216">⑤ GELU/LayerNorm/更少归一化</text><text x="240" y="216">仿Transformer微观设计</text><text x="560" y="216" fill="#b91c1c" font-weight="bold">架构</text><text x="700" y="216">↑</text>
+    <line x1="30" y1="228" x2="950" y2="228" stroke="#93c5fd"/>
+    <text x="40" y="250" font-weight="bold">合计</text><text x="700" y="250" font-weight="bold" fill="#15803d">82.0 (总+5.9)</text>
+  </g>
+
+  <!-- ② 账目对比 -->
+  <rect x="20" y="284" width="460" height="180" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="250" y="306" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">② 关键账目：架构贡献比训练技巧还多</text>
+  <text x="40" y="332" font-size="10.5" fill="#374151">训练技巧(①)贡献：<tspan font-weight="bold" fill="#1e40af">+2.7</tspan> 个百分点</text>
+  <text x="40" y="356" font-size="10.5" fill="#374151">纯架构改动(②③④⑤合计)贡献：<tspan font-weight="bold" fill="#b91c1c">+3.2</tspan> 个百分点</text>
+  <text x="40" y="386" font-size="10" font-weight="bold" fill="#b91c1c">架构改动贡献的涨幅 &gt; 训练技巧</text>
+  <text x="40" y="410" font-size="9.5" fill="#374151">若"主要为证明训练技巧"，作者根本不需要</text>
+  <text x="40" y="428" font-size="9.5" fill="#374151">再费劲改宏观结构/换大核/换LayerNorm——</text>
+  <text x="40" y="446" font-size="9.5" fill="#374151">这些都不属于"训练技巧"范畴，是真架构设计</text>
+
+  <!-- ③ 论文真正的逻辑 -->
+  <rect x="500" y="284" width="460" height="180" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="306" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 为何先隔离训练技巧：控制变量，不是终点</text>
+  <text x="516" y="330" font-size="9.8" fill="#374151">先把训练技巧固定住(①做完后，②③④⑤都在</text>
+  <text x="516" y="348" font-size="9.8" fill="#374151"><tspan font-weight="bold">同一套训练配方</tspan>下比较)</text>
+  <text x="516" y="372" font-size="9.8" font-weight="bold" fill="#15803d">这样才能干净地证明：纯卷积架构改动</text>
+  <text x="516" y="390" font-size="9.8" font-weight="bold" fill="#15803d">本身也能带来真实、可测量的额外提升</text>
+  <text x="516" y="414" font-size="9" fill="#6b7280">同类控制变量思路：MAE六组消融(先固定其余</text>
+  <text x="516" y="432" font-size="9" fill="#6b7280">超参再单变量对比)，方法论相通</text>
+  <text x="516" y="452" font-size="9" fill="#374151">若不隔离，无法说清"架构改动"vs"训练变了"</text>
+
+  <!-- ④ 论文的真正结论 -->
+  <rect x="20" y="484" width="940" height="120" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="506" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">④ 论文真正想证明的：不是"架构不重要"，而是"自注意力不是必需品"</text>
+  <text x="490" y="530" text-anchor="middle" font-size="10.5" fill="#374151">"只要架构也认真现代化(仿Transformer精神但纯卷积实现)，纯卷积照样能追平/超过Swin"</text>
+  <text x="490" y="554" text-anchor="middle" font-size="10" font-weight="bold" fill="#6d28d9">论证重心在"架构设计依然重要，且纯卷积也能做到"——不是"全靠训练技巧、架构不重要"</text>
+  <text x="490" y="578" text-anchor="middle" font-size="9" fill="#6b7280">"训练主要为了证明训练技巧"这个说法，会削弱论文自己的架构贡献——逻辑上是自相矛盾的</text>
+
+  <!-- ⑤ 你说对的部分 -->
+  <rect x="20" y="618" width="940" height="80" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="640" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">⑤ 说对的部分：没有发明任何新算子，是"工程集大成"</text>
+  <text x="490" y="664" text-anchor="middle" font-size="9.8" fill="#374151">深度可分离/倒残差(MobileNet)、分组卷积(ResNeXt)、LayerNorm/GELU(Transformer)——全部借用已有技术，无一首创</text>
+  <text x="490" y="682" text-anchor="middle" font-size="9" fill="#6b7280">"创新程度低"(集大成非首创) ≠ "论证重心是训练技巧"——这是两件不同的事</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="710" width="940" height="42" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="736" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">一句话：训练技巧贡献总涨幅5.9%里的2.7%，架构改动贡献更多的3.2%——论文先隔离训练技巧、是为了干净地证明"纯卷积架构改动本身也有效"，结论是"自注意力非必需"，不是"架构不重要"。</text>
+</svg>

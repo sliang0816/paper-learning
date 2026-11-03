@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="470" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q99 ViT 为什么要 [CLS]？——不是必须；像 CNN 那样池化→FC+softmax 也行</text>
+  <text x="460" y="44" text-anchor="middle" font-size="11" fill="#6b7280">你的直觉对：最后都是 FC+softmax，区别只在"喂给 FC 的那个 summary 向量怎么来"</text>
+
+  <!-- two ways -->
+  <text x="230" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">CNN / ViT-GAP：固定平均池化</text>
+  <text x="690" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">ViT-[CLS]：可学习加权池化</text>
+
+  <!-- GAP side -->
+  <g>
+    <rect x="40" y="84" width="120" height="60" fill="#e0f2fe" stroke="#0284c7"/>
+    <line x1="80" y1="84" x2="80" y2="144" stroke="#93c5fd"/><line x1="120" y1="84" x2="120" y2="144" stroke="#93c5fd"/>
+    <line x1="40" y1="104" x2="160" y2="104" stroke="#93c5fd"/><line x1="40" y1="124" x2="160" y2="124" stroke="#93c5fd"/>
+    <text x="100" y="160" text-anchor="middle" font-size="8.5" fill="#374151">所有位置/patch 特征</text>
+    <line x1="162" y1="114" x2="196" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+    <rect x="198" y="96" width="100" height="36" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="248" y="112" text-anchor="middle" font-size="9" fill="#15803d">平均池化 GAP</text>
+    <text x="248" y="126" text-anchor="middle" font-size="7.5" fill="#6b7280">固定、均匀、一律平均</text>
+    <line x1="300" y1="114" x2="334" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+    <rect x="336" y="98" width="90" height="32" rx="5" fill="#fff" stroke="#86efac"/>
+    <text x="381" y="118" text-anchor="middle" font-size="9" fill="#374151">一个向量</text>
+  </g>
+
+  <!-- CLS side -->
+  <g>
+    <rect x="500" y="84" width="120" height="60" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="560" y="118" text-anchor="middle" font-size="8.5" fill="#374151">patch tokens</text>
+    <rect x="500" y="150" width="120" height="18" rx="3" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="560" y="163" text-anchor="middle" font-size="8" fill="#6d28d9">+ 一个 [CLS] 槽</text>
+    <line x1="622" y1="114" x2="656" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+    <rect x="658" y="96" width="110" height="36" rx="5" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="713" y="112" text-anchor="middle" font-size="9" fill="#6d28d9">注意力加权聚合</text>
+    <text x="713" y="126" text-anchor="middle" font-size="7.5" fill="#6b7280">按内容动态学"侧重哪些"</text>
+    <line x1="770" y1="114" x2="804" y2="114" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+    <rect x="806" y="98" width="90" height="32" rx="5" fill="#fff" stroke="#c4b5fd"/>
+    <text x="851" y="118" text-anchor="middle" font-size="9" fill="#374151">一个向量</text>
+  </g>
+
+  <!-- merge to FC -->
+  <line x1="381" y1="130" x2="430" y2="188" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="851" y1="130" x2="490" y2="188" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="360" y="190" width="200" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="207" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">FC + softmax → 类别</text>
+  <text x="460" y="223" text-anchor="middle" font-size="8.5" fill="#6b7280">两条路最后完全一样</text>
+
+  <text x="460" y="252" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">本质 = 学出来的池化（[CLS]） vs 固定平均池化（GAP/CNN）；实践中半斤八两</text>
+
+  <!-- why CLS -->
+  <rect x="20" y="266" width="430" height="100" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="235" y="286" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">那 ViT 为什么还用 [CLS]</text>
+  <text x="36" y="308" font-size="9.5" fill="#374151">为最大限度照抄 BERT：把图当文本、用标准</text>
+  <text x="36" y="326" font-size="9.5" fill="#374151">Transformer、尽量别加图像专用花样</text>
+  <text x="36" y="346" font-size="9" fill="#6b7280">→ 证明"不需视觉专用技巧，标准 Transformer 直接能打"</text>
+  <text x="36" y="362" font-size="9" fill="#b91c1c">是设计选择、不是必需（ViT论文验证 GAP≈[CLS]）</text>
+
+  <!-- position -->
+  <rect x="470" y="266" width="430" height="100" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="685" y="286" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">"为什么放最前面"</text>
+  <text x="486" y="308" font-size="9.5" fill="#374151">纯属约定（沿袭 BERT 放第一个）</text>
+  <text x="486" y="326" font-size="9.5" fill="#374151">有位置编码 → 模型知道哪个是 [CLS]</text>
+  <text x="486" y="346" font-size="9.5" fill="#374151">它 attend 所有 patch → 放前放后无所谓</text>
+  <text x="486" y="362" font-size="9" fill="#6b7280">位置是"装饰性"的，不影响功能</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="380" width="880" height="76" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="402" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">一句话</text>
+  <text x="460" y="424" text-anchor="middle" font-size="9.5" fill="#374151">[CLS] 不是必须——像 CNN 那样"池化→FC+softmax"完全可行（GAP 版 ViT/Swin 就是这么做的）；</text>
+  <text x="460" y="444" text-anchor="middle" font-size="9.5" fill="#6d28d9">[CLS] 只是"照抄 BERT + 可学习池化"的选择。summary 向量：学出来的([CLS]) vs 平均出来的(GAP)。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

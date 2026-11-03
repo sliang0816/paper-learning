@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="250" fill="#fff"/>
+  <text x="420" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">31 ViT 输入输出实例（图像当 token 序列进 Transformer）</text>
+  <text x="420" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">224×224 图切 16×16 patch → 196+1 token → Transformer → [CLS] 向量 → 类别 / 特征</text>
+
+  <rect x="20" y="70" width="120" height="92" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="80" y="89" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#075985">输入：切 patch</text>
+  <text x="80" y="107" text-anchor="middle" font-size="8.5" fill="#374151">224×224 → 16×16 块</text>
+  <text x="80" y="123" text-anchor="middle" font-size="8.5" fill="#374151">= 14×14 = 196 个 patch</text>
+  <text x="80" y="139" text-anchor="middle" font-size="8.5" fill="#374151">+ 1 个 [CLS] = 197</text>
+  <text x="80" y="155" text-anchor="middle" font-size="8" fill="#6b7280">各线性投影到 768 维</text>
+
+  <line x1="140" y1="116" x2="170" y2="116" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="155" y="108" text-anchor="middle" font-size="7.4" fill="#6b7280">+位置</text>
+
+  <rect x="172" y="74" width="168" height="84" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="256" y="94" text-anchor="middle" font-size="9.8" font-weight="bold" fill="#1e40af">Transformer 编码器</text>
+  <text x="256" y="112" text-anchor="middle" font-size="8.5" fill="#374151">L 层多头自注意力</text>
+  <text x="256" y="128" text-anchor="middle" font-size="8.5" fill="#374151">197 token 互相看、上下文化</text>
+  <text x="256" y="146" text-anchor="middle" font-size="8" fill="#6b7280">[CLS] 汇聚全图信息</text>
+
+  <line x1="340" y1="100" x2="382" y2="86" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="340" y1="130" x2="382" y2="148" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="384" y="64" width="210" height="50" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="489" y="83" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#15803d">用法A：[CLS] 向量(768) → 分类</text>
+  <text x="489" y="101" text-anchor="middle" font-size="8.5" fill="#374151">→ 1000 类，top-1 “猫” 0.91</text>
+
+  <rect x="384" y="122" width="210" height="52" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="489" y="141" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#6d28d9">用法B：各 patch 特征 / 图嵌入</text>
+  <text x="489" y="159" text-anchor="middle" font-size="8.5" fill="#374151">→ 供检测 / 给 CLIP 图像塔</text>
+
+  <line x1="594" y1="89" x2="636" y2="89" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="638" y="66" width="180" height="46" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="728" y="85" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">输出：类别 “猫”</text>
+  <text x="728" y="102" text-anchor="middle" font-size="8" fill="#6b7280">（[CLS] → FC）</text>
+
+  <line x1="594" y1="148" x2="636" y2="148" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="638" y="126" width="180" height="46" rx="6" fill="#ddd6fe" stroke="#8b5cf6"/>
+  <text x="728" y="145" text-anchor="middle" font-size="9.2" font-weight="bold" fill="#6d28d9">输出：图像嵌入向量</text>
+  <text x="728" y="162" text-anchor="middle" font-size="8" fill="#6b7280">→ 33 CLIP 用它</text>
+
+  <text x="420" y="206" text-anchor="middle" font-size="9.8" fill="#374151">关键：把图像<tspan font-weight="bold" fill="#0369a1">切成 patch 当成“词”</tspan>，就能用 NLP 的 Transformer 处理视觉——[CLS] 这个 token 收集全图信息当“图像代表”。</text>
+  <text x="420" y="228" text-anchor="middle" font-size="9.3" fill="#6b7280">本项目相关：CLIP 的图像编码器就是 ViT（见 33 CLIP），所以理解 ViT 是理解 CLIP 零样本识别的前置。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 500" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="500" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q108 CLIP 零样本分类核心机制：多类多 prompt → 图像与全部文本比相似度 → top-1 胜出</text>
+
+  <!-- 左：你的理解 ✅ -->
+  <rect x="20" y="44" width="440" height="240" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="240" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">你的理解（完全正确 ✅）</text>
+  <!-- flow -->
+  <rect x="50" y="82" width="130" height="30" rx="4" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="115" y="102" text-anchor="middle" font-size="9" fill="#15803d">未训练类 GL 框 crop</text>
+  <text x="195" y="100" font-size="13" fill="#9ca3af">→</text>
+  <rect x="218" y="82" width="100" height="30" rx="4" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="268" y="102" text-anchor="middle" font-size="9" fill="#15803d">CLIP 图像塔 → v</text>
+  <rect x="50" y="130" width="370" height="40" rx="4" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="235" y="146" text-anchor="middle" font-size="9.5" fill="#b45309">候选文本 prompt（8 类，含已训练 + 未训练）</text>
+  <text x="235" y="162" text-anchor="middle" font-size="9" fill="#374151">"a photo of plastic on the road" / "…metal…" / "…glass…" / ...</text>
+  <!-- compare -->
+  <text x="235" y="202" text-anchor="middle" font-size="10" fill="#374151">余弦相似度 v · t_k → softmax</text>
+  <text x="70" y="226" font-size="9" font-family="monospace" fill="#6b7280">plastic:0.12  metal:0.08  glass:0.71  stone:0.04  ...</text>
+  <text x="70" y="248" font-size="9.5" fill="#374151">→ <tspan font-weight="bold" fill="#15803d">top-1 = "glass"（GL 虽未训练，CLIP 在 4 亿图文对上学过"玻璃"概念）</tspan></text>
+  <text x="70" y="268" font-size="9" fill="#6b7280">→ 零样本：不用训练 GL/ME 就能识别</text>
+
+  <!-- 右：补充 -->
+  <rect x="480" y="44" width="440" height="240" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="700" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">一处补充：比较的是全部 8 类，不区分"训没训过"</text>
+  <text x="496" y="96" font-size="9.5" fill="#374151">CLIP 不知道哪个类"已训练"还是"未训练"</text>
+  <text x="496" y="116" font-size="9.5" fill="#374151">它收到的就是 N 个文本嵌入（本项目=8）</text>
+  <rect x="510" y="132" width="390" height="40" rx="4" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="705" y="148" text-anchor="middle" font-size="9" fill="#b45309">候选池 = 全部 8 类（PL/ST/RU/VP/TD/OT + GL/ME）</text>
+  <text x="705" y="164" text-anchor="middle" font-size="8.5" fill="#6b7280">包含已训练类 prompt，不止是未训练类</text>
+  <text x="496" y="194" font-size="9.5" fill="#374151">GL crop 和全部 8 个文本都比一圈 → GL 最高 → 胜出</text>
+  <text x="496" y="216" font-size="9.5" fill="#b91c1c">如果 GL 被误判成 PL（都是碎片状），说明零样本能力有上限</text>
+  <text x="496" y="240" font-size="9.5" fill="#15803d">→ 这正是要报"零样本 top-1 识别率"的原因（目标 ≥60%）</text>
+
+  <!-- 评估协议提示 -->
+  <rect x="20" y="296" width="900" height="88" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="316" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">对应 CLAUDE.md §3.4 零样本评估协议</text>
+  <text x="40" y="340" font-size="9.5" fill="#374151">· 预留 GL（玻璃）、ME（金属）不参与 YOLO 训练，仅用 CLIP 评估真实零样本能力</text>
+  <text x="40" y="360" font-size="9.5" fill="#374151">· 评估指标：零样本 top-1 识别率 ≥ 60%（CLIP 在 GL/ME 框上判对的概率）</text>
+  <text x="40" y="378" font-size="9.5" fill="#6b7280">· 如果 GL crop 和 PL prompt 的相似度比和 GL prompt 还高 → CLIP 判错 → 零样本失败，这是你必须度量的上限</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="396" width="900" height="88" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="418" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话</text>
+  <text x="470" y="442" text-anchor="middle" font-size="10" fill="#374151">多类多 prompt → 图向量与 <tspan font-weight="bold" fill="#b91c1c">全部 N 类（含已训练）</tspan>文本向量比余弦相似度 → top-1 胜出 = 零样本分类</text>
+  <text x="470" y="466" text-anchor="middle" font-size="9" fill="#6b7280">CLIP 不区分"训没训过"；零样本 top-1 识别率 ≥60% 正是度量这套机制在未见类上有多准</text>
+</svg>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="560" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">DETR 论文主线（原创重绘，对应官方 Fig.1 总览 / Fig.2 架构；原图见 arXiv:2005.12872）</text>
+
+  <!-- 主流水线 -->
+  <rect x="20" y="42" width="900" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">§3.2 架构（对应官方 Fig.2）：CNN 骨干 → Transformer 编解码 → N 个预测</text>
+  <!-- image -->
+  <rect x="34" y="78" width="70" height="70" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="69" y="164" text-anchor="middle" font-size="8.5" fill="#374151">输入图像</text>
+  <text x="112" y="116" font-size="13" fill="#9ca3af">→</text>
+  <!-- backbone -->
+  <rect x="130" y="82" width="90" height="62" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="175" y="108" text-anchor="middle" font-size="9" fill="#15803d">CNN 骨干</text>
+  <text x="175" y="124" text-anchor="middle" font-size="8" fill="#6b7280">ResNet</text>
+  <text x="175" y="164" text-anchor="middle" font-size="8" fill="#374151">特征图+位置编码</text>
+  <text x="228" y="116" font-size="13" fill="#9ca3af">→</text>
+  <!-- encoder -->
+  <rect x="246" y="82" width="90" height="62" rx="4" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="291" y="106" text-anchor="middle" font-size="9" fill="#4338ca">Transformer</text>
+  <text x="291" y="120" text-anchor="middle" font-size="9" fill="#4338ca">编码器</text>
+  <text x="291" y="164" text-anchor="middle" font-size="8" fill="#374151">自注意力</text>
+  <text x="344" y="116" font-size="13" fill="#9ca3af">→</text>
+  <!-- decoder -->
+  <rect x="362" y="82" width="100" height="62" rx="4" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="412" y="103" text-anchor="middle" font-size="9" fill="#6d28d9">Transformer</text>
+  <text x="412" y="117" text-anchor="middle" font-size="9" fill="#6d28d9">解码器</text>
+  <text x="412" y="131" text-anchor="middle" font-size="7.5" fill="#6b7280">N object query 并行</text>
+  <text x="412" y="164" text-anchor="middle" font-size="8" fill="#374151">自注意力+交叉注意力</text>
+  <text x="470" y="116" font-size="13" fill="#9ca3af">→</text>
+  <!-- FFN heads -->
+  <rect x="488" y="82" width="110" height="62" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="543" y="103" text-anchor="middle" font-size="9" fill="#b45309">预测 FFN</text>
+  <text x="543" y="119" text-anchor="middle" font-size="7.5" fill="#374151">类别(linear)</text>
+  <text x="543" y="132" text-anchor="middle" font-size="7.5" fill="#374151">框(3层MLP)</text>
+  <text x="606" y="116" font-size="13" fill="#9ca3af">→</text>
+  <!-- N predictions -->
+  <g font-size="7.5">
+    <rect x="624" y="80" width="120" height="15" rx="2" fill="#dcfce7" stroke="#16a34a"/><text x="630" y="91" fill="#15803d">pred₁: 车 @(x,y,w,h)</text>
+    <rect x="624" y="98" width="120" height="15" rx="2" fill="#dcfce7" stroke="#16a34a"/><text x="630" y="109" fill="#15803d">pred₂: 人 @(..)</text>
+    <rect x="624" y="116" width="120" height="15" rx="2" fill="#f1f5f9" stroke="#cbd5e1"/><text x="630" y="127" fill="#6b7280">pred₃: ∅ 无物体</text>
+    <rect x="624" y="134" width="120" height="8" rx="2" fill="#f1f5f9" stroke="#cbd5e1"/>
+  </g>
+  <text x="684" y="164" text-anchor="middle" font-size="8" fill="#374151">固定 N 个预测</text>
+  <text x="758" y="116" font-size="13" fill="#9ca3af">→</text>
+  <rect x="778" y="88" width="130" height="48" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="843" y="108" text-anchor="middle" font-size="8.5" fill="#b91c1c">§3.1 二分匹配损失</text>
+  <text x="843" y="124" text-anchor="middle" font-size="7.5" fill="#374151">与 GT 一对一(匈牙利)</text>
+
+  <!-- §3.1 loss detail -->
+  <rect x="20" y="204" width="440" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="240" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">§3.1 集合预测损失（核心，呼应 Q111）</text>
+  <text x="36" y="248" font-size="9" fill="#374151">① 输出固定 N 个预测；真值补 ∅ 到 N 个</text>
+  <text x="36" y="268" font-size="9" fill="#374151">② 匈牙利算法找唯一最优一对一匹配</text>
+  <text x="52" y="284" font-size="8.5" fill="#6b7280">匹配代价 = 类别 + 框差异</text>
+  <text x="36" y="304" font-size="9" fill="#374151">③ 匈牙利损失 = 分类损失 + 框损失(L1 + GIoU)</text>
+  <text x="36" y="324" font-size="9" fill="#b91c1c">一对一 → 一物体一预测 → 天然免 NMS</text>
+  <text x="36" y="344" font-size="8.5" fill="#6b7280">（去掉 anchor 生成 + NMS 后处理 = 端到端）</text>
+
+  <!-- §4 experiments -->
+  <rect x="480" y="204" width="440" height="150" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="700" y="224" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">§4 实验与分析（对应官方可视化图）</text>
+  <text x="496" y="248" font-size="9" fill="#374151">· COCO 上与 Faster R-CNN 相当（大目标更好）</text>
+  <text x="496" y="268" font-size="9" fill="#374151">· 消融：编码器/解码器层数、位置编码、损失项</text>
+  <text x="496" y="288" font-size="9" fill="#374151">· 可视化：编码器自注意力已分出实例（约 Fig.3）</text>
+  <text x="496" y="308" font-size="9" fill="#374151">· 每个 query 学出空间专门化（约 Fig.6）→ 支撑 Q111</text>
+  <text x="496" y="328" font-size="9" fill="#b91c1c">· 局限：小目标弱、训练慢(500 epoch)（→ Q112 权衡）</text>
+  <text x="496" y="346" font-size="8.5" fill="#6b7280">· 扩展：DETR 可做全景分割</text>
+
+  <!-- 读法 -->
+  <rect x="20" y="366" width="900" height="86" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="386" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">论文阅读主线（一句话串起来）</text>
+  <text x="470" y="410" text-anchor="middle" font-size="9.5" fill="#374151">动机（去手工组件 §1）→ 怎么去（集合预测 + 二分匹配损失 §3.1）→ 用什么去（CNN+Transformer §3.2）</text>
+  <text x="470" y="430" text-anchor="middle" font-size="9.5" fill="#374151">→ 效果如何（COCO 对标 Faster R-CNN、可视化证明 query 专门化 §4）→ 结论（端到端检测新范式 §5）</text>
+  <text x="470" y="446" text-anchor="middle" font-size="8.5" fill="#6b7280">读图顺序：先看 Fig.1 抓总览 → Fig.2 抠架构 → §3.1 公式抠损失 → §4 可视化验证 query 分工</text>
+
+  <!-- 版权说明 -->
+  <rect x="20" y="464" width="900" height="82" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="470" y="484" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#334155">关于配图</text>
+  <text x="470" y="506" text-anchor="middle" font-size="9" fill="#374151">本图为原创重绘（结构等价于官方 Fig.1/Fig.2，但为自绘），不复制论文原图以免版权问题。</text>
+  <text x="470" y="524" text-anchor="middle" font-size="9" fill="#374151">官方原图请见论文 arXiv:2005.12872（图号按 arXiv 版，阅读时以论文为准）。</text>
+  <text x="470" y="540" text-anchor="middle" font-size="8.5" fill="#6b7280">Carion N, et al. End-to-End Object Detection with Transformers. ECCV 2020.</text>
+</svg>

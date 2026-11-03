@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="640" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q173 ConvNeXt：stage 层数比例 1:1:3:1 是何意 & GELU 是什么</text>
+
+  <!-- Part A 标题 -->
+  <rect x="20" y="42" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">A. 比例 = 四个 stage 各堆几个 block 的数量分配（宏观结构）</text>
+
+  <!-- ResNet-50 原比例 -->
+  <rect x="20" y="78" width="460" height="176" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="250" y="100" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b91c1c">ResNet-50 原比例 (3,4,6,3) ≈ 1:1.3:2:1</text>
+  <text x="40" y="124" font-size="9.6" fill="#374151">CNN分4个stage,每过一个stage下采样一半、通道翻倍</text>
+  <text x="40" y="144" font-size="9.6" fill="#374151">每个stage内部把同一种残差block重复堆若干次</text>
+  <text x="40" y="164" font-size="9.6" fill="#374151">stage1堆3个,stage2堆4个,stage3堆6个,stage4堆3个</text>
+  <!-- 条形 -->
+  <rect x="40" y="180" width="30" height="20" fill="#ef4444"/><text x="55" y="216" text-anchor="middle" font-size="9" fill="#374151">s1:3</text>
+  <rect x="90" y="180" width="40" height="20" fill="#ef4444"/><text x="110" y="216" text-anchor="middle" font-size="9" fill="#374151">s2:4</text>
+  <rect x="150" y="180" width="60" height="20" fill="#ef4444"/><text x="180" y="216" text-anchor="middle" font-size="9" fill="#374151">s3:6</text>
+  <rect x="230" y="180" width="30" height="20" fill="#ef4444"/><text x="245" y="216" text-anchor="middle" font-size="9" fill="#374151">s4:3</text>
+  <text x="40" y="244" font-size="9" fill="#6b7280">"比例"指的就是这串数字的相对大小,不是分辨率/通道</text>
+
+  <!-- Swin / ConvNeXt 新比例 -->
+  <rect x="500" y="78" width="460" height="176" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="100" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">仿Swin改成 1:1:3:1 → 具体(3,3,9,3)</text>
+  <text x="520" y="124" font-size="9.6" fill="#374151">Swin的四个stage块数比例正是1:1:3:1</text>
+  <text x="520" y="144" font-size="9.6" fill="#374151">ConvNeXt照搬:把ResNet的(3,4,6,3)调成(3,3,9,3)</text>
+  <text x="520" y="164" font-size="9.6" fill="#374151">含义:把算力更多堆在第3个stage(9个块最多)</text>
+  <rect x="520" y="180" width="30" height="20" fill="#16a34a"/><text x="535" y="216" text-anchor="middle" font-size="9" fill="#374151">s1:3</text>
+  <rect x="570" y="180" width="30" height="20" fill="#16a34a"/><text x="585" y="216" text-anchor="middle" font-size="9" fill="#374151">s2:3</text>
+  <rect x="620" y="180" width="90" height="20" fill="#16a34a"/><text x="665" y="216" text-anchor="middle" font-size="9" fill="#374151">s3:9</text>
+  <rect x="730" y="180" width="30" height="20" fill="#16a34a"/><text x="745" y="216" text-anchor="middle" font-size="9" fill="#374151">s4:3</text>
+  <text x="520" y="244" font-size="9" fill="#6b7280">1:1:3:1指四段相对块数,3就是中间那段占3份</text>
+
+  <!-- 为什么这么分 -->
+  <rect x="20" y="264" width="940" height="72" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="286" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">为什么第3个stage要堆最多？</text>
+  <text x="40" y="308" font-size="9.6" fill="#374151">第3个stage(16倍下采样)分辨率适中、通道数较高,是"语义抽象最关键"的层级——特征既不太糙也不太抽象,</text>
+  <text x="40" y="328" font-size="9.6" fill="#374151">把大部分计算预算(块数)压在这里性价比最高。这是大量视觉网络的经验规律,Swin与ConvNeXt都遵循。仅+0.1%但为对齐Swin而改。</text>
+
+  <!-- Part B 标题 -->
+  <rect x="20" y="346" width="940" height="26" rx="6" fill="#6d28d9"/>
+  <text x="490" y="364" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">B. GELU = 一种激活函数（ConvNeXt 用它替换 ReLU）</text>
+
+  <!-- ReLU vs GELU -->
+  <rect x="20" y="382" width="460" height="176" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="404" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e40af">ReLU vs GELU</text>
+  <text x="40" y="426" font-size="9.6" fill="#374151">激活函数=给网络加非线性,决定"某神经元输出留多少"</text>
+  <text x="40" y="448" font-size="9.6" fill="#374151">ReLU: max(0,x) — 负数一刀切成0,正数原样通过</text>
+  <text x="40" y="468" font-size="9.6" fill="#374151">　　　硬转折,x=0处不可导,负半轴梯度恒为0</text>
+  <text x="40" y="490" font-size="9.6" fill="#374151">GELU: x·Φ(x) — 用标准正态CDF Φ(x)做"软门"</text>
+  <text x="40" y="510" font-size="9.6" fill="#374151">　　　按输入大小平滑加权:越大越可能保留,越小越可能压掉</text>
+  <text x="40" y="532" font-size="9.6" font-weight="bold" fill="#1e40af">近0处平滑过渡,负半轴留一点小负值(非硬0)</text>
+  <text x="40" y="552" font-size="9" fill="#6b7280">GELU≈x·σ(1.702x),可近似为Swish/SiLU</text>
+
+  <!-- 曲线示意 -->
+  <rect x="500" y="382" width="460" height="176" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="730" y="404" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#6d28d9">曲线示意（横轴x,纵轴输出）</text>
+  <!-- 坐标轴 -->
+  <line x1="560" y1="530" x2="900" y2="530" stroke="#9ca3af" stroke-width="1"/>
+  <line x1="730" y1="420" x2="730" y2="540" stroke="#9ca3af" stroke-width="1"/>
+  <text x="905" y="534" font-size="9" fill="#6b7280">x</text>
+  <!-- ReLU 折线 红 -->
+  <polyline points="560,530 730,530 900,440" fill="none" stroke="#ef4444" stroke-width="2"/>
+  <text x="820" y="430" font-size="9" fill="#ef4444" font-weight="bold">ReLU(硬折)</text>
+  <!-- GELU 平滑曲线 紫 -->
+  <path d="M560,532 Q690,532 730,524 Q760,518 800,490 Q850,452 900,438" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="600" y="512" font-size="9" fill="#8b5cf6" font-weight="bold">GELU(平滑,负半轴略有下探)</text>
+  <text x="520" y="552" font-size="9" fill="#6b7280">Transformer(BERT/GPT/ViT)默认GELU,ConvNeXt照搬到CNN</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="568" width="940" height="60" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="590" text-anchor="middle" font-size="10.3" font-weight="bold" fill="#a16207">一句话：1:1:3:1 是"四个stage各堆几个block"的数量比例(仿Swin,把算力压在第3段),GELU是比ReLU更平滑的激活函数</text>
+  <text x="490" y="612" text-anchor="middle" font-size="10.3" font-weight="bold" fill="#a16207">(负半轴不硬切0),二者都是ConvNeXt"照抄Transformer的宏观结构与微观设计、但用纯卷积实现"这条现代化路线上的具体一步。</text>
+</svg>

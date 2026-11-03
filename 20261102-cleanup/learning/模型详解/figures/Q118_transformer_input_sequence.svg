@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="520" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q118 Transformer 的输入一定得是"序列"吗？</text>
+
+  <!-- 左：序列概念 -->
+  <rect x="20" y="44" width="440" height="190" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="240" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">序列 = 一串同构的向量（token），不一定是文本</text>
+  <text x="36" y="92" font-size="9.5" fill="#374151">· 文本：词切分成 tokens（如 "I love road" → [t₁, t₂, t₃]）</text>
+  <text x="36" y="112" font-size="9.5" fill="#374151">· 图像：[ViT] 切 patch → 拉平 → 加位置 → 一串 token</text>
+  <text x="36" y="132" font-size="9.5" fill="#374151">· 视频：时空 patch → 一维序列</text>
+  <text x="36" y="152" font-size="9.5" fill="#374151">· 音频：波形分帧/频谱 → 一维序列</text>
+  <text x="36" y="176" font-size="9.5" fill="#15803d">→ 一切数据只要变成"N 个向量排成一排"就是序列</text>
+  <text x="36" y="200" font-size="9" fill="#b91c1c">若 N=1 则自注意力退化(=FFN)</text>
+
+  <!-- 右：位置编码 -->
+  <rect x="480" y="44" width="440" height="190" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="700" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">"序列"一定需要位置编码吗？</text>
+  <text x="496" y="92" font-size="9.5" fill="#374151">· 数学不必须——位置编码只是给 token 打"我是第几个"</text>
+  <text x="496" y="112" font-size="9.5" fill="#374151">· 如果任务本身对顺序不敏感（如 DETR object query），</text>
+  <text x="508" y="126" font-size="9.5" fill="#374151">甚至可以不加位置编码</text>
+  <text x="496" y="146" font-size="9.5" fill="#374151">· 但若需区分同一组 token 的不同排列（翻译、文本理解），</text>
+  <text x="508" y="160" font-size="9.5" fill="#374151">位置码不可省略</text>
+  <text x="496" y="180" font-size="9.5" fill="#15803d">→ 位置编码是"任务需要"，不是"Transformer 要求"</text>
+
+  <!-- 下方两段 -->
+  <rect x="20" y="246" width="900" height="96" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="268" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">Token 形式的"序列"：任何数据变成固定维向量排一排</text>
+  <text x="40" y="290" font-size="9.5" fill="#374151">· 自然语言：分词 → token → 嵌入(N×d)</text>
+  <text x="40" y="310" font-size="9.5" fill="#374151">· 图像：[ViT] 切 patch → 嵌入(N×d) / [Swin] 分窗口 → 序列</text>
+  <text x="40" y="330" font-size="9.5" fill="#374151">· 视频/音频：各自分帧/切 patch → 完整成同构序列</text>
+
+  <rect x="20" y="354" width="900" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">所以答案：Transformer 数学上要 N 个 token，必须是"序列(token 串)"，但序列不=自然语言</text>
+  <text x="40" y="398" font-size="9.5" fill="#374151">· 真正关键：一切数据预处理成"同构 d 维 token 的一维序列"→ 就能喂给自注意力</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="438" width="900" height="68" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="460" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：Transformer 的数学是"N 个向量互相加权→仍出 N 个"——必须是一串 token，</text>
+  <text x="470" y="480" text-anchor="middle" font-size="10" fill="#374151">但不限定 token 的内容是文本/图像/视频/音频/集合；位置编码是"任务需求"而非 Transformer 强制要求</text>
+</svg>

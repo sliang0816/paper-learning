@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="600" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q79 一个训练样本长什么样 + 训练 vs 推理的输入输出分开</text>
+
+  <!-- sample structure -->
+  <rect x="20" y="44" width="880" height="190" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="460" y="66" text-anchor="middle" font-size="13" font-weight="bold" fill="#075985">一条训练样本 = 一对（源句, 目标句）→ 转成模型吃的形式</text>
+
+  <!-- source -->
+  <rect x="40" y="80" width="380" height="48" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="54" y="100" font-size="10" fill="#374151"><tspan font-weight="bold">源句</tspan>：“I love road”</text>
+  <text x="54" y="118" font-size="10" fill="#374151">→ 编码器输入 ids：[42, 318, 1205]</text>
+
+  <!-- target -->
+  <rect x="440" y="80" width="440" height="138" rx="6" fill="#fffbeb" stroke="#d97706"/>
+  <text x="454" y="100" font-size="10" fill="#374151"><tspan font-weight="bold">目标句</tspan>：“我 爱 路”　（同一句被用两次↓）</text>
+
+  <!-- decoder input row -->
+  <text x="454" y="124" font-size="9.5" fill="#b45309">解码器输入（右移、前补 &lt;BOS&gt;，teacher forcing 喂真值前缀）</text>
+  <g font-size="11" font-weight="bold">
+    <rect x="454" y="130" width="86" height="26" fill="#fef3c7" stroke="#d97706"/><text x="497" y="148" text-anchor="middle" fill="#92400e">&lt;BOS&gt;</text>
+    <rect x="546" y="130" width="86" height="26" fill="#fef3c7" stroke="#d97706"/><text x="589" y="148" text-anchor="middle" fill="#92400e">我</text>
+    <rect x="638" y="130" width="86" height="26" fill="#fef3c7" stroke="#d97706"/><text x="681" y="148" text-anchor="middle" fill="#92400e">爱</text>
+    <rect x="730" y="130" width="86" height="26" fill="#fef3c7" stroke="#d97706"/><text x="773" y="148" text-anchor="middle" fill="#92400e">路</text>
+  </g>
+  <!-- alignment arrows -->
+  <line x1="497" y1="158" x2="589" y2="188" stroke="#16a34a" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="589" y1="158" x2="681" y2="188" stroke="#16a34a" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="681" y1="158" x2="773" y2="188" stroke="#16a34a" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="773" y1="158" x2="830" y2="188" stroke="#16a34a" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="436" y="176" font-size="8.5" fill="#15803d">预测↘</text>
+
+  <!-- label row -->
+  <text x="454" y="180" font-size="9.5" fill="#15803d">训练标签（左移一位、末补 &lt;EOS&gt;，每位置要预测的“下一个词”）</text>
+  <g font-size="11" font-weight="bold">
+    <rect x="454" y="186" width="86" height="26" fill="#dcfce7" stroke="#16a34a"/><text x="497" y="204" text-anchor="middle" fill="#15803d">我</text>
+    <rect x="546" y="186" width="86" height="26" fill="#dcfce7" stroke="#16a34a"/><text x="589" y="204" text-anchor="middle" fill="#15803d">爱</text>
+    <rect x="638" y="186" width="86" height="26" fill="#dcfce7" stroke="#16a34a"/><text x="681" y="204" text-anchor="middle" fill="#15803d">路</text>
+    <rect x="730" y="186" width="100" height="26" fill="#dcfce7" stroke="#16a34a"/><text x="780" y="204" text-anchor="middle" fill="#15803d">&lt;EOS&gt;</text>
+  </g>
+
+  <text x="40" y="226" font-size="9.5" fill="#b91c1c">关键：同一目标句，右移一版当“解码器输入”、左移一版当“标签” → 喂 &lt;BOS&gt; 预测“我”、喂“我”预测“爱”…（teacher forcing）</text>
+
+  <!-- training vs inference -->
+  <!-- training -->
+  <rect x="20" y="248" width="435" height="280" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="237" y="270" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">训练时（目标句已知）</text>
+  <text x="36" y="294" font-size="10" fill="#374151"><tspan font-weight="bold">输入</tspan>：源 ids[42,318,1205]→编码器；</text>
+  <text x="36" y="312" font-size="10" fill="#374151">　　　解码器输入 [&lt;BOS&gt; 我 爱 路]（<tspan font-weight="bold">整句一次喂入</tspan>）</text>
+  <text x="36" y="334" font-size="10" fill="#374151"><tspan font-weight="bold">计算</tspan>：因果掩码保证位置 i 只看 ≤i；</text>
+  <text x="36" y="352" font-size="10" fill="#374151">　　　4 个位置 <tspan font-weight="bold" fill="#15803d">并行</tspan>各出一个词表分布</text>
+  <text x="36" y="374" font-size="10" fill="#374151"><tspan font-weight="bold">输出/对照</tspan>：4 个分布 vs 标签 [我 爱 路 &lt;EOS&gt;]</text>
+  <text x="36" y="392" font-size="10" fill="#374151">　　　逐位置算<tspan font-weight="bold">交叉熵损失</tspan> → 反向传播</text>
+  <rect x="36" y="408" width="383" height="48" rx="5" fill="#fff" stroke="#86efac"/>
+  <text x="46" y="427" font-size="9" fill="#374151">为何能并行：答案(目标句)已知，把整句右移喂进去，</text>
+  <text x="46" y="444" font-size="9" fill="#374151">一次前向就能对所有位置同时算损失（teacher forcing）</text>
+  <text x="237" y="478" text-anchor="middle" font-size="9.5" fill="#15803d">喂的是“真值前缀”，不是模型自己的预测</text>
+  <text x="237" y="500" text-anchor="middle" font-size="9" fill="#6b7280">→ 训练快、稳；但与推理有“暴露偏差”小差异</text>
+
+  <!-- inference -->
+  <rect x="465" y="248" width="435" height="280" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="682" y="270" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e40af">推理时（目标句未知）</text>
+  <text x="481" y="294" font-size="10" fill="#374151"><tspan font-weight="bold">输入</tspan>：只有源 ids→编码器；</text>
+  <text x="481" y="312" font-size="10" fill="#374151">　　　解码器起步只有 [&lt;BOS&gt;]</text>
+  <text x="481" y="334" font-size="10" fill="#374151"><tspan font-weight="bold">计算</tspan>：<tspan font-weight="bold" fill="#1e40af">逐词自回归</tspan>，每步喂回上步输出：</text>
+  <text x="497" y="352" font-size="9.5" fill="#374151">[&lt;BOS&gt;] → 我</text>
+  <text x="497" y="368" font-size="9.5" fill="#374151">[&lt;BOS&gt; 我] → 爱</text>
+  <text x="497" y="384" font-size="9.5" fill="#374151">[&lt;BOS&gt; 我 爱] → 路</text>
+  <text x="497" y="400" font-size="9.5" fill="#374151">[&lt;BOS&gt; 我 爱 路] → &lt;EOS&gt; 停</text>
+  <rect x="481" y="412" width="403" height="44" rx="5" fill="#fff" stroke="#93c5fd"/>
+  <text x="491" y="431" font-size="9" fill="#374151">没有标签、不算损失；只能一个词一个词生成，</text>
+  <text x="491" y="448" font-size="9" fill="#374151">把自己的输出接回解码器输入（非并行、N 步）</text>
+  <text x="682" y="478" text-anchor="middle" font-size="9.5" fill="#1e40af">喂的是“模型自己刚生成的词”</text>
+  <text x="682" y="500" text-anchor="middle" font-size="9" fill="#6b7280">→ 编码器 memory 仍只算一次，逐步复用</text>
+
+  <!-- bottom one-liner -->
+  <rect x="20" y="544" width="880" height="44" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="566" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">一句话：训练“答案已知”→整句右移喂入、并行算损失(teacher forcing)；推理“答案未知”→从 &lt;BOS&gt; 逐词生成、喂回自己输出</text>
+  <text x="460" y="582" text-anchor="middle" font-size="9" fill="#6b7280">差别只在“解码器吃什么”：训练吃真值前缀(并行)、推理吃自己刚生成的词(串行)；编码器侧两者一样</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker></defs>
+</svg>

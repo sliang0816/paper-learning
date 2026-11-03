@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 610" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="610" fill="#fff"/>
+  <text x="470" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q112 匈牙利一对一能免 NMS，YOLO 也用不就行了？——能！YOLOv10 已做到，但一对一不是免费午餐</text>
+
+  <!-- ① 已实现 -->
+  <rect x="20" y="42" width="900" height="74" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">① 你的直觉对，而且已经实现：这是真实研究方向</text>
+  <text x="40" y="84" font-size="9.5" fill="#374151">· YOLOv10(2024)：一致双重分配(consistent dual assignments) → 用一对一匹配做到推理时 NMS-free</text>
+  <text x="40" y="102" font-size="9.5" fill="#374151">· 更早 OneNet/DeFCN(2021) 证明稠密 CNN 也能一对一去 NMS；RT-DETR(2023) 把 DETR 做到实时 → 答案是"能，且做到了"</text>
+
+  <!-- ② 三个代价 -->
+  <rect x="20" y="128" width="900" height="250" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="148" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 那为什么经典 YOLO(v1~v8) 一直留 NMS、直到 v10 才这么干？三个代价</text>
+  <!-- a -->
+  <rect x="36" y="162" width="868" height="70" rx="5" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="52" y="182" font-size="10.5" font-weight="bold" fill="#b91c1c">① 一对一监督太"稀疏" → 收敛慢、精度易掉（最关键）</text>
+  <text x="52" y="200" font-size="9" fill="#374151">一对一：每个真值只监督一个预测 → 正样本极少 → 梯度稀薄 → 收敛极慢（DETR 要 500 epoch，YOLO 才 100~300）</text>
+  <text x="52" y="216" font-size="9" fill="#374151">一对多：每真值配很多 anchor 当正样本 → 监督丰富 → 收敛快、对小目标友好</text>
+  <text x="52" y="230" font-size="9" fill="#b45309">→ 核心权衡：一对一=干净免NMS但监督稀疏；一对多=监督丰富但有重复框→靠NMS收尾</text>
+  <!-- b -->
+  <rect x="36" y="238" width="430" height="66" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="52" y="258" font-size="10.5" font-weight="bold" fill="#1e40af">② 稠密 CNN 头难"选唯一赢家"</text>
+  <text x="52" y="276" font-size="8.8" fill="#374151">DETR 一对一靠 query 自注意力互相通气去重(Q111)；</text>
+  <text x="52" y="290" font-size="8.8" fill="#374151">稠密 CNN 相邻格特征几乎一样、又不通信 →</text>
+  <text x="52" y="302" font-size="8.8" fill="#b91c1c">两格都开火 → 没 NMS 就重复</text>
+  <!-- c -->
+  <rect x="474" y="238" width="430" height="66" rx="5" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="258" font-size="10.5" font-weight="bold" fill="#6d28d9">③ YOLOv10 解法：两者都要+调一致</text>
+  <text x="490" y="276" font-size="8.8" fill="#374151">训练：一对多头(丰富监督)+一对一头(免NMS)</text>
+  <text x="490" y="290" font-size="8.8" fill="#374151">用"一致匹配度量"让两头挑同一正样本不打架</text>
+  <text x="490" y="302" font-size="8.8" fill="#15803d">推理：只用一对一头 → 无重复 → 免 NMS</text>
+  <text x="470" y="324" text-anchor="middle" font-size="9" fill="#6b7280">要么加"预测间交互"、要么设计精细匹配强行只一个格中标——去 NMS 的两条路</text>
+  <text x="470" y="342" text-anchor="middle" font-size="9" fill="#6d28d9">把"一对多的监督"和"一对一的干净"调和到一致，就是 YOLOv10 的核心贡献</text>
+  <text x="470" y="362" text-anchor="middle" font-size="8.5" fill="#6b7280">（正因长期"一对多+NMS"训得又快又准，YOLO 才一直用它）</text>
+
+  <!-- ③ 对比表 -->
+  <rect x="20" y="390" width="900" height="130" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="410" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">③ 两种匹配范式对比</text>
+  <line x1="360" y1="420" x2="360" y2="512" stroke="#bfdbfe"/>
+  <line x1="640" y1="420" x2="640" y2="512" stroke="#bfdbfe"/>
+  <text x="190" y="436" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#374151">　</text>
+  <text x="500" y="436" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">一对多+NMS（经典 YOLO）</text>
+  <text x="780" y="436" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#6d28d9">一对一（DETR / YOLOv10）</text>
+  <text x="190" y="458" text-anchor="middle" font-size="9" fill="#374151">监督信号</text>
+  <text x="500" y="458" text-anchor="middle" font-size="9" fill="#374151">丰富(每GT多正样本)</text>
+  <text x="780" y="458" text-anchor="middle" font-size="9" fill="#374151">稀疏(每GT一个)</text>
+  <text x="190" y="478" text-anchor="middle" font-size="9" fill="#374151">收敛</text>
+  <text x="500" y="478" text-anchor="middle" font-size="9" fill="#15803d">快</text>
+  <text x="780" y="478" text-anchor="middle" font-size="9" fill="#b91c1c">慢(DETR 500 epoch)</text>
+  <text x="190" y="498" text-anchor="middle" font-size="9" fill="#374151">需要 NMS</text>
+  <text x="500" y="498" text-anchor="middle" font-size="9" fill="#b91c1c">要</text>
+  <text x="780" y="498" text-anchor="middle" font-size="9" fill="#15803d">不要</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="532" width="900" height="66" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="554" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：能！YOLOv10(2024) 正是用一对一匹配做到 NMS-free。</text>
+  <text x="470" y="574" text-anchor="middle" font-size="9" fill="#374151">但一对一不白来——监督稀疏拖慢收敛/掉精度、稠密头还缺 DETR 那种预测间自注意力自发去重；</text>
+  <text x="470" y="590" text-anchor="middle" font-size="9" fill="#15803d">v10 靠"训练一对多+推理一对一+一致匹配"两全。你的基线 YOLOv8 仍是一对多+NMS（选它图成熟）。</text>
+</svg>

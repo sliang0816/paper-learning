@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 580" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="580" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q83 推理逐词时，每步的掩码自注意力 vs 交叉注意力</text>
+  <text x="470" y="44" text-anchor="middle" font-size="11" fill="#6b7280">自注意力 K/V=已生成目标前缀(每步长一词)；交叉注意力 K/V=同一固定 memory(I love road)，只是焦点滑动</text>
+
+  <!-- shared memory bar -->
+  <rect x="20" y="60" width="900" height="40" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="78" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">编码器 memory（“I love road” 的编码）= 交叉注意力的 K/V，全程不变、每步复用</text>
+  <g font-size="9">
+    <rect x="360" y="84" width="60" height="12" fill="#fff" stroke="#93c5fd"/><text x="390" y="93" text-anchor="middle" fill="#374151">m_I</text>
+    <rect x="440" y="84" width="60" height="12" fill="#fff" stroke="#93c5fd"/><text x="470" y="93" text-anchor="middle" fill="#374151">m_love</text>
+    <rect x="520" y="84" width="60" height="12" fill="#fff" stroke="#93c5fd"/><text x="550" y="93" text-anchor="middle" fill="#374151">m_road</text>
+  </g>
+
+  <!-- 4 step columns -->
+  <!-- step1 -->
+  <g>
+    <rect x="20" y="116" width="220" height="380" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+    <text x="130" y="136" text-anchor="middle" font-size="11" font-weight="bold" fill="#075985">步1：输入 [&lt;BOS&gt;]</text>
+    <rect x="34" y="148" width="192" height="44" rx="5" fill="#fff" stroke="#7dd3fc"/>
+    <text x="130" y="165" text-anchor="middle" font-size="8.5" fill="#b45309">掩码自注意力</text>
+    <text x="130" y="181" text-anchor="middle" font-size="8.5" fill="#374151">只看 &lt;BOS&gt;(自己)→透传</text>
+    <rect x="34" y="200" width="192" height="52" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+    <text x="130" y="217" text-anchor="middle" font-size="8.5" fill="#1e40af">交叉注意力(读同一memory)</text>
+    <text x="130" y="233" text-anchor="middle" font-size="8.5" fill="#374151">焦点 <tspan font-weight="bold" fill="#1e40af">I</tspan></text>
+    <text x="130" y="247" text-anchor="middle" font-size="7.5" fill="#6b7280">[I .8, love .15, road .05]</text>
+    <rect x="60" y="262" width="140" height="26" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="130" y="280" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出：我</text>
+  </g>
+  <!-- step2 -->
+  <g>
+    <rect x="250" y="116" width="220" height="380" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+    <text x="360" y="136" text-anchor="middle" font-size="11" font-weight="bold" fill="#075985">步2：输入 [&lt;BOS&gt; 我]</text>
+    <rect x="264" y="148" width="192" height="44" rx="5" fill="#fff" stroke="#7dd3fc"/>
+    <text x="360" y="165" text-anchor="middle" font-size="8.5" fill="#b45309">掩码自注意力</text>
+    <text x="360" y="181" text-anchor="middle" font-size="8.5" fill="#374151">“我”看 {&lt;BOS&gt;, 我}→知已写我</text>
+    <rect x="264" y="200" width="192" height="52" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+    <text x="360" y="217" text-anchor="middle" font-size="8.5" fill="#1e40af">交叉注意力(读同一memory)</text>
+    <text x="360" y="233" text-anchor="middle" font-size="8.5" fill="#374151">焦点移到 <tspan font-weight="bold" fill="#1e40af">love</tspan></text>
+    <text x="360" y="247" text-anchor="middle" font-size="7.5" fill="#6b7280">[I .1, love .75, road .15]</text>
+    <rect x="290" y="262" width="140" height="26" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="360" y="280" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出：爱</text>
+  </g>
+  <!-- step3 -->
+  <g>
+    <rect x="480" y="116" width="220" height="380" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+    <text x="590" y="136" text-anchor="middle" font-size="11" font-weight="bold" fill="#075985">步3：输入 [&lt;BOS&gt; 我 爱]</text>
+    <rect x="494" y="148" width="192" height="44" rx="5" fill="#fff" stroke="#7dd3fc"/>
+    <text x="590" y="165" text-anchor="middle" font-size="8.5" fill="#b45309">掩码自注意力</text>
+    <text x="590" y="181" text-anchor="middle" font-size="8.5" fill="#374151">“爱”看 {&lt;BOS&gt;,我,爱}→知已写我爱</text>
+    <rect x="494" y="200" width="192" height="52" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+    <text x="590" y="217" text-anchor="middle" font-size="8.5" fill="#1e40af">交叉注意力(读同一memory)</text>
+    <text x="590" y="233" text-anchor="middle" font-size="8.5" fill="#374151">焦点移到 <tspan font-weight="bold" fill="#1e40af">road</tspan></text>
+    <text x="590" y="247" text-anchor="middle" font-size="7.5" fill="#6b7280">[I .05, love .15, road .80]</text>
+    <rect x="520" y="262" width="140" height="26" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="590" y="280" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出：路</text>
+  </g>
+  <!-- step4 -->
+  <g>
+    <rect x="710" y="116" width="210" height="380" rx="8" fill="#f0f9ff" stroke="#0284c7"/>
+    <text x="815" y="136" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#075985">步4：[&lt;BOS&gt; 我 爱 路]</text>
+    <rect x="722" y="148" width="186" height="44" rx="5" fill="#fff" stroke="#7dd3fc"/>
+    <text x="815" y="165" text-anchor="middle" font-size="8.5" fill="#b45309">掩码自注意力</text>
+    <text x="815" y="181" text-anchor="middle" font-size="8.5" fill="#374151">“路”看全部4个→整句已写</text>
+    <rect x="722" y="200" width="186" height="52" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+    <text x="815" y="217" text-anchor="middle" font-size="8.5" fill="#1e40af">交叉注意力(读同一memory)</text>
+    <text x="815" y="233" text-anchor="middle" font-size="8.5" fill="#374151">源词译完</text>
+    <rect x="745" y="262" width="140" height="26" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="815" y="280" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出：&lt;EOS&gt; 停</text>
+  </g>
+
+  <!-- arrows memory->each cross-attn -->
+  <line x1="390" y1="100" x2="130" y2="200" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#b)"/>
+  <line x1="450" y1="100" x2="360" y2="200" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#b)"/>
+  <line x1="540" y1="100" x2="590" y2="200" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#b)"/>
+  <line x1="560" y1="100" x2="815" y2="200" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#b)"/>
+
+  <!-- autoregressive feed-back arrows -->
+  <line x1="200" y1="275" x2="290" y2="170" stroke="#16a34a" stroke-width="1.6" marker-end="url(#a)"/>
+  <line x1="430" y1="275" x2="520" y2="170" stroke="#16a34a" stroke-width="1.6" marker-end="url(#a)"/>
+  <line x1="660" y1="275" x2="748" y2="170" stroke="#16a34a" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="245" y="245" font-size="7.5" fill="#15803d">我喂回</text>
+  <text x="475" y="245" font-size="7.5" fill="#15803d">爱喂回</text>
+  <text x="705" y="245" font-size="7.5" fill="#15803d">路喂回</text>
+
+  <!-- two takeaways -->
+  <rect x="20" y="310" width="900" height="90" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="470" y="332" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">两种注意力各管一头</text>
+  <text x="40" y="356" font-size="10" fill="#374151">· <tspan font-weight="bold" fill="#b45309">掩码自注意力</tspan>：K/V=<tspan font-weight="bold">已生成目标前缀</tspan>(每步长一词) → 管“我已经写了什么”(目标侧上下文)；最后位置回看所有已写词</text>
+  <text x="40" y="378" font-size="10" fill="#374151">· <tspan font-weight="bold" fill="#1e40af">交叉注意力</tspan>：K/V=<tspan font-weight="bold">同一份固定 memory</tspan>(I love road，不变) → 管“看原文”；变的只是<tspan font-weight="bold">焦点</tspan>随前缀在 I→love→road 上滑动</text>
+  <text x="40" y="395" font-size="9" fill="#6b7280">你的规律“源句+前缀→下一个词”：前缀=自注意力喂进来，源句=交叉注意力读到，固定权重映射成下一个词</text>
+
+  <!-- mask note -->
+  <rect x="20" y="412" width="900" height="60" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="432" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">关于“掩码”：推理时其实没有未来可看（只有已生成前缀），掩码形同自动满足</text>
+  <text x="470" y="452" text-anchor="middle" font-size="9.5" fill="#374151">它真正“挡未来”的作用发生在训练并行喂整句时（见 Q79/Q82）；推理时它就是“当前位置回看所有已写词”</text>
+  <text x="470" y="467" text-anchor="middle" font-size="9" fill="#6b7280">另：编码器只算一次，交叉注意力每步复用同一 memory，不重新编码源句</text>
+
+  <text x="470" y="500" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">一句话：自注意力的 K/V 在“长”（目标前缀），交叉注意力的 K/V 不变（源 memory）、只是焦点在滑</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+    <marker id="b" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#3b82f6"/></marker>
+  </defs>
+</svg>

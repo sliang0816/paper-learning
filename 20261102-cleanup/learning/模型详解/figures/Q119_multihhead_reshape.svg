@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 520" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="520" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q119 多头投影与维度校验：分头、d=d/h、拼接、W_O——进出同维度，QKV都通用</text>
+
+  <!-- 流程 -->
+  <rect x="20" y="44" width="900" height="310" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">一次多头注意力：输入 d=512 → 8 头各 64 维 → 拼回 512 → W_O 回归</text>
+
+  <!-- 左：输入 -->
+  <rect x="40" y="86" width="120" height="40" rx="4" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="100" y="110" text-anchor="middle" font-size="9.5" fill="#374151">x [N, 512]</text>
+
+  <text x="170" y="108" font-size="13" fill="#9ca3af">→</text>
+
+  <!-- 投影两用 -->
+  <rect x="190" y="80" width="320" height="52" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="350" y="98" text-anchor="middle" font-size="9" fill="#1e40af">W_Q: 512→512 (然后 reshape→8×64)</text>
+  <text x="350" y="114" text-anchor="middle" font-size="9" fill="#374151">对 K/V 同理 (W_K/W_V 各 512→512)</text>
+
+  <text x="520" y="108" font-size="13" fill="#9ca3af">→</text>
+
+  <!-- 8头 -->
+  <g font-size="8.5">
+    <rect x="548" y="80" width="40" height="18" rx="2" fill="#bfdbfe" stroke="#3b82f6"/><text x="568" y="93" text-anchor="middle" fill="#1e40af">head1 64</text>
+    <rect x="594" y="80" width="40" height="18" rx="2" fill="#bbf7d0" stroke="#16a34a"/><text x="614" y="93" text-anchor="middle" fill="#15803d">head2 64</text>
+    <rect x="640" y="80" width="40" height="18" rx="2" fill="#fde68a" stroke="#d97706"/><text x="660" y="93" text-anchor="middle" fill="#b45309">head3 64</text>
+    <text x="700" y="93" font-size="10" fill="#9ca3af">…</text>
+    <rect x="730" y="80" width="40" height="18" rx="2" fill="#c7d2fe" stroke="#6366f1"/><text x="750" y="93" text-anchor="middle" fill="#4338ca">head8 64</text>
+  </g>
+
+  <text x="790" y="90" font-size="13" fill="#9ca3af">→</text>
+
+  <rect x="810" y="86" width="96" height="40" rx="4" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="858" y="106" text-anchor="middle" font-size="9" fill="#6d28d9">concat → [N,512]</text>
+
+  <text x="40" y="152" font-size="9" fill="#374151">· 每头各 64 维 = 8×64 = 512，拼接回原维度</text>
+  <text x="40" y="168" font-size="9" fill="#374151">· full Q: 完整 [512, 8, 64] 等同 [512, 512]（reshape 无信息破坏）</text>
+
+  <!-- QKV 统一表格 -->
+  <rect x="40" y="194" width="400" height="108" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="240" y="216" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">Q、K、V 流程完全相同</text>
+  <text x="56" y="238" font-size="9" fill="#374151">Q: x·W_Q → 512 → reshape(8×64) → 8 头各算注意力</text>
+  <text x="56" y="254" font-size="9" fill="#374151">K: x·W_K → 512 → reshape(8×64)</text>
+  <text x="56" y="270" font-size="9" fill="#374151">V: x·W_V → 512 → reshape(8×64)</text>
+  <text x="56" y="290" font-size="9" fill="#6d28d9">→ 每头在 64 维算 QK^⊤V 后 concat → 512</text>
+
+  <!-- 校正两个常见误解 -->
+  <rect x="460" y="194" width="460" height="108" rx="5" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="690" y="216" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">两个常见误解（要校正）</text>
+  <text x="476" y="240" font-size="9" fill="#374151">① "每个头 512 维" ✗</text>
+  <text x="490" y="256" font-size="9" fill="#b91c1c">→ 输入是 512，但投影后按头分 d/h = 64 维</text>
+  <text x="476" y="276" font-size="9" fill="#374151">② "8 个视角是预设的" ✗</text>
+  <text x="490" y="292" font-size="9" fill="#b91c1c">→ 是随机初始化后经训练涌现出来的，各自专攻</text>
+
+  <!-- 下游 -->
+  <rect x="20" y="318" width="900" height="60" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="338" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">concat 后 → 过 W_O (512→512) 混合 8 头结果 → 作为该层的输出送入下一层</text>
+  <text x="470" y="358" font-size="9.5" fill="#374151">W_O 混合 8 头信息，确保"各头算完后再互相知道"</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="390" width="900" height="114" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="416" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">一句话：多头注意力 = 同一 x 投影 512→512 → reshape 成 h 组 d/h 维 →</text>
+  <text x="470" y="440" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">各头在子空间独立算 QK^⊤V → 拼接回 512 → W_O 融合 —— QKV 全部逐头重复同样的流程</text>
+  <text x="40" y="468" font-size="9.5" fill="#374151">· Q35 的 d_k = d/h 用你的数字验证：512/8=64 ✓</text>
+  <text x="40" y="484" font-size="9.5" fill="#374151">· 不增不减：输入 512 → 每头 64 → 8 头拼回 512 → W_O 仍 512 → 进出相同维度</text>
+</svg>

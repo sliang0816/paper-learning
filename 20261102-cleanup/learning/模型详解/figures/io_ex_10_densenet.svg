@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="200" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">10 DenseNet 输入输出实例（密集拼接，特征复用的极致）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">224×224×3 图 → 每层都把前面所有层的输出 concat 当输入 → 1000 类</text>
+
+  <rect x="30" y="66" width="118" height="72" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="89" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="89" y="105" text-anchor="middle" font-size="9.3" fill="#374151">224×224×3</text>
+
+  <line x1="148" y1="102" x2="180" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="182" y="62" width="238" height="80" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="301" y="82" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">Dense Block（密集连接）</text>
+  <text x="301" y="100" text-anchor="middle" font-size="8.5" fill="#374151">第 L 层输入 = [x₀,x₁,…,x_{L-1}] 拼接</text>
+  <text x="301" y="116" text-anchor="middle" font-size="8.5" fill="#374151">对比 ResNet 的“相加 F(x)+x”</text>
+  <text x="301" y="132" text-anchor="middle" font-size="8" fill="#6b7280">特征全复用 → 参数更省、梯度更顺</text>
+
+  <line x1="420" y1="102" x2="452" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="454" y="70" width="164" height="64" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="536" y="90" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">1000 类概率</text>
+  <text x="536" y="108" text-anchor="middle" font-size="8.7" fill="#374151">top-1 “猫” 0.89</text>
+  <text x="536" y="124" text-anchor="middle" font-size="8" fill="#6b7280">同 ResNet 的 I/O</text>
+
+  <line x1="618" y1="102" x2="650" y2="102" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="652" y="78" width="140" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="722" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">类别 “猫”</text>
+  <text x="722" y="116" text-anchor="middle" font-size="7.8" fill="#6b7280">concat vs add</text>
+
+  <text x="410" y="172" text-anchor="middle" font-size="9.6" fill="#374151">I/O 同 ResNet，签名区别只在连接方式：<tspan font-weight="bold" fill="#0369a1">拼接（concat）</tspan> 而非相加——每层直连后面所有层。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 150" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="740" height="150" fill="#fff"/>
+  <text x="14" y="24" font-size="13" font-weight="bold" fill="#111827">② CNN 骨干：图像 H×W×C → 类别概率（作检测/分割骨干时 → 多尺度特征图）</text>
+  <g font-size="11">
+    <rect x="20" y="44" width="130" height="60" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="85" y="70" text-anchor="middle">图像</text><text x="85" y="88" text-anchor="middle" font-size="10" fill="#6b7280">224×224×3</text>
+    <line x1="152" y1="74" x2="206" y2="74" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <rect x="208" y="44" width="150" height="60" rx="5" fill="#f3f4f6" stroke="#6b7280"/><text x="283" y="70" text-anchor="middle">CNN 骨干</text><text x="283" y="88" text-anchor="middle" font-size="10" fill="#6b7280">逐层降空间·升通道</text>
+    <line x1="360" y1="74" x2="414" y2="74" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <!-- two outputs -->
+    <rect x="416" y="44" width="150" height="26" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="491" y="62" text-anchor="middle">1000 类概率（分类）</text>
+    <rect x="416" y="78" width="300" height="26" rx="5" fill="#fef3c7" stroke="#d97706"/><text x="566" y="96" text-anchor="middle" font-size="10.5">或 多尺度特征图（当检测/分割骨干）</text>
+  </g>
+  <text x="14" y="128" font-size="10.5" fill="#6b7280">共性：分类时「图像进、类别出」；当骨干时「图像进、特征图出」供下游检测头/分割头。</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

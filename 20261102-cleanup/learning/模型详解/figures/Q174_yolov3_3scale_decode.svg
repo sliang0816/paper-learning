@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 720" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="720" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q174 YOLOv3 三个尺度最终如何形成检测框（416×416×3 输入）</text>
+
+  <!-- 三尺度输出张量 -->
+  <rect x="20" y="42" width="940" height="26" rx="6" fill="#1e40af"/>
+  <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">① 三个尺度各输出一个"厚"张量：N×N×[3×(5+C)]（C=80类时通道=255）</text>
+
+  <!-- 13x13 -->
+  <rect x="20" y="78" width="300" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="170" y="100" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b91c1c">13×13 (stride 32, 大目标)</text>
+  <text x="40" y="122" font-size="9.4" fill="#374151">输入416÷32=13，格子大→每格管一大片</text>
+  <text x="40" y="142" font-size="9.4" fill="#374151">每格铺3个anchor(k-means最大的3个)</text>
+  <text x="40" y="162" font-size="9.4" fill="#374151">输出 13×13×255</text>
+  <text x="40" y="182" font-size="9.4" fill="#374151">框数=13×13×3 = 507</text>
+  <text x="40" y="204" font-size="9" fill="#6b7280">感受野大、分辨率低→适合大而稀疏的目标</text>
+
+  <!-- 26x26 -->
+  <rect x="340" y="78" width="300" height="150" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="100" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b45309">26×26 (stride 16, 中目标)</text>
+  <text x="360" y="122" font-size="9.4" fill="#374151">416÷16=26，格子中等</text>
+  <text x="360" y="142" font-size="9.4" fill="#374151">每格3个anchor(中等3个)</text>
+  <text x="360" y="162" font-size="9.4" fill="#374151">输出 26×26×255</text>
+  <text x="360" y="182" font-size="9.4" fill="#374151">框数=26×26×3 = 2028</text>
+  <text x="360" y="204" font-size="9" fill="#6b7280">由深层上采样+浅层横向融合(FPN式)</text>
+
+  <!-- 52x52 -->
+  <rect x="660" y="78" width="300" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="810" y="100" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">52×52 (stride 8, 小目标)</text>
+  <text x="680" y="122" font-size="9.4" fill="#374151">416÷8=52，格子最密</text>
+  <text x="680" y="142" font-size="9.4" fill="#374151">每格3个anchor(最小的3个)</text>
+  <text x="680" y="162" font-size="9.4" fill="#374151">输出 52×52×255</text>
+  <text x="680" y="182" font-size="9.4" fill="#374151">框数=52×52×3 = 8112</text>
+  <text x="680" y="204" font-size="9" fill="#6b7280">分辨率高、细节多→捞小目标</text>
+
+  <text x="490" y="248" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#374151">三尺度合计候选框 = 507 + 2028 + 8112 = 10647 个（每个框都是一次"anchor + 预测偏移"）</text>
+
+  <!-- 每个anchor预测什么 -->
+  <rect x="20" y="262" width="940" height="26" rx="6" fill="#6d28d9"/>
+  <text x="490" y="280" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">② 每个 anchor 预测 5+C 个数：(tx,ty,tw,th) 框参数 + to 置信度 + C 个类别分</text>
+
+  <rect x="20" y="298" width="940" height="70" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="40" y="320" font-size="9.6" fill="#374151">tx,ty = 中心相对格子左上角的偏移(过sigmoid压进本格)　tw,th = 相对anchor先验尺寸的缩放(指数)</text>
+  <text x="40" y="342" font-size="9.6" fill="#374151">to = objectness这个框里有没有物体(σ压到0~1)　c1..cC = 每类一个独立sigmoid(多标签,不是softmax竞争)</text>
+  <text x="40" y="362" font-size="9" fill="#6b7280">网络直接吐的是tx/ty/tw/th这4个"原始偏移量",不是坐标本身——坐标要靠下面的解码公式算出来</text>
+
+  <!-- 解码公式 -->
+  <rect x="20" y="378" width="940" height="26" rx="6" fill="#0f766e"/>
+  <text x="490" y="396" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">③ 解码：把 (tx,ty,tw,th) + anchor先验(pw,ph) + 格子坐标(cx,cy) 还原成真实框</text>
+
+  <rect x="20" y="414" width="460" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="250" y="436" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">解码公式(以特征图格子为单位)</text>
+  <text x="40" y="462" font-size="11" fill="#111827" font-family="monospace">bx = σ(tx) + cx</text>
+  <text x="40" y="484" font-size="11" fill="#111827" font-family="monospace">by = σ(ty) + cy</text>
+  <text x="40" y="506" font-size="11" fill="#111827" font-family="monospace">bw = pw · e^(tw)</text>
+  <text x="40" y="528" font-size="11" fill="#111827" font-family="monospace">bh = ph · e^(th)</text>
+  <text x="40" y="552" font-size="9" fill="#6b7280">(cx,cy)=该格左上角坐标；(pw,ph)=该anchor先验宽高</text>
+
+  <rect x="500" y="414" width="460" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="730" y="436" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">两个关键设计</text>
+  <text x="520" y="460" font-size="9.6" fill="#374151">·中心用σ夹在[0,1]+格子偏移→框心锁在本格内,</text>
+  <text x="520" y="478" font-size="9.6" fill="#374151">　训练稳定(不会满图乱飞,对照Faster R-CNN Q14⑧)</text>
+  <text x="520" y="500" font-size="9.6" fill="#374151">·宽高用 e^t 乘anchor先验→只学"相对先验缩放",</text>
+  <text x="520" y="518" font-size="9.6" fill="#374151">　比凭空回归绝对宽高好学得多</text>
+  <text x="520" y="542" font-size="9.6" font-weight="bold" fill="#15803d">再×stride(32/16/8)→换算回416像素坐标系</text>
+
+  <!-- NMS -->
+  <rect x="20" y="574" width="940" height="26" rx="6" fill="#b91c1c"/>
+  <text x="490" y="592" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">④ 打分筛选 + NMS：从 10647 个候选框里留下最终检测框</text>
+
+  <rect x="20" y="610" width="940" height="66" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="40" y="632" font-size="9.6" fill="#374151">每框最终得分 = objectness σ(to) × 该类概率 → 先按阈值(如0.5)砍掉低分框(绝大多数被砍)</text>
+  <text x="40" y="654" font-size="9.6" fill="#374151">再对同类框做NMS(非极大值抑制):高分框吃掉与它IoU过高的重叠框 → 每个真实目标只留1个框</text>
+  <text x="40" y="672" font-size="9" fill="#6b7280">三尺度的框汇到一起统一做NMS(v3按类做),最终输出:类别+置信度+框坐标</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="686" width="940" height="28" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="705" text-anchor="middle" font-size="10.3" font-weight="bold" fill="#a16207">一句话：三尺度×每格3anchor=10647个候选 → 每anchor吐(tx,ty,tw,th,to,类别) → 解码公式+anchor先验+格子坐标还原成像素框 → 打分阈值+NMS → 最终框</text>
+</svg>

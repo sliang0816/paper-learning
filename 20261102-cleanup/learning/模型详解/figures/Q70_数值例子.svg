@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 760" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="760" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">RPN 数值例子：VGG16 骨干（输入 600×800，k=9）跑通一个 anchor</text>
+  <text x="460" y="44" text-anchor="middle" font-size="11" fill="#6b7280">Conv3×3 聚 3×3 上下文 → cls/reg 各一层 1×1 卷积（18 / 36 个核）→ 每位置就是一堆点积</text>
+
+  <!-- ===== Band A: dimension flow ===== -->
+  <text x="20" y="70" font-size="12" font-weight="bold" fill="#334155">① 维度流</text>
+  <g font-size="9.5" text-anchor="middle">
+    <rect x="20" y="78" width="92" height="50" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="66" y="98" font-weight="bold" fill="#075985">输入图</text>
+    <text x="66" y="114" fill="#6b7280">600×800×3</text>
+    <line x1="112" y1="103" x2="134" y2="103" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+
+    <rect x="136" y="78" width="104" height="50" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="188" y="96" font-weight="bold" fill="#075985">共享特征图</text>
+    <text x="188" y="112" fill="#6b7280">38×50×512</text>
+    <text x="188" y="124" fill="#9ca3af" font-size="8">VGG stride 16</text>
+    <line x1="240" y1="103" x2="262" y2="103" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+
+    <rect x="264" y="78" width="110" height="50" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="319" y="96" font-weight="bold" fill="#1e40af">Conv 3×3</text>
+    <text x="319" y="112" fill="#374151">512→512, pad1</text>
+    <text x="319" y="124" fill="#9ca3af" font-size="8">+ ReLU（尺寸不变）</text>
+    <line x1="374" y1="103" x2="396" y2="103" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+
+    <rect x="398" y="78" width="104" height="50" rx="5" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="450" y="96" font-weight="bold" fill="#6d28d9">中间特征图</text>
+    <text x="450" y="112" fill="#6b7280">38×50×512</text>
+
+    <line x1="502" y1="95" x2="556" y2="80" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <line x1="502" y1="112" x2="556" y2="128" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+
+    <rect x="558" y="60" width="150" height="42" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="633" y="78" font-weight="bold" fill="#15803d">cls 头 Conv1×1</text>
+    <text x="633" y="94" fill="#374151">512→18 → 38×50×18</text>
+    <rect x="558" y="108" width="150" height="42" rx="5" fill="#fef3c7" stroke="#d97706"/>
+    <text x="633" y="126" font-weight="bold" fill="#b45309">reg 头 Conv1×1</text>
+    <text x="633" y="142" fill="#374151">512→36 → 38×50×36</text>
+
+    <rect x="724" y="74" width="176" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="812" y="92" font-weight="bold" fill="#334155">通道数来历</text>
+    <text x="812" y="110" fill="#374151">18 = 2k = 2×9（前景/背景）</text>
+    <text x="812" y="126" fill="#374151">36 = 4k = 4×9（4 个偏移）</text>
+    <text x="812" y="140" fill="#6b7280" font-size="8.5">全图 anchor = 38×50×9 = 17100</text>
+  </g>
+
+  <!-- ===== Band B: zoom one position ===== -->
+  <rect x="14" y="160" width="892" height="288" rx="8" fill="#fafafa" stroke="#e5e7eb"/>
+  <text x="28" y="182" font-size="12" font-weight="bold" fill="#334155">② 放大一个位置 (i,j)=(20,30)：每一步都是“点积”</text>
+
+  <!-- B1: Conv3x3 detail -->
+  <rect x="26" y="192" width="290" height="244" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="40" y="212" font-size="11" font-weight="bold" fill="#1e40af">Conv 3×3 ＝ 聚合 3×3 邻域</text>
+  <text x="40" y="232" font-size="9.3" fill="#374151">取 (20,30) 的 3×3 邻域、全 512 通道：</text>
+  <!-- 3x3 grid -->
+  <g>
+    <rect x="40" y="240" width="48" height="48" fill="#fff" stroke="#93c5fd"/>
+    <line x1="56" y1="240" x2="56" y2="288" stroke="#dbeafe"/><line x1="72" y1="240" x2="72" y2="288" stroke="#dbeafe"/>
+    <line x1="40" y1="256" x2="88" y2="256" stroke="#dbeafe"/><line x1="40" y1="272" x2="88" y2="272" stroke="#dbeafe"/>
+    <text x="64" y="302" text-anchor="middle" font-size="8" fill="#6b7280">3×3 空间</text>
+  </g>
+  <text x="98" y="258" font-size="14" fill="#6b7280">×</text>
+  <rect x="110" y="240" width="34" height="48" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="127" y="268" text-anchor="middle" font-size="8" fill="#1e40af">512</text>
+  <text x="127" y="302" text-anchor="middle" font-size="8" fill="#6b7280">通道</text>
+  <text x="158" y="268" font-size="10" fill="#374151">= 4608 个数</text>
+
+  <text x="40" y="328" font-size="9.3" fill="#374151">与 <tspan font-weight="bold">512 个滤波器</tspan>（各 3×3×512）</text>
+  <text x="40" y="344" font-size="9.3" fill="#374151">分别点积 → <tspan font-weight="bold" fill="#6d28d9">512 维中间向量 x</tspan></text>
+  <rect x="40" y="354" width="250" height="26" rx="4" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="165" y="371" text-anchor="middle" font-size="9" fill="#6d28d9">x = [x₁, x₂, …, x₅₁₂]　（再过 ReLU）</text>
+  <text x="40" y="398" font-size="8.8" fill="#6b7280">每位置做 512 次长度 4608 的点积；</text>
+  <text x="40" y="412" font-size="8.8" fill="#6b7280">pad=1 → 输出仍 38×50，anchor 中心与</text>
+  <text x="40" y="426" font-size="8.8" fill="#6b7280">特征图位置一一对应。</text>
+
+  <!-- B2: cls 1x1 detail -->
+  <rect x="324" y="192" width="285" height="244" rx="6" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="338" y="212" font-size="11" font-weight="bold" fill="#15803d">cls 头 ＝ 18 个 1×1 核与 x 点积</text>
+  <rect x="338" y="222" width="120" height="22" rx="4" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="398" y="237" text-anchor="middle" font-size="8.8" fill="#6d28d9">x（512 维）</text>
+  <text x="466" y="237" font-size="9" fill="#374151">↓ 18 个核</text>
+  <text x="338" y="262" font-size="9.3" fill="#374151">每个核 1×1×512（=512 维权重）</text>
+  <text x="338" y="277" font-size="9.3" fill="#374151">18 次点积 → <tspan font-weight="bold">18 个数</tspan></text>
+  <rect x="338" y="286" width="258" height="24" rx="4" fill="#fff" stroke="#86efac"/>
+  <text x="467" y="302" text-anchor="middle" font-size="8.6" fill="#374151">重排成 9 个 anchor ×（前景, 背景）</text>
+  <text x="338" y="330" font-size="9.3" fill="#374151">取 <tspan font-weight="bold">anchor#5</tspan>：(前景 2.4, 背景 −1.1)</text>
+  <text x="338" y="348" font-size="9.3" fill="#374151">softmax → <tspan font-weight="bold" fill="#15803d">前景概率 ≈ 0.97</tspan></text>
+  <rect x="338" y="360" width="258" height="62" rx="5" fill="#fffbeb" stroke="#fcd34d"/>
+  <text x="350" y="378" font-size="8.8" font-weight="bold" fill="#b45309">⚠ “18 个 conv1×1”是什么意思</text>
+  <text x="350" y="394" font-size="8.6" fill="#374151">是 1 个卷积层、18 个卷积核（滤波器），</text>
+  <text x="350" y="408" font-size="8.6" fill="#374151">每核 1×1×512。每位置 = 18 次点积 → 18 通道。</text>
+  <text x="350" y="419" font-size="8" fill="#b91c1c">不是 18 层、也不是 18 次独立卷积流程。</text>
+
+  <!-- B3: reg 1x1 detail -->
+  <rect x="617" y="192" width="282" height="244" rx="6" fill="#fffbeb" stroke="#d97706"/>
+  <text x="631" y="212" font-size="11" font-weight="bold" fill="#b45309">reg 头 ＝ 36 个 1×1 核与 x 点积</text>
+  <rect x="631" y="222" width="120" height="22" rx="4" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="691" y="237" text-anchor="middle" font-size="8.8" fill="#6d28d9">x（512 维）</text>
+  <text x="759" y="237" font-size="9" fill="#374151">↓ 36 个核</text>
+  <text x="631" y="262" font-size="9.3" fill="#374151">每个核 1×1×512</text>
+  <text x="631" y="277" font-size="9.3" fill="#374151">36 次点积 → <tspan font-weight="bold">36 个数</tspan></text>
+  <rect x="631" y="286" width="256" height="24" rx="4" fill="#fff" stroke="#fcd34d"/>
+  <text x="759" y="302" text-anchor="middle" font-size="8.6" fill="#374151">重排成 9 个 anchor ×（tx, ty, tw, th）</text>
+  <text x="631" y="330" font-size="9.3" fill="#374151">取 <tspan font-weight="bold">anchor#5</tspan>：</text>
+  <rect x="631" y="340" width="256" height="26" rx="4" fill="#fff" stroke="#fcd34d"/>
+  <text x="759" y="357" text-anchor="middle" font-size="9" fill="#b45309">(0.06, −0.09, 0.12, −0.05)</text>
+  <text x="631" y="390" font-size="8.8" fill="#6b7280">这 4 个数是相对 anchor 的偏移，</text>
+  <text x="631" y="404" font-size="8.8" fill="#6b7280">下一步解码成真实框坐标 →</text>
+
+  <!-- ===== Band C: decode anchor#5 ===== -->
+  <text x="20" y="474" font-size="12" font-weight="bold" fill="#334155">③ anchor#5 解码：预设框 + 偏移 → 修正框</text>
+  <g font-size="9.5">
+    <rect x="20" y="484" width="200" height="64" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+    <text x="34" y="503" font-weight="bold" fill="#334155">预设 anchor#5</text>
+    <text x="34" y="520" fill="#374151">中心 (320, 480)</text>
+    <text x="34" y="536" fill="#374151">尺寸 128 × 128（1:1）</text>
+
+    <text x="232" y="520" font-size="22" fill="#9ca3af">+</text>
+
+    <rect x="256" y="484" width="234" height="64" rx="6" fill="#fffbeb" stroke="#fcd34d"/>
+    <text x="270" y="503" font-weight="bold" fill="#b45309">偏移 (tx,ty,tw,th)</text>
+    <text x="270" y="520" fill="#374151">(0.06, −0.09, 0.12, −0.05)</text>
+    <text x="270" y="536" fill="#6b7280" font-size="8.5">x=ax+tx·aw, w=aw·e^tw …（同 Q60 参数化）</text>
+
+    <text x="500" y="520" font-size="22" fill="#9ca3af">→</text>
+
+    <rect x="524" y="484" width="240" height="64" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="538" y="503" font-weight="bold" fill="#15803d">修正框</text>
+    <text x="538" y="520" fill="#374151">中心 (327.7, 468.5)</text>
+    <text x="538" y="536" fill="#374151">尺寸 ≈ 144 × 122</text>
+
+    <text x="772" y="513" font-size="22" fill="#9ca3af">→</text>
+    <rect x="796" y="484" width="104" height="64" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+    <text x="848" y="506" text-anchor="middle" font-weight="bold" fill="#15803d">带 obj 0.97</text>
+    <text x="848" y="524" text-anchor="middle" fill="#374151" font-size="8.8">进 top-N</text>
+    <text x="848" y="538" text-anchor="middle" fill="#374151" font-size="8.8">→ NMS（Q63/64）</text>
+  </g>
+
+  <!-- decode math -->
+  <rect x="20" y="560" width="880" height="74" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="34" y="580" font-size="10" font-weight="bold" fill="#334155">解码计算（逐项）</text>
+  <text x="34" y="600" font-size="9.5" fill="#374151">x = 320 + 0.06×128 = 327.7　｜　y = 480 + (−0.09)×128 = 468.5</text>
+  <text x="34" y="618" font-size="9.5" fill="#374151">w = 128 × e^0.12 = 128×1.127 = 144.3　｜　h = 128 × e^(−0.05) = 128×0.951 = 121.8</text>
+
+  <!-- bottom takeaway -->
+  <rect x="20" y="646" width="880" height="98" rx="8" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="460" y="668" text-anchor="middle" font-size="12" font-weight="bold" fill="#4338ca">三个关键看点</text>
+  <text x="40" y="690" font-size="10" fill="#374151">① <tspan font-weight="bold">“18 个 1×1”= 1 个卷积层的 18 个核</tspan>（reg 是 36 个核），不是 18 层；每核 1×1×512，每位置做 18（/36）次点积。</text>
+  <text x="40" y="710" font-size="10" fill="#374151">② <tspan font-weight="bold">Conv3×3 与 1×1 都只是点积</tspan>：3×3 把 4608 个数压成 512 维 x（聚上下文）；1×1 把 512 维 x 压成 18/36 个预测。</text>
+  <text x="40" y="730" font-size="10" fill="#374151">③ <tspan font-weight="bold">18 = 2k、36 = 4k</tspan>：通道数＝每位置 anchor 数 k × 每 anchor 的输出（cls 2 / reg 4）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

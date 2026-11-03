@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 660" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="660" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q175 k-means聚出的9个anchor能当ground truth吗？——不能，它是"先验"不是"答案"</text>
+
+  <!-- 核心区分 两列 -->
+  <rect x="20" y="42" width="460" height="210" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="250" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">Ground Truth（真值框 / 答案）</text>
+  <text x="40" y="88" font-size="9.6" fill="#374151">· 人工标注的每个目标的真实框</text>
+  <text x="40" y="108" font-size="9.6" fill="#374151">· 逐图逐目标各不相同(千变万化)</text>
+  <text x="40" y="128" font-size="9.6" fill="#374151">· 直接进损失,是预测框要逼近的"标准答案"</text>
+  <text x="40" y="148" font-size="9.6" fill="#374151">· 数量=图里目标数,随图片变化</text>
+  <text x="40" y="168" font-size="9.6" font-weight="bold" fill="#15803d">· 角色：目标 / 监督信号</text>
+  <text x="40" y="196" font-size="9" fill="#6b7280">例：这张图第3个目标的框是</text>
+  <text x="40" y="214" font-size="9" fill="#6b7280">(x=120,y=88,w=47,h=63) —— 具体、唯一</text>
+  <text x="40" y="238" font-size="9" fill="#6b7280">换一张图/换一个目标,就完全不同</text>
+
+  <rect x="500" y="42" width="460" height="210" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="730" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">9个anchor（先验框 / 参照模板）</text>
+  <text x="520" y="88" font-size="9.6" fill="#374151">· 对全体真值框做k-means得到的9种典型形状</text>
+  <text x="520" y="108" font-size="9.6" fill="#374151">· 全局常量,训练前算一次就冻结</text>
+  <text x="520" y="128" font-size="9.6" fill="#374151">· 每张图、每个格子都用同一套9个</text>
+  <text x="520" y="148" font-size="9.6" fill="#374151">· 数量固定=9(分给3个尺度各3个)</text>
+  <text x="520" y="168" font-size="9.6" font-weight="bold" fill="#1e40af">· 角色：起点 / 参照系 / 超参数</text>
+  <text x="520" y="196" font-size="9" fill="#6b7280">例：anchor#5=(w=45,h=60) —— 一个"典型</text>
+  <text x="520" y="214" font-size="9" fill="#6b7280">形状模板",不对应任何一个具体目标</text>
+  <text x="520" y="238" font-size="9" fill="#6b7280">整个数据集共用这9个,不随图变</text>
+
+  <!-- 来源vs角色 -->
+  <rect x="20" y="264" width="940" height="72" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="286" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b45309">关键：混淆点在于把"来源"当成了"角色"</text>
+  <text x="40" y="310" font-size="9.8" fill="#374151">anchor 确实"从真值框统计出来"(来源) —— 但它被算出来后的用途是"当参照模板"(角色),而不是"当答案"。</text>
+  <text x="40" y="330" font-size="9.8" fill="#374151">"从A统计出来"≠"就是A"。就像 S/M/L 尺码是量全国人身高定的,但"M码"不是任何一个具体的人,只是模板。</text>
+
+  <!-- 类比 -->
+  <rect x="20" y="348" width="940" height="72" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="370" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#6d28d9">类比：服装尺码</text>
+  <text x="40" y="394" font-size="9.8" fill="#374151">量全国人身高 → 定出 S/M/L 三档尺码(先验/模板) → 给你量体时先套最接近的一档,再改裤脚袖长(学偏移)。</text>
+  <text x="40" y="414" font-size="9.8" fill="#374151">你的真实身材 = ground truth；S/M/L = anchor；改多少 = 网络学的偏移量。尺码来自真人统计,但不是你本人。</text>
+
+  <!-- 训练里两者怎么同时出现 -->
+  <rect x="20" y="432" width="940" height="26" rx="6" fill="#0f766e"/>
+  <text x="490" y="450" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">训练里两者同时出现,但分工不同：anchor=参照系, GT=目标, 偏移=真正学的东西</text>
+
+  <rect x="20" y="466" width="940" height="90" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+  <text x="40" y="490" font-size="9.8" fill="#374151">① 标签分配：每个 GT 框分给"和它最像(IoU最高)、且在合适尺度"的那个 anchor 负责</text>
+  <text x="40" y="512" font-size="9.8" fill="#374151">② 回归目标：损失训练的是「这个 anchor → 这个 GT」之间的偏移量(tx,ty,tw,th),不是让网络直接吐 GT 坐标</text>
+  <text x="40" y="534" font-size="9.8" fill="#374151">③ 解码时：anchor先验尺寸(pw,ph) + 网络学到的偏移 → 还原出贴合 GT 的预测框(见Q174解码公式)</text>
+  <text x="40" y="552" font-size="9" fill="#6b7280">所以 GT 和 anchor 都进了训练,但 GT 是"要达到的答案"、anchor 是"从哪儿出发的起点",两者角色不可互换</text>
+
+  <!-- 反证 -->
+  <rect x="20" y="566" width="940" height="52" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="490" y="588" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b91c1c">反证：若真把9个anchor当答案</text>
+  <text x="40" y="608" font-size="9.6" fill="#374151">模型永远只能输出这9种固定形状的框,无法精确贴合任意大小/长宽比的目标——正因如此才要在anchor上再"学偏移"去逼近真正的GT。</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="626" width="940" height="26" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="644" text-anchor="middle" font-size="10.3" font-weight="bold" fill="#a16207">一句话：anchor是"从真值框统计出的先验模板/起点",ground truth是"每个目标的真实答案";前者来源于后者,但角色是参照系不是监督信号,不能互换。</text>
+</svg>

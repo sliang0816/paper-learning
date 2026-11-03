@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="640" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q135 GPT-1→4 只是放大吗：1→3 纯放大✓（骨架没动），真正代际变化在范式；4 起 FFN 处动了结构（MoE）</text>
+
+  <!-- ① 尺寸表 -->
+  <rect x="20" y="42" width="900" height="170" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="470" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 尺寸账：同一张图纸放大（参数 ≈ 12·L·d²）</text>
+  <g font-size="9.5" font-family="Consolas,monospace">
+    <text x="60" y="92" font-family="'Microsoft YaHei'" font-weight="bold" fill="#374151">        层数L   宽度d    头数   参数     上下文   数据</text>
+    <text x="60" y="116" fill="#374151">GPT-1   12     768     12    1.17亿    512     ~5GB文本</text>
+    <text x="60" y="140" fill="#374151">GPT-2   48     1600    25    15亿      1024    40GB</text>
+    <text x="60" y="164" fill="#374151">GPT-3   96     12288   96    1750亿    2048    数千亿token</text>
+  </g>
+  <text x="60" y="192" font-size="9" fill="#6b7280">除维度/层数外还同步扩：上下文窗口 + 训练数据——scaling law(2020)：损失随参数/数据/算力幂律下降、三者按比例一起扩</text>
+  <text x="620" y="116" font-size="9" fill="#15803d">骨架不变：因果自注意力+FFN</text>
+  <text x="620" y="134" font-size="9" fill="#15803d">堆叠、下一词预测（Q92/Q127）</text>
+  <text x="620" y="158" font-size="9" fill="#b91c1c">措辞修正：d=每层每token隐藏宽度</text>
+  <text x="620" y="176" font-size="9" fill="#b91c1c">训推恒定，变大的是"代际设计值"</text>
+
+  <!-- ② 小修 -->
+  <rect x="20" y="224" width="440" height="150" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="240" y="246" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">② 每代的"小修"（不动骨架）</text>
+  <text x="36" y="272" font-size="9.5" fill="#374151">· GPT-2：Post-LN→<tspan font-weight="bold">Pre-LN</tspan>（LN 挪残差前，深了才稳）</text>
+  <text x="52" y="290" font-size="9" fill="#6b7280">+ 初始化按层深缩放</text>
+  <text x="36" y="314" font-size="9.5" fill="#374151">· GPT-3：交替 稠密/局部带状<tspan font-weight="bold">稀疏注意力</tspan></text>
+  <text x="52" y="332" font-size="9" fill="#6b7280">（省 O(n²) 算力）</text>
+  <text x="36" y="356" font-size="9" fill="#6d28d9">都是工程稳定性补丁，骨架仍是因果块堆叠</text>
+
+  <!-- ③ 范式 -->
+  <rect x="480" y="224" width="440" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="246" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">③ 真正的代际变化：范式不是结构</text>
+  <text x="496" y="272" font-size="9.5" fill="#374151">GPT-1：预训练 + 逐任务<tspan font-weight="bold">微调</tspan>（Q128）</text>
+  <text x="496" y="294" font-size="9.5" fill="#374151">GPT-2：<tspan font-weight="bold">zero-shot prompting</tspan>（任务写进 prompt）</text>
+  <text x="496" y="316" font-size="9.5" fill="#374151">GPT-3：<tspan font-weight="bold">few-shot 上下文学习</tspan>（给示例不动权重）</text>
+  <text x="496" y="338" font-size="9.5" fill="#374151">GPT-3.5/ChatGPT：<tspan font-weight="bold">RLHF 对齐</tspan>（Q129）</text>
+  <text x="496" y="360" font-size="9" fill="#6b7280">few-shot 涌现是"规模换能力"的标志证据（Q130）</text>
+
+  <!-- ④ GPT-4 -->
+  <rect x="20" y="386" width="900" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="470" y="408" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">④ GPT-4 起，"结构没变"要打折扣</text>
+  <text x="40" y="434" font-size="9.5" fill="#374151">· 技术细节未公开，业界普遍认为引入 <tspan font-weight="bold">MoE 混合专家</tspan>：FFN 从单个变成多个"专家"、路由器按 token 选择激活</text>
+  <text x="56" y="454" font-size="9" fill="#6b7280">总参数巨大、每 token 只算一小部分——对骨架（FFN 处）的第一次实质改动；此后 MoE 成主流（Mixtral/DeepSeek 等）</text>
+  <text x="40" y="480" font-size="9.5" fill="#374151">· 加入<tspan font-weight="bold">多模态输入</tspan>（图像）——输入端扩了模态</text>
+  <text x="40" y="508" font-size="9.5" fill="#15803d" font-weight="bold">结论分两段：1→3 = 纯放大（你的判断准确）；4 起 FFN 动结构 + 扩模态，但"decoder-only 自回归下一词预测"至今未变</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="548" width="900" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="568" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#a16207">一句话：GPT-1→3 骨架一字未改、只按 scaling law 同扩宽度/层数/头数/上下文/数据（参数≈12·L·d²，3年×1500倍）；</text>
+  <text x="470" y="588" text-anchor="middle" font-size="9" fill="#374151">代际真正变的是用法（微调→zero-shot→few-shot→RLHF）；GPT-4 起 MoE+多模态动了局部结构，但自回归框架未变。</text>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="560" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q88 内容和位置都告诉了，为什么还不行？——内容/位置/聚合是三件分开的事</text>
+
+  <!-- three jobs -->
+  <rect x="20" y="46" width="880" height="190" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="460" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">三件不同的事，别混成一件</text>
+
+  <rect x="36" y="80" width="270" height="140" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="171" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">① 词嵌入（内容）</text>
+  <text x="171" y="122" text-anchor="middle" font-size="9.5" fill="#374151">给每个词它的“含义”</text>
+  <text x="171" y="146" text-anchor="middle" font-size="9" fill="#6b7280">谁来做：embed</text>
+  <rect x="60" y="160" width="222" height="44" rx="5" fill="#fff" stroke="#fcd34d"/>
+  <text x="171" y="178" text-anchor="middle" font-size="9" fill="#15803d">✓ 你“告诉内容”补的是这个</text>
+  <text x="171" y="194" text-anchor="middle" font-size="8.5" fill="#6b7280">（标准输入本就有）</text>
+
+  <rect x="324" y="80" width="270" height="140" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="459" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">② 位置编码（位置）</text>
+  <text x="459" y="122" text-anchor="middle" font-size="9.5" fill="#374151">给每个词“第几个”的标签</text>
+  <text x="459" y="146" text-anchor="middle" font-size="9" fill="#6b7280">谁来做：PE</text>
+  <rect x="348" y="160" width="222" height="44" rx="5" fill="#fff" stroke="#c4b5fd"/>
+  <text x="459" y="178" text-anchor="middle" font-size="9" fill="#15803d">✓ 你“告诉位置”补的是这个</text>
+  <text x="459" y="194" text-anchor="middle" font-size="8.5" fill="#6b7280">（标准输入本就有）</text>
+
+  <rect x="612" y="80" width="280" height="140" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="752" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">③ 聚合（读前缀）</text>
+  <text x="752" y="122" text-anchor="middle" font-size="9.5" fill="#374151">把“带标签的一串词”按需</text>
+  <text x="752" y="138" text-anchor="middle" font-size="9.5" fill="#374151">融合进当前位置能用的表示</text>
+  <text x="752" y="160" text-anchor="middle" font-size="9" fill="#6b7280">谁来做：自注意力</text>
+  <rect x="636" y="172" width="232" height="36" rx="5" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="752" y="194" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b91c1c">✗ “内容+位置”没补这个，③仍空</text>
+
+  <!-- ingredients analogy -->
+  <rect x="20" y="252" width="880" height="84" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="272" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">类比：①② = 备齐贴好序号标签的原料；③ = 把原料炒成一道菜</text>
+  <text x="460" y="294" text-anchor="middle" font-size="9.5" fill="#374151">“内容+位置都告诉” = 把每个词的含义和序号都备好（其实标准输入本就这样）</text>
+  <text x="460" y="314" text-anchor="middle" font-size="9.5" fill="#b91c1c">但没有 ③，当前位置面对的还是“一串它读不到的原料”——序号、含义都全，没人汇总给它</text>
+  <text x="460" y="330" text-anchor="middle" font-size="9" fill="#6b7280">即：你重新推导出了“标准解码器输入”，但那是“原料”，不是“当前位置读到了前缀”</text>
+
+  <!-- precompute summary -->
+  <rect x="20" y="350" width="880" height="110" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="370" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">“那我喂一个已汇总好的向量（含内容+位置）呢？”——汇总向量得先被算出来</text>
+  <text x="40" y="392" font-size="9.5" fill="#374151">把变长前缀算成一个汇总，本身就需要一个<tspan font-weight="bold">聚合器</tspan>，于是回到 Q87 的表：</text>
+  <text x="56" y="412" font-size="9.5" fill="#b91c1c">· 池化汇总 → 丢顺序（连②的序号优势也糟蹋）+ 非自适应</text>
+  <text x="56" y="430" font-size="9.5" fill="#b91c1c">· RNN 滚动汇总 → 串行慢 + 长程衰减</text>
+  <text x="56" y="448" font-size="9.5" fill="#15803d">· 注意力汇总 → 那就是自注意力本身</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="474" width="880" height="76" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="460" y="494" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#15803d">直接回答：不行（指去掉自注意力还能正常工作）</text>
+  <text x="460" y="514" text-anchor="middle" font-size="9.5" fill="#374151">内容回答“每个词是什么”，位置回答“每个词排第几”，自注意力回答“当前位置该把前面哪些词、按多大权重融进来”</text>
+  <text x="460" y="534" text-anchor="middle" font-size="9.5" fill="#6d28d9">前两个是给原料贴标签，第三个才是把原料做成菜——三件事，缺第三件就不行</text>
+</svg>

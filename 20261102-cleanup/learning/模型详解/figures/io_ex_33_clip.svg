@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 280" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="280" fill="#fff"/>
+  <text x="420" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">33 CLIP 输入输出实例（图 + 文 双塔 → 余弦相似度 → 零样本识别）</text>
+  <text x="420" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">图像和一组文本各编码到同一空间 → 算余弦相似度 → 选最像的文本当类别（无需训练该类）</text>
+
+  <!-- image tower -->
+  <rect x="24" y="64" width="120" height="52" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="84" y="84" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="84" y="102" text-anchor="middle" font-size="8.5" fill="#374151">检测框里的一块图</text>
+  <line x1="144" y1="90" x2="176" y2="90" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="178" y="66" width="130" height="48" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="243" y="85" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#1e40af">图像编码器(ViT)</text>
+  <text x="243" y="103" text-anchor="middle" font-size="8.3" fill="#6b7280">→ 图嵌入 i (512维)</text>
+
+  <!-- text tower -->
+  <rect x="24" y="150" width="120" height="64" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="84" y="168" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b45309">输入文本（一组）</text>
+  <text x="84" y="185" text-anchor="middle" font-size="7.8" fill="#374151">“a dog on the road”</text>
+  <text x="84" y="198" text-anchor="middle" font-size="7.8" fill="#374151">“a tire on the road”</text>
+  <text x="84" y="210" text-anchor="middle" font-size="7.8" fill="#374151">“a glass …” …</text>
+  <line x1="144" y1="182" x2="176" y2="182" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="178" y="158" width="130" height="48" rx="6" fill="#ffedd5" stroke="#d97706"/>
+  <text x="243" y="177" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#b45309">文本编码器</text>
+  <text x="243" y="195" text-anchor="middle" font-size="8.3" fill="#6b7280">→ 各文本嵌入 t_k (512维)</text>
+
+  <!-- same space -->
+  <line x1="308" y1="90" x2="352" y2="120" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="308" y1="182" x2="352" y2="150" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="354" y="104" width="170" height="62" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="439" y="124" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#6d28d9">同一空间算余弦相似度</text>
+  <text x="439" y="142" text-anchor="middle" font-size="8.5" fill="#374151">sim = i · t_k</text>
+  <text x="439" y="157" text-anchor="middle" font-size="8" fill="#6b7280">图嵌入分别和每个文本嵌入比</text>
+
+  <line x1="524" y1="135" x2="556" y2="135" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="558" y="100" width="150" height="72" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="633" y="119" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">相似度 → softmax</text>
+  <text x="633" y="137" text-anchor="middle" font-size="8.4" fill="#374151">tire 0.92</text>
+  <text x="633" y="151" text-anchor="middle" font-size="8.4" fill="#6b7280">dog 0.05 / glass 0.03</text>
+  <text x="633" y="165" text-anchor="middle" font-size="7.8" fill="#6b7280">选最大的</text>
+
+  <line x1="708" y1="135" x2="740" y2="135" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="742" y="110" width="88" height="52" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="786" y="132" text-anchor="middle" font-size="9.2" font-weight="bold" fill="#15803d">识别 = 轮胎</text>
+  <text x="786" y="150" text-anchor="middle" font-size="7.6" fill="#6b7280">没训练过也能认</text>
+
+  <text x="420" y="232" text-anchor="middle" font-size="9.8" fill="#374151">关键：要识别什么类，<tspan font-weight="bold" fill="#b45309">只需把类名写进文本</tspan>（“a {类名} on the road”），不用重新训练——这就是<tspan font-weight="bold" fill="#6d28d9">零样本</tspan>。</text>
+  <text x="420" y="254" text-anchor="middle" font-size="9.3" fill="#6b7280">本项目创新点 2：对 YOLOv8 检测框内的图像块用 CLIP 比文本模板，识别玻璃/金属等未训练的“未见类”（GL/ME）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

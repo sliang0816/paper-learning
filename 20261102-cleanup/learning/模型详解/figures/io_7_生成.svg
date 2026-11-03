@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 150" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="740" height="150" fill="#fff"/>
+  <text x="14" y="24" font-size="13" font-weight="bold" fill="#111827">⑦ 生成模型：噪声(+条件) → 图像；U-Net 图进图出（同尺寸稠密图）</text>
+  <!-- U-Net row -->
+  <g font-size="11">
+    <rect x="20" y="40" width="150" height="32" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="95" y="60" text-anchor="middle">图像 H×W×C</text>
+    <line x1="172" y1="56" x2="222" y2="56" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <rect x="224" y="40" width="130" height="32" rx="5" fill="#f3f4f6" stroke="#6b7280"/><text x="289" y="60" text-anchor="middle">U-Net（编解码）</text>
+    <line x1="356" y1="56" x2="406" y2="56" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <rect x="408" y="40" width="318" height="32" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="567" y="60" text-anchor="middle">同尺寸稠密图（分割掩码 / 噪声图）</text>
+  </g>
+  <!-- diffusion row -->
+  <g font-size="11">
+    <rect x="20" y="88" width="150" height="44" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="95" y="106" text-anchor="middle">噪声 + 步数 t</text><text x="95" y="123" text-anchor="middle" font-size="10" fill="#6b7280">(+文本/ControlNet 条件)</text>
+    <line x1="172" y1="110" x2="222" y2="110" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <rect x="224" y="88" width="130" height="44" rx="5" fill="#f3f4f6" stroke="#6b7280"/><text x="289" y="110" text-anchor="middle">扩散模型</text><text x="289" y="126" text-anchor="middle" font-size="10" fill="#6b7280">多步去噪</text>
+    <line x1="356" y1="110" x2="406" y2="110" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+    <rect x="408" y="88" width="318" height="44" rx="5" fill="#fef3c7" stroke="#d97706"/><text x="567" y="106" text-anchor="middle">训练：预测噪声 ε̂　生成：一张图像</text><text x="567" y="124" text-anchor="middle" font-size="10" fill="#b45309">ControlNet = 本项目稀缺类数据增强</text>
+  </g>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 500" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="940" height="500" fill="#fff"/>
+  <text x="470" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">最新·原生多模态：从"晚融合(视觉编码器+适配器接LLM)"走向"早融合(图像也token化、图文统一自回归)"</text>
+
+  <!-- 晚融合 -->
+  <rect x="20" y="44" width="440" height="200" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="240" y="64" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e40af">晚融合 / 适配器式（LLaVA 类，主流 2023）</text>
+  <rect x="40" y="80" width="110" height="40" rx="4" fill="#bfdbfe" stroke="#3b82f6"/><text x="95" y="104" text-anchor="middle" font-size="8.5" fill="#1e40af">视觉编码器(ViT)</text>
+  <text x="155" y="103" font-size="12" fill="#9ca3af">→</text>
+  <rect x="175" y="80" width="90" height="40" rx="4" fill="#fef3c7" stroke="#d97706"/><text x="220" y="100" text-anchor="middle" font-size="8" fill="#b45309">适配器</text><text x="220" y="112" text-anchor="middle" font-size="7.5" fill="#6b7280">MLP/Q-Former</text>
+  <text x="270" y="103" font-size="12" fill="#9ca3af">→</text>
+  <rect x="290" y="80" width="150" height="40" rx="4" fill="#e5e7eb" stroke="#9ca3af"/><text x="365" y="104" text-anchor="middle" font-size="8.5" fill="#374151">LLM（文本为主）</text>
+  <text x="40" y="146" font-size="9" fill="#374151">· 视觉走一条单独的编码器 + 适配器管线</text>
+  <text x="40" y="164" font-size="9" fill="#374151">· 再把视觉 token 拼进以文本为主的 LLM</text>
+  <text x="40" y="184" font-size="9" fill="#b91c1c">· 图文"两套系统缝合"，主要能理解图、</text>
+  <text x="52" y="198" font-size="9" fill="#b91c1c">生成图要另接扩散模型</text>
+  <text x="40" y="220" font-size="8.5" fill="#6b7280">代表：LLaVA / InternVL / Qwen-VL（见 37）</text>
+
+  <!-- 早融合 -->
+  <rect x="480" y="44" width="440" height="200" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="64" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">早融合 / 原生统一（Chameleon 类，2024）</text>
+  <rect x="500" y="80" width="130" height="40" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="565" y="100" text-anchor="middle" font-size="8" fill="#15803d">图像→离散 token</text><text x="565" y="112" text-anchor="middle" font-size="7.5" fill="#6b7280">图像tokenizer(VQ)</text>
+  <rect x="500" y="128" width="130" height="30" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="565" y="147" text-anchor="middle" font-size="8" fill="#15803d">文本→token</text>
+  <text x="635" y="120" font-size="12" fill="#9ca3af">→</text>
+  <rect x="660" y="88" width="240" height="70" rx="5" fill="#a7f3d0" stroke="#16a34a" stroke-width="2"/>
+  <text x="780" y="112" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">单个 Transformer</text>
+  <text x="780" y="128" text-anchor="middle" font-size="8" fill="#374151">图文 token 在一个词表里</text>
+  <text x="780" y="142" text-anchor="middle" font-size="8" fill="#374151">混合自回归（下一个 token）</text>
+  <text x="500" y="182" font-size="9" fill="#374151">· 图像和文本都变成"token"，进同一个模型</text>
+  <text x="500" y="200" font-size="9" fill="#15803d">· 原生统一：既能理解图、也能生成图（同一套自回归）</text>
+  <text x="500" y="220" font-size="8.5" fill="#6b7280">代表：Chameleon（Meta 2024，混合模态早融合）</text>
+
+  <!-- 其他最新 -->
+  <rect x="20" y="256" width="900" height="96" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="470" y="276" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b45309">2024 其他代表性进展</text>
+  <text x="40" y="298" font-size="9.5" fill="#374151">· <tspan font-weight="bold">Qwen2-VL</tspan>：原生动态分辨率（任意分辨率→可变视觉 token，不再强行缩放）+ M-RoPE（多模态旋转位置编码）</text>
+  <text x="40" y="318" font-size="9.5" fill="#374151">· <tspan font-weight="bold">InternVL2</tspan>：放大视觉编码器 + 精细对齐 LLM，开源多模态第一梯队；强 OCR/文档/图表理解</text>
+  <text x="40" y="338" font-size="9.5" fill="#374151">· <tspan font-weight="bold">Chameleon</tspan>：图文同词表混合模态早融合，理解+生成图像统一在一次自回归里</text>
+
+  <!-- 趋势 -->
+  <rect x="20" y="364" width="900" height="94" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="470" y="386" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">趋势：晚融合"缝合" → 早融合"原生统一"</text>
+  <text x="40" y="408" font-size="9" fill="#374151">· 晚融合（LLaVA）：工程简单、复用现成视觉/语言大模型，快速能打，但图文是两套系统缝在一起、生成图要外挂</text>
+  <text x="40" y="426" font-size="9" fill="#374151">· 早融合（Chameleon）：图文同词表、一个模型统一理解与生成，更"原生"，但训练更难、数据与算力要求高</text>
+  <text x="40" y="446" font-size="9" fill="#6b7280">· 实务里两条路并存：要快落地多用晚融合；追求统一生成/最强能力向早融合走。位置编码/动态分辨率是当下工程热点。</text>
+
+  <text x="470" y="478" text-anchor="middle" font-size="8" fill="#6b7280">Chameleon (Meta 2024) · Qwen2-VL (2024) · InternVL2 (2024) —— 承接 [37 LLaVA/InternVL]</text>
+</svg>

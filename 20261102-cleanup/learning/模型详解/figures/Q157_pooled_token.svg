@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="680" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q157 pooled token 是什么：[CLS] 位置的最终向量，靠自注意力吸收全序列信息当"摘要"</text>
+
+  <!-- ① 为什么需要 -->
+  <rect x="20" y="42" width="920" height="110" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="480" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① 为什么需要"代表全局"的向量</text>
+  <text x="40" y="88" font-size="10" fill="#374151">Transformer 输出是「每个位置各自一个向量」：ViLT 输入=[CLS]+文本token+[SEP]+图像patch token，输出形状=(序列长度×d)</text>
+  <text x="40" y="110" font-size="10" fill="#374151">但下游任务(VQA分类"答案是什么"、ITM判断"匹不匹配")要的是<tspan font-weight="bold">1个</tspan>向量接分类头，不是一堆向量 → 需要"池化(pooling)"</text>
+  <text x="40" y="132" font-size="9.5" fill="#6b7280">最简单的池化是对所有token向量取平均(mean pooling)，但BERT系选了另一种做法——见②</text>
+
+  <!-- ② 怎么池化 -->
+  <rect x="20" y="164" width="920" height="200" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="480" y="186" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 不是取平均，是取 [CLS] 位置（BERT 承袭做法）</text>
+  <text x="40" y="210" font-size="10" fill="#374151">1. 序列最前面插入特殊token <tspan font-family="Consolas,monospace" font-weight="bold">[CLS]</tspan>（本身不代表任何真实词/图像块，纯占位符）</text>
+  <text x="40" y="232" font-size="10" fill="#374151">2. 序列过完所有 Transformer 层后，<tspan font-weight="bold">[CLS] 位置最终隐藏向量</tspan> 就被拿来当"pooled 表示"</text>
+  <text x="40" y="254" font-size="10" fill="#15803d">3. 自注意力让每个位置都能"看到"其他所有位置 → [CLS] 虽不携带原始语义，层层自注意力后已<tspan font-weight="bold">汇聚吸收整个序列信息</tspan></text>
+  <g font-size="9.5" font-family="Consolas,monospace">
+    <text x="60" y="284" fill="#374151">输入: [CLS] a man riding [SEP] [patch1][patch2]...[patch196]</text>
+    <text x="60" y="304" fill="#6b7280">          ↓ 过12层Transformer(自注意力让CLS吸收所有token信息)</text>
+    <text x="60" y="324" fill="#374151">输出: [CLS的向量]  [a的向量] [man的向量]...[patch1的向量]...</text>
+    <text x="230" y="342" fill="#15803d" font-weight="bold">└──────┬──────┘</text>
+    <text x="230" y="358" fill="#15803d" font-weight="bold">这就是 "pooled token"</text>
+  </g>
+
+  <!-- ③ ViLT用法 -->
+  <rect x="20" y="378" width="920" height="180" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="480" y="400" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ ViLT 里具体怎么用（单塔，pooled token 吸收的是跨模态信息）</text>
+  <text x="40" y="424" font-size="10" fill="#374151">ViLT 输入=文本token+图像patch token拼一起过<tspan font-weight="bold">同一个</tspan>Transformer（单塔，呼应Q155单塔vs双塔）</text>
+  <text x="40" y="446" font-size="10" fill="#374151">→ [CLS]这次吸收的是<tspan font-weight="bold">跨模态</tspan>信息：文本说了什么 + 图像长什么样，都被自注意力揉进这一个向量</text>
+  <g font-size="9.8">
+    <text x="60" y="474" fill="#1e40af">· ITM(图文匹配)：pooled token → FC → sigmoid → 匹配/不匹配</text>
+    <text x="60" y="496" fill="#6d28d9">· VQA分类：pooled token → FC → 候选答案词表softmax → 选答案</text>
+    <text x="60" y="518" fill="#b91c1c">· MLM/MRM(掩码预测)：<tspan font-weight="bold">不用</tspan>pooled token！用"被遮那个具体位置"的隐藏向量</text>
+    <text x="76" y="536" fill="#b91c1c">道理：猜某个词/区域要用那个位置自己的向量，而非全局摘要</text>
+  </g>
+
+  <!-- 一句话 -->
+  <rect x="20" y="574" width="920" height="90" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="480" y="598" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：pooled token = [CLS]位置的最终向量，靠自注意力"顺便"吸收全序列(全部文本词+全部图像patch)信息，</text>
+  <text x="480" y="620" text-anchor="middle" font-size="9.5" fill="#374151">被当成"这段图文对"的浓缩摘要，喂给需要"整体判断"的下游任务头(分类/匹配)；</text>
+  <text x="480" y="642" text-anchor="middle" font-size="9.5" fill="#374151">区别于MLM/MRM这类需要"某个具体位置"信息的任务(盯着被遮位置)。BERT承袭到ViLT，只是这次CLS吸收的是跨模态信息。</text>
+</svg>

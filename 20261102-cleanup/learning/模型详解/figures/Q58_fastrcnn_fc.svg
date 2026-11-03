@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 430" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="800" height="430" fill="#fff"/>
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Fast R-CNN 的 FC 尾巴：两层共享 FC + 分叉成「分类 / 回归」双头</text>
+  <text x="400" y="44" text-anchor="middle" font-size="11" fill="#6b7280">以 VGG 骨干、VOC 20 类（K=20）为例</text>
+
+  <!-- RoI pooled -->
+  <g font-size="11" text-anchor="middle">
+    <rect x="40" y="70" width="130" height="48" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="105" y="90">RoI Pooling 输出</text><text x="105" y="108" font-size="10" fill="#6b7280">7×7×512</text>
+    <line x1="172" y1="94" x2="214" y2="94" stroke="#9ca3af" marker-end="url(#a)"/><text x="193" y="84" font-size="9" fill="#6b7280">flatten</text>
+    <rect x="216" y="70" width="110" height="48" rx="5" fill="#dbeafe" stroke="#3b82f6"/><text x="271" y="90">拍平向量</text><text x="271" y="108" font-size="10" fill="#6b7280">25088 维</text>
+    <line x1="328" y1="94" x2="368" y2="94" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="370" y="70" width="120" height="48" rx="5" fill="#f3f4f6" stroke="#6b7280"/><text x="430" y="88">FC6</text><text x="430" y="106" font-size="9" fill="#6b7280">25088→4096 +ReLU+Drop</text>
+    <line x1="492" y1="94" x2="528" y2="94" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="530" y="70" width="120" height="48" rx="5" fill="#f3f4f6" stroke="#6b7280"/><text x="590" y="88">FC7</text><text x="590" y="106" font-size="9" fill="#6b7280">4096→4096 +ReLU+Drop</text>
+  </g>
+  <text x="590" y="138" text-anchor="middle" font-size="10.5" fill="#1d4ed8" font-weight="bold">→ 4096 维「RoI 特征向量」</text>
+
+  <!-- split -->
+  <line x1="590" y1="146" x2="320" y2="186" stroke="#9ca3af" marker-end="url(#a)"/>
+  <line x1="590" y1="146" x2="560" y2="186" stroke="#9ca3af" marker-end="url(#a)"/>
+  <text x="420" y="166" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">同一个 4096 向量，分叉成两个并列输出 FC（双头）</text>
+
+  <!-- cls head -->
+  <rect x="70" y="190" width="320" height="120" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="230" y="212" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1d4ed8">① 分类头 FC_cls</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="90" y="224" width="110" height="30" rx="4" fill="#dbeafe" stroke="#3b82f6"/><text x="145" y="243">4096 → 21</text>
+    <line x1="202" y1="239" x2="238" y2="239" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="240" y="224" width="130" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="305" y="243">softmax → 21 概率</text>
+  </g>
+  <text x="86" y="276" font-size="10" fill="#374151">21 = K(20 类) + 1(背景)</text>
+  <text x="86" y="294" font-size="9.5" fill="#6b7280">候选框多为背景，必须有“背景类”兜底</text>
+
+  <!-- bbox head -->
+  <rect x="410" y="190" width="330" height="120" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="575" y="212" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#15803d">② 回归头 FC_bbox</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="430" y="224" width="110" height="30" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="485" y="243">4096 → 84</text>
+    <line x1="542" y1="239" x2="578" y2="239" stroke="#9ca3af" marker-end="url(#a)"/>
+    <rect x="580" y="224" width="140" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="650" y="243">每类 4 个框偏移</text>
+  </g>
+  <text x="426" y="276" font-size="10" fill="#374151">84 = 4 × 21（每个类各一组）</text>
+  <text x="426" y="294" font-size="9.5" fill="#6b7280">4 = (t_x, t_y, t_w, t_h)：中心平移 + 宽高缩放</text>
+
+  <!-- bottom note -->
+  <rect x="70" y="324" width="670" height="90" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="86" y="346" font-size="11" font-weight="bold" fill="#111827">要点</text>
+  <text x="86" y="367" font-size="10.5" fill="#374151">· FC6/FC7 两层<tspan font-weight="bold">共享</tspan>，产出 RoI 特征向量；最后两个 FC 是<tspan font-weight="bold">并列双头</tspan>，各有自己的输出层。</text>
+  <text x="86" y="386" font-size="10.5" fill="#374151">· 推理：先按分类头选出类别 c，再取回归头里<tspan font-weight="bold">第 c 类那 4 个数</tspan>去修正候选框。</text>
+  <text x="86" y="405" font-size="10.5" fill="#b45309">· 两头共享前层、用多任务损失 L=L_cls+λL_loc 一起端到端训（取代 R-CNN 的 SVM+独立回归器）。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 280" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="840" height="280" fill="#fff"/>
+  <text x="420" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">02 RNN 输入输出实例（情感分类，多对一）</text>
+  <text x="420" y="43" text-anchor="middle" font-size="10.5" fill="#6b7280">变长词向量序列进 → 隐藏状态沿时间传递 → 末态 h₃ 出，接分类头</text>
+
+  <!-- input tokens -->
+  <text x="60" y="74" font-size="10" font-weight="bold" fill="#075985">输入：变长序列 “this movie good”（3 个词向量，各 4 维）</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="40" y="84" width="92" height="40" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="86" y="100" fill="#075985" font-weight="bold">x₁ “this”</text>
+    <text x="86" y="115" fill="#374151">[.2,.1,−.3,.0]</text>
+    <rect x="190" y="84" width="92" height="40" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="236" y="100" fill="#075985" font-weight="bold">x₂ “movie”</text>
+    <text x="236" y="115" fill="#374151">[.0,.4,.1,−.2]</text>
+    <rect x="340" y="84" width="92" height="40" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="386" y="100" fill="#075985" font-weight="bold">x₃ “good”</text>
+    <text x="386" y="115" fill="#374151">[.5,.2,.3,.6]</text>
+  </g>
+
+  <!-- RNN cells -->
+  <g font-size="9" text-anchor="middle">
+    <rect x="40" y="150" width="92" height="44" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="86" y="170" fill="#1e40af" font-weight="bold">RNN</text>
+    <text x="86" y="185" fill="#374151">h₁</text>
+    <rect x="190" y="150" width="92" height="44" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="236" y="170" fill="#1e40af" font-weight="bold">RNN</text>
+    <text x="236" y="185" fill="#374151">h₂</text>
+    <rect x="340" y="150" width="92" height="44" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="386" y="170" fill="#1e40af" font-weight="bold">RNN</text>
+    <text x="386" y="185" fill="#374151">h₃=[.7,−.2,.9,.1]</text>
+  </g>
+  <!-- vertical arrows input->cell -->
+  <line x1="86" y1="124" x2="86" y2="148" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+  <line x1="236" y1="124" x2="236" y2="148" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+  <line x1="386" y1="124" x2="386" y2="148" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+  <!-- h flow -->
+  <line x1="132" y1="172" x2="188" y2="172" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#b)"/>
+  <line x1="282" y1="172" x2="338" y2="172" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#b)"/>
+  <text x="160" y="166" text-anchor="middle" font-size="8" fill="#3b82f6">h 传记忆</text>
+  <text x="310" y="166" text-anchor="middle" font-size="8" fill="#3b82f6">参数共享同一套 W</text>
+
+  <!-- 多对一 head -->
+  <line x1="432" y1="172" x2="476" y2="172" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="478" y="148" width="150" height="48" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="553" y="167" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">多对一：取末态 h₃ → 分类头</text>
+  <text x="553" y="185" text-anchor="middle" font-size="9.3" fill="#374151">[正面 0.92, 负面 0.08]</text>
+
+  <line x1="628" y1="172" x2="660" y2="172" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="662" y="152" width="150" height="40" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="737" y="176" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">输出：正面评价 👍</text>
+
+  <text x="420" y="232" text-anchor="middle" font-size="10" fill="#374151">一句话：<tspan font-weight="bold" fill="#0369a1">几个词向量</tspan> 一步步喂进同一个 RNN，记忆 h 累积到 <tspan font-weight="bold" fill="#15803d">末态 h₃</tspan>，再判正/负。</text>
+  <text x="420" y="254" text-anchor="middle" font-size="9.3" fill="#6b7280">变长：2 词或 20 词都行（同一套 W 复用）；要词性标注则改“多对多”——每步都出一个 y_t（见 Q45）。</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker>
+    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3b82f6"/></marker>
+  </defs>
+</svg>

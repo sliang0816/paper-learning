@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="560" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q86 有了位置编码，为什么还不知道“译到哪了”？——位置是“序号”，不是“内容”</text>
+
+  <!-- three layers of info -->
+  <rect x="20" y="48" width="880" height="170" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="460" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">当前位置（要预测下一个词的那个，token=“爱”、位置=2）手上有什么</text>
+
+  <rect x="36" y="80" width="280" height="124" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="176" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">① 位置编码 PE(2)</text>
+  <text x="176" y="122" text-anchor="middle" font-size="9.5" fill="#374151">= “我排在第 3 个槽”</text>
+  <text x="176" y="142" text-anchor="middle" font-size="9" fill="#b91c1c">只编码次序，内容无关</text>
+  <text x="176" y="162" text-anchor="middle" font-size="9" fill="#6b7280">不告诉你位置1写的是</text>
+  <text x="176" y="178" text-anchor="middle" font-size="9" fill="#6b7280">“我”还是“你”还是“猫”</text>
+  <text x="176" y="196" text-anchor="middle" font-size="8.5" fill="#6d28d9">≈ 页码</text>
+
+  <rect x="324" y="80" width="280" height="124" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="464" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">② 当前 token embed(爱)</text>
+  <text x="464" y="122" text-anchor="middle" font-size="9.5" fill="#374151">= “我这个词是 爱”</text>
+  <text x="464" y="142" text-anchor="middle" font-size="9" fill="#b91c1c">只含它自己一个词</text>
+  <text x="464" y="162" text-anchor="middle" font-size="9" fill="#6b7280">看不到前面写过</text>
+  <text x="464" y="178" text-anchor="middle" font-size="9" fill="#6b7280">&lt;BOS&gt; 和 我</text>
+  <text x="464" y="196" text-anchor="middle" font-size="8.5" fill="#b45309">≈ 当前这一页的一个字</text>
+
+  <rect x="612" y="80" width="288" height="124" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="756" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">③ 自注意力读 {&lt;BOS&gt;,我,爱}</text>
+  <text x="756" y="122" text-anchor="middle" font-size="9.5" fill="#374151">= “完整前缀：已写出 我 爱”</text>
+  <text x="756" y="142" text-anchor="middle" font-size="9" fill="#15803d">全部内容 + 顺序都补进来</text>
+  <text x="756" y="162" text-anchor="middle" font-size="9" fill="#374151">→ 才知道 I、love 已译</text>
+  <text x="756" y="178" text-anchor="middle" font-size="9" fill="#374151">→ 接下来该 road</text>
+  <text x="756" y="196" text-anchor="middle" font-size="8.5" fill="#1e40af">≈ 真去翻前几页的内容</text>
+
+  <!-- key line -->
+  <rect x="20" y="232" width="880" height="40" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="257" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">“译到哪了” = 已写出的是哪些词（→覆盖了哪些源词），这是“内容”；位置只给“第几个”（序号）</text>
+
+  <!-- killer example -->
+  <rect x="20" y="288" width="880" height="200" rx="8" fill="#fef2f2" stroke="#f87171"/>
+  <text x="460" y="308" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">杀手例子：位置补不了内容</text>
+
+  <!-- prefix A -->
+  <text x="150" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">前缀 A：[&lt;BOS&gt; 我 爱]</text>
+  <g font-size="9.5">
+    <rect x="40" y="342" width="70" height="24" fill="#fff" stroke="#cbd5e1"/><text x="75" y="358" text-anchor="middle" fill="#6b7280">&lt;BOS&gt; (0)</text>
+    <rect x="115" y="342" width="60" height="24" fill="#fff" stroke="#cbd5e1"/><text x="145" y="358" text-anchor="middle" fill="#374151">我 (1)</text>
+    <rect x="180" y="342" width="70" height="24" fill="#fde68a" stroke="#d97706"/><text x="215" y="358" text-anchor="middle" fill="#92400e">爱 (2)←</text>
+  </g>
+
+  <!-- prefix B -->
+  <text x="640" y="332" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">前缀 B：[&lt;BOS&gt; 你 爱]</text>
+  <g font-size="9.5">
+    <rect x="530" y="342" width="70" height="24" fill="#fff" stroke="#cbd5e1"/><text x="565" y="358" text-anchor="middle" fill="#6b7280">&lt;BOS&gt; (0)</text>
+    <rect x="605" y="342" width="60" height="24" fill="#fff" stroke="#cbd5e1"/><text x="635" y="358" text-anchor="middle" fill="#b91c1c">你 (1)</text>
+    <rect x="670" y="342" width="70" height="24" fill="#fde68a" stroke="#d97706"/><text x="705" y="358" text-anchor="middle" fill="#92400e">爱 (2)←</text>
+  </g>
+
+  <text x="460" y="392" text-anchor="middle" font-size="10" fill="#374151">最后位置：<tspan font-weight="bold">token 都是“爱”、位置都是 2</tspan></text>
+
+  <rect x="60" y="404" width="360" height="64" rx="6" fill="#fff" stroke="#fca5a5"/>
+  <text x="240" y="424" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b91c1c">没有自注意力</text>
+  <text x="240" y="442" text-anchor="middle" font-size="9" fill="#374151">A、B 在 position 2 的表示<tspan font-weight="bold">一模一样</tspan></text>
+  <text x="240" y="459" text-anchor="middle" font-size="9" fill="#b91c1c">分不出位置1是“我”还是“你”</text>
+
+  <rect x="500" y="404" width="360" height="64" rx="6" fill="#fff" stroke="#86efac"/>
+  <text x="680" y="424" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">有自注意力</text>
+  <text x="680" y="442" text-anchor="middle" font-size="9" fill="#374151">当前位置去读位置1的<tspan font-weight="bold">内容</tspan></text>
+  <text x="680" y="459" text-anchor="middle" font-size="9" fill="#15803d">→ 看到“我”/“你” → 区分开</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="500" width="880" height="48" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="520" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">位置编码管“第几个”(序号)，自注意力管“前面写了什么”(内容)</text>
+  <text x="460" y="538" text-anchor="middle" font-size="9.5" fill="#374151">“译到哪了”问的是内容 → 位置信息有了也不够，仍需自注意力去读前缀（呼应 Q85）</text>
+</svg>

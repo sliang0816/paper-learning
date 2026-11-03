@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 210" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="210" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">04 CNN 总纲 输入输出实例（卷积层不挑尺寸，FC 头才焊死）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">图像张量 H×W×C 进 → 卷积/池化堆叠 → 特征图 → 接什么头出什么（类别 / 框 / 掩码）</text>
+
+  <rect x="22" y="66" width="120" height="74" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="82" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#075985">输入图像</text>
+  <text x="82" y="105" text-anchor="middle" font-size="9.3" fill="#374151">H×W×3</text>
+  <text x="82" y="123" text-anchor="middle" font-size="8" fill="#6b7280">如 224×224×3</text>
+
+  <line x1="142" y1="103" x2="172" y2="103" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="174" y="62" width="190" height="82" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="269" y="82" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e40af">卷积 + 池化 堆叠</text>
+  <text x="269" y="100" text-anchor="middle" font-size="8.5" fill="#374151">卷积核滑窗（权重共享、局部连接）</text>
+  <text x="269" y="116" text-anchor="middle" font-size="8.5" fill="#374151">逐级缩空间、增通道</text>
+  <text x="269" y="132" text-anchor="middle" font-size="8" fill="#6b7280">卷积本身不挑输入尺寸（Q44）</text>
+
+  <line x1="364" y1="103" x2="394" y2="103" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="396" y="68" width="130" height="70" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="461" y="88" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#6d28d9">特征图</text>
+  <text x="461" y="106" text-anchor="middle" font-size="8.5" fill="#374151">7×7×512</text>
+  <text x="461" y="123" text-anchor="middle" font-size="8" fill="#6b7280">压缩的语义表示</text>
+
+  <line x1="526" y1="103" x2="556" y2="103" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="558" y="62" width="240" height="82" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="678" y="82" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">接不同的“头”→ 不同输出</text>
+  <text x="570" y="100" font-size="8.4" fill="#374151">· FC 头 → 1000 类概率（分类）</text>
+  <text x="570" y="116" font-size="8.4" fill="#374151">· 检测头 → 框 + 类别</text>
+  <text x="570" y="132" font-size="8.4" fill="#6b7280">· FC 把尺寸焊死，全卷积则任意尺寸</text>
+
+  <text x="410" y="178" text-anchor="middle" font-size="9.6" fill="#374151">一句话：CNN = “卷积/池化提特征 + 末端接头出结果”。05–13 各网络只是<tspan font-weight="bold" fill="#0369a1">同一套零件的不同搭法</tspan>。</text>
+  <text x="410" y="198" text-anchor="middle" font-size="9" fill="#6b7280">下面每篇的 I/O 实例都遵循这个骨架，只在“怎么搭、具体数值”上不同。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 450" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="450" fill="#fff"/>
+  <text x="380" y="27" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">GPT：Decoder-only，单向因果自回归生成</text>
+
+  <!-- Input tokens -->
+  <rect x="190" y="46" width="380" height="38" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="380" y="62" text-anchor="middle" font-size="11">输入 Token 序列</text>
+  <text x="380" y="77" text-anchor="middle" font-size="10" fill="#6b7280">+ 位置编码（Positional Embedding）</text>
+  <line x1="380" y1="84" x2="380" y2="102" stroke="#374151" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <!-- Decoder Block outer box -->
+  <rect x="60" y="104" width="640" height="222" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="380" y="122" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">Decoder Block × N（GPT-1:12层 / GPT-2:48层 / GPT-3:96层）</text>
+
+  <!-- Inner: Masked Self-Attention -->
+  <rect x="84" y="130" width="592" height="60" rx="6" fill="#ede9fe" stroke="#a78bfa"/>
+  <text x="380" y="150" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#6d28d9">掩码多头自注意力（Causal Self-Attention）</text>
+  <text x="380" y="168" text-anchor="middle" font-size="10.5" fill="#6d28d9">Q, K, V 均来自同一序列；因果掩码禁止每个位置看"未来"token</text>
+  <text x="380" y="184" text-anchor="middle" font-size="9.5" fill="#7c3aed">→ 自回归性保证：生成第 t 步时只用 x₁…x_{t-1}</text>
+
+  <!-- Residual+LN 1 -->
+  <text x="380" y="204" text-anchor="middle" font-size="10.5" fill="#374151">↓  +残差连接  +LayerNorm</text>
+
+  <!-- Inner: FFN -->
+  <rect x="84" y="212" width="592" height="60" rx="6" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="380" y="232" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1d4ed8">前馈网络（FFN）：两层 MLP + GELU 激活</text>
+  <text x="380" y="250" text-anchor="middle" font-size="10.5" fill="#1d4ed8">Linear(d) → GELU → Linear(d)，hidden = 4×d_model，逐位置独立</text>
+  <text x="380" y="266" text-anchor="middle" font-size="9.5" fill="#3b82f6">GPT-3: d_model=12288，hidden=49152，参数量主要在此</text>
+
+  <!-- Residual+LN 2 -->
+  <text x="380" y="286" text-anchor="middle" font-size="10.5" fill="#374151">↓  +残差连接  +LayerNorm</text>
+
+  <!-- x N label -->
+  <text x="688" y="220" text-anchor="middle" font-size="24" fill="#7c3aed" opacity="0.4">}</text>
+  <text x="706" y="222" font-size="10" fill="#7c3aed">×N</text>
+
+  <!-- Arrow out of decoder -->
+  <line x1="380" y1="326" x2="380" y2="344" stroke="#374151" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <!-- Linear + Softmax -->
+  <rect x="190" y="346" width="380" height="38" rx="6" fill="#d1fae5" stroke="#059669"/>
+  <text x="380" y="363" text-anchor="middle" font-size="11" fill="#065f46">线性投影 + Softmax（词表 ~50K）</text>
+  <text x="380" y="379" text-anchor="middle" font-size="9.5" fill="#6b7280">输出下一个词的概率分布</text>
+  <line x1="380" y1="384" x2="380" y2="400" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="4 2" marker-end="url(#ay)"/>
+
+  <!-- Predicted token -->
+  <rect x="260" y="402" width="240" height="34" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-dasharray="4 2"/>
+  <text x="380" y="416" text-anchor="middle" font-size="11">预测下一个词</text>
+  <text x="380" y="430" text-anchor="middle" font-size="9.5" fill="#92400e">拼回输入序列 → 循环生成（自回归）</text>
+
+  <!-- BERT vs GPT comparison -->
+  <rect x="18" y="446" width="724" height="0" rx="0"/>
+  <!-- (note at bottom, use text instead) -->
+
+  <!-- Bottom comparison note -->
+  <text x="380" y="446" text-anchor="middle" font-size="10" fill="#6b7280">BERT（Encoder-only，双向）：看完整上下文 → 擅长理解 ‖ GPT（Decoder-only，单向因果）→ 擅长生成；CLIP 文本编码器即 GPT 式单向 Transformer</text>
+
+  <defs>
+    <marker id="a"  markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker>
+    <marker id="ay" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#ca8a04"/></marker>
+  </defs>
+</svg>

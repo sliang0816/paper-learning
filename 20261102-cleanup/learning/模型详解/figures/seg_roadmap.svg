@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="960" height="600" fill="#fff"/>
+  <text x="480" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">图像分割论文脉络：入门 → 最新</text>
+  <text x="480" y="46" text-anchor="middle" font-size="10" fill="#6b7280">主线：逐像素分类 → 编解码补分辨率 → 检测再分割(实例) → Transformer → mask 分类统一 → 可提示通用（✅=本库已有doc）</text>
+
+  <line x1="60" y1="66" x2="60" y2="560" stroke="#cbd5e1" stroke-width="2"/>
+
+  <!-- FCN -->
+  <circle cx="60" cy="90" r="5" fill="#16a34a"/>
+  <rect x="80" y="72" width="860" height="40" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="92" y="87" font-size="10" font-weight="bold" fill="#15803d">2015 语义分割开山 · FCN（全卷积）</text>
+  <text x="92" y="102" font-size="8.5" fill="#374151">把全连接换成卷积→逐像素稠密预测；转置卷积上采样 + 跳跃融合(32s/16s/8s)　⟵ 40</text>
+
+  <!-- U-Net/SegNet -->
+  <circle cx="60" cy="138" r="5" fill="#16a34a"/>
+  <rect x="80" y="120" width="860" height="40" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="92" y="135" font-size="10" font-weight="bold" fill="#15803d">2015 编码-解码 + 跳跃 · U-Net✅ / SegNet</text>
+  <text x="92" y="150" font-size="8.5" fill="#374151">对称编解码、跳跃连接补回细节；医学分割经典、后来也当扩散骨干　⟵ 38✅</text>
+
+  <!-- DeepLab -->
+  <circle cx="60" cy="186" r="5" fill="#3b82f6"/>
+  <rect x="80" y="168" width="860" height="40" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="92" y="183" font-size="10" font-weight="bold" fill="#1e40af">2015–18 空洞卷积 + 多尺度 · DeepLab v1–v3+</text>
+  <text x="92" y="198" font-size="8.5" fill="#374151">空洞(膨胀)卷积扩感受野不丢分辨率；ASPP 并行多膨胀率抓多尺度；v3+ 加解码器修边界　⟵ 41</text>
+
+  <!-- PSPNet/HRNet -->
+  <circle cx="60" cy="234" r="5" fill="#3b82f6"/>
+  <rect x="80" y="216" width="860" height="40" rx="5" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="92" y="231" font-size="10" font-weight="bold" fill="#1e40af">2017–19 多尺度语境 / 高分辨率 · PSPNet · HRNet</text>
+  <text x="92" y="246" font-size="8.5" fill="#374151">PSPNet 金字塔池化聚全局语境；HRNet 全程保持高分辨率并行多尺度（roadmap 提及）</text>
+
+  <!-- Mask R-CNN -->
+  <circle cx="60" cy="282" r="5" fill="#d97706"/>
+  <rect x="80" y="264" width="860" height="40" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="92" y="279" font-size="10" font-weight="bold" fill="#b45309">2017 实例分割 · Mask R-CNN（检测再分割）</text>
+  <text x="92" y="294" font-size="8.5" fill="#374151">Faster R-CNN + 并行 mask 分支；RoIAlign 修对齐；每个实例出框+类+掩码　⟵ 42</text>
+
+  <!-- SegFormer -->
+  <circle cx="60" cy="330" r="5" fill="#8b5cf6"/>
+  <rect x="80" y="312" width="860" height="40" rx="5" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="92" y="327" font-size="10" font-weight="bold" fill="#6d28d9">2021 Transformer 语义分割 · SegFormer</text>
+  <text x="92" y="342" font-size="8.5" fill="#374151">分层 Transformer 编码器出多尺度 + 全 MLP 轻量解码器；无位置编码、又快又强　⟵ 43</text>
+
+  <!-- MaskFormer -->
+  <circle cx="60" cy="378" r="5" fill="#db2777"/>
+  <rect x="80" y="360" width="860" height="40" rx="5" fill="#fce7f3" stroke="#db2777"/>
+  <text x="92" y="375" font-size="10" font-weight="bold" fill="#be185d">2021–22 mask 分类统一 · MaskFormer / Mask2Former</text>
+  <text x="92" y="390" font-size="8.5" fill="#374151">把分割改成"一组 query 各预测一个掩码+类别"(DETR式)→语义/实例/全景一套框架　⟵ 44</text>
+
+  <!-- SAM -->
+  <circle cx="60" cy="426" r="5" fill="#0891b2"/>
+  <rect x="80" y="408" width="860" height="40" rx="5" fill="#cffafe" stroke="#0891b2"/>
+  <text x="92" y="423" font-size="10" font-weight="bold" fill="#0e7490">2023–24 可提示通用分割 · SAM✅ / SAM 2</text>
+  <text x="92" y="438" font-size="8.5" fill="#374151">点/框/文提示 → 任意目标掩码；重编码器跑一次+轻解码器多次；SAM2 扩到视频　⟵ 36✅</text>
+
+  <!-- 三种任务 -->
+  <rect x="60" y="462" width="880" height="60" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="500" y="482" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">三种分割任务（先分清）</text>
+  <text x="80" y="502" font-size="9" fill="#374151">· 语义分割：每个像素分一个类（不分个体）　· 实例分割：每个物体一个独立掩码（分个体）</text>
+  <text x="80" y="516" font-size="9" fill="#374151">· 全景分割：语义 + 实例合一（背景按类、前景按个体）——MaskFormer/Mask2Former 一套框架全包</text>
+
+  <!-- 主线 -->
+  <rect x="60" y="532" width="880" height="60" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="500" y="552" text-anchor="middle" font-size="11" font-weight="bold" fill="#a16207">两条贯穿主线</text>
+  <text x="80" y="572" font-size="9" fill="#374151">① 分辨率↔感受野矛盾：下采样丢细节 → 转置卷积/跳跃(FCN/U-Net)、空洞卷积(DeepLab)、保持高分辨率(HRNet) 各解一招</text>
+  <text x="80" y="586" font-size="9" fill="#374151">② 范式统一：逐像素分类 → mask 分类(MaskFormer 把语义/实例/全景统一) → 可提示通用(SAM)</text>
+</svg>

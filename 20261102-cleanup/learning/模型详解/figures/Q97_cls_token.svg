@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 470" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="920" height="470" fill="#fff"/>
+  <text x="460" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q97 [CLS] token 是什么、怎么实现——一个可学习的"整句摘要"槽</text>
+
+  <!-- pipeline -->
+  <text x="70" y="56" font-size="10" font-weight="bold" fill="#374151">① 拼一个 [CLS] 到最前（可学习、无真实词义）</text>
+  <g font-size="9.5">
+    <rect x="40" y="66" width="70" height="28" rx="4" fill="#ede9fe" stroke="#8b5cf6"/><text x="75" y="84" text-anchor="middle" font-weight="bold" fill="#6d28d9">[CLS]</text>
+    <rect x="116" y="66" width="60" height="28" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="146" y="84" text-anchor="middle" fill="#374151">路面</text>
+    <rect x="182" y="66" width="50" height="28" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="207" y="84" text-anchor="middle" fill="#374151">上</text>
+    <rect x="238" y="66" width="50" height="28" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="263" y="84" text-anchor="middle" fill="#374151">有</text>
+    <rect x="294" y="66" width="70" height="28" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="329" y="84" text-anchor="middle" fill="#374151">抛洒物</text>
+  </g>
+
+  <text x="70" y="122" font-size="10" font-weight="bold" fill="#374151">② 一起过 Transformer 层；自注意力是满的 → [CLS] attend 到所有词</text>
+  <rect x="40" y="132" width="324" height="60" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="202" y="152" text-anchor="middle" font-size="9.5" fill="#1e40af">Transformer 编码器 ×L（双向/满注意力）</text>
+  <text x="202" y="172" text-anchor="middle" font-size="8.5" fill="#374151">[CLS] 把全句信息聚合进自己</text>
+  <text x="202" y="186" text-anchor="middle" font-size="8" fill="#6b7280">（自注意力=跨 token 聚合，[CLS] 是"聚合进自己"的槽）</text>
+  <!-- attention arrows into CLS -->
+  <line x1="146" y1="94" x2="80" y2="130" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="207" y1="94" x2="82" y2="130" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="329" y1="94" x2="84" y2="130" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
+
+  <text x="470" y="122" font-size="10" font-weight="bold" fill="#374151">③ 取 [CLS] 最终向量 → 分类头</text>
+  <line x1="364" y1="162" x2="410" y2="162" stroke="#9ca3af" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="412" y="132" width="150" height="60" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="487" y="156" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#6d28d9">[CLS] 最终向量</text>
+  <text x="487" y="174" text-anchor="middle" font-size="8.5" fill="#374151">= 整句摘要</text>
+  <line x1="562" y1="162" x2="600" y2="162" stroke="#9ca3af" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="602" y="132" width="150" height="60" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="677" y="156" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">分类头（小线性）</text>
+  <text x="677" y="174" text-anchor="middle" font-size="8.5" fill="#374151">→ 类别</text>
+  <text x="600" y="210" font-size="8.5" fill="#6b7280">④ 训练时梯度逼 [CLS] 学成好用的摘要向量</text>
+
+  <!-- is it only for classification -->
+  <rect x="20" y="228" width="880" height="110" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="460" y="248" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">是不是"只为分类"？——主要是（序列级任务）</text>
+  <text x="40" y="270" font-size="9.5" fill="#374151">· [CLS] = "序列级表示"的槽：给需要"<tspan font-weight="bold">一个向量代表整条输入</tspan>"的任务——分类、句对判断、句向量</text>
+  <text x="40" y="290" font-size="9.5" fill="#374151">· <tspan font-weight="bold">token 级任务</tspan>（如 NER 逐词标注）<tspan font-weight="bold">不用它</tspan>，用每个 token 自己的输出向量</text>
+  <text x="40" y="312" font-size="9.5" fill="#374151">· 为什么用专门 token 而非平均所有 token：[CLS] <tspan font-weight="bold">内容中立、可学习</tspan>，靠注意力学"该汇总什么"</text>
+  <text x="56" y="330" font-size="9" fill="#6b7280">（mean pooling 平均也行，如 Sentence-BERT；[CLS] 是 BERT/ViT 经典设计，非唯一选择）</text>
+
+  <!-- conclusion -->
+  <rect x="20" y="352" width="880" height="100" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="460" y="374" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">一句话</text>
+  <text x="460" y="396" text-anchor="middle" font-size="9.5" fill="#374151">[CLS] = 一个可学习、内容中立的"整句摘要"槽；靠满注意力把全序列聚合进自己，取它的最终向量接分类头做序列级任务。</text>
+  <text x="460" y="418" text-anchor="middle" font-size="9.5" fill="#6d28d9">主要用于分类等"一个向量代表整句"的任务；token 级任务用各 token 自己的向量。</text>
+  <text x="460" y="440" text-anchor="middle" font-size="9" fill="#6b7280">ViT 也照搬这套：图切 patch 当 token + 一个 [CLS]，用 [CLS] 输出做图像分类（见 Q98）</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

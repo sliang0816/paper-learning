@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="760" height="250" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">YOLOv1（2016）：网格 + 全连接直接回归（起点）</text>
+
+  <!-- 输入 -->
+  <rect x="24" y="86" width="60" height="60" rx="4" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="54" y="112" text-anchor="middle" font-size="11" fill="#0369a1">输入</text>
+  <text x="54" y="128" text-anchor="middle" font-size="9" fill="#6b7280">448×448</text>
+
+  <!-- Backbone -->
+  <rect x="110" y="78" width="180" height="76" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="200" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">骨干 Backbone</text>
+  <text x="200" y="120" text-anchor="middle" font-size="10.5" fill="#374151">24 个卷积层</text>
+  <text x="200" y="138" text-anchor="middle" font-size="9.5" fill="#6b7280">GoogLeNet 式（无残差）</text>
+
+  <!-- 无颈部 -->
+  <rect x="312" y="86" width="120" height="60" rx="6" fill="#f3f4f6" stroke="#9ca3af" stroke-dasharray="5 3"/>
+  <text x="372" y="112" text-anchor="middle" font-size="11" fill="#9ca3af">无颈部 Neck</text>
+  <text x="372" y="130" text-anchor="middle" font-size="9" fill="#9ca3af">（单尺度）</text>
+
+  <!-- Head: FC -->
+  <rect x="454" y="78" width="150" height="76" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="529" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">检测头 Head</text>
+  <text x="529" y="120" text-anchor="middle" font-size="10.5" fill="#374151">2 个全连接 FC</text>
+  <text x="529" y="138" text-anchor="middle" font-size="9.5" fill="#6b7280">直接回归坐标</text>
+
+  <!-- 输出 -->
+  <rect x="626" y="86" width="110" height="60" rx="4" fill="#fce7f3" stroke="#db2777"/>
+  <text x="681" y="110" text-anchor="middle" font-size="11" fill="#be185d">输出 7×7×30</text>
+  <text x="681" y="128" text-anchor="middle" font-size="9" fill="#6b7280">单尺度·无anchor</text>
+
+  <g stroke="#374151" stroke-width="1.5">
+    <line x1="84" y1="116" x2="108" y2="116" marker-end="url(#a)"/>
+    <line x1="290" y1="116" x2="310" y2="116" marker-end="url(#a)"/>
+    <line x1="432" y1="116" x2="452" y2="116" marker-end="url(#a)"/>
+    <line x1="604" y1="116" x2="624" y2="116" marker-end="url(#a)"/>
+  </g>
+
+  <rect x="24" y="176" width="712" height="58" rx="8" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="40" y="198" font-size="11" fill="#374151">特点：把图分 7×7 网格，每格直接预测 2 个框 + 类别。一次前向出结果 → 实时（45 fps）。</text>
+  <text x="40" y="216" font-size="11" fill="#b45309">三大短板（后续各代逐一修补）：① 单尺度 → 小目标差；② 无 anchor、FC 回归 → 定位粗、召回低；③ 每格仅 2 框 → 密集目标漏检。</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker></defs>
+</svg>

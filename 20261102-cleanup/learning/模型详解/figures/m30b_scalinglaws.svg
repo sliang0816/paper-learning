@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="460" fill="#fff"/>
+  <text x="490" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Scaling Laws：损失随参数量/数据量/算力呈幂律下降</text>
+
+  <!-- 三张幂律图示意 -->
+  <rect x="30" y="48" width="290" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="175" y="70" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e40af">Loss vs 参数量 N</text>
+  <path d="M 50 170 Q 120 160 175 130 T 300 70" fill="none" stroke="#1e40af" stroke-width="2.5"/>
+  <text x="175" y="185" text-anchor="middle" font-size="9.5" fill="#374151">log-log坐标下近似直线(幂律)</text>
+
+  <rect x="345" y="48" width="290" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="70" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#15803d">Loss vs 数据量 D</text>
+  <path d="M 365 170 Q 435 160 490 130 T 615 70" fill="none" stroke="#15803d" stroke-width="2.5"/>
+  <text x="490" y="185" text-anchor="middle" font-size="9.5" fill="#374151">跨越7个数量级仍成立</text>
+
+  <rect x="660" y="48" width="290" height="150" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="805" y="70" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#b91c1c">Loss vs 算力 C</text>
+  <path d="M 680 170 Q 750 160 805 130 T 930 70" fill="none" stroke="#b91c1c" stroke-width="2.5"/>
+  <text x="805" y="185" text-anchor="middle" font-size="9.5" fill="#374151">未观察到上限拐点</text>
+
+  <!-- 核心发现 -->
+  <rect x="30" y="212" width="920" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="234" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">三个核心发现</text>
+  <text x="50" y="258" font-size="10.5" font-weight="bold" fill="#6d28d9">① 强依赖"规模"，弱依赖"形状"</text>
+  <text x="50" y="278" font-size="9.5" fill="#374151">性能主要由N/D/C三者决定；深度vs宽度这类架构细节，在合理范围内影响很小</text>
+  <text x="500" y="258" font-size="10.5" font-weight="bold" fill="#6d28d9">② N和D要同步放大，否则过拟合</text>
+  <text x="500" y="278" font-size="9.5" fill="#374151">损失惩罚项∝N^0.74/D——模型放大8倍，数据只需放大约5倍即可避免过拟合惩罚</text>
+  <text x="50" y="308" font-size="10.5" font-weight="bold" fill="#6d28d9">③ 大模型样本效率更高</text>
+  <text x="50" y="328" font-size="9.5" fill="#374151">同样性能，大模型需要更少的训练步数和更少的数据点——这是"把模型做大"划算的直接原因</text>
+
+  <!-- 最优算力分配 -->
+  <rect x="30" y="356" width="920" height="90" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="490" y="380" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">给定固定算力预算，怎么分配最划算——反直觉结论</text>
+  <text x="490" y="404" text-anchor="middle" font-size="10" fill="#374151">最优策略是训练非常大的模型，且不追求收敛——训到"远未收敛"就提前停止，比把小模型训到收敛更省算力</text>
+  <text x="490" y="426" text-anchor="middle" font-size="10" fill="#374151">数据需求随算力增长极慢(D∝C^0.27)——这正是GPT-2→GPT-3"越做越大"这条路线的实证依据</text>
+</svg>

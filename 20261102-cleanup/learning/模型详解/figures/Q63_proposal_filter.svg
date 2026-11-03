@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="800" height="460" fill="#fff"/>
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">RPN 候选框漏斗：所有 anchor → 按分数取 top → NMS → 取 top-300</text>
+  <text x="400" y="44" text-anchor="middle" font-size="11" fill="#6b7280">起点是“所有 anchor”（≈上万个），不是“4k 个”——4k 是回归头通道数，不是框数</text>
+
+  <!-- misconception callout -->
+  <rect x="470" y="60" width="310" height="92" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="486" y="80" font-size="11" font-weight="bold" fill="#b91c1c">✗ “从 4k 个框里筛” 的误解</text>
+  <text x="486" y="100" font-size="9.5" fill="#374151">reg 头写成 H×W×(4k)：4k 是<tspan font-weight="bold">通道数</tspan></text>
+  <text x="486" y="115" font-size="9.5" fill="#374151">= 每位置 k 个 anchor × 各 4 个坐标。</text>
+  <text x="486" y="132" font-size="9.5" fill="#b91c1c">候选框总数 = anchor 数 = H×W×k</text>
+  <text x="486" y="147" font-size="9.5" fill="#6b7280">（如 60×40×9 ≈ 2 万），不是 4k。</text>
+
+  <!-- funnel steps -->
+  <g font-size="11" text-anchor="middle">
+    <!-- step1 -->
+    <rect x="60" y="70" width="360" height="44" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="240" y="89" font-weight="bold">① 所有 anchor ≈ 20000</text>
+    <text x="240" y="105" font-size="9.5" fill="#6b7280">每个 anchor 配：objectness 分 + 4 个偏移 → 应用偏移得 2 万个候选框</text>
+    <line x1="240" y1="116" x2="240" y2="138" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+
+    <!-- step2 -->
+    <rect x="100" y="140" width="280" height="44" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="240" y="159" font-weight="bold">② 按 objectness 排序，取 pre-NMS top-N</text>
+    <text x="240" y="175" font-size="9.5" fill="#6b7280">≈ 6000（测试）；并裁到图像边界、删过小框</text>
+    <line x1="240" y1="186" x2="240" y2="208" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+
+    <!-- step3 -->
+    <rect x="135" y="210" width="210" height="44" rx="6" fill="#fef3c7" stroke="#d97706"/>
+    <text x="240" y="229" font-weight="bold" fill="#b45309">③ NMS（IoU 阈值 0.7）</text>
+    <text x="240" y="245" font-size="9.5" fill="#6b7280">去掉互相高度重叠的框</text>
+    <line x1="240" y1="256" x2="240" y2="278" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+
+    <!-- step4 -->
+    <rect x="160" y="280" width="160" height="44" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="240" y="299" font-weight="bold" fill="#15803d">④ 取 post-NMS top-300</text>
+    <text x="240" y="315" font-size="9.5" fill="#6b7280">训练时常留 2000</text>
+    <line x1="240" y1="326" x2="240" y2="348" stroke="#9ca3af" stroke-width="1.3" marker-end="url(#a)"/>
+
+    <!-- output -->
+    <rect x="160" y="350" width="160" height="38" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+    <text x="240" y="374" font-weight="bold" fill="#15803d">~300 proposals → 第二阶段</text>
+  </g>
+
+  <!-- right side note -->
+  <rect x="470" y="170" width="310" height="120" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="486" y="190" font-size="11" font-weight="bold" fill="#15803d">✓ 是 NMS，但不止 NMS</text>
+  <text x="486" y="211" font-size="9.8" fill="#374151">完整 = 应用偏移 → 按分数 top → NMS → 再 top。</text>
+  <text x="486" y="229" font-size="9.8" fill="#374151">NMS 前后各有一次“按 objectness 取 top-N”，</text>
+  <text x="486" y="245" font-size="9.8" fill="#374151">所以不是“只靠 NMS 从 2 万降到 300”。</text>
+  <text x="486" y="266" font-size="9.5" fill="#6b7280">这里 NMS 用的是 objectness 分（类别无关），</text>
+  <text x="486" y="281" font-size="9.5" fill="#6b7280">第二阶段输出后还会再做一次按类 NMS。</text>
+
+  <text x="625" y="320" text-anchor="middle" font-size="10" fill="#6b7280">数字随实现/输入尺寸变，</text>
+  <text x="625" y="336" text-anchor="middle" font-size="10" fill="#6b7280">量级记“万 → 6000 → 300”即可。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

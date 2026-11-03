@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 860" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="980" height="860" fill="#fff"/>
+  <text x="490" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Q163 Flamingo：Perceiver 重采样器（打包成固定尺寸）+ 门控交叉注意力（安全地喂给冻结LLM）</text>
+
+  <!-- ① Perceiver Resampler -->
+  <rect x="20" y="42" width="940" height="230" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="490" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">① Perceiver 重采样器：把"数量不定"的视觉特征压成"数量固定"的视觉token</text>
+  <text x="40" y="88" font-size="9.8" fill="#374151">问题：一张图 vs 十帧视频，冻结视觉编码器吐出的特征数量随输入暴涨；后面接LLM，token数不能跟着涨</text>
+  <rect x="40" y="102" width="290" height="70" rx="5" fill="#fff" stroke="#60a5fa"/>
+  <text x="185" y="122" text-anchor="middle" font-size="9.5" fill="#374151">一张图→视觉编码器</text>
+  <text x="185" y="140" text-anchor="middle" font-size="9.5" fill="#374151">→一堆patch特征(数量A)</text>
+  <rect x="350" y="102" width="290" height="70" rx="5" fill="#fff" stroke="#60a5fa"/>
+  <text x="495" y="122" text-anchor="middle" font-size="9.5" fill="#374151">十帧视频→视觉编码器</text>
+  <text x="495" y="140" text-anchor="middle" font-size="9.5" fill="#b91c1c">→帧×patch特征(数量B≫A)</text>
+  <text x="490" y="196" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1e40af">64个可学习query向量 做交叉注意力 → 不管输入多大，输出永远固定64个视觉token</text>
+  <text x="40" y="222" font-size="9.5" fill="#15803d">与Q113 Q-Former/Q161 32-query同源(Perceiver式：学习query+交叉注意力=固定尺寸蒸馏)</text>
+  <text x="40" y="244" font-size="9.5" fill="#b45309">关键区别：Q-Former偏"对齐语言语义"；Resampler偏"标准化输入尺寸、让下游算力可控"，还没让LLM看到图</text>
+
+  <!-- ② Gated Cross-Attention -->
+  <rect x="20" y="284" width="940" height="340" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="490" y="306" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">② 门控交叉注意力：冻结LLM层间插新层，用tanh(α)从0开始平滑"睁眼"</text>
+  <text x="40" y="330" font-size="9.8" fill="#374151">问题：LLM全程冻结(不许改)，怎么让它看到视觉token？——在LLM原有层之间<tspan font-weight="bold">插入</tspan>新的可训练层</text>
+  <g font-size="9.5" font-family="Consolas,monospace">
+    <rect x="60" y="344" width="180" height="26" fill="#e5e7eb" stroke="#9ca3af"/><text x="150" y="362" text-anchor="middle" fill="#374151">冻结LLM Block 1</text>
+    <rect x="270" y="344" width="200" height="26" fill="#bbf7d0" stroke="#16a34a"/><text x="370" y="362" text-anchor="middle" fill="#15803d" font-weight="bold">新插入 Gated XAttn+Dense</text>
+    <rect x="500" y="344" width="180" height="26" fill="#e5e7eb" stroke="#9ca3af"/><text x="590" y="362" text-anchor="middle" fill="#374151">冻结LLM Block 2</text>
+    <rect x="710" y="344" width="200" height="26" fill="#bbf7d0" stroke="#16a34a"/><text x="810" y="362" text-anchor="middle" fill="#15803d" font-weight="bold">新插入 Gated XAttn+Dense</text>
+  </g>
+  <text x="40" y="398" font-size="9.5" fill="#374151">新层做两件事：①<tspan font-weight="bold">交叉注意力</tspan>——LLM文本表示当Query，Resampler吐出的64个视觉token当K/V(掩码令每段文字只看它前面出现过的图)</text>
+  <text x="40" y="418" font-size="9.5" fill="#374151">②一个小<tspan font-weight="bold">前馈网络(Dense)</tspan>——结构类似普通Transformer层的交叉注意力+FFN</text>
+  <rect x="40" y="436" width="900" height="70" rx="5" fill="#fff" stroke="#f59e0b"/>
+  <text x="490" y="456" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">门控的点睛之笔</text>
+  <text x="490" y="478" text-anchor="middle" font-size="11" font-family="Consolas,monospace" fill="#374151">新层输出 = tanh(α) × (交叉注意力/FFN算出来的结果)　　α 初始化为 0</text>
+  <text x="490" y="498" text-anchor="middle" font-size="9.5" fill="#b91c1c">tanh(0)=0 → 训练刚开始新层贡献=0，整个网络等价于纯冻结LLM(语言能力毫发无损)</text>
+  <text x="40" y="530" font-size="9.5" fill="#374151"><tspan font-weight="bold">为何要这样</tspan>：若新层随机初始化直接参与，一开始输出是随机噪声，会瞬间搅乱LLM娇贵的预训练表示流</text>
+  <text x="40" y="550" font-size="9.5" fill="#15803d" font-weight="bold">门控归零 → 训练推进α偏离0、门逐渐打开 → 视觉信息平滑渐进引入，不会一上来冲垮预训练能力</text>
+  <text x="40" y="574" font-size="9" fill="#6b7280">对照CoCa(Q162)：CoCa整个解码器从零联合训练，无"保护已有能力"顾虑，不需要门控；Flamingo是往已冻结的LLM里插入新组件，多一层稳定性工程问题</text>
+  <text x="40" y="596" font-size="9" fill="#6b7280">交错掩码支持多图对话：图1后的文字只attend图1，图2后的文字能attend图1+图2，不会"偷看"还没出现的图</text>
+
+  <!-- ③ 串联流程 -->
+  <rect x="20" y="638" width="940" height="130" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="490" y="660" text-anchor="middle" font-size="12" font-weight="bold" fill="#6d28d9">③ 两者接力：打包 → 安全地喂</text>
+  <text x="490" y="686" text-anchor="middle" font-size="10" font-family="Consolas,monospace" fill="#374151">图/视频 →❄冻结视觉编码器→ 数量不定特征 →🔥Perceiver重采样(64个query交叉注意力)→ 固定64个视觉token</text>
+  <text x="490" y="710" text-anchor="middle" font-size="10" font-family="Consolas,monospace" fill="#374151">→ 插入❄冻结LLM层间的🔥门控交叉注意力(tanh(α)初始0) → 文本token偷看之前的视觉token → LLM自回归生成</text>
+  <text x="490" y="736" text-anchor="middle" font-size="9.5" fill="#6d28d9" font-weight="bold">分工：重采样器负责"打包成标准尺寸"；门控交叉注意力负责"安全地喂给冻结LLM"——两者都只训新增部分，视觉编码器与LLM全程不动</text>
+  <text x="490" y="756" text-anchor="middle" font-size="9" fill="#6b7280">与Q113/Q161(Q-Former/32-query)同属Perceiver式蒸馏家族；与Q159(ALBEF对齐vs融合)、Q162(CoCa共享vs独立)同属"桥接效率"设计谱系</text>
+
+  <!-- 一句话 -->
+  <rect x="20" y="780" width="940" height="72" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="490" y="804" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#a16207">一句话：Perceiver重采样器=固定数量可学习query交叉注意力，把任意大小视觉输入压成固定尺寸token(解决输入不定)；</text>
+  <text x="490" y="826" text-anchor="middle" font-size="9.5" fill="#374151">门控交叉注意力=冻结LLM层间插新层+tanh(α)从0开始的门控，让视觉信息平滑渗透进LLM、训练起步不破坏原有语言能力。</text>
+  <text x="490" y="844" text-anchor="middle" font-size="8.5" fill="#6b7280">前者管"打包"，后者管"安全地喂"——两头冻结、只训中间桥，与BLIP-2殊途同归。</text>
+</svg>

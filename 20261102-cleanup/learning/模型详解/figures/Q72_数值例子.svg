@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="900" height="640" fill="#fff"/>
+  <text x="450" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Q72 数值走一遍：盯住一个 query（q7）从输入到出"car @框"</text>
+  <text x="450" y="44" text-anchor="middle" font-size="11" fill="#6b7280">设 COCO：80 类、N=100 个 query、特征维 d=256；图 800×1066</text>
+
+  <!-- step 1 image tokens -->
+  <rect x="20" y="60" width="270" height="96" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="155" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#075985">① 图 → 图像 token（K,V）</text>
+  <text x="34" y="100" font-size="9" fill="#374151">800×1066×3 → ResNet → 25×34×2048</text>
+  <text x="34" y="116" font-size="9" fill="#374151">1×1 卷积降维 → 25×34×<tspan font-weight="bold">256</tspan></text>
+  <text x="34" y="132" font-size="9" fill="#374151">拉平 → <tspan font-weight="bold">850 个图像 token</tspan>，每个 256 维</text>
+  <text x="34" y="148" font-size="8.5" fill="#6b7280">+位置编码，过编码器 → K、V（每张图算一次）</text>
+
+  <!-- step 2 queries -->
+  <rect x="310" y="60" width="270" height="96" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="445" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">② N=100 个 object query</text>
+  <text x="324" y="100" font-size="9" fill="#374151">100×256 的可学习参数（每图同一组）</text>
+  <text x="324" y="116" font-size="9" fill="#374151">盯住其中 <tspan font-weight="bold" fill="#6d28d9">q7</tspan> = [0.12, −0.4, …, 0.05]（256 维）</text>
+  <text x="324" y="132" font-size="9" fill="#374151">它将当交叉注意力的 <tspan font-weight="bold">Q</tspan></text>
+  <text x="324" y="148" font-size="8.5" fill="#6b7280">其余 q1…q100 平行同算</text>
+
+  <!-- step 3 cross attn -->
+  <rect x="600" y="60" width="282" height="96" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="741" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">③ 交叉注意力：q7 问 850 个位置</text>
+  <text x="614" y="100" font-size="9" fill="#374151">q7·k_i / √256 → 850 个分数 → softmax</text>
+  <text x="614" y="116" font-size="9" fill="#374151">车所在区(行12–16,列20–24)权重高</text>
+  <text x="614" y="132" font-size="9" fill="#374151">≈ 各 0.04、合计 ~0.85，其余 ≈ 0</text>
+  <text x="614" y="148" font-size="8.5" fill="#6b7280">∑ 权重·V → q7 把"车的外观"吸进自己</text>
+
+  <line x1="445" y1="156" x2="445" y2="178" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="600" y="172" font-size="8.5" fill="#6b7280">×6 层后 q7 已"car-aware"，得 256 维向量 z7</text>
+
+  <!-- attention heatmap mini -->
+  <rect x="600" y="166" width="120" height="78" rx="4" fill="#fff" stroke="#93c5fd"/>
+  <text x="660" y="180" text-anchor="middle" font-size="7.5" fill="#6b7280">q7 的注意力热图(25×34简画)</text>
+  <rect x="610" y="186" width="100" height="50" fill="#eff6ff"/>
+  <rect x="650" y="198" width="30" height="22" fill="#1e40af" opacity="0.75"/>
+  <text x="665" y="213" text-anchor="middle" font-size="7" fill="#fff">车</text>
+
+  <!-- z7 -->
+  <rect x="300" y="182" width="290" height="36" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="445" y="205" text-anchor="middle" font-size="10" fill="#b45309">z7 = q7 精修后的 256 维向量（含车的外观特征）</text>
+
+  <line x1="300" y1="218" x2="200" y2="248" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="500" y1="218" x2="640" y2="248" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- class head -->
+  <rect x="30" y="252" width="430" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="245" y="272" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">④a 分类头：z7 → 类别（固定线性层）</text>
+  <text x="44" y="292" font-size="9" fill="#374151">线性层 W_cls: 256 → 81（80 类 + ∅），出 81 个 logit</text>
+  <text x="44" y="308" font-size="9" fill="#374151">softmax → 概率分布：</text>
+  <rect x="44" y="316" width="402" height="44" rx="4" fill="#fff" stroke="#86efac"/>
+  <text x="54" y="332" font-size="9" fill="#374151">car <tspan font-weight="bold" fill="#15803d">0.92</tspan>　truck 0.03　person 0.02　bus 0.01 …</text>
+  <text x="54" y="350" font-size="9" fill="#374151">∅(无物体) 0.005　← 没固定不变，是学出来的 81 维分布</text>
+  <text x="44" y="378" font-size="9.5" fill="#b91c1c" font-weight="bold">argmax → "car"，置信度 0.92</text>
+  <text x="44" y="394" font-size="8.5" fill="#6b7280">类别表训练时焊死(COCO 80+∅)，闭集；换数据集才变</text>
+
+  <!-- box head -->
+  <rect x="470" y="252" width="410" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="675" y="272" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">④b 框回归头：z7 → 坐标</text>
+  <text x="484" y="292" font-size="9" fill="#374151">3 层 FFN: 256 → 4，sigmoid → 归一化 (cx,cy,w,h)</text>
+  <rect x="484" y="300" width="382" height="26" rx="4" fill="#fff" stroke="#86efac"/>
+  <text x="494" y="317" font-size="9" fill="#374151">(0.48, 0.55, 0.22, 0.18)　← 相对全图的比例</text>
+  <text x="484" y="344" font-size="9" fill="#374151">×(1066, 800) 还原像素：</text>
+  <rect x="484" y="352" width="382" height="26" rx="4" fill="#fff" stroke="#86efac"/>
+  <text x="494" y="369" font-size="9" fill="#374151">中心(512, 440)、宽 235、高 144 → 框角(394,368)-(630,512)</text>
+  <text x="484" y="394" font-size="8.5" fill="#6b7280">两头共享 z7、各自独立（同 Q65 分类/回归分叉）</text>
+
+  <line x1="245" y1="402" x2="350" y2="430" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="675" y1="402" x2="560" y2="430" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- q7 result -->
+  <rect x="250" y="434" width="400" height="34" rx="8" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="450" y="456" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">q7 → (car 0.92, 框(394,368)-(630,512))</text>
+
+  <!-- other queries -->
+  <rect x="60" y="486" width="780" height="100" rx="8" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="450" y="506" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">100 个 query 一起出 → 去 ∅ → 最终框（无需 NMS）</text>
+  <text x="80" y="528" font-size="9.5" fill="#374151">q7  → car 0.92  框(..)　　q41 → person 0.88 框(..)　　q88 → truck 0.79 框(..)</text>
+  <text x="80" y="548" font-size="9.5" fill="#374151">q23 → ∅ 0.97（无物体）✗丢弃　　q56 → ∅ 0.95 ✗丢弃　　…（约 97 个学成 ∅）</text>
+  <text x="80" y="570" font-size="9" fill="#b91c1c">训练时匈牙利匹配让"一物体配一 query" → 推理天然不重复 → 这 3 个就是最终输出，不跑 NMS</text>
+
+  <text x="450" y="608" text-anchor="middle" font-size="9.5" fill="#6b7280">链条：q7 凭空学习 → 交叉注意力吸进车的外观(z7) → 分类头FC映射出"car 0.92" + 框头映射出坐标 → 去∅即结果</text>
+  <text x="450" y="626" text-anchor="middle" font-size="9" fill="#6b7280">类别"怎么知道"：z7 的外观特征经一个学好的 81 维线性分类器挑出 car；类别表固定(闭集)，这正是与 Grounding DINO 开放词汇的分界</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>

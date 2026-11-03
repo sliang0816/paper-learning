@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="720" height="430" fill="#fff"/>
+  <text x="360" y="27" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">MobileNet：深度可分离卷积（拆两步）</text>
+
+  <!-- Standard conv (left) -->
+  <text x="170" y="56" text-anchor="middle" font-size="12" fill="#ef4444">标准卷积（空间+通道一起做）</text>
+  <rect x="76" y="68" width="188" height="52" rx="6" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="170" y="89" text-anchor="middle" font-size="11">3×3×Cin×Cout</text>
+  <text x="170" y="107" text-anchor="middle" font-size="10" fill="#b91c1c">参数量：k²·Cin·Cout（昂贵）</text>
+
+  <!-- ≈ symbol -->
+  <text x="360" y="100" text-anchor="middle" font-size="22" fill="#9ca3af">≈</text>
+
+  <!-- DW Separable (right) -->
+  <text x="548" y="56" text-anchor="middle" font-size="12" fill="#16a34a">深度可分离（拆两步，省 8~9×）</text>
+  <rect x="422" y="68" width="100" height="52" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="472" y="88" text-anchor="middle" font-size="10.5">① Depthwise</text>
+  <text x="472" y="104" text-anchor="middle" font-size="9.5" fill="#1d4ed8">3×3 per channel</text>
+  <line x1="522" y1="94" x2="548" y2="94" stroke="#374151" stroke-width="1.5" marker-end="url(#a)"/>
+  <rect x="552" y="68" width="100" height="52" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="602" y="88" text-anchor="middle" font-size="10.5">② Pointwise</text>
+  <text x="602" y="104" text-anchor="middle" font-size="9.5" fill="#15803d">1×1 mix channels</text>
+  <text x="548" y="138" text-anchor="middle" font-size="10" fill="#15803d">k²Cin + CinCout ≈ 原来的 1/Cout</text>
+
+  <!-- Divider -->
+  <line x1="30" y1="158" x2="690" y2="158" stroke="#e5e7eb" stroke-width="1"/>
+
+  <!-- V2 Inverted Residual section -->
+  <text x="360" y="182" text-anchor="middle" font-size="13" font-weight="bold" fill="#7c3aed">MobileNetV2 倒残差块（Inverted Residual）</text>
+
+  <!-- V2 blocks (horizontal flow) y=200-280 -->
+  <!-- Narrow input -->
+  <rect x="22" y="200" width="76" height="80" rx="6" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="60" y="222" text-anchor="middle" font-size="10.5" fill="#7c3aed">输入</text>
+  <text x="60" y="240" text-anchor="middle" font-size="13">Cin</text>
+  <text x="60" y="258" text-anchor="middle" font-size="9.5" fill="#6b7280">窄通道</text>
+  <text x="60" y="274" text-anchor="middle" font-size="9.5" fill="#6b7280">如 16ch</text>
+
+  <!-- 1x1 expand -->
+  <rect x="144" y="210" width="104" height="60" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="196" y="232" text-anchor="middle" font-size="10.5">1×1 升维</text>
+  <text x="196" y="249" text-anchor="middle" font-size="10" fill="#1d4ed8">Cin → t·Cin</text>
+  <text x="196" y="264" text-anchor="middle" font-size="9" fill="#6b7280">t=6，先升宽</text>
+
+  <!-- DW 3x3 -->
+  <rect x="294" y="210" width="104" height="60" rx="6" fill="#f0fdf4" stroke="#22c55e"/>
+  <text x="346" y="232" text-anchor="middle" font-size="10.5">DW 3×3</text>
+  <text x="346" y="249" text-anchor="middle" font-size="10" fill="#16a34a">空间滤波</text>
+  <text x="346" y="264" text-anchor="middle" font-size="9" fill="#6b7280">通道不变</text>
+
+  <!-- 1x1 project -->
+  <rect x="444" y="210" width="104" height="60" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="496" y="232" text-anchor="middle" font-size="10.5">1×1 降维</text>
+  <text x="496" y="249" text-anchor="middle" font-size="10" fill="#1d4ed8">t·Cin → Cout</text>
+  <text x="496" y="264" text-anchor="middle" font-size="9" fill="#6b7280">降回窄通道</text>
+
+  <!-- Narrow output -->
+  <rect x="594" y="200" width="76" height="80" rx="6" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="632" y="222" text-anchor="middle" font-size="10.5" fill="#7c3aed">输出</text>
+  <text x="632" y="240" text-anchor="middle" font-size="13">Cout</text>
+  <text x="632" y="258" text-anchor="middle" font-size="9.5" fill="#6b7280">窄通道</text>
+  <text x="632" y="274" text-anchor="middle" font-size="9.5" fill="#7c3aed">⊕ 残差</text>
+
+  <!-- V2 flow arrows -->
+  <g stroke="#374151" stroke-width="1.6" marker-end="url(#a)">
+    <line x1="98"  y1="240" x2="142" y2="240"/>
+    <line x1="248" y1="240" x2="292" y2="240"/>
+    <line x1="398" y1="240" x2="442" y2="240"/>
+    <line x1="548" y1="240" x2="592" y2="240"/>
+  </g>
+
+  <!-- Residual skip arc (below blocks) -->
+  <path d="M60,280 C60,318 632,318 632,282" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="5 3" marker-end="url(#ap)"/>
+  <text x="346" y="332" text-anchor="middle" font-size="10.5" fill="#7c3aed">残差连接（Cin=Cout 时才加；连在"瘦端"，与 ResNet 相反）</text>
+
+  <!-- Channel width annotation -->
+  <text x="196" y="200" text-anchor="middle" font-size="9" fill="#3b82f6">宽（t·Cin）</text>
+  <text x="346" y="200" text-anchor="middle" font-size="9" fill="#22c55e">宽（t·Cin）</text>
+
+  <!-- Project relevance note -->
+  <rect x="18" y="352" width="684" height="60" rx="8" fill="#fff7ed" stroke="#f59e0b"/>
+  <text x="360" y="372" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">本项目关联：实时 &lt;100ms，边缘部署（Jetson AGX Orin）</text>
+  <text x="360" y="390" text-anchor="middle" font-size="10.5" fill="#92400e">深度可分离 = 轻量化标准；倒残差 = 宽处计算、窄处接残差（省显存）；v3 SE 注意力与 CBAM 同源</text>
+  <text x="360" y="405" text-anchor="middle" font-size="10" fill="#6b7280">可选：若 YOLOv8 在边缘设备太重，替换 MobileNet backbone（YOLO 支持骨干替换）</text>
+
+  <defs>
+    <marker id="a"  markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#374151"/></marker>
+    <marker id="ap" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+  </defs>
+</svg>

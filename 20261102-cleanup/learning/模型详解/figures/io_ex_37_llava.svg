@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 205" font-family="'Microsoft YaHei',sans-serif">
+  <rect width="820" height="205" fill="#fff"/>
+  <text x="410" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">37 LLaVA/InternVL 输入输出实例（看图对话，多模态大模型）</text>
+  <text x="410" y="41" text-anchor="middle" font-size="10.5" fill="#6b7280">图像 + 文本指令 → ViT 编码 → 投影对齐 → LLM → 文本回答</text>
+
+  <rect x="22" y="66" width="140" height="80" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="92" y="85" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#075985">输入</text>
+  <text x="92" y="103" text-anchor="middle" font-size="8.4" fill="#374151">一张路面图</text>
+  <text x="92" y="119" text-anchor="middle" font-size="8" fill="#374151">+ 指令“描述路面情况</text>
+  <text x="92" y="132" text-anchor="middle" font-size="8" fill="#374151">　并指出安全隐患”</text>
+
+  <line x1="162" y1="106" x2="192" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="194" y="64" width="200" height="84" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="294" y="83" text-anchor="middle" font-size="9.6" font-weight="bold" fill="#1e40af">ViT + 投影 + LLM</text>
+  <text x="294" y="101" text-anchor="middle" font-size="8.3" fill="#374151">ViT 把图编码成视觉 token</text>
+  <text x="294" y="116" text-anchor="middle" font-size="8.3" fill="#374151">投影层对齐到 LLM 词空间</text>
+  <text x="294" y="133" text-anchor="middle" font-size="8" fill="#6b7280">和文本一起送进大语言模型</text>
+
+  <line x1="394" y1="106" x2="424" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="426" y="72" width="186" height="68" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="519" y="91" text-anchor="middle" font-size="9.3" font-weight="bold" fill="#15803d">输出：文本回答</text>
+  <text x="519" y="109" text-anchor="middle" font-size="8" fill="#374151">“路面中央有一个轮胎，</text>
+  <text x="519" y="123" text-anchor="middle" font-size="8" fill="#374151">可能导致车辆避让，建议清除”</text>
+
+  <line x1="612" y1="106" x2="642" y2="106" stroke="#9ca3af" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="644" y="84" width="148" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+  <text x="718" y="103" text-anchor="middle" font-size="8.8" font-weight="bold" fill="#15803d">看图对话</text>
+  <text x="718" y="120" text-anchor="middle" font-size="7.4" fill="#6b7280">生成式 VLM 路线</text>
+
+  <text x="410" y="178" text-anchor="middle" font-size="9.6" fill="#374151">和 CLIP（出相似度）/ BLIP（短描述）不同：MLLM <tspan font-weight="bold" fill="#0369a1">能自由对话、推理</tspan>——把视觉接到 LLM 上“看图说话”。</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9ca3af"/></marker></defs>
+</svg>
