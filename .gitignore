@@ -1,7 +1,7 @@
 # Reproducible runtime caches stay local.
 __pycache__/
 *.py[cod]
-20261102-cleanup/runtime-cache/
+runtime-cache/
 .DS_Store
 Thumbs.db
 

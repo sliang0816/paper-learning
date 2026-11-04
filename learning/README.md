@@ -1,21 +1,21 @@
 # 学习资料与手写练习
 
-原 `notes/` 的模型笔记、文献精读和求职拓展已并入本目录；学习材料不计入开题必读。
+本目录是独立论文学习项目的主要工作区，保存模型笔记、文献精读、答疑与小型练习。返回[项目首页](../README.md)。
 
 - 系统阅读：[模型详解](模型详解/README.md)，原图件与论文 PDF 保留相对层级。
 - 课题相关：[YOLOv8/CLIP 精读指南](精读指南_YOLOv8与CLIP.md)、[文献综述整理](文献综述整理.md)。
 - 求职、模型拓展和单篇笔记按需阅读，旧学习进度不作为正式实验状态。
-- 手写练习按下文操作；毕业制度核对已分到 [docs](../docs/毕业要求核对与证据清单.md)。
+- 手写练习按下文操作；原课题制度材料见[历史资料](../archive/road-debris-detection/docs/硕士毕业制度与文件汇总下载2025/README.md)。
 
-这里的练习代码与 `experiments/`、`results/` 隔离，不会被正式实验入口导入，也不能作为论文实验结果。
+这里的练习只用于理解与验证核心概念，不能作为论文实验结果。正式实验的 `experiments/` 和 `results/` 位于独立的 `vlm-rd-detect` 项目中。
 
 ## 1. 开始前
 
-在项目根目录执行：
+使用已安装 PyTorch 的 Python 环境，在本仓库根目录执行。可复用已有环境，不要求名为 `vlm-rd-detect`：
 
 ```bash
-conda activate vlm-rd-detect
 python learning/check_environment.py --device cpu
+# 可选：需要已配置 CUDA 的环境
 python learning/check_environment.py --device cuda
 ```
 
@@ -55,9 +55,9 @@ python learning/check_progress.py --strict
 
 ## 3. 与正式项目对照
 
-一项通过后，再阅读对应正式文件：
+一项通过后，再阅读对应资料。指标说明已保存在本仓库；以下 `experiments/` 路径均相对于独立的 `vlm-rd-detect` 仓库根目录，不是本仓库文件，需在该项目当前版本中核对：
 
-- 练习 1：`docs/实验评估指标说明.md`
+- 练习 1：[实验评估指标说明](../archive/road-debris-detection/docs/实验评估指标说明.md)
 - 练习 2：`experiments/anomaly_head/yolov8s-p2.yaml`
 - 练习 3：`experiments/anomaly_head/cbam.py`
 - 练习 4：`experiments/clip_module/exp003_clip_zeroshot_eval.py`
